@@ -1,0 +1,13 @@
+language: python
+
+install: pip install -r requirements.txt
+
+branches:
+  only:
+  - master
+
+script: python main.py
+
+notifications:
+  slack:
+    secure: smartapp1920:E4AhlPlNF1GeCCzd7BXpd9yT
