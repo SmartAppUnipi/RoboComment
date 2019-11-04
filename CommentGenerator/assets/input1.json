@@ -1,0 +1,9 @@
+{
+    "elementary" : {
+        "time" : "11:30",
+        "team-of-action" : "team A",
+        "region-of-pitch" : "middle",
+        "type-of-action"  : "pass",
+        "actor-of-action" : "Cristiano Ronaldo"
+    }
+}
