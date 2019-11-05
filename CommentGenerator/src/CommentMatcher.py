@@ -14,4 +14,4 @@ class CommentMatcher():
     def pick_comment(self, input_json):
         ''' it gets a json object in input '''
 
-        return template_dictionary["pass"][0] 
+        return template_dictionary["pass"][0]
