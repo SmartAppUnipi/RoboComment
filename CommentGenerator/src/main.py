@@ -1,6 +1,6 @@
-from .Picker import Picker
-from .Filler import Filler
-from .Sentimentalizer import Sentimentalizer
+from Picker import Picker
+from Filler import Filler
+from Sentimentalizer import Sentimentalizer
 import json
 
 
@@ -32,3 +32,13 @@ class Commentator:
         output = json.dumps(output)
 
         print(output)
+
+
+cm = Commentator("assets/config_test.json","assets/templates.json")
+input_json = { "time" :
+                {
+                    "start": 800,
+                    "end": 810
+                }
+             }
+cm.run(input_json)

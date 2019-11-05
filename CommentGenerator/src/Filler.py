@@ -10,5 +10,5 @@ class Filler:
 
         return comment + ",fantastic!"
 
-    def _load_config(self):
+    def _load_config(self,config):
         return None

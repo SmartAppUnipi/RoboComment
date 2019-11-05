@@ -7,5 +7,5 @@ class Sentimentalizer:
     def add_emphasis(self, updated_comment):  # TODO change name
         return 15
 
-    def _load_config(self):
+    def _load_config(self,config):
         return None
