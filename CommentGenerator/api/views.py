@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
 
-AUDIO_URL  = "http://127.0.0.1:8000/api/action/"
+AUDIO_URL  = "10.101.12.139:5000"
 
 # Create your views here.
 @csrf_exempt # avoid cross site request forgery checks
@@ -16,5 +16,6 @@ def action(request):
         # main 
         
         # post to the audio group
-        response = requests.post(url=AUDIO_URL, data =json.dumps(action_json))
+		
+		response = requests.post(url=AUDIO_URL, data =json.dumps(action_json))
         return HttpResponse("Hello, nice POST")
