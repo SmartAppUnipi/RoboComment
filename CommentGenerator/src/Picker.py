@@ -1,15 +1,12 @@
-#from xml.dom import minidom
+# from xml.dom import minidom
 
 # "<comment> <subject> Cristiano Ronaldo </subject> has made a pass </comment>"
-template_dictionary = {
-    "pass" : [
-        "Cristiano Ronaldo has made a pass"
-    ]
-}
 
 
+class Picker():
 
-class CommentMatcher():
+    def __init__(self, template_pool):
+        self.template_pool = template_pool
 
     def pick_comment(self, input_json):
         ''' it gets a json object in input '''

@@ -12,7 +12,6 @@ AUDIO_URL  = "http://10.101.12.139:5000"
 def action(request):
     if request.method == 'POST':
         action_json = json.loads(request.body)
-
         print(action_json)
         # main 
         

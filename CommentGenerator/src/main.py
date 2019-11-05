@@ -1,25 +1,38 @@
-from CommentMatcher import CommentMatcher
-from CommentUpdater import CommentUpdater
-from SentimentUpdater import SentimentUpdater
+from .Picker import Picker
+from .Filler import Filler
+from .Sentimentalizer import Sentimentalizer
+import json
 
 
-def main():
-    # TODO capire come avviena la comunicazione tra i gruppi
-    # se siamo noi a dover chidere in poll nuove azioni
-    # se è il gruppo symbolic ad inviarci azioni
-    # se è il gruppo audio a richiedere nuovi commenti <- ci piace
+class Commnter:
 
-    cm = CommentMatcher()
-    cu = CommentUpdater()
-    su = SentimentUpdater()
+    def __init__(self, config, template):
+        self.config = config
+        self.template = template
 
-    jsonobj = {}
-    selected_comment = cm.pick_comment(jsonobj)
-    updated_comment = cu.update_comment(selected_comment)
-    final_output = su.add_emphasis(updated_comment)
+    def run(self, jsonobj):
+        # TODO capire come avviena la comunicazione tra i gruppi
+        # se siamo noi a dover chidere in poll nuove azioni
+        # se è il gruppo symbolic ad inviarci azioni
+        # se è il gruppo audio a richiedere nuovi commenti <- ci piace
 
-    print(final_output)
+        time = jsonobj['time']
 
+        picker = Picker(self.template)
+        filler = Filler(self.config)
+        sentimentalizer = Sentimentalizer(self.config)
 
+        comment = picker.pick_comment(jsonobj)
+        comment = filler.update_comment(comment)
 
-main()
+        sentiment = sentimentalizer.add_emphasis(comment)
+
+        output = {
+            'comment': comment,
+            'emphasis': sentiment,
+            'time': time,
+        }
+
+        output = json.dumps(output)
+
+        print(output)

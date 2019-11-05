@@ -1,10 +1,20 @@
 {
-    "elementary" : {
-        "time-start" : 700,
-        "time-end" : 780,
-        "team-of-action" : "team A",
-        "region-of-pitch" : "middle",
-        "type-of-action"  : "pass",
-        "actor-of-action" : "Cristiano Ronaldo"
+
+    "time" :
+    {
+        "start": 800,
+        "end": 810
+    },
+    "type": "elementary",
+
+    "details":
+    {
+        "team1" : "team A",
+        "team2": "team B",
+        "player1": "Ruicosta",
+        "player2": "Ronaldo",
+        "field-zone" : "middle",
+        "subtype"  : "pass",
+        "confidence" : 0.4
     }
 }
