@@ -3,7 +3,7 @@
 ## How to run it
 ``` 
 pip3 install -r requirements.txt 
-python3.6 manage.py runserver 4242
+python3.6 app.py 
 ```
 
 ## API

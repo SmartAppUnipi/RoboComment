@@ -4,7 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
 
-AUDIO_URL  = "http://127.0.0.1:8000/api/action/"
+
+AUDIO_URL  = "http://10.101.12.139:5000"
 
 # Create your views here.
 @csrf_exempt # avoid cross site request forgery checks
