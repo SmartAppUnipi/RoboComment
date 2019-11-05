@@ -1,6 +1,7 @@
 {
     "elementary" : {
-        "time" : "11:30",
+        "time-start" : 700,
+        "time-end" : 780,
         "team-of-action" : "team A",
         "region-of-pitch" : "middle",
         "type-of-action"  : "pass",
