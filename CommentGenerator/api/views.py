@@ -11,11 +11,9 @@ AUDIO_URL  = "10.101.12.139:5000"
 def action(request):
     if request.method == 'POST':
         action_json = json.loads(request.body)
-
         print(action_json)
         # main 
         
         # post to the audio group
-		
-		response = requests.post(url=AUDIO_URL, data =json.dumps(action_json))
+        response = requests.post(url=AUDIO_URL, data =json.dumps(action_json))
         return HttpResponse("Hello, nice POST")
