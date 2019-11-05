@@ -19,6 +19,28 @@ To be determined
 
 ### From Video Processing
 
+**Data are exchanged according to those "classes"**
+```json
+{
+    "schemas": {
+        "UncertainValue": {
+            "value": "something",
+            "confidence": "float (1 = totally certain, 0 = totally uncertain)"
+        },
+        "Coordinate": {
+            "x": "float in meters",
+            "y": "float in meters",
+            "confidence": "float (1 = totally certain, 0 = totally uncertain)"
+        },
+        "Coordinate3D": {
+            "x": "float in meters",
+            "y": "float in meters",
+            "z": "float in meters"
+        }
+    }
+}
+```
+
 **URL** : `/positions/{int:timeframe}`
 
 **Method** : `POST`
@@ -29,29 +51,37 @@ To be determined
 
 ```json
 {
+    "camera": {
+        "position": "instance of Coordinate3D, is the position of the camera in the field",
+        "target": "instance of Coordinate, is the position of the target of the camera on the field",
+        "zoom": "float range TBD"
+    },
     "players": [
         {
-            "x": "int in [0, 100)",
-            "y": "int in [0, 100)",
-            "id": "(optional) int",
-            "team": "(optional) int 1 or 2"
+            "position": "instance of Coordinate",
+            "speed": "instance of Coordinate",
+            "id": "instance of UncertainValue with value = int that identifies the person",
+            "team": "instance of UncertainValue with value = int 0 or 1"
         }
     ],
     "ball": [
         {
-            "x": "int in [0, 100)",
-            "y": "int in [0, 100)",
-            "owner": "(optional) int" 
+            "position": "instance of Coordinate",
+            "speed": "instance of Coordinate",
+            "midair": "float between 0 and 1 (0 = ground, 1 = surely flying)",
+            "owner": "instance of UncertainValue where value is the index of the player in the 'players' field",
+            "owner team": "instance of UncertainValue where value is 0 or 1"
         }
     ],
     "referee": [
         {
-            "x": "int in [0, 100)",
-            "y": "int in [0, 100)",
-            "pose": "(optional) string" 
+            "position": "instance of Coordinate",
+            "pose": "TBD"
         }
     ]
 }
+
 ```
 
-**Notes** : x and y positions are expressed in percentage with respect to the whole field, where the point (0, 0) corresponds to the top left corner of the field.
+**Notes** :
+- x and y positions are a float with the meters with respect to the top left corner of the field.
