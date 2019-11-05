@@ -1,14 +1,13 @@
-# from xml.dom import minidom
-
-# "<comment> <subject> Cristiano Ronaldo </subject> has made a pass </comment>"
+import json
 
 
 class Picker():
 
-    def __init__(self, template_pool):
-        self.template_pool = template_pool
+    def __init__(self, template_path):
+        with open(template_path,'r') as json_file:
+            self.template_pool = json.load(json_file)
 
     def pick_comment(self, input_json):
         ''' it gets a json object in input '''
 
-        return template_dictionary["pass"][0]
+        return self.template_pool["pass"][0]

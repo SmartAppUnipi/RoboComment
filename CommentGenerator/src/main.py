@@ -4,17 +4,13 @@ from .Sentimentalizer import Sentimentalizer
 import json
 
 
-class Commnter:
+class Commentator:
 
     def __init__(self, config, template):
         self.config = config
         self.template = template
 
     def run(self, jsonobj):
-        # TODO capire come avviena la comunicazione tra i gruppi
-        # se siamo noi a dover chidere in poll nuove azioni
-        # se è il gruppo symbolic ad inviarci azioni
-        # se è il gruppo audio a richiedere nuovi commenti <- ci piace
 
         time = jsonobj['time']
 
