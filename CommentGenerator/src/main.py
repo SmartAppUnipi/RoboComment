@@ -9,19 +9,21 @@ class Commentator:
     def __init__(self, config, template):
         self.config = config
         self.template = template
+		self.picker = Picker(self.template)
+        self.filler = Filler(self.config)
+        self.sentimentalizer = Sentimentalizer(self.config)
+		
 
     def run(self, jsonobj):
 
         time = jsonobj['time']
 
-        picker = Picker(self.template)
-        filler = Filler(self.config)
-        sentimentalizer = Sentimentalizer(self.config)
+        
 
-        comment = picker.pick_comment(jsonobj)
-        comment = filler.update_comment(comment)
+        comment = self.picker.pick_comment(jsonobj)
+        comment = self.filler.update_comment(comment)
 
-        sentiment = sentimentalizer.add_emphasis(comment)
+        sentiment = self.sentimentalizer.add_emphasis(comment)
 
         output = {
             'comment': comment,
