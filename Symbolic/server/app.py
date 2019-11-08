@@ -1,5 +1,6 @@
 import flask
-from json_validator import Validator
+from server.json_validator import Validator
+import json
 
 app = flask.Flask(__name__)
 
@@ -17,5 +18,8 @@ def new_positions():
     # validate input json and execute business logic code
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=3000, debug=True)
+    with open('server/config.json', 'r') as f: 
+        config = json.load(f) 
+        print(config['port'])
+    app.run(host='0.0.0.0', port=config['port'], debug=True)
 

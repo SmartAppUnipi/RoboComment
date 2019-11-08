@@ -64,16 +64,17 @@
         ]
     },
     {
+        "time" : {"start": 800, "end": 810},
         "type": "elementary",
-        "time": {"start": "prova", "end":"Tardi"},
-        "details": {
-            "player1": 12,
-            "player2": 14,
-            "team1": 1,
-            "team2": 2,
-            "field-zone": "Ciao",
-            "subtype": "pass",
-            "confidence": 0.4
+        "details":
+        {
+            "team1" : "team A",
+            "team2": "team B",
+            "player1": "Ruicosta",
+            "player2": "Ronaldo",
+            "field-zone" : "middle",
+            "subtype"  : "pass",
+            "confidence" : 0.4
         }
     }
 ]
