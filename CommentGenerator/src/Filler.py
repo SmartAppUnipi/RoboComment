@@ -6,9 +6,10 @@ class Filler:
         if config is not None:
             self._load_config(config)
 
-    def update_comment(self, comment):
-
-        return comment + ",fantastic!"
+    def update_comment(self, comment, details):
+        main_actor = details["player1"]
+        
+        return comment.format(subject=main_actor, modifier="fantastic")
 
     def _load_config(self,config):
         return None

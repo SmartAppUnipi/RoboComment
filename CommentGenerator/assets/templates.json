@@ -1,5 +1,5 @@
 {
     "pass": [
-        "Cristiano Ronaldo has made a pass"
+        "{subject} has made a {modifier} pass"
     ]
 }
