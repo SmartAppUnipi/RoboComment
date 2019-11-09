@@ -6,3 +6,7 @@
 !.vscode/extensions.json
 *.code-workspace
 __pycache__/
+.pytest_cache/
+.vscode/
+.coverage
+htmlcov/
