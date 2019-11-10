@@ -3,6 +3,7 @@ import * as DB from '../db'
 import * as Errors from '../errors'
 
 export class UserDao {
+
     public static get(id: number): Entities.User {
         const db = DB.Users.data
 
@@ -40,7 +41,11 @@ export class UserDao {
             throw Error(Errors.USER_NOT_FOUND)
         }
 
-        db.users[i] = {...user, password: old_user.password} as Entities.User
+        if (old_user === undefined) {
+            throw Error(Errors.USER_NOT_FOUND)
+        }
+
+        db.users[i] = { ...user, password: old_user.password } as Entities.User
 
         DB.Users.save_db()
     }

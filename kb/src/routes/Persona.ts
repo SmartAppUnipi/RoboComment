@@ -2,13 +2,13 @@ import { Request, Response, Router, Express } from 'express'
 import { BAD_REQUEST, CREATED, OK } from 'http-status-codes'
 import { UserDao } from '../daos'
 import { ParamsDictionary } from 'express-serve-static-core'
-import { Persona } from 'src/entities'
+import { Persona } from '../entities'
 import { DateTime } from 'luxon'
 
 // Init shared
 const router = Router()
 
-const placeholder: Persona[] = [{
+const placeholder: Persona = {
     id: 5,
     first_name: 'Andrea',
     last_name: 'Pirlo',
@@ -38,7 +38,7 @@ const placeholder: Persona[] = [{
             }]
         }
     ]
-}]
+}
 
 router.get('/:id', (req, res) => {
     try {

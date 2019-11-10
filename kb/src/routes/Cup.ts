@@ -2,7 +2,7 @@ import { Request, Response, Router, Express } from 'express'
 import { BAD_REQUEST, CREATED, OK } from 'http-status-codes'
 import { UserDao } from '../daos'
 import { ParamsDictionary } from 'express-serve-static-core'
-import { Cup } from 'src/entities'
+import { Cup } from '../entities'
 
 // Init shared
 const router = Router()
