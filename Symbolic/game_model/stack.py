@@ -34,10 +34,10 @@ class Stack:
         self._stack.insert(0,v)
 
     def pop(self,idx):
-        if self.stack_len() == 0:
+        if self.size() == 0:
             raise EmptyQueueError('The queue is empty')
         
-        if self.stack_len() <= idx:
+        if self.size() <= idx:
             raise InvalidIndexError("The element at index {} does not exist".format(idx))
         
         element_removed = self._stack[idx] 
@@ -63,13 +63,13 @@ class Stack:
         return new_stack
 
     def clear(self):
-       for i in range(self.stack_len()):
+       for i in range(self.size()):
            self.pop_front()
 
     def find(self,v):
         found = False
         idx = 0
-        N = self.stack_len()
+        N = self.size()
 
         while idx < N and not found:
             elem = self.get(idx)

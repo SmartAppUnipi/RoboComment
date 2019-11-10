@@ -33,18 +33,18 @@ def test_get_element():
      elem = stack.get(1)
      assert elem == 'b'
 
-def test_stack_len():
+def test_size():
      stack = Stack()
-     assert stack.stack_len() == 0
+     assert stack.size() == 0
      stack.push('a',0)
      stack.push('b',1)
      stack.push('c',2)
-     assert stack.stack_len() == 3
+     assert stack.size() == 3
      stack.pop_front()
-     assert stack.stack_len() == 2
+     assert stack.size() == 2
      stack.pop_front()
      stack.pop_front()
-     assert stack.stack_len() == 0
+     assert stack.size() == 0
 
 def test_duplicate():
       stack = Stack()
@@ -52,7 +52,7 @@ def test_duplicate():
       stack.push('b',1)
       stack.push('c',2)
       stack_dup = stack.duplicate()
-      assert stack_dup.stack_len() == stack.stack_len()
+      assert stack_dup.size() == stack.size()
       assert stack_dup.get_stack() == stack.get_stack()
 
 def test_pop():
@@ -98,14 +98,14 @@ def test_pop_front():
 def test_clear():
      stack = Stack()
      stack.clear()
-     assert stack.stack_len() == 0
+     assert stack.size() == 0
 
      stack.push_front('b')
      stack.push_front('c')
      stack.push_front('d')
 
      stack.clear()
-     assert stack.stack_len() == 0
+     assert stack.size() == 0
      assert stack.get_stack() == []
 
 
