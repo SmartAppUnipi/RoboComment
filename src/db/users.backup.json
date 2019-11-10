@@ -1,0 +1,12 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "first_name": "first",
+            "last_name": "last",
+            "date_of_birth": "11/11/11",
+            "email": "example@example.com",
+            "favourite_team": "Napoli"
+        }
+    ]
+}

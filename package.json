@@ -1,0 +1,27 @@
+{
+  "name": "testv2",
+  "version": "1.0.0",
+  "description": "Template",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node_modules/typescript/bin/tsc --build -w tsconfig.json",
+    "start-dev": "node_modules/nodemon/bin/nodemon.js -w 'dist' -e 'js' dist/start.js "
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-status-codes": "^1.4.0",
+    "jsonfile": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/jsonfile": "^5.0.0",
+    "@types/node": "^12.12.6",
+    "nodemon": "^1.19.4",
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
+  }
+}
