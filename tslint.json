@@ -24,7 +24,8 @@
     "variable-name": {
       "options": [
         "allow-leading-underscore",
-        "allow-snake-case"
+        "allow-snake-case",
+        "allow-pascal-case"
       ], 
       "severity": "error"
     }
