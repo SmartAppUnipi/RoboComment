@@ -1,3 +1,5 @@
 {
-    "port": 3000
+    "symbolic-port": 3000,
+    "comment-generation-host": "127.0.0.1",
+    "comment-generation-port": 5000
 }

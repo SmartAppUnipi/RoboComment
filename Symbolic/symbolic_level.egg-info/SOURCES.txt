@@ -1,7 +1,0 @@
-README.md
-setup.py
-symbolic_level.egg-info/PKG-INFO
-symbolic_level.egg-info/SOURCES.txt
-symbolic_level.egg-info/dependency_links.txt
-symbolic_level.egg-info/not-zip-safe
-symbolic_level.egg-info/top_level.txt

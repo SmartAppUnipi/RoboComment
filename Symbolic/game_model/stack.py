@@ -53,7 +53,7 @@ class Stack:
     def get(self,idx):
         return list(self._stack)[idx]
     
-    def stack_len(self):
+    def size(self):
         return len(self.get_stack())  
     
     def duplicate(self):
@@ -82,6 +82,3 @@ class Stack:
             return idx
         else:
             raise NotFoundElementError("The element is not in the stack")
-
-    def match(self,patterns):
-        print("Match some patterns....")

@@ -1,4 +1,4 @@
-from stack.symbolic_stack import Stack,EmptyQueueError,InvalidIndexError,NotFoundElementError
+from game_model.stack import Stack,EmptyQueueError,InvalidIndexError,NotFoundElementError
 import pytest
 
 def test_new_empty_stack():
@@ -26,12 +26,12 @@ def test_push_front():
      assert stack.get_stack() == ['c','b','a']
 
 def test_get_element():
-      stack = Stack()
-      stack.push('a',0)
-      stack.push('b',1)
-      stack.push('c',2)
-      elem = stack.get(1)
-      assert elem == 'b'
+     stack = Stack()
+     stack.push('a',0)
+     stack.push('b',1)
+     stack.push('c',2)
+     elem = stack.get(1)
+     assert elem == 'b'
 
 def test_stack_len():
      stack = Stack()
