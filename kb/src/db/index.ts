@@ -1,16 +1,16 @@
 import jsonfile from 'jsonfile'
 import { User } from '../entities'
+import { DB_USERS } from '../../config'
 
 type DB = {
     users: User[]
 }
 
 export class Users {
-    private static readonly db_file_path = 'src/db/users.json'
-    public static readonly data: DB = jsonfile.readFileSync(Users.db_file_path)
+    public static readonly data: DB = jsonfile.readFileSync(DB_USERS)
 
     public static save_db(): Promise<any> {
-        return jsonfile.writeFile(Users.db_file_path, Users.data, {
+        return jsonfile.writeFile(DB_USERS, Users.data, {
             spaces: 4
         })
     }

@@ -11,7 +11,12 @@
 ### How to run our module
 ```
 cd kb ; npm install
-npm run build && npm run start
+npm run dev
+```
+
+### How to run the test suite
+```
+npm run test
 ```
 
 ### Rest API
