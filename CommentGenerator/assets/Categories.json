@@ -1,5 +1,5 @@
 {
-	"elementary":["pass","shot","holderMove","move","possession","cross","foul","duel","clearance","possession_lost","interception"],
-	"scenario":["penalty","corner","offside","throwin","kickoff","free_kick","half_time","end_of_game"],
-	"strategy":["counter-attack","melina","catenaccio","defence","attack"]
+	"elementary":["pass"],
+	"scenario":[],
+	"strategy":[]
 }

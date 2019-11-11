@@ -43,8 +43,11 @@ def test():
 @app.before_first_request
 def init():
     global commentator
-    commentator = Commentator('assets/config_test.json', 'assets/templates.json')
+    commentator = Commentator()
 
 if __name__ == '__main__':
-    AUDIO_IP = sys.argv[1]
-    app.run(host='0.0.0.0', port=3002)
+    try:
+        AUDIO_IP = sys.argv[1]
+        app.run(host='0.0.0.0', port=3002)
+    except IndexError:
+        print("ERROR: insert ip as parameter")

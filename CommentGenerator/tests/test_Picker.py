@@ -10,7 +10,6 @@ class TestPicker(unittest.TestCase):
             self.input1 = json.load(input1_json)
 
     def test_pick_comment1(self):
-        action = self.input1["details"]["subtype"]
-        comment = self.comment_picker.pick_comment(action)
+        comment = self.comment_picker.pick_comment(self.input1)
 
         assert comment == "{subject} has made a {modifier} pass"
