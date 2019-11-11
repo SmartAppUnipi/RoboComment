@@ -1,12 +1,13 @@
 from flask import Flask, request
 import json
 import requests
-from Commentator import Commentator
+import sys
+from src.Commentator import Commentator
 
 app = Flask(__name__)
 
-AUDIO_URL = "http://127.0.0.1:5555/api/test"
-
+AUDIO_IP = ""
+commentator = None
 
 @app.route('/api', methods=['GET'])
 def api():
@@ -18,15 +19,15 @@ def action():
     input = json.loads(request.data)
     print(input)
     # call our main
-    commentator = Commentator('assets/config_test.json', 'assets/templates.json')
+    
     output = commentator.run(input)
     # post to the audio group
-    response = requests.post(url=AUDIO_URL, data=json.dumps(output))
+    response = requests.post(url="http://" + AUDIO_IP + ":3003/", data=json.dumps(output))
     return "OK"
 
 
 # Simulazione Gruppo Audio
-@app.route('/api/test', methods=['POST'])
+@app.route('/test/audio', methods=['POST'])
 def test():
     action_json = json.loads(request.data)
     print(action_json)
@@ -34,4 +35,6 @@ def test():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5555)
+    AUDIO_IP = sys.argv[1]
+    commentator = Commentator('assets/config_test.json', 'assets/templates.json')
+    app.run(host='0.0.0.0', port=3002)

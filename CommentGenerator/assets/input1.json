@@ -2,8 +2,8 @@
 
     "time" :
     {
-        "start": 800,
-        "end": 810
+        "start": 10,
+        "end": 20
     },
     "type": "elementary",
 

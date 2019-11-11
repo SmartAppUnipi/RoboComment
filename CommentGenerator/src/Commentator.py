@@ -1,6 +1,6 @@
-from Picker import Picker
-from Filler import Filler
-from Sentimentalizer import Sentimentalizer
+from .Picker import Picker
+from .Filler import Filler
+from .Sentimentalizer import Sentimentalizer
 import json
 
 
@@ -26,7 +26,9 @@ class Commentator:
         output = {
             'comment': comment,
             'emphasis': sentiment,
-            'time': time,
+            'startTime': time['start'],
+            'endTime' : time['end'],
+            'priority' : 4
         }
         return output
 
