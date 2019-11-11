@@ -13,22 +13,22 @@ class Picker:
             self.valid_categories = json.load(json_file)
 
     def pick_comment(self, input_json: json):
-        ''' it gets the json in input so that it can decide which template choose '''
+        ''' it gets the json in input so that it can decide which template match '''
 
         # check if the subtype match other
         if self.subtype_exists(input_json["details"]["subtype"]):
             elementary = input_json["details"]["subtype"]
-            # TODO find a way to match
+            # TODO find a way to match, here implement as first comment in the pool
             template = self.template_pool[elementary][0]
 
-        # else TODO match with a filler template
+        # else TODO match with a filler template, here with empty template
         else:
             template = None
 
         return template
 
     def subtype_exists(self, subtype: str) -> bool:
-        '''check if the subtype passed is in category recognized'''
+        '''check if the subtype passed is in categories recognized'''
         if subtype in self.valid_categories["elementary"]:
             return True
         else:
