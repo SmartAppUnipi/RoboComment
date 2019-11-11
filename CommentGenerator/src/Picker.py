@@ -1,15 +1,35 @@
 import json
 
 
-class Picker():
+class Picker:
 
     def __init__(self, template_path):
-        with open(template_path,'r') as json_file:
+        # Load templates
+        with open(template_path, 'r') as json_file:
             self.template_pool = json.load(json_file)
+        # load recognized categories
+        categories_path = 'assets/Categories.json'
+        with open(categories_path, 'r') as json_file:
+            self.valid_categories = json.load(json_file)
 
-    def pick_comment(self, action):
-        ''' it gets the action in input so that it can decide which template choose '''
-    
-        template = self.template_pool[action][0]
+    def pick_comment(self, input_json: json):
+        ''' it gets the json in input so that it can decide which template choose '''
 
-        return  template
+        # check if the subtype match other
+        if self.subtype_exists(input_json["details"]["subtype"]):
+            elementary = input_json["details"]["subtype"]
+            # TODO find a way to match
+            template = self.template_pool[elementary][0]
+
+        # else TODO match with a filler template
+        else:
+            template = None
+
+        return template
+
+    def subtype_exists(self, subtype: str) -> bool:
+        '''check if the subtype passed is in category recognized'''
+        if subtype in self.valid_categories["elementary"]:
+            return True
+        else:
+            return False
