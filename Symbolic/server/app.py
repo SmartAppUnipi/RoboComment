@@ -11,34 +11,29 @@ def welcome():
 
 @app.route('/positions/<int:second>', methods=['POST'])
 def new_positions(second):
-    
-    #HARDCODED
-    cg_url = "http://10.101.48.102"
-    cg_port = 5555
 
+    data = flask.request.form
 
-    data = flask.request.json
+    print("##############")
+    print(data)
+    print("##############")
 
-    # print("##############")
-    # print(data)
-    # print("##############")
-
-    Validator.validate_positions(data)
+    #Validator.validate_positions(data)
     
     # validate input json and execute business logic code
-    with open('tests/dummy.json', 'r') as f: 
+    with open('../tests/dummy.json', 'r') as f: 
         dummy = json.load(f) 
 
-    cg_url = cg_url + ":" + str(cg_port) + "/api/action"
-    # print(cg_url)
-    # print(dummy[2])
+    cg_url = cg_host + ":" + str(cg_port) + "/api/action"
+    print(cg_url)
+    print(dummy[2])
     requests.post(cg_url, json=dummy[2])
 
     return "ciao"
 
 
 if __name__ == '__main__':
-    with open('server/config.json', 'r') as f: 
+    with open('config.json', 'r') as f: 
         config = json.load(f) 
         symbolic_port = config['symbolic-port']
         cg_host = config["comment-generation-host"] 

@@ -8,10 +8,12 @@
 
 ## How to run our module
     
-    $ cd Symbolic
-    $ pip install -r requirements.txt
-    $ python server/app.py
+    $ cd Symbolic/server
+    $ pip3 install -r requirements.txt
+    $ python3 app.py
 
 ## APIs
+
+Our **PORT** is 3001
 
 For APIs, check the README in folder docs
