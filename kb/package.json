@@ -4,9 +4,9 @@
   "description": "Template",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node_modules/typescript/bin/tsc --build tsconfig.json",
-    "watch": "node_modules/typescript/bin/tsc --build -w tsconfig.json",
-    "start": "node_modules/nodemon/bin/nodemon.js -w 'dist' -e 'js' dist/start.js "
+    "build": "node ./node_modules/typescript/bin/tsc --build tsconfig.json",
+    "watch": "node ./node_modules/typescript/bin/tsc --build -w tsconfig.json",
+    "start": "node ./node_modules/nodemon/bin/nodemon.js -w 'dist' -e 'js' dist/start.js "
   },
   "author": "Danilo Numeroso, Dennis Bettels, Davide Varagnolo",
   "license": "MIT",
