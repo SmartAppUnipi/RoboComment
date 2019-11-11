@@ -1,11 +1,11 @@
 # Audio and Output group
-##Requirements
+### Requirements
 ```
 cd /Server
 nmp install
 ```
-
-##API
+## 
+### API
 
 **Comment IP address**:
 
@@ -37,7 +37,8 @@ POST with JSON data
 }
 ```
 
-##How to run the code
+## 
+### How to run the code
 
 Server:
 ```
