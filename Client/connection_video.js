@@ -1,14 +1,15 @@
 let video               = document.getElementById('video');
+let audio               = document.getElementById('audio');
 const video_url      = 'http://192.168.43.61:3000/video_url';
 // const video_url         = 'http://192.168.43.61:3000';
 let supposedCurrentTime = 0;
 let request             = new XMLHttpRequest();
+let xhttp               = new XMLHttpRequest();
 const debug             = false;
-const audioBrowser      = true;
-const audioHTTP         = false;
+const audioBrowser      = false;
+const audioHTTP         = true;
 let urlTaken            = false;
 let intervalUrl, track;
-// const GOOGLE_APPLICATION_CREDENTIALS = "My First Project-783591cd0d97.json";
 
 
 main();
@@ -35,18 +36,21 @@ function getVideoUrl(req) {
     req.send();
 }
 
+/**
+ * @return {number}
+ */
 function EndItemTime(item){
-    // let obj = JSON.parse(item);
-    return item.end
+    return item.endTime
 }
 
+/**
+ * @return {number}
+ */
 function StartItemTime(item){
-    // let obj = JSON.parse(item);
-    return item.start
+    return item.startTime
 }
 
 function textItem(item){
-    // let obj = JSON.parse(item);
     return item.comment
 }
 
@@ -77,6 +81,20 @@ function speak(text, callback) {
 
 
 //------------------------Event listener-------------------------------
+
+// Listener for the result of HTTP POST request to Google API
+xhttp.onreadystatechange = function(){
+    if (this.readyState === 4 && this.status === 200) {
+        let stringAudio = JSON.parse(this.responseText).audioContent;
+        console.log("Response arrived");
+        audio.src = "data:audio/ogg;base64,"+stringAudio;
+        audio.type ="audio/ogg";
+        audio.play();
+
+    }else{
+        console.log("error");
+    }
+};
 
 // Listener for the result of HTTP request
 request.onreadystatechange = function() {
@@ -125,30 +143,32 @@ video.addEventListener('timeupdate', (event) => {
 
                 if(track.mode === "showing") {
 
+                    let head = queue.dequeue();
+                    let comment_txt = textItem(head);
+                    console.log(comment_txt);
+
+                    /**
+                     Two different method to call the Google API. First one is to append the API key on http url (The
+                     power of API key should be limited). The second one is to append on RequestHeader the authorization
+                     through the Bearer token (TO OBTAIN)
+                     */
+
                     if(audioHTTP){
-                        xhttp.open("POST", "https://texttospeech.googleapis.com/v1/text:synthesize", true);
+                        xhttp.open("POST", "https://texttospeech.googleapis.com/v1/text:synthesize?key=AIzaSyDgUrhiDmKK0pM8OGpszCoehg2vbRL6pgI", true);
                         xhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
-                        xhttp.setRequestHeader("Authorization", "Bearer $(gcloud auth application-default print-access-token)");
+                        // xhttp.setRequestHeader("Authorization", "Bearer $(gcloud auth application-default print-access-token)");
                         xhttp.send("{\n" +
-                            "    'input':{\n" +
-                            "      'text':'Android is a mobile operating system developed by Google,\n" +
-                            "         based on the Linux kernel and designed primarily for\n" +
-                            "         touchscreen mobile devices such as smartphones and tablets.'\n" +
-                            "    },\n" +
+                            "    'input':{'text':'"+comment_txt+"'},\n" +
                             "    'voice':{\n" +
                             "      'languageCode':'en-gb',\n" +
                             "      'name':'en-GB-Standard-A',\n" +
                             "      'ssmlGender':'FEMALE'\n" +
                             "    },\n" +
                             "    'audioConfig':{\n" +
-                            "      'audioEncoding':'MP3'\n" +
+                            "      'audioEncoding':'OGG_OPUS'\n" +
                             "    }\n" +
                             "  }");
                     }
-
-                    let head = queue.dequeue();
-                    console.log(EndItemTime(head));
-                    let comment_txt = textItem(head);
 
                     if(audioBrowser){
                         speak(comment_txt, function (e) {
