@@ -89,7 +89,7 @@ function onListening() {
   let bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('Listening on ' + bind);
 }
 
 /**
@@ -106,7 +106,7 @@ wsServer.on('request', function(request) {
   console.log("New web socket connection");
   let connection = request.accept(null, request.origin);
   connections.push(connection);
-  console.log(connection);
+  // console.log(connection);
   connection.on('message', function(message) {
     // on message received
     if (message.type === 'utf8') {
@@ -121,7 +121,7 @@ wsServer.on('request', function(request) {
 
 commentApp.post("/", function (req, res) {
   console.log("New comment");
-  console.log(req.body);
+  // console.log(req.body);
   if (connections.length !== 0) {
     for (let i = 0; i < connections.length; i++) {
       console.log("Broadcast to clients");
