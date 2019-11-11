@@ -21,13 +21,6 @@ app.set('port', webSocketPort);
 commentApp.set('port', commentPort);
 
 
-// let obj = JSON.parse("{\n" +
-//     "  \"comment\": \"fewferwfefg\",\n" +
-//     "  \"start\": 5,\n" +
-//     "  \"end\": 10,\n" +
-//     "  \"emphasy\": \"rage\"\n" +
-//     "}");
-
 /**
  * Create HTTP server for websocket
  */
