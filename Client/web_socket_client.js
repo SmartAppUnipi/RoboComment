@@ -1,6 +1,5 @@
 
 const url        = 'ws://10.101.12.139:4000';
-// const url     = 'ws://127.0.0.1:3000';
 let queue        = new Queue();
 
 function connect() {
