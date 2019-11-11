@@ -3,7 +3,7 @@ import json
 
 
 class SymbolicInterface:
-    def __init__(self, host="127.0.0.1", port=3000):
+    def __init__(self, host="127.0.0.1", port=3001):
         self.host = host
         self.port = port
 
@@ -20,7 +20,7 @@ class SymbolicInterface:
 
 
 if __name__ == "__main__":
-    symbolic_interface = SymbolicInterface()
+    symbolic_interface = SymbolicInterface("192.168.43.60")
 
     with open("mocks/dummy.json", "r") as f:
         data = json.load(f)

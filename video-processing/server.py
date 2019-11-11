@@ -1,12 +1,14 @@
 from flask import Flask
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/video_url', methods=["GET"])
 def hello():
-    return "https://b2ushds2-vh.akamaihd.net/i/Italy/podcastcdn/raidue/Nazionali_Raisport/10639147_,800,1800,.mp4.csmil/segment100_1_av.ts?null=0"
+    return "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4"
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=3000)
