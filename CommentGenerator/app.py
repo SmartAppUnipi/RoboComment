@@ -43,7 +43,7 @@ def test():
 @app.before_first_request
 def init():
     global commentator
-    commentator = Commentator('assets/config_test.json', 'assets/templates.json')
+    commentator = Commentator()
 
 if __name__ == '__main__':
     try:
