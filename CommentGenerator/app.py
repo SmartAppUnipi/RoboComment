@@ -28,7 +28,7 @@ def action():
     except requests.exceptions.ConnectionError:
         print("audio unreachable at " + AUDIO_IP )
 
-    return "OK"
+    return 200
 
 
 # Simulazione Gruppo Audio
@@ -36,7 +36,7 @@ def action():
 def test():
     action_json = json.loads(request.data)
     print(action_json)
-    return "OK"
+    return 200
 
 
 
