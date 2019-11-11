@@ -12,16 +12,14 @@ class Commentator:
         self.picker = Picker(self.template)
         self.filler = Filler(self.config)
         self.sentimentalizer = Sentimentalizer(self.config)
-		
 
     def run(self, jsonobj):
-
         time = jsonobj['time']
 
         action = jsonobj["details"]["subtype"]
 
         comment = self.picker.pick_comment(action)
-        comment = self.filler.update_comment(comment,jsonobj["details"])
+        comment = self.filler.update_comment(comment, jsonobj["details"])
 
         sentiment = self.sentimentalizer.add_emphasis(comment)
 
@@ -30,13 +28,10 @@ class Commentator:
             'emphasis': sentiment,
             'time': time,
         }
-
-        output = json.dumps(output)
-
-        print(output)
+        return output
 
 
-cm = Commentator("assets/config_test.json","assets/templates.json")
-with open("assets/input1.json",'r') as input1_json:
+cm = Commentator("assets/config_test.json", "assets/templates.json")
+with open("assets/input1.json", 'r') as input1_json:
     input_json = json.load(input1_json)
     cm.run(input_json)
