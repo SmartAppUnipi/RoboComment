@@ -1,11 +1,11 @@
 let video               = document.getElementById('video');
 let audio               = document.getElementById('audio');
-const video_url         = 'http://10.101.20.18:3000/video_url';
+const video_url      = 'http://192.168.43.61:3000/video_url';
 // const video_url         = 'http://192.168.43.61:3000';
 let supposedCurrentTime = 0;
 let request             = new XMLHttpRequest();
 let xhttp               = new XMLHttpRequest();
-const debug             = true;
+const debug             = false;
 const audioBrowser      = false;
 const audioHTTP         = true;
 let urlTaken            = false;
@@ -79,6 +79,7 @@ function speak(text, callback) {
 
 //---------------------------------------------------------------------
 
+
 //------------------------Event listener-------------------------------
 
 // Listener for the result of HTTP POST request to Google API
@@ -113,7 +114,6 @@ request.onreadystatechange = function() {
         if (debug){
             video.src = "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4";
             video.type ="video/mp4";
-            clearInterval(intervalUrl);
         }
     }
 };

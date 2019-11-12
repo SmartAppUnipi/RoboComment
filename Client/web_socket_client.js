@@ -7,6 +7,7 @@ function connect() {
     ws.onopen = function() {
         // subscribe to some channels
         ws.send(JSON.stringify("New Connection"));
+        console.log("Web Socket connection established")
     };
 
     ws.onmessage = function(e) {
@@ -24,7 +25,7 @@ function connect() {
         console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
         setTimeout(function() {
             connect();
-        }, 1000);
+        }, 500);
     };
 
     ws.onerror = function(err) {
