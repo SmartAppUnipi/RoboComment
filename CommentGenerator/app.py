@@ -20,14 +20,11 @@ def action():
     input = json.loads(request.data)
     print(input)
     # call our main
-    
+
     output = commentator.run(input)
     # post to the audio group
-    try:
-        requests.post(url="http://" + AUDIO_IP + ":3003/", data=json.dumps(output))
-    except requests.exceptions.ConnectionError:
-        print("audio unreachable at " + AUDIO_IP )
-
+    headers = {'Content-type': 'application/json'}
+    response = requests.post(url="http://" + AUDIO_IP + ":3003/", json=output, headers=headers)
     return "OK"
 
 
