@@ -22,7 +22,8 @@ def action():
     
     output = commentator.run(input)
     # post to the audio group
-    response = requests.post(url="http://" + AUDIO_IP + ":3003/", data=json.dumps(output))
+    headers = {'Content-type': 'application/json'}
+    response = requests.post(url="http://" + AUDIO_IP + ":3003/", json=output, headers=headers)
     return "OK"
 
 
