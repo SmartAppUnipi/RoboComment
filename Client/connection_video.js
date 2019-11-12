@@ -1,6 +1,6 @@
 let video               = document.getElementById('video');
 let audio               = document.getElementById('audio');
-const video_url      = 'http://192.168.43.61:3000/video_url';
+const video_url      = 'http://10.101.20.18:3000/video_url';
 // const video_url         = 'http://192.168.43.61:3000';
 let supposedCurrentTime = 0;
 let request             = new XMLHttpRequest();
@@ -92,7 +92,7 @@ xhttp.onreadystatechange = function(){
         audio.play();
 
     }else{
-        console.log("error");
+        console.log("Audio not arrived");
     }
 };
 
