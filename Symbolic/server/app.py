@@ -9,7 +9,7 @@ app = flask.Flask(__name__)
 def welcome():
     return "Symbolic Level"
 
-@app.route('/positions/<int:second>', methods=['POST'])
+@app.route('/positions', methods=['POST'])
 def new_positions(second):
 
     data = flask.request.form

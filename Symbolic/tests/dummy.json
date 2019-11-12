@@ -1,5 +1,6 @@
 [
     {
+        "time": 37.5,
         "camera": {
             "position": {"x": 1.2, "y": 1.3, "z": 8.8},
             "target": {"x": 7.8, "y": 7.9, "confidence": 0},
@@ -10,13 +11,15 @@
                 "position": {"x": 7.8, "y": 7.9, "confidence": 0},
                 "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
                 "id": {"value": 2,"confidence": 1},
-                "team": {"value": 1,"confidence": 0.1}
+                "team": {"value": 1,"confidence": 0.1},
+                "pose": "T-Pose"
             },
             {
                 "position": {"x": 7.8, "y": 7.9, "confidence": 0},
                 "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
                 "id": {"value": 4,"confidence": 0.1},
-                "team": {"value": 0,"confidence": 0.8}
+                "team": {"value": 0,"confidence": 0.8},
+                "pose": "T-Pose"
             }
         ],
         "ball": [
@@ -27,27 +30,24 @@
                 "owner": {"value": 4,"confidence": 0.1},
                 "owner team": {"value": 0,"confidence": 0.1}
             }
-        ],
-        "referee": [
-            {
-                "position": {"x": 7.8, "y": 7.9, "confidence": 0},
-                "pose": "T-Pose"
-            }
         ]
     },
     {
+        "time": 38.6,
         "players": [
             {
                 "position": {"x": 7.8, "y": 7.9, "confidence": 0},
                 "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
                 "id": {"value": 2,"confidence": 1},
-                "team": {"value": 1,"confidence": 0.1}
+                "team": {"value": 1,"confidence": 0.1},
+                "pose": "T-Pose"
             },
             {
                 "position": {"x": 7.8, "y": 7.9, "confidence": 0},
                 "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
                 "id": {"value": 4,"confidence": 0.1},
-                "team": {"value": 0,"confidence": 0.8}
+                "team": {"value": 0,"confidence": 0.8},
+                "pose": "T-Pose"
             }
         ],
         "ball": [
@@ -58,9 +58,6 @@
                 "owner": {"value": 4,"confidence": 0.1},
                 "owner team": {"value": 0,"confidence": 0.1}
             }
-        ],
-        "referee": [
-            {"position": {"x": 7.8, "y": 7.9, "confidence": 0}}
         ]
     },
     {

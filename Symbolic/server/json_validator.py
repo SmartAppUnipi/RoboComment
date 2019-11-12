@@ -6,12 +6,7 @@ import json
 
 uncertain_number_schema = Schema({
     "value": Or(int, float),
-    "confidence": And(Or(int, float), lambda x: x >= 0 and x <= 1)
-})
-
-uncertain_zero_one_schema = Schema({
-    "value": And(Or(int, float), lambda x: x == 0 or x == 1),
-    "confidence": And(Or(int, float), lambda x: x >= 0 and x <= 1)
+    "confidence": And(Or(int, float))
 })
 
 coordinate_schema = Schema({
@@ -27,6 +22,7 @@ coordinate_3D_schema = Schema({
 })
 
 positions_schema = Schema({
+    "time": And(float, lambda t: t >= 0),
     Optional("camera"): {
         "position": Use(lambda x: coordinate_3D_schema.validate(x)),
         "target": Use(lambda x: coordinate_schema.validate(x)),
@@ -37,7 +33,8 @@ positions_schema = Schema({
             "position": Use(lambda x: coordinate_schema.validate(x)),
             "speed": Use(lambda x: coordinate_schema.validate(x)),
             "id": Use(lambda x: uncertain_number_schema.validate(x)),
-            "team": Use(lambda x: uncertain_zero_one_schema.validate(x)),
+            "team": Use(lambda x: uncertain_number_schema.validate(x)),
+            Optional("pose"): str
         }
     ],
     "ball": [
@@ -46,15 +43,9 @@ positions_schema = Schema({
             "speed": Use(lambda x: coordinate_schema.validate(x)),
             "midair": And(Or(int, float), lambda x: x >= 0 or x <= 1),
             "owner": Use(lambda x: uncertain_number_schema.validate(x)),
-            "owner team": Use(lambda x: uncertain_zero_one_schema.validate(x)),
+            "owner team": Use(lambda x: uncertain_number_schema.validate(x)),
         }
     ],
-    "referee": [
-        {
-            "position": Use(lambda x: coordinate_schema.validate(x)),
-            Optional("pose"): str
-        }
-    ]
 })
 
 # Comment generation JSON
