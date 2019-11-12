@@ -18,7 +18,12 @@ def new_positions(second):
     print(data)
     print("##############")
 
-    #Validator.validate_positions(data)
+    if Validator.validate_positions(data):
+        print("Data is correctly formatted")
+    else: 
+        print("data is incorrect:")
+        print(data)
+        print("########################")
     
     # validate input json and execute business logic code
     with open('../tests/dummy.json', 'r') as f: 

@@ -1,46 +1,42 @@
 from schema import Schema, And, Or, Use, Optional, SchemaError
+import json
 # https://github.com/keleshev/schema
 
 # Video Processing JSON
 
-uncertain_float_schema = Schema({
-    "value": float,
-    "confidence": And(float, lambda x: x >= 0 and x <= 1)
-})
-
-uncertain_int_schema = Schema({
-    "value": int,
-    "confidence": And(float, lambda x: x >= 0 and x <= 1)
+uncertain_number_schema = Schema({
+    "value": Or(int, float),
+    "confidence": And(Or(int, float), lambda x: x >= 0 and x <= 1)
 })
 
 uncertain_zero_one_schema = Schema({
-    "value": And(int, lambda x: x == 0 or x == 1),
-    "confidence": And(float, lambda x: x >= 0 and x <= 1)
+    "value": And(Or(int, float), lambda x: x == 0 or x == 1),
+    "confidence": And(Or(int, float), lambda x: x >= 0 and x <= 1)
 })
 
 coordinate_schema = Schema({
-    "x": float,
-    "y": float,
-    "confidence": And(float, lambda x: x >= 0 and x <= 1)
+    "x": Or(int, float),
+    "y": Or(int, float),
+    "confidence": And(Or(int, float), lambda x: x >= 0 and x <= 1)
 })
 
 coordinate_3D_schema = Schema({
-    "x": float,
-    "y": float,
-    "z": float
+    "x": Or(int, float),
+    "y": Or(int, float),
+    "z": Or(int, float)
 })
 
 positions_schema = Schema({
     Optional("camera"): {
         "position": Use(lambda x: coordinate_3D_schema.validate(x)),
         "target": Use(lambda x: coordinate_schema.validate(x)),
-        "zoom": float
+        "zoom": Or(int, float)
     },
     "players": [
         {
             "position": Use(lambda x: coordinate_schema.validate(x)),
             "speed": Use(lambda x: coordinate_schema.validate(x)),
-            "id": Use(lambda x: uncertain_int_schema.validate(x)),
+            "id": Use(lambda x: uncertain_number_schema.validate(x)),
             "team": Use(lambda x: uncertain_zero_one_schema.validate(x)),
         }
     ],
@@ -48,15 +44,15 @@ positions_schema = Schema({
         {
             "position": Use(lambda x: coordinate_schema.validate(x)),
             "speed": Use(lambda x: coordinate_schema.validate(x)),
-            "midair": And(float, lambda x: x >= 0 or x <= 1),
-            "owner": Use(lambda x: uncertain_int_schema.validate(x)),
+            "midair": And(Or(int, float), lambda x: x >= 0 or x <= 1),
+            "owner": Use(lambda x: uncertain_number_schema.validate(x)),
             "owner team": Use(lambda x: uncertain_zero_one_schema.validate(x)),
         }
     ],
     "referee": [
         {
             "position": Use(lambda x: coordinate_schema.validate(x)),
-            "pose": str
+            Optional("pose"): str
         }
     ]
 })
@@ -70,8 +66,8 @@ strategy = ["counter-attack","melina","catenaccio","defence","attack"]
 
 event_schema = Schema({
     "time" : {
-        "start": And(int, lambda x: x >= 0),
-        "end": And(int, lambda x: x >= 0) 
+        "start": And(Or(int, float), lambda x: x >= 0),
+        "end": And(Or(int, float), lambda x: x >= 0) 
     },
     "type": And(str, Use(lambda x : x in event_types)),
     "details":
@@ -82,7 +78,7 @@ event_schema = Schema({
         "player2": str,
         "field-zone": str,
         "subtype": And(str, lambda x: x in elementary or x in scenario or x in strategy),
-        "confidence": And(float, lambda x: x >= 0 and x <= 1)
+        "confidence": And(Or(int, float), lambda x: x >= 0 and x <= 1)
     }
 })
 
