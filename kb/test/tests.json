@@ -536,6 +536,80 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Add Giuseppe Verdi",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fb35da34-6b03-4cac-821d-a0f19b875dba",
+						"exec": [
+							"pm.globals.set(\"Giuseppe\", {",
+							"\t\t\"first_name\": \"Giuseppe\",",
+							"\t    \"last_name\": \"Verdi\",",
+							"\t    \"date_of_birth\": \"01/01/1940\",",
+							"\t    \"email\": \"example2@example.com\",",
+							"\t    \"favourite_team\": \"Pisa\",",
+							"\t    \"id\": 1",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "adbf5cfb-6767-47a5-87f2-40f30d86bd3a",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"expected_response = pm.globals.get(\"Giuseppe\");",
+							"",
+							"pm.test(\"expected_response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(expected_response);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n\t\t\"first_name\": \"Giuseppe\",\n\t    \"last_name\": \"Verdi\",\n\t    \"date_of_birth\": \"01/01/1940\",\n\t    \"email\": \"example2@example.com\",\n\t    \"favourite_team\": \"Pisa\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users"
+					]
+				},
+				"description": "The name says it all"
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
