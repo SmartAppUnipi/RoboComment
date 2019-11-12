@@ -64,7 +64,7 @@
         ]
     },
     {
-        "time" : {"start": 800, "end": 810},
+        "time" : {"start": 7, "end": 11},
         "type": "elementary",
         "details":
         {

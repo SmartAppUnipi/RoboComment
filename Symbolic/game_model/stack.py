@@ -67,18 +67,13 @@ class Stack:
            self.pop_front()
 
     def find(self,v):
-        found = False
         idx = 0
         N = self.size()
 
         while idx < N and not found:
             elem = self.get(idx)
             if elem == v:
-                found = True
+                return idx
             else:
                 idx += 1
-        
-        if found:
-            return idx
-        else:
-            raise NotFoundElementError("The element is not in the stack")
+        raise NotFoundElementError("The element is not in the stack")
