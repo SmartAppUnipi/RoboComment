@@ -13,17 +13,17 @@ def match(value, pattern):
     """
     # Case one, type of both pattern and value are int, floats or strings
     if (isinstance(pattern, str) and isinstance (value, str)) or \
-            (isinstance(pattern, numeric_types) and isinstance(value, numeric_types)):
+            (isinstance(pattern, float) and isinstance(value, float)):
         return pattern == value
 
     # String with form %opValue, where percentage is a fixed placeholder for values 
     elif isinstance(pattern,str):
-        if re.match("%<\d+", pattern):
-            return value < pattern.split("<")[1]
-        elif re.match("%>\d+", pattern):
-            return value > pattern.split(">")[1]
-        elif re.match("%=\d+", pattern):
-            return value == pattern.split("=")[1]
+        if re.match(r"%<\d+", pattern):
+            return value < float(pattern.split("<")[1])
+        elif re.match(r"%>\d+", pattern):
+            return value > float(pattern.split(">")[1])
+        elif re.match(r"%=\d+", pattern):
+            return value == float(pattern.split("=")[1])
         return False
 
     # function call

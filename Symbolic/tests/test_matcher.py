@@ -1,12 +1,12 @@
 from game_model.matcher import match
 
 def test_simple_match_int():
-    pattern = 7
-    value = 7
+    pattern = 7.00
+    value = 7.00
 
     assert match(value, pattern)
 
-    pattern = 8
+    pattern = 8.00
 
     assert not match(value, pattern)
 
@@ -23,8 +23,8 @@ def test_simple_match_str():
 
 
 def test_simple_match_float():
-    pattern = 7.5
-    value = 7.5
+    pattern = 7.50
+    value = 7.50
 
     assert match(value, pattern)
 
@@ -35,18 +35,18 @@ def test_simple_match_float():
 
 def test_obj_simple():
     value = {
-        'x1': 5,
-        'x2': 7
+        'x1': 5.00,
+        'x2': 7.00
     }
 
     pattern = {
-        'x1': 5,
-        'x2': 7
+        'x1': 5.00,
+        'x2': 7.00
     }
 
     assert match(value, pattern)
 
-    pattern['x1'] = 12
+    pattern['x1'] = 12.00
 
     assert not match(value, pattern)
 
