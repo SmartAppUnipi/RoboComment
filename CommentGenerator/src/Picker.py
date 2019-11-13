@@ -16,10 +16,10 @@ class Picker:
         ''' it gets the json in input so that it can decide which template match '''
 
         # check if the subtype match other
-        if self.subtype_exists(input_json["details"]["subtype"]):
-            elementary = input_json["details"]["subtype"]
+        subtype = input_json["details"]["subtype"]
+        if self.subtype_exists(subtype):
             # TODO find a way to match, here implement as first comment in the pool
-            template = self.template_pool[elementary][0]
+            template = self.template_pool[subtype][0]
 
         # else TODO match with a filler template, here with empty template
         else:
@@ -29,7 +29,4 @@ class Picker:
 
     def subtype_exists(self, subtype: str) -> bool:
         '''check if the subtype passed is in categories recognized'''
-        if subtype in self.valid_categories["elementary"]:
-            return True
-        else:
-            return False
+        return subtype in self.valid_categories["elementary"]
