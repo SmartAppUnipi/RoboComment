@@ -1,4 +1,5 @@
 import json
+import re
 
 
 class Picker:
@@ -30,3 +31,29 @@ class Picker:
     def subtype_exists(self, subtype: str) -> bool:
         '''check if the subtype passed is in categories recognized'''
         return subtype in self.valid_categories["elementary"]
+
+    def filter_comments_by_details(self, details):
+        ''' it returns a list of the most specific templates according to the details '''
+        subtype_templates = self.template_pool[details["subtype"]]
+        most_specific_templates = {
+            "template" : [],
+            "number_of_placeholders" : -1
+        }
+        for template in subtype_templates:
+            # this wouldn't work with escaped placeholders like {{team1}}, use (?<=(?<!\{)\{)[^{}]*(?=\}(?!\})) to fix it
+            placeholders = re.findall(r'{(.*?)}', template)
+            
+            # removing the placeholder {modifier} beacause here it is not needed for the comparison
+            if 'modifier' in placeholders:
+                placeholders.remove('modifier')
+
+            if set(placeholders) <= set(details.keys()):
+                if len(placeholders) > most_specific_templates['number_of_placeholders']:
+                    # having more placeholders means to be a more specific template w.r.t the previous ones
+                    most_specific_templates['template'] = [template]
+                    most_specific_templates['number_of_placeholders'] = len(placeholders)
+                elif len(placeholders) == most_specific_templates['number_of_placeholders']:
+                    most_specific_templates['template'].append(template)
+
+        
+        return most_specific_templates['template']
