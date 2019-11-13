@@ -9,7 +9,7 @@ class Filler:
     def update_comment(self, comment, details):
         main_actor = details["player1"]
         
-        return comment.format(subject=main_actor, modifier="fantastic")
+        return comment.format(player1=main_actor, modifier="fantastic")
 
     def _load_config(self,config):
         return None
