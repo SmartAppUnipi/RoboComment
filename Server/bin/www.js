@@ -8,8 +8,10 @@ let commentApp      = require('../app2');
 let debug           = require('debug')('websportserver:server');
 let http            = require('http');
 let WebSocketServer = require('websocket').server;
-const WSIP          = '10.101.12.139';
-const commentIP     = '10.101.12.139';
+// const WSIP          = '10.101.12.139';
+const WSIP          = 'localhost';
+const commentIP     = 'localhost';
+// const commentIP     = '10.101.12.139';
 let connections     = [];
 
 /**
@@ -111,7 +113,7 @@ wsServer.on('request', function(request) {
     // on message received
     if (message.type === 'utf8') {
       // if it is a string we can read as usual
-      console.log('the message received is: ' + message.utf8Data);
+      console.log('The message received is: ' + message.utf8Data);
     }
   }).on('close', function(event) {
     console.log("Web socket connection closed");
@@ -121,7 +123,7 @@ wsServer.on('request', function(request) {
 
 commentApp.post("/", function (req, res) {
   console.log("New comment");
-  // console.log(req.body);
+  console.log(req.body);
   if (connections.length !== 0) {
     for (let i = 0; i < connections.length; i++) {
       console.log("Broadcast to clients");
