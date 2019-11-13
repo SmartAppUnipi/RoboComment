@@ -2,12 +2,13 @@ from flask import Flask, request
 import json
 import requests
 import sys
-from src.Commentator import Commentator
+from CommentGenerator.src.Commentator import Commentator
 
 app = Flask(__name__)
 
 AUDIO_IP = "x.x.x.x"
 commentator = None
+
 
 @app.route('/api', methods=['GET'])
 def api():
@@ -34,7 +35,7 @@ def action():
         response = requests.post(url="http://" + AUDIO_IP + ":3003/", json=output, headers=headers)
     except requests.exceptions.ConnectionError:
         print("Audio unreachable at " + AUDIO_IP)
-    
+
     return "OK"
 
 
@@ -53,11 +54,13 @@ def init():
     global commentator
     commentator = Commentator()
 
+
 if __name__ == '__main__':
     try:
         AUDIO_IP = sys.argv[1]
     except IndexError:
-        print("USAGE: python3.6 app.py [AUDIO IP]")        
+        print("USAGE: python3.6 app.py [AUDIO IP]")
         exit(-1)
-    
+
+    commentator = Commentator()
     app.run(host='0.0.0.0', port=3002)

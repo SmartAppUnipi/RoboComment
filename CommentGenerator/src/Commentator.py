@@ -7,7 +7,6 @@ import json
 class Commentator:
 
     def __init__(self):
-
         self.config = 'assets/config_test.json'
         self.template = 'assets/templates.json'
         self.picker = Picker(self.template)
@@ -28,13 +27,14 @@ class Commentator:
             'comment': comment,
             'emphasis': sentiment,
             'startTime': time['start'],
-            'endTime' : time['end'],
-            'priority' : 4
+            'endTime': time['end'],
+            'priority': 4
         }
         return output
 
 
-cm = Commentator()
-with open("assets/input1.json", 'r') as input1_json:
-    input_json = json.load(input1_json)
-    cm.run(input_json)
+if __name__ == '__main__':
+    cm = Commentator()
+    with open("assets/input1.json", 'r') as input1_json:
+        input_json = json.load(input1_json)
+        cm.run(input_json)
