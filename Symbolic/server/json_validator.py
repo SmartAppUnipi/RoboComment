@@ -22,7 +22,7 @@ coordinate_3D_schema = Schema({
 })
 
 positions_schema = Schema({
-    "time": And(float, lambda t: t >= 0),
+    "time": And(Or(float, int), lambda t: t >= 0),
     Optional("camera"): {
         "position": Use(lambda x: coordinate_3D_schema.validate(x)),
         "target": Use(lambda x: coordinate_schema.validate(x)),
