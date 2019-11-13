@@ -7,14 +7,13 @@ class SymbolicInterface:
         self.host = host
         self.port = port
 
-    def send(self, timestamp, data: dict) -> int:
+    def send(self, data: dict) -> int:
         """
         Send frame description
-        :param timestamp: timestamp of current frame
         :param data: dictionary describing current situation
         :return: HTTP response code
         """
-        endpoint = f"http://{self.host}:{self.port}/positions/{timestamp}"
+        endpoint = f"http://{self.host}:{self.port}/positions"
         r = requests.post(url=endpoint, data=data)
         return r.status_code
 
@@ -26,5 +25,5 @@ if __name__ == "__main__":
         data = json.load(f)
 
     for x in data:
-        code = symbolic_interface.send(0, x)
+        code = symbolic_interface.send(x)
         assert code == 200

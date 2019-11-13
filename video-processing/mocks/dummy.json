@@ -1,5 +1,6 @@
 [
   {
+    "time": 37.5,
     "camera": {
       "position": {
         "x": 1.2,
@@ -32,7 +33,8 @@
         "team": {
           "value": 1,
           "confidence": 0.1
-        }
+        },
+        "pose": "T-Pose"
       },
       {
         "position": {
@@ -52,7 +54,8 @@
         "team": {
           "value": 0,
           "confidence": 0.8
-        }
+        },
+        "pose": "T-Pose"
       }
     ],
     "ball": [
@@ -77,19 +80,10 @@
           "confidence": 0.1
         }
       }
-    ],
-    "referee": [
-      {
-        "position": {
-          "x": 7.8,
-          "y": 7.9,
-          "confidence": 0
-        },
-        "pose": "T-Pose"
-      }
     ]
   },
   {
+    "time": 37.6,
     "players": [
       {
         "position": {
@@ -109,7 +103,8 @@
         "team": {
           "value": 1,
           "confidence": 0.1
-        }
+        },
+        "pose": "T-Pose"
       },
       {
         "position": {
@@ -129,7 +124,8 @@
         "team": {
           "value": 0,
           "confidence": 0.8
-        }
+        },
+        "pose": "T-Pose"
       }
     ],
     "ball": [
@@ -154,15 +150,7 @@
           "confidence": 0.1
         }
       }
-    ],
-    "referee": [
-      {
-        "position": {
-          "x": 7.8,
-          "y": 7.9,
-          "confidence": 0
-        }
-      }
     ]
   }
 ]
+
