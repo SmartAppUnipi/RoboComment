@@ -8,11 +8,11 @@ let commentApp      = require('../app2');
 let debug           = require('debug')('websportserver:server');
 let http            = require('http');
 let WebSocketServer = require('websocket').server;
-// const WSIP          = '10.101.12.139';
-const WSIP          = 'localhost';
-const commentIP     = 'localhost';
-// const commentIP     = '10.101.12.139';
+const WSIP          = '10.101.15.48';
+const commentIP     = '10.101.15.48';
 let connections     = [];
+let old_comment     = null;
+let new_comment     = null;
 
 /**
  * Get port from environment and store in Express.
@@ -113,7 +113,7 @@ wsServer.on('request', function(request) {
     // on message received
     if (message.type === 'utf8') {
       // if it is a string we can read as usual
-      console.log('The message received is: ' + message.utf8Data);
+      console.log('the message received is: ' + message.utf8Data);
     }
   }).on('close', function(event) {
     console.log("Web socket connection closed");
@@ -124,11 +124,50 @@ wsServer.on('request', function(request) {
 commentApp.post("/", function (req, res) {
   console.log("New comment");
   console.log(req.body);
-  if (connections.length !== 0) {
-    for (let i = 0; i < connections.length; i++) {
-      console.log("Broadcast to clients");
-      connections[i].send(JSON.stringify(req.body));
-    }
-    res.sendStatus(200);
-  }
+  new_comment = JSON.parse(JSON.stringify(req.body));
+  // if (connections.length !== 0) {
+  //   for (let i = 0; i < connections.length; i++) {
+  //     console.log("Broadcast to clients");
+  //     connections[i].send(JSON.stringify(req.body));
+  //   }
+  //
+  // }
+  res.sendStatus(200);
+  sendComment();
 });
+
+function sendComment() {
+    if (old_comment == null) {
+        for (let i = 0; i < connections.length; i++) {
+            console.log("Broadcast to clients");
+            connections[i].send(JSON.stringify(new_comment));
+        }
+         old_comment = new_comment;
+    }
+    else {
+        if (overlaps(old_comment, new_comment)) {
+            console.log(overlaps(old_comment, new_comment));
+            if (!checkPriority(old_comment, new_comment)) {
+                for (let i = 0; i < connections.length; i++) {
+                    console.log("Broadcast to clients");
+                    connections[i].send(JSON.stringify(new_comment));
+                }
+                old_comment = new_comment;
+            }
+        } else {
+            for (let i = 0; i < connections.length; i++) {
+                console.log("Broadcast to clients");
+                connections[i].send(JSON.stringify(new_comment));
+            }
+            old_comment = new_comment;
+        }
+    }
+}
+
+function overlaps(comment1, comment2) {
+    return comment1.startTime >= comment2.startTime && comment1.startTime <= comment2.endTime || comment2.startTime >= comment1.startTime && comment2.startTime <= comment1.endTime;
+}
+
+function checkPriority(comment1, comment2) {
+    return comment1.priority >= comment2.priority;
+}
