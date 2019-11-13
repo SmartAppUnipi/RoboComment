@@ -3,31 +3,16 @@
 
 import random
 import pprint
+import math
 
 
 dummy = {
-    "players": [
-        # {
-        #     "position": {"x": 7.8, "y": 7.9, "confidence": 0},
-        #     "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
-        #     "id": {"value": 2, "confidence": 1},
-        #     "team": {"value": 1, "confidence": 0.1},
-        #     "pose": "T-Pose"
-        # }
-    ],
-    "ball": [
-        # {
-        #     "position": {"x": 7.8, "y": 7.9, "confidence": 0},
-        #     "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
-        #     "midair": 0.1,
-        #     "owner": {"value": 4, "confidence": 0.1},
-        #     "owner team": {"value": 0, "confidence": 0.1}
-        # }
-    ]
+    "players": [],
+    "ball": {}
 }
 
 
-if __name__ == '__main__':
+def createDummy():
     # Creating players of team A
     for i in range(0, 11):
         dummy['players'].append(
@@ -49,7 +34,7 @@ if __name__ == '__main__':
     for i in range(0, 11):
         dummy['players'].append(
             {
-               "position": {
+                "position": {
                     "x": str("%.2f" % (random.random() * 100)),
                     "y": str("%.2f" % (random.random() * 100))
                 },
@@ -62,17 +47,45 @@ if __name__ == '__main__':
             }
         )
 
-    pprint.pprint(dummy)
+    dummy['ball'].update(
+        {
+            "position": {
+                "x": str("%.2f" % (random.random() * 100)),
+                "y": str("%.2f" % (random.random() * 100))
+            }
+        }
+    )
+
+    # pprint.pprint(dummy)
 
 
 def deltaPlayersBall():
     # returns a list of players ordered by distance from the ball
 
     retList = []
-    for player in playersList:
-        retList.append(delta(player, ball))
+
+    ball_x = float(dummy['ball']['position']['x'])
+    ball_y = float(dummy['ball']['position']['y'])
+
+    for player in dummy['players']:
+        x = float(player['position']['x'])
+        y = float(player['position']['y'])
+        distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
+        
+        retList.append(str(distance) + player['id']['value'])
+
+        # diz = {"distance":str("%.4f" % distance)}
+        print(str("%.4f" % distance) + " p:" + player['id']['value'] + " t:" + player['team']['value'])
+    
+
+    
 
 
 def stackOwnership():
     # create the stack of ownership
     return 0
+
+
+if __name__ == '__main__':
+    createDummy()
+    deltaPlayersBall()
