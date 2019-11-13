@@ -1,5 +1,5 @@
-
-const url        = 'ws://10.101.15.48:4000';
+// const url        = 'ws://10.101.15.48:4000';
+const url        = 'ws://localhost:4000';
 let queue        = new Queue();
 
 function connect() {
@@ -13,16 +13,15 @@ function connect() {
     ws.onmessage = function(e) {
         console.log(e.data);
         try {
-            let obj = JSON.parse(e.data);
-            queue.enqueue(obj);
+            queue.enqueue(new CommentOBJ(JSON.parse(e.data),new XMLHttpRequest(),0));
         } catch {
-            console.log("Object is not received, Message is:: ", e.data);
+            console.log("Comment is not received, Message is:: ", e.data);
         }
 
 };
 
     ws.onclose = function(e) {
-        console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+        console.log('Socket is closed. Reconnect will be attempted in 5 second.', e.reason);
         setTimeout(function() {
             connect();
         }, 500);
