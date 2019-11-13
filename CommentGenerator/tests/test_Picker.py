@@ -24,23 +24,9 @@ class TestPicker(unittest.TestCase):
             "subtype"  : "pass",
             "confidence" : 0.4
         }
-        template = self.comment_picker.filter_comments_by_details(details)
+        templates = self.comment_picker.filter_comments_by_details(details)
 
-        assert template == "{player1} from {team1} has passed to {player2} in the {field-zone}"
-    
-    def test_filter_comments_by_details1(self):
-        details = {
-            "team1" : "team A",
-            "team2": "team B",
-            "player1": "Ruicosta",
-            "player2": "Ronaldo",
-            "field-zone" : "middle",
-            "subtype"  : "pass",
-            "confidence" : 0.4
-        }
-        template = self.comment_picker.filter_comments_by_details(details)
-
-        assert template == "{player1} from {team1} has passed to {player2} in the {field-zone}"
+        assert templates[0] == "{player1} from {team1} has passed to {player2} in the {field-zone}"
     
     def test_filter_comments_by_details2(self):
         details = {
@@ -48,9 +34,9 @@ class TestPicker(unittest.TestCase):
             "subtype"  : "pass",
             "confidence" : 0.4
         }
-        template = self.comment_picker.filter_comments_by_details(details)
+        templates = self.comment_picker.filter_comments_by_details(details)
 
-        assert template == "{player2} has received a pass"
+        assert templates[0] == "{player2} has received a pass"
     
     def test_filter_comments_by_details3(self):
         details = {
@@ -58,6 +44,17 @@ class TestPicker(unittest.TestCase):
             "subtype"  : "pass",
             "confidence" : 0.4
         }
-        template = self.comment_picker.filter_comments_by_details(details)
+        templates = self.comment_picker.filter_comments_by_details(details)
+      
+        assert set(templates) == set(["{player1} has made a {modifier} pass","{player1} decides to pass the ball"])
 
-        assert template ==  "{player1} has made a {modifier} pass"
+    def test_filter_comments_by_details4(self):
+        ''' test with poor information '''
+        details = {
+            "field-zone" : "middle",
+            "subtype"  : "pass",
+            "confidence" : 0.4
+        }
+        templates = self.comment_picker.filter_comments_by_details(details)
+
+        assert templates == []

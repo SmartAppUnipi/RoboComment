@@ -33,10 +33,10 @@ class Picker:
         return subtype in self.valid_categories["elementary"]
 
     def filter_comments_by_details(self, details):
-        ''' it returns the most specific template according to the details '''
+        ''' it returns a list of the most specific templates according to the details '''
         subtype_templates = self.template_pool[details["subtype"]]
-        most_specific_template = {
-            "template" : "",
+        most_specific_templates = {
+            "template" : [],
             "number_of_placeholders" : -1
         }
         for template in subtype_templates:
@@ -48,11 +48,12 @@ class Picker:
                 placeholders.remove('modifier')
 
             if set(placeholders) <= set(details.keys()):
-                if len(placeholders) >= most_specific_template['number_of_placeholders']:
+                if len(placeholders) > most_specific_templates['number_of_placeholders']:
                     # having more placeholders means to be a more specific template w.r.t the previous ones
-                    most_specific_template['template'] = template
-                    most_specific_template['number_of_placeholders'] = len(placeholders)
+                    most_specific_templates['template'] = [template]
+                    most_specific_templates['number_of_placeholders'] = len(placeholders)
+                elif len(placeholders) == most_specific_templates['number_of_placeholders']:
+                    most_specific_templates['template'].append(template)
 
-        # in this case there is no policy in selecting the template 
-        # if there are more possible templates it will return just one of them quite randomly
-        return most_specific_template['template']
+        
+        return most_specific_templates['template']
