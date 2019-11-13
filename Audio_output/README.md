@@ -49,3 +49,19 @@ Client web page:
 ```
 Client/index.html
 ```
+
+##
+### To Do list
+
+Server:
+- [x] Multi client support
+- [x] Priority manager for comments
+
+
+Client:
+- [x] Auto reconnection with servers (comments and video url)
+- [x] Google API for text to speech
+- [x] Managed the possible API response delay, sync with subtitles
+- [ ] Improve GUI
+- [ ] Implement user login
+- [ ] Implement video catalog
