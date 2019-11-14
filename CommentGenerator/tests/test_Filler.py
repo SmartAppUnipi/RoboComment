@@ -13,7 +13,7 @@ class TestFiller(unittest.TestCase):
 
     def test_update_comment1(self):
 
-        updated_comment = self.comment_filler.update_comment("{player1} has made a {modifier} pass", self.input1["details"])
+        updated_comment = self.comment_filler.update_comment("{player1} from {team1} has passed to {player2} in the {field_zone}", self.input1["details"])
 
-        assert updated_comment == "Ruicosta has made a fantastic pass"
+        assert updated_comment == "Ruicosta from team A has passed to Ronaldo in the middle"
 

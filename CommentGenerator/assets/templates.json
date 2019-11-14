@@ -1,7 +1,7 @@
 {
     "pass": [
         "{player1} has made a {modifier} pass",
-        "{player1} from {team1} has passed to {player2} in the {field-zone}",
+        "{player1} from {team1} has passed to {player2} in the {field_zone}",
         "{player2} has received a pass",
         "{player1} decides to pass the ball"
     ]

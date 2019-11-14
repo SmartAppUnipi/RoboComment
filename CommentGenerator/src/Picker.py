@@ -1,10 +1,12 @@
 import json
 import re
+import random
 
 
 class Picker:
 
     def __init__(self, template_path):
+        self.picking_strategy = PickingStrategy()
         # Load templates
         with open(template_path, 'r') as json_file:
             self.template_pool = json.load(json_file)
@@ -20,7 +22,9 @@ class Picker:
         subtype = input_json["details"]["subtype"]
         if self.subtype_exists(subtype):
             # TODO find a way to match, here implement as first comment in the pool
-            template = self.template_pool[subtype][0]
+            possible_templates = self.filter_comments_by_details(input_json["details"])
+
+            template = self.picking_strategy.random_picking(possible_templates)
 
         # else TODO match with a filler template, here with empty template
         else:
@@ -53,7 +57,25 @@ class Picker:
                     most_specific_templates['template'] = [template]
                     most_specific_templates['number_of_placeholders'] = len(placeholders)
                 elif len(placeholders) == most_specific_templates['number_of_placeholders']:
+                    # if templates are equally specific a list is returned
                     most_specific_templates['template'].append(template)
 
         
         return most_specific_templates['template']
+    
+
+class PickingStrategy:
+    def __init__(self):
+        self.comments_history = {}
+
+    def probability_picking(self,templates,action_subtype):
+
+        # TODO 
+        # each template will have an id
+        # to each id we will associate a probability PROBVAL initially set to 1
+        # and incremented each time that template is used 
+        # we will pick the templates with probability 1/PROBVAL
+        pass
+
+    def random_picking(self,templates):
+        return random.choice(templates)
