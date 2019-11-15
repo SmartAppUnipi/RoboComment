@@ -38,15 +38,6 @@ def action():
     return "OK"
 
 
-# Simulazione Gruppo Audio
-@app.route('/test/audio', methods=['POST'])
-def test():
-    ''' just to simulate the audio interface, this function must disappear in a production env'''
-    action_json = json.loads(request.data)
-    print(action_json)
-    return "OK"
-
-
 @app.before_first_request
 def init():
     ''' this function will be called at the application startup to initialize our module '''

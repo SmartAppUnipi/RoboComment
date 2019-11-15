@@ -1,6 +1,7 @@
 import unittest
 import app as flaskapp
 import json
+import requests_mock
 
 
 class TestApi(unittest.TestCase):
@@ -16,7 +17,25 @@ class TestApi(unittest.TestCase):
         assert response.status_code == 200
     
     def test_api_action1(self):
-        with open('./assets/input1.json', 'r') as json_file:
+        ''' testing a basic flow of our application'''
+        audio_module_input = {}
+
+        def audio_module(request,context):
+            # this function will mock the audio module 
+            # it stores the json we send to the audio
+            nonlocal audio_module_input
+            audio_module_input = json.loads(request.body)
+
+        with open('tests/mock_assets/input1.json', 'r') as json_file:
             input_json = json.load(json_file)
-        res = self.client.post("/api/action", data=json.dumps(input_json))
-        assert res.status_code == 200
+
+        with requests_mock.mock() as mock_request:
+            # notifying the mock manager to care about a particular post request
+            # x.x.x.x is the default value used to init AUDIO IP 
+            mock_request.post("http://x.x.x.x:3003/", text=audio_module, status_code=200)
+            res = self.client.post("/api/action", data=json.dumps(input_json))
+
+        # checking if the json we send to audio is well formed
+
+        assert set(audio_module_input.keys()) == set(['comment','emphasis','startTime','endTime','priority'])
+        assert audio_module_input['priority'] >= 0 and audio_module_input['priority'] <= 5
