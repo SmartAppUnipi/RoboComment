@@ -2,7 +2,7 @@ from flask import Flask, request
 import json
 import requests
 import sys
-from CommentGenerator.src.Commentator import Commentator
+from src.Commentator import Commentator
 
 app = Flask(__name__)
 
@@ -62,5 +62,4 @@ if __name__ == '__main__':
         print("USAGE: python3.6 app.py [AUDIO IP]")
         exit(-1)
 
-    commentator = Commentator()
     app.run(host='0.0.0.0', port=3002)
