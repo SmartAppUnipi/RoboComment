@@ -19,6 +19,6 @@
   "include": [
     "src/**/*.ts",
     "test/**/*.ts",
-    "config/**/*.ts"
+    "config/**/*.ts", "src/db/ontologies.js"
   ]
 }
