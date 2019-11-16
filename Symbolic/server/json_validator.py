@@ -67,7 +67,7 @@ event_schema = Schema({
         "team2": str,
         "player1": str,
         "player2": str,
-        "field-zone": str,
+        "field_zone": str,
         "subtype": And(str, lambda x: x in elementary or x in scenario or x in strategy),
         "confidence": And(Or(int, float), lambda x: x >= 0 and x <= 1)
     }

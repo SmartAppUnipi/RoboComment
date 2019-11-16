@@ -59,31 +59,37 @@ def createDummy():
     # pprint.pprint(dummy)
 
 
-def deltaPlayersBall():
+def deltaPlayersBall(pos = None):
     # returns a list of players ordered by distance from the ball
+
+    if not pos:
+        pos = dummy
 
     retList = []
 
-    ball_x = float(dummy['ball']['position']['x'])
-    ball_y = float(dummy['ball']['position']['y'])
+    ball_x = float(pos['ball']['position']['x'])
+    ball_y = float(pos['ball']['position']['y'])
 
-    for player in dummy['players']:
-        x = float(player['position']['x'])
-        y = float(player['position']['y'])
-        distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
-        
-        retList.append(str(distance) + player['id']['value'])
+    for player in pos['players']:
+        # check that player is not the referee
+        if player['team'] != -1:
+            x = float(player['position']['x'])
+            y = float(player['position']['y'])
+            distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
+            
+            retList.append({
+                'distance': round_2_decimal(distance),
+                'id': player['id']['value']
+            })
 
-        # diz = {"distance":str("%.4f" % distance)}
-        print(str("%.4f" % distance) + " p:" + player['id']['value'] + " t:" + player['team']['value'])
-    
+            # diz = {"distance":str("%.4f" % distance)}
+            print(str("%.4f" % distance) + " p:" + player['id']['value'] + " t:" + player['team']['value'])
 
-    
+        return retList
 
 
-def stackOwnership():
-    # create the stack of ownership
-    return 0
+def round_2_decimal(number):
+    return round(number, 2)
 
 
 if __name__ == '__main__':

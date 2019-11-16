@@ -36,6 +36,7 @@ def match(value, pattern):
                 return ret
             else:
                 return False
+        # in this case the function was not correct (positional arguments)
         except TypeError as e:
             return False
     
