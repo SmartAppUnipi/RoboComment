@@ -78,19 +78,15 @@ def deltaPlayersBall(pos = None):
             distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
             
             retList.append({
-                'distance': round_2_decimal(distance),
-                'id': player['id']['value']
+                'distance': round(distance, 2),
+                'id': player['id']['value'],
+                'team': player['team']['value']
             })
 
             # diz = {"distance":str("%.4f" % distance)}
             print(str("%.4f" % distance) + " p:" + player['id']['value'] + " t:" + player['team']['value'])
 
         return retList
-
-
-def round_2_decimal(number):
-    return round(number, 2)
-
 
 if __name__ == '__main__':
     createDummy()
