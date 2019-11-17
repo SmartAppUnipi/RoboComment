@@ -63,13 +63,13 @@ export class Query {
     ${Query.header}
     SELECT ?homeTeamName ?awayTeamName ?homeTeamScore ?awayTeamScore ?date
     WHERE {
-        :2575959 :homeTeam ?team1.
+        :2576145 :homeTeam ?team1.
         ?team1 :hasName ?homeTeamName.
-        :2575959 :awayTeam ?team2.
+        :2576145 :awayTeam ?team2.
         ?team2 :hasName ?awayTeamName.
-        :2575959 :homeTeamScore ?homeTeamScore.
-        :2575959 :awayTeamScore ?awayTeamScore.
-        :2575959 :date ?date.
+        :2576145 :homeTeamScore ?homeTeamScore.
+        :2576145 :awayTeamScore ?awayTeamScore.
+        :2576145 :date ?date.
     }
     `
 
