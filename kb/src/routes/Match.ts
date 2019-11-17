@@ -4,6 +4,7 @@ import { UserDao } from '../daos'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { Persona, Match } from '../entities'
 import { DateTime } from 'luxon'
+import { MatchDao } from '../daos/MatchDao'
 
 // Init shared
 const router = Router()
@@ -33,11 +34,13 @@ const placeholder: Match[] = [{
     away_team: []
 }]
 
-router.get('/:home/:away/:date', (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
-        const { home, away, date } = req.params as ParamsDictionary
+        const { id } = req.params as ParamsDictionary
 
-        return res.status(OK).json(placeholder)
+        const result = await MatchDao.get(Number(id))
+
+        return res.status(OK).json(result)
     } catch (err) {
         // logger.error(err.message, err);
         return res.status(BAD_REQUEST).json({

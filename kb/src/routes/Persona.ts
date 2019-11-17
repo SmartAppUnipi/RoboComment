@@ -46,7 +46,7 @@ router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params as ParamsDictionary
 
-        const result = await PersonaDao.get(5)
+        const result = await PersonaDao.get(Number(id))
 
         return res
             .status(OK)
