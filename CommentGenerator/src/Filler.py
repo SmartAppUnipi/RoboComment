@@ -1,18 +1,25 @@
-
+import re
 
 class Filler:
 
     def __init__(self, config=None):
-        if config is not None:
-            self._load_config(config)
+        if config is None:
+            self.config = {"user_type" : "" ,"favourite_player" : "", "favourite_team" : ""}
+        else:
+            self.config = config
+
+        self.good_modifiers = ['good','nice']
+        self.bad_modifiers = ['bad']
 
     def update_comment(self, comment, details):
-        main_actor = details["player1"]
-        team1 = details["team1"]
-        field_zone = details["field_zone"]
-        second_actor = details["player2"]
-        
-        return comment.format(player1=main_actor, team1=team1, field_zone=field_zone, player2=second_actor)
+        # TODO just trying a demo/simple version, this needs a better implementation
+        details['modifier'] = '{modifier}'
+        comment = comment.format(**details)
 
-    def _load_config(self,config):
-        return None
+        if 'modifier' in re.findall(r'{(.*?)}', comment):
+            if details['team1'] == self.config['favourite_team']:
+                comment = comment.format(modifier=self.good_modifiers[0])
+            else:
+                comment = comment.format(modifier=self.bad_modifiers[0])
+
+        return comment

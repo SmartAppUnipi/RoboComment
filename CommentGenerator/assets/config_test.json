@@ -1,5 +1,5 @@
 {
-	"UserType":"Child",
-	"Favorite Team":"Milan",
-	"Favorite Player":"Ronaldo"
+	"user_type":"child",
+	"favourite_team":"Milan",
+	"favourite_player":"Ronaldo"
 }
