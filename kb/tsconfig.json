@@ -13,12 +13,13 @@
       "node"
     ],
     "esModuleInterop": true, 
-    "forceConsistentCasingInFileNames": true 
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false 
   },
 
   "include": [
     "src/**/*.ts",
     "test/**/*.ts",
-    "config/**/*.ts", "src/db/ontologies.js"
+    "config/**/*.ts"
   ]
 }

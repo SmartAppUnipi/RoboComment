@@ -4,6 +4,8 @@ import { UserDao } from '../daos'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { Persona } from '../entities'
 import { DateTime } from 'luxon'
+import { Ontologies, Query } from '../db'
+import { PersonaDao } from '../daos/PersonaDao'
 
 // Init shared
 const router = Router()
@@ -40,14 +42,16 @@ const placeholder: Persona = {
     ]
 }
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params as ParamsDictionary
+
+        const result = await PersonaDao.get(5)
 
         return res
             .status(OK)
             .type('json')
-            .json(placeholder)
+            .json(result)
     } catch (err) {
         // logger.error(err.message, err);
         return res.status(BAD_REQUEST).json({

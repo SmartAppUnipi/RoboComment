@@ -14,7 +14,6 @@
     "http-status-codes": "^1.4.0",
     "jsonfile": "^5.0.0",
     "luxon": "^1.21.1",
-    "rdflib": "^1.0.6",
     "rdfstore": "^0.9.17"
   },
   "devDependencies": {
@@ -23,7 +22,6 @@
     "@types/luxon": "^1.15.2",
     "@types/newman": "^3.11.0",
     "@types/node": "^12.12.6",
-    "@types/rdflib": "^1.0.5",
     "newman": "^4.5.5",
     "nodemon": "^1.19.4",
     "ts-loader": "^6.2.1",
