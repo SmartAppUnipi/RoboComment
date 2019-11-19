@@ -1,4 +1,4 @@
-from server.game_model.stack import Stack,EmptyQueueError,InvalidIndexError,NotFoundElementError
+from game_model.stack import Stack,EmptyQueueError,InvalidIndexError,NotFoundElementError
 import pytest
 
 def test_new_empty_stack():
