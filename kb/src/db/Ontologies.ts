@@ -55,7 +55,7 @@ export class Query {
         ?wyid :hasName ?name.
 
         OPTIONAL {
-            ?wyid :height ?heightS
+            ?wyid :height ?height
         } .
 
         OPTIONAL {
