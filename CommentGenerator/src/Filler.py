@@ -1,5 +1,17 @@
 import re
 
+#TODO use a file for this
+template_modifiers = {
+    "good" : {
+        "simple_modifier" : ["good", "nice"],
+        "complex_modifier" : ["what a fantastic action!"] #TODO just an example need better definition
+    },
+    "bad" : {
+        "simple_modifier" : ["bad", "not nice"],
+        "complex_modifier" : ["He could have done better ... "]
+    }
+    # also a neutral bias could be provided
+}
 class Filler:
 
     def __init__(self, config=None):
@@ -8,18 +20,20 @@ class Filler:
         else:
             self.config = config
 
-        self.good_modifiers = ['good','nice']
-        self.bad_modifiers = ['bad']
+    def update_comment(self, comment, details):  
 
-    def update_comment(self, comment, details):
-        # TODO just trying a demo/simple version, this needs a better implementation
-        details['modifier'] = '{modifier}'
+        # getting the placeholders {*_modifier} 
+        placeholders = re.findall(r'{(.*?)}', comment)
+        regex = re.compile(r'\w*_modifier')
+        modifiers = [i for i in placeholders if regex.match(i)]
+
+        if len(modifiers) > 0: # there are some modifier placeholders
+            # bias allows to pick the right set of modifiers
+            bias = "good" if  details['team1'] == self.config['favourite_team'] else "bad"
+            for mod in modifiers:
+                # here we require a better picking strategy
+                details[mod] = template_modifiers[bias][mod][0]
+
         comment = comment.format(**details)
-
-        if 'modifier' in re.findall(r'{(.*?)}', comment):
-            if details['team1'] == self.config['favourite_team']:
-                comment = comment.format(modifier=self.good_modifiers[0])
-            else:
-                comment = comment.format(modifier=self.bad_modifiers[0])
 
         return comment

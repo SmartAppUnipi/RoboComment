@@ -34,7 +34,7 @@ class TestFiller(unittest.TestCase):
             "confidence" : 0.4
         }
 
-        updated_comment = self.comment_filler.update_comment("{player1} has passed {modifier}", details)
+        updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details)
 
         assert updated_comment == "Ruicosta has passed good"
     
@@ -49,6 +49,21 @@ class TestFiller(unittest.TestCase):
             "confidence" : 0.4
         }
 
-        updated_comment = self.comment_filler.update_comment("{player1} has passed {modifier}", details)
+        updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details)
 
         assert updated_comment == "Ruicosta has passed bad"
+
+    def test_update_comment4(self):
+        with open("tests/mock_assets/config1.json",'r') as conf2:
+            self.comment_filler.config = json.load(conf2)
+        
+        details = {
+            "team1" : "team A",
+            "player1": "Ruicosta",
+            "subtype"  : "pass",
+            "confidence" : 0.4
+        }
+
+        updated_comment = self.comment_filler.update_comment("{player1} has passed the ball, {complex_modifier}", details)
+
+        assert updated_comment == "Ruicosta has passed the ball, what a fantastic action!"

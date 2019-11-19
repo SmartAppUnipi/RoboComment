@@ -21,7 +21,7 @@ class TestPicker(unittest.TestCase):
             input2 = json.load(mock_json)
         comment = self.comment_picker.pick_comment(input2)
 
-        assert comment in ["{player1} decides to pass the ball","{player1} has made a {modifier} pass"]
+        assert comment in ["{player1} decides to pass the ball","{player1} has made a {simple_modifier} pass"]
     
     def test_filter_comments_by_details1(self):
         details = {
@@ -55,7 +55,7 @@ class TestPicker(unittest.TestCase):
         }
         templates = self.comment_picker.filter_comments_by_details(details)
       
-        assert set(templates) == set(["{player1} has made a {modifier} pass","{player1} decides to pass the ball"])
+        assert set(templates) == set(["{player1} has made a {simple_modifier} pass","{player1} decides to pass the ball"])
 
     def test_filter_comments_by_details4(self):
         ''' test with poor information '''
