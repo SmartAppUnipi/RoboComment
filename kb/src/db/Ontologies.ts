@@ -54,6 +54,12 @@ export class Query {
         ?wyid :wyid "${id}".
         ?wyid :hasName ?name.
 
+        ?CareerStation :isPersona :${id} .
+        ?CareerStation :isMember ?isMember.
+
+        ?isMember :teamOf ?teamOf.
+        ?teamOf :hasName ?club.
+
         OPTIONAL {
             ?wyid :height ?height
         } .
