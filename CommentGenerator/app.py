@@ -3,6 +3,7 @@ import json
 import requests
 import sys
 from src.Commentator import Commentator
+from threading import Thread
 
 app = Flask(__name__)
 
@@ -13,6 +14,19 @@ commentator = None
 def api():
     ''' this interface can be used to check if the server is up and running '''
     return "Hi! the server is alive!"
+
+
+def forward_to_audio(output):
+    ''' this function will send our output to the audio in an async wait, in order to responde immediatly to the symbolic level'''
+    def async_request():
+        headers = {'Content-type': 'application/json'}
+        try:
+            response = requests.post(url="http://" + AUDIO_IP + ":3003/", json=output, headers=headers)
+        except requests.exceptions.ConnectionError:
+            print("Audio unreachable at " + AUDIO_IP)
+        
+    t = Thread(target=async_request)
+    t.start()
 
 
 @app.route('/api/action', methods=['POST'])
@@ -29,11 +43,7 @@ def action():
     output = commentator.run(input)
 
     # post to the audio group
-    headers = {'Content-type': 'application/json'}
-    try:
-        response = requests.post(url="http://" + AUDIO_IP + ":3003/", json=output, headers=headers)
-    except requests.exceptions.ConnectionError:
-        print("Audio unreachable at " + AUDIO_IP)
+    forward_to_audio(output)
     
     return "OK"
 
