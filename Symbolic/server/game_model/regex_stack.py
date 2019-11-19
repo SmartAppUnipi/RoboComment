@@ -1,4 +1,4 @@
-from game_model.stack import Stack
+from stack import Stack
 
 class RegexStack:
     def __init__(self):

@@ -2,6 +2,7 @@ import flask
 from json_validator import Validator
 import json
 import requests
+import game_model.game_model
 
 app = flask.Flask(__name__)
 

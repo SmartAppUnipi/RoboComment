@@ -1,5 +1,5 @@
-import utils as utils
-from stack import Stack
+import game_model.utils 
+from game_model.stack import Stack
 
 class GameModel:
     def __init__(self):
