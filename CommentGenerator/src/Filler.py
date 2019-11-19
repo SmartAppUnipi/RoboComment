@@ -17,7 +17,7 @@ class Filler:
 
     def __init__(self, config=None):
         if config is None:
-            self.config = {"user_type" : "empty" ,"favourite_player" : "empty", "favourite_team" : "empty"}
+            self.config = {"user_type" : "" ,"favourite_player" : "", "favourite_team" : ""}
         else:
             with open(config,'r') as conf:
                 self.config = json.load(conf)
