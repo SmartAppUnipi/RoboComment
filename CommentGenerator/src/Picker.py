@@ -47,9 +47,9 @@ class Picker:
             # this wouldn't work with escaped placeholders like {{team1}}, use (?<=(?<!\{)\{)[^{}]*(?=\}(?!\})) to fix it
             placeholders = re.findall(r'{(.*?)}', template)
             
-            # removing the placeholder {modifier} beacause here it is not needed for the comparison
-            if 'modifier' in placeholders:
-                placeholders.remove('modifier')
+            # removing the placeholder *_modifier beacause here it is not needed for the comparison
+            regex = re.compile(r'\w*_modifier')
+            placeholders = [i for i in placeholders if not regex.match(i)]
 
             if set(placeholders) <= set(details.keys()):
                 if len(placeholders) > most_specific_templates['number_of_placeholders']:
