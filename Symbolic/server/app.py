@@ -35,7 +35,7 @@ def welcome():
 def pos():
     return jsonify({'x':100,'y':200})
 
-@app.route('/positions/<int:second>', methods=['POST'])
+@app.route('/positions', methods=['POST'])
 def new_positions(second):
 
     data = flask.request.form

@@ -70,7 +70,7 @@ class Stack:
         idx = 0
         N = self.size()
 
-        while idx < N and not found:
+        while idx < N:
             elem = self.get(idx)
             if elem == v:
                 return idx

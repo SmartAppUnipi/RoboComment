@@ -26,7 +26,7 @@ Our **PORT** is 3001
 }
 ```
 
-**URL** : `/positions/{int:timeframe}`
+**URL** : `/positions`
 
 **Method** : `POST`
 
@@ -36,6 +36,7 @@ Our **PORT** is 3001
 
 ```json
 {
+    "time": "float, seconds",
     "camera": {
         "position": "instance of Coordinate3D, is the position of the camera in the field",
         "target": "instance of Coordinate, is the position of the target of the camera on the field",
@@ -46,7 +47,8 @@ Our **PORT** is 3001
             "position": "instance of Coordinate",
             "speed": "instance of Coordinate",
             "id": "instance of UncertainValue with value = int that identifies the person",
-            "team": "instance of UncertainValue with value = int 0 or 1"
+            "team": "instance of UncertainValue with value = int 0, 1 or -1 if the team is the referee",
+            "pose": "optional string"
         }
     ],
     "ball": [
@@ -57,15 +59,8 @@ Our **PORT** is 3001
             "owner": "instance of UncertainValue where value is the index of the player in the 'players' field",
             "owner team": "instance of UncertainValue where value is 0 or 1"
         }
-    ],
-    "referee": [
-        {
-            "position": "instance of Coordinate",
-            "pose": "TBD"
-        }
     ]
 }
-
 ```
 
 **Notes** :
