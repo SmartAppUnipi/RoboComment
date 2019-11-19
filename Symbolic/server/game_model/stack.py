@@ -1,26 +1,5 @@
 from collections import deque
-
-
-class EmptyQueueError(Exception):
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return repr(self.value)
-
-class InvalidIndexError(Exception):
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return repr(self.value)
-
-class NotFoundElementError(Exception):
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return repr(self.value)
+from exceptions import EmptyQueueError, InvalidIndexError, NotFoundElementError
 
 class Stack:
 
@@ -53,6 +32,9 @@ class Stack:
     def get(self,idx):
         return list(self._stack)[idx]
     
+    def get_top_k(self,idx):
+        return list(self._stack)[:idx]
+
     def size(self):
         return len(self.get_stack())  
     
