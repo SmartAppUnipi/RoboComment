@@ -8,8 +8,8 @@ let commentApp      = require('../app2');
 let debug           = require('debug')('websportserver:server');
 let http            = require('http');
 let WebSocketServer = require('websocket').server;
-const WSIP          = '10.101.15.48';
-const commentIP     = '10.101.15.48';
+const WSIP          = '10.101.52.39';
+const commentIP     = '10.101.52.39';
 let connections     = [];
 let old_comment     = null;
 let new_comment     = null;
@@ -113,10 +113,12 @@ wsServer.on('request', function(request) {
     // on message received
     if (message.type === 'utf8') {
       // if it is a string we can read as usual
-      console.log('the message received is: ' + message.utf8Data);
+      console.log('the message received is:\n' + message.utf8Data);
+      handleClientMessage(message.utf8Data)
     }
   }).on('close', function(event) {
     console.log("Web socket connection closed");
+    // remove the closed connection
     connections.splice(connections.indexOf(connection));
   });
 });
@@ -170,4 +172,20 @@ function overlaps(comment1, comment2) {
 
 function checkPriority(comment1, comment2) {
     return comment1.priority >= comment2.priority;
+}
+
+function handleClientMessage(body) {
+    message = JSON.parse(body)
+    if (message.request_type === "user_login") {
+
+    }
+    else if (message.request_type === "user_registration"){
+
+    }
+    else if (message.request_type === "user_update"){
+
+    }
+    else if (message.request_type === "get_video"){
+
+    }
 }

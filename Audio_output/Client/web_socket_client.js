@@ -1,9 +1,10 @@
 // const url        = 'ws://10.101.15.48:4000';
 const url        = 'ws://localhost:4000';
 let queue        = new Queue();
+let ws = null;
 
 function connect() {
-    let ws = new WebSocket(url);
+   ws = new WebSocket(url);
     ws.onopen = function() {
         // subscribe to some channels
         ws.send(JSON.stringify("New Connection"));
