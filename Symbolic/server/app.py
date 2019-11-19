@@ -4,7 +4,7 @@ import json
 import requests
 from time import sleep
 from flask import render_template,jsonify
-from server.map2d import *
+from map2d import *
 
 
 app = flask.Flask(__name__)
