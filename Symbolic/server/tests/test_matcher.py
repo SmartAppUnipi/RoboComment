@@ -1,4 +1,4 @@
-from server.game_model.matcher import match
+from game_model.matcher import match
 
 def test_simple_match_int():
     pattern = 7.00
