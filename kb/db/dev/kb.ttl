@@ -762,7 +762,7 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111111
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111111> rdf:type owl:NamedIndividual ,
                                                                            :Persona ;
-                                                                  :hasName "De Light" .
+                                                                  :hasName "De Ligt" .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111111_1920SA

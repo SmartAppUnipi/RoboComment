@@ -162,16 +162,25 @@ __Successful Response__:
 ```
 
 
-__URL__: ```/users/:id```
+__URL__: ```/users/login```
 
-__Method__: ```GET```
+__Method__: ```POST```
 
 __Response Codes__: ``` 200 | 400 ```
 
+__Body__: 
+```javascript 
+{
+    "login": {
+        "email": "",
+        "password": ""
+    }
+}
+```
 __Successful Response__: 
 ```javascript 
 {
-    "id": 1,
+    "id": 1
     "first_name": "first",
     "last_name": "last",
     "date_of_birth": "11/11/11",
@@ -196,6 +205,7 @@ __Body__:
         "last_name": "last",
         "date_of_birth": "11/11/11",
         "email": "example@example.com",
+        "password": "xxxx",
         "favourite_team": "Napoli"
     }
 }
