@@ -1,11 +1,11 @@
-import game_model.utils as utils
-from game_model.stack import Stack
+import utils as utils
+from stack import Stack
 
 class GameModel:
     def __init__(self):
         self._ownership_stack = Stack()
         self._ownership_stack_last_update = 0
-        self._ownership_stack.push(0)
+        self._ownership_stack.push_front(0)
         self._ownership_threshold = 2 # measured in meters
         self._vacant_since = None
 
