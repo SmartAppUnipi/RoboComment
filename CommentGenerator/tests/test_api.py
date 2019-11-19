@@ -1,7 +1,6 @@
 import unittest
 import app as flaskapp
 import json
-import requests_mock
 
 
 class TestApi(unittest.TestCase):
