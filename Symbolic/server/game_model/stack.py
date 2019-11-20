@@ -1,5 +1,5 @@
 from collections import deque
-from exceptions import EmptyQueueError, InvalidIndexError, NotFoundElementError
+from game_model.exceptions import EmptyQueueError, InvalidIndexError, NotFoundElementError
 
 class Stack:
 
