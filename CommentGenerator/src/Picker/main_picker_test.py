@@ -12,7 +12,7 @@ if __name__ == '__main__':
 IMPORTANT
 There are fake example, could make no sense is only tho show how the architecture works
 !!!!!!!!!! 
-
+ 
     examples:
     "{player1}", "{subtype}"
     "{player1}", "{subtype}", "{field_zone}"

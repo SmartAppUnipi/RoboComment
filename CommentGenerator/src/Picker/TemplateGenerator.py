@@ -15,7 +15,6 @@ class TemplateGenerator:
             "ZONE": ["in the {placeholder} of the field", "in the {placeholder} zone", "insists in the {placeholder}"],
             "ACTION_TYPE": ["is doing a {placeholder}", "as according to coach {placeholder}"]
         }
-
     def generate(self, sentence_tagged, phrase_typology):
         composition = self.depth_visit(phrase_typology)
         comment = []
