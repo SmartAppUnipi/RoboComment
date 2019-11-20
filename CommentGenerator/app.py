@@ -17,7 +17,7 @@ def api():
 
 
 def forward_to_audio(output):
-    ''' this function will send our output to the audio in an async wait, in order to responde immediatly to the symbolic level'''
+    ''' this function will send our output to the audio in an async waiy, in order to responde immediatly to the symbolic level'''
     def async_request():
         headers = {'Content-type': 'application/json'}
         try:
