@@ -8,7 +8,7 @@ export class MatchDao {
         const db = DB.Ontologies.data
 
         return new Promise(resolve =>
-            db.execute(DB.Query.get_match(id), (success, results) => resolve(results))
+            db.execute(DB.Query.get_match(id), (success, results) => resolve(DB.Ontologies.process(results)))
         )
     }
 

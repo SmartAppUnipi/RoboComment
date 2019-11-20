@@ -10,7 +10,7 @@ const router: Router = Router()
 router.use('/users', UserRouter)
 router.use('/persona', PersonaRouter)
 router.use('/match', MatchRouter)
-router.use('/cup', CupRouter)
+router.use('/league', CupRouter)
 router.use('/club', ClubRouter)
 
 export default router

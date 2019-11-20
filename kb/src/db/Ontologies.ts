@@ -1,23 +1,45 @@
+import { isNullOrUndefined } from 'util'
 
+type Callback = (success: any, results: any) => void
 type DB = {
-    execute(query: string, callback: (success: any, results: any) => void): void
+    execute(query: string, callback: Callback): void
 }
+
 export class Ontologies {
     public static readonly data: DB
 
+    private static extract_id(uri_id: string): number {
+        const match = uri_id.match(/#\d+/g)
+
+        if (match === null) {
+            throw Error('NOT_MATCHING_ID')
+        }
+
+        return Number(match[0].slice(1))
+    }
+
     public static process(obj: any): any {
+        console.log(obj)
         obj = obj[0]
 
-        Object.keys(obj).forEach(key => {
-            switch (obj[key].token) {
-                case 'literal':
-                    obj[key] = obj[key].value
-                    break
-                case 'uri':
-                    delete obj[key]
-                    break
-            }
-        })
+        Object.keys(obj)
+            .filter(key => obj[key] !== null && obj[key] !== undefined)
+            .forEach(key => {
+                switch (obj[key].token) {
+                    case 'literal':
+                        obj[key] = obj[key].value
+                        break
+                    case 'uri':
+                        try {
+                            obj[key] = this.extract_id(obj[key].value)
+                        } catch (err) {
+                            console.error(err)
+                            delete obj[key]
+                        }
+
+                        break
+                }
+            })
 
         return obj
     }
@@ -49,7 +71,7 @@ export class Query {
 
     public static readonly get_persona = (id: number) => `
     ${Query.header}
-    SELECT ?name ?wasBornIn ?club ?height ?wasBornOn
+    SELECT (?wyid as ?id) ?name ?club ?height ?date_of_birth
     WHERE {
         ?wyid :wyid "${id}".
         ?wyid :hasName ?name.
@@ -65,52 +87,25 @@ export class Query {
         } .
 
         OPTIONAL {
-            ?wyid :wasBornIn ?wasBornIn
-        } .
-
-        OPTIONAL {
-            ?wyid :wasBornOn ?wasBornOn
+            ?wyid :wasBornOn ?date_of_birth
         }
     }
     `
 
-    // public static readonly get_persona = (id: number) => `
-    // ${Query.header}
-    // SELECT ?name ?wasBornIn ?club ?wasBornOn
-    // WHERE {
-    //     ?wyid :wyid "${id}".
-    //     ?wyid :hasName ?name.
-    //     ?wyid :wasBornIn ?wasBornIn.
-    //     ?wyid :wasBornOn ?wasBornOn.
-
-    //     ?CoachCareerStation :isPersona :${id} .
-    //     ?CoachCareerStation :isMember ?isMember.
-
-    //     ?isMember :teamOf ?teamOf.
-    // }
-    // `
-
     public static readonly get_match = (id: number) => `
     ${Query.header}
-    SELECT ?homeTeamName ?awayTeamName ?homeTeamScore ?awayTeamScore ?date
-    WHERE {
-        :2575959 :homeTeam ?team1.
-        ?team1 :hasName ?homeTeamName.
-        :2575959 :awayTeam ?team2.
-        ?team2 :hasName ?awayTeamName.
-        :2575959 :homeTeamScore ?homeTeamScore.
-        :2575959 :awayTeamScore ?awayTeamScore.
-        :2575959 :date ?date.
-    }
     `
 
     public static readonly get_cup = (id: number) => `
     ${Query.header}
-    SELECT ?##info(season)
-    WHERE
-        ?Season :hasCup "Coppa Italia"
-        ?Season :cupWinner ?Winner
-        ?Season :runnerUP ?runnerUP
+    SELECT (?League AS ?id) ?country ?city ?type ?name
+    WHERE{
+        ?League :wyid "${id}".
+        ?League :country ?country.
+        ?League :city ?city.
+        ?League :teamType ?type.
+        ?League :hasName ?name.
+    }
     `
     // 3157
 }
