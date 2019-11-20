@@ -16,7 +16,7 @@ from stack import Stack
 def generic_matcher(lower_queue, upper_queue, rules):
     if (type(lower_queue) is not Stack):
         raise TypeError
-    if (type(upper_queue is not Stack)):
+    if (type(upper_queue) is not Stack):
         raise TypeError
     if lower_queue.size() < 1:
         raise EmptyQueueError
