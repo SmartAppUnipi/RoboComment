@@ -1,13 +1,13 @@
 import { Cup } from './Cup'
 
 export interface Organization {
+    id: number
     name: string
 }
 
 export interface Club extends Organization {
-    palmares: Cup[]
-    city: string
-    stadium: Stadium
+    city?: string
+    stadium?: Stadium
 }
 
 type Stadium = {

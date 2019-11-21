@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Template",
   "scripts": {
-    "test": "node ./node_modules/ts-node/dist/bin.js test/test.ts",
-    "build": "node ./node_modules/typescript/bin/tsc --build tsconfig.json",
-    "dev": "node ./node_modules/nodemon/bin/nodemon.js -w 'src' -e 'ts' ./node_modules/ts-node/dist/bin.js src/start.ts"
+    "test": "ts-node test/test.ts",
+    "build": "tsc --build tsconfig.json",
+    "dev": "nodemon -w 'src' -e 'ts' ./node_modules/ts-node/dist/bin.js src/start.ts"
   },
   "author": "Danilo Numeroso, Dennis Bettels, Davide Varagnolo",
   "license": "MIT",

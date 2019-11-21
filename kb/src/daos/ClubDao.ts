@@ -8,7 +8,7 @@ export class ClubDao {
         const db = DB.Ontologies.data
 
         return new Promise(resolve =>
-            db.execute(DB.Query.get_club(id), (_success, results) => resolve(DB.Ontologies.process(results)))
+            db.execute(DB.Query.get_club(id), (_success, results) => resolve(DB.Ontologies.process(results)[0]))
         )
     }
 

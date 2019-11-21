@@ -16,30 +16,29 @@ export class Ontologies {
         return Number(match[0].slice(1))
     }
 
-    public static process(obj: any): any {
-        console.log(obj)
-        obj = obj[0]
+    public static process(results: any[]): any {
+        console.log(results)
+        results.forEach(obj =>
+            Object.keys(obj)
+                .filter(key => obj[key] !== null && obj[key] !== undefined)
+                .forEach(key => {
+                    switch (obj[key].token) {
+                        case 'literal':
+                            obj[key] = obj[key].value
+                            break
+                        case 'uri':
+                            try {
+                                obj[key] = this.extract_id(obj[key].value)
+                            } catch (err) {
+                                console.error(err)
+                                delete obj[key]
+                            }
 
-        Object.keys(obj)
-            .filter(key => obj[key] !== null && obj[key] !== undefined)
-            .forEach(key => {
-                switch (obj[key].token) {
-                    case 'literal':
-                        obj[key] = obj[key].value
-                        break
-                    case 'uri':
-                        try {
-                            obj[key] = this.extract_id(obj[key].value)
-                        } catch (err) {
-                            console.error(err)
-                            delete obj[key]
-                        }
-
-                        break
-                }
-            })
-
-        return obj
+                            break
+                    }
+                })
+        )
+        return results
     }
 }
 
@@ -57,12 +56,12 @@ export class Query {
 
     public static readonly get_club = (id: number) => `
     ${Query.header}
-    SELECT *
+    SELECT (?Club AS ?id) ?country ?city ?name
     WHERE {
         ?Club :wyid "${id}".
         ?Club :country ?country.
         ?Club :city ?city.
-        ?Club :hasName ?hasName.
+        ?Club :hasName ?name.
         ####Club :hasRecord records
     }
     `
@@ -92,20 +91,18 @@ export class Query {
 
     public static readonly get_match = (id: number) => `
     ${Query.header}
-    SELECT ?homeTeamName ?awayTeamName ?homeTeamScore ?awayTeamScore ?date
-
+    SELECT ?team1 ?team2 ?home ?away ?home_score ?away_score ?date
 	WHERE{
-
 		:${id} :homeTeam ?team1.
 		?team1 :teamOf ?team1a.
-		?team1a :hasName ?homeTeamName.
+		?team1a :hasName ?home.
 
 		:${id} :awayTeam ?team2.
 		?team2 :teamOf ?team2a.
-		?team2a :hasName ?awayTeamName.
+		?team2a :hasName ?away.
 
-		:${id} :homeTeamScore ?homeTeamScore.
-		:${id} :awayTeamScore ?awayTeamScore.
+		:${id} :homeTeamScore ?home_score.
+		:${id} :awayTeamScore ?away_score.
 		:${id} :date ?date.
     }
     `

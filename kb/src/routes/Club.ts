@@ -8,19 +8,6 @@ import { ClubDao } from '../daos/ClubDao'
 // Init shared
 const router = Router()
 
-const placeholder: Club = {
-    name: 'ACM',
-    city: 'Milan',
-    palmares: [{
-        name: 'UCL',
-        year: '2003-2004'
-    }],
-    stadium: {
-        name: 'San Siro',
-        capacity: 70000
-    }
-}
-
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params as ParamsDictionary

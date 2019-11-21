@@ -8,7 +8,6 @@ export interface Match {
     home: Club
     away: Club
     result: Result
-    date: DateTime
     home_team: Persona[],
     away_team: Persona[]
 }

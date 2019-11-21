@@ -10,38 +10,6 @@ import { PersonaDao } from '../daos/PersonaDao'
 // Init shared
 const router = Router()
 
-const placeholder: Persona = {
-    id: 5,
-    first_name: 'Andrea',
-    last_name: 'Pirlo',
-    date_of_birth: DateTime.fromObject({
-        day: 22,
-        month: 12,
-        year: 1970
-    }),
-    career: [
-        {
-            year: '2003-2004',
-            roles: [{
-                type: 'player',
-                shirt_number: 21,
-                at: {
-                    name: 'ACM',
-                    city: 'Milan',
-                    palmares: [{
-                        name: 'UCL',
-                        year: '2003-2004'
-                    }],
-                    stadium: {
-                        name: 'San Siro',
-                        capacity: 70000
-                    }
-                }
-            }]
-        }
-    ]
-}
-
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params as ParamsDictionary

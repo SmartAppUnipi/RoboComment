@@ -9,31 +9,6 @@ import { MatchDao } from '../daos/MatchDao'
 // Init shared
 const router = Router()
 
-const placeholder: Match[] = [{
-    home: {
-        name: 'JUV',
-        city: 'Turin',
-        palmares: [],
-        stadium: {
-            name: 'Nameless',
-            capacity: 10000
-        }
-    },
-    away: {
-        name: 'LEC',
-        city: 'Lecce',
-        palmares: [],
-        stadium: {
-            name: 'Nameless',
-            capacity: 30000
-        }
-    },
-    result: [0, 0],
-    date: DateTime.fromISO('2004-05-08'),
-    home_team: [],
-    away_team: []
-}]
-
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params as ParamsDictionary
