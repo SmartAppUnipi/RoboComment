@@ -3,4 +3,5 @@ fuzzywuzzy
 requests
 pytest
 app
+nltk
 # python-Levenshtein
