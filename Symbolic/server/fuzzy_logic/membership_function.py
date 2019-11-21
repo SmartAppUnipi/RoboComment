@@ -8,17 +8,13 @@ class MembershipFunction:
         if other:
             if member > not_member: # LHL
                 self._func = _LHL(not_member, member, other)
-                print("LHL")
             else: # HLH
                 self._func = _HLH(member, not_member, other)
-                print("HLH")
         else:
             if member > not_member: # LH
                 self._func = _LH(not_member, member)
-                print("LH")
             else: # HL
                 self._func = _HL(member, not_member)
-                print("HL")
 
         self._degrees = {
             'a little': 1.3, 
@@ -60,9 +56,9 @@ class _LHL:
             return 1
         else:
             if x in range(self._low1, self._high):
-                return math.pow((x - self._low1), degree) / (self._high - self._low1)
+                return math.pow((x - self._low1) / (self._high - self._low1), degree)
             else: 
-                return math.pow((self._low2 - x), degree) / (self._low2 - self._high)
+                return math.pow((self._low2 - x) / (self._low2 - self._high), degree)
 
 class _HLH:
     def __init__(self, high_1, low, high_2): 
@@ -77,9 +73,9 @@ class _HLH:
             return 0
         else:
             if x in range(self._high1, self._low):
-                return (self._low - x) / (self._low - self._high1)
+                return math.pow((self._low - x) / (self._low - self._high1), degree)
             else: 
-                return (x - self._low) / (self._high2 - self._low)
+                return math.pow((x - self._low) / (self._high2 - self._low), degree)
 
 
 class _LH:
@@ -93,7 +89,7 @@ class _LH:
         elif x >= self._high:
             return 1
         else:
-            return (x - self._low) / (self._high - self._low)
+            return math.pow((x - self._low) / (self._high - self._low), degree)
 
 
 class _HL:
@@ -107,4 +103,4 @@ class _HL:
         elif x > self._low:
             return 0
         else:
-            return (self._low - x) / (self._low - self._high)
+            return math.pow((self._low - x) / (self._low - self._high), degree)
