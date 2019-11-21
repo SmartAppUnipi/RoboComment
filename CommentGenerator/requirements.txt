@@ -2,4 +2,5 @@ flask
 fuzzywuzzy
 requests
 pytest
+app
 # python-Levenshtein
