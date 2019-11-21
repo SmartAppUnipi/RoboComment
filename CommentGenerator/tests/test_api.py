@@ -18,7 +18,7 @@ class TestApi(unittest.TestCase):
     def test_api_action1(self):
         ''' testing a basic flow of our application'''
 
-        with open('tests/mock_assets/elementary/pass/input1.json', 'r') as json_file:
+        with open('CommentGenerator/tests/mock_assets/elementary/pass/input1.json', 'r') as json_file:
             input_json = json.load(json_file)
 
         res = self.client.post("/api/action", data=json.dumps(input_json))
