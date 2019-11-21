@@ -1,6 +1,7 @@
 import unittest
 from src.Filler import Filler
 import json
+from pathlib import Path
 
 
 class TestFiller(unittest.TestCase):
@@ -24,7 +25,7 @@ class TestFiller(unittest.TestCase):
         assert updated_comment == "Ruicosta from team A has passed to Ronaldo in the middle"
 
     def test_update_comment2(self):
-        with open("tests/mock_assets/config1.json",'r') as conf1:
+        with open(Path("CommentGenerator/tests/mock_assets/config1.json"),'r') as conf1:
             self.comment_filler.config = json.load(conf1)
         
         details = {
@@ -39,7 +40,7 @@ class TestFiller(unittest.TestCase):
         assert updated_comment == "Ruicosta has passed good"
     
     def test_update_comment3(self):
-        with open("tests/mock_assets/config1.json",'r') as conf2:
+        with open(Path("CommentGenerator/tests/mock_assets/config1.json"),'r') as conf2:
             self.comment_filler.config = json.load(conf2)
         
         details = {
@@ -54,7 +55,7 @@ class TestFiller(unittest.TestCase):
         assert updated_comment == "Ruicosta has passed bad"
 
     def test_update_comment4(self):
-        with open("tests/mock_assets/config1.json",'r') as conf2:
+        with open(Path("CommentGenerator/tests/mock_assets/config1.json"),'r') as conf2:
             self.comment_filler.config = json.load(conf2)
         
         details = {
