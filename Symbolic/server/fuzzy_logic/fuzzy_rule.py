@@ -1,5 +1,19 @@
 from fuzzy_logic.fuzzy_set import FuzzySet
 
+class And:
+    def __init__(self, a, b):
+        self._a = a 
+        self._b = b
+
+class Or: 
+    def __init__(self, a, b):
+        self._a = a
+        self._b = b
+
+    def eval(self):
+        
+
+
 class FuzzyRule:
 
     def __init__(self, antecedent, consequent):

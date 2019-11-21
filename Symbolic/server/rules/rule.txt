@@ -1,0 +1,6 @@
+poss = 
+
+pass := *,poss({_id: \y - _team: \x}),*[4],poss({_id: \z - _team: \x})
+
+-> for each x in stack['pass']:
+    ,poss({_id: \y - _team: \x}),*[4],poss({_id: \z - _team: \x})
