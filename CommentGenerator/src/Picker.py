@@ -1,12 +1,9 @@
 import json
 import re
 import random
-from pathlib import Path
 
 
 class Picker:
-
-    categories_path = Path('CommentGenerator/assets/categories.json')
 
     def __init__(self, template_path):
         self.picking_strategy = PickingStrategy()
@@ -14,8 +11,8 @@ class Picker:
         with open(template_path, 'r') as json_file:
             self.template_pool = json.load(json_file)
         # load recognized categories
-
-        with open(self.categories_path, 'r') as json_file:
+        categories_path = 'assets/categories.json'
+        with open(categories_path, 'r') as json_file:
             self.valid_categories = json.load(json_file)
 
     def pick_comment(self, input_json: json):
