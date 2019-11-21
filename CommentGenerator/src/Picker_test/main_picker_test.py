@@ -1,6 +1,6 @@
-from CommentGenerator.src.Picker.Matcher import Matcher
-from CommentGenerator.src.Picker.Tagger import Tagger
-from CommentGenerator.src.Picker.TemplateGenerator import TemplateGenerator
+from CommentGenerator.src.Picker_test.Matcher import Matcher
+from CommentGenerator.src.Picker_test.Tagger import Tagger
+from CommentGenerator.src.Picker_test.TemplateGenerator import TemplateGenerator
 
 if __name__ == '__main__':
     """
