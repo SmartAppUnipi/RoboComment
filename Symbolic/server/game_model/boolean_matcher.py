@@ -1,9 +1,11 @@
 from regex_matcher import regex_matcher
 
-
-# I assumed a regex as an object with:
-# Pattern to match
-# Stack to match the pattern on
+'''Regex structure
+{
+    'pattern': [None],
+    'stack': None
+}
+'''
 
 def boolean_matcher(regexes):
     # TODO Empty se true or false?
@@ -11,6 +13,6 @@ def boolean_matcher(regexes):
         # Empty
         return False
     for regex in regexes:
-        if not regex_matcher(regex.pattern, regex.stack):
+        if not regex_matcher(regex['pattern'], regex['stack']):
             return False
     return True

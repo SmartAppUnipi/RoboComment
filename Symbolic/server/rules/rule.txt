@@ -1,6 +1,50 @@
+/*
+The interpreter can manage these special chars:
+'?' - Any single object
+'.' - Any subsequence of objects whith no fixed or max length
+I will include a special char
+'.%d' where %d is an integer to manage any subsequence of max length %d
+'o*' - Any object repeated 0 or more times
+*/
+
 poss = 
 
 pass := *,poss({_id: \y - _team: \x}),*[4],poss({_id: \z - _team: \x})
 
 -> for each x in stack['pass']:
     ,poss({_id: \y - _team: \x}),*[4],poss({_id: \z - _team: \x})
+
+
+/*
+Considering the special chars the interpreter can manage, pass would be an object with:
+-condition i.e. a list of regex objects as defined below which are matched in 'and' by the interpreter
+-action i.e. action to perform when the rule matches which should be a function (TBD)
+
+rule: {
+    'condition': [regex1, regex2, ...],
+    'action': passAction()
+}
+
+The regex in the rule should include:
+-pattern i.e. list of objects to match
+-stack i.e. stack to match the pattern on
+
+regex : {
+    pattern: poss(player1), '.', poss(player2),
+    stack: possStack
+}
+
+Totally the pass rule would be:
+
+'passRule': {
+    'condition': [
+        {
+            'pattern': [poss(player1), ., poss(player2)],
+            'stack': possStack
+        }
+    ],
+    'action': passAction()
+}
+
+This rule does not consider the team, we should be able to get this information (binding?)
+*/

@@ -23,13 +23,15 @@ def test_regex_match_single_string_int():
     ]
         
     assert regex_matcher(regex, stack)
+
 #Regex (and its element) fewer elements than stack (and its elements)
 def test_regex_match_objects():
     regex = [
         {
             'first': {
                 'inner': 'elem'
-            }
+            },
+            'second': 'help'
         }
     ]
     stack = [
@@ -46,7 +48,188 @@ def test_regex_match_objects():
         
     assert regex_matcher(regex, stack)
 
+def test_regex_longer():
+    regex = [
+        {
+            'first': {
+                'inner': 'elem'
+            }
+        },
+        {
+            'second': 'exist'
+        }
+    ]
+    stack = [
+        {
+            'first': {
+                'inner': 'elem'
+            }
+        }
+    ]
+
+    assert not regex_matcher(regex, stack)
+
+def test_regex_match_stackfirst():
+    regex = ['a', '.', 'c']
+    stack = ['a', 'b', 'b', 'b', 'b']
+
+    assert not regex_matcher(regex, stack)
+
+def test_regex_match_any():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '?',
+        {
+            'third': 'last',
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'second': 'skip',
+        },
+        {
+            'third': 'last'
+        }
+    ]
+    
+    assert regex_matcher(regex, stack)
+
+def test_regex_match_any_seq_last():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '.'
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'second': 'skip',
+        },
+        {
+            'secondhalf': 'skipagain'
+        },
+        {
+            'third': 'last'
+        }
+    ]
+    
+    assert regex_matcher(regex, stack)
+
+
+def test_regex_match_any_seq_mid():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '.',
+        {
+            'last': 'newelem'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'second': 'skip',
+        },
+        {
+            'secondhalf': 'skipagain'
+        },
+        {
+            'last': 'newelem'
+        }
+    ]
+    
+    assert regex_matcher(regex, stack)
+
+
+def test_regex_match_start_kleene():
+    regex = [
+        '*',
+        {
+            'first': 'elem'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        }
+    ]
+    
+    try:
+        assert regex_matcher(regex, stack)
+    except:
+        print('Exception correctly generated')
+
+def test_regex_match_kleene():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '*',
+        {
+            'second': 'last'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'first': 'elem'
+        },
+        {
+            'first': 'elem'
+        },
+        {
+            'second': 'last'
+        }
+    ]
+    
+    assert regex_matcher(regex, stack)
+
+def test_regex_match_incomplete_kleene():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '*',
+        {
+            'second': 'last'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'first': 'elem'
+        },
+        {
+            'first': 'elem'
+        }
+    ]
+    
+    assert regex_matcher(regex, stack)
 
 test_regex_match_single_string()
 test_regex_match_single_string_int()
 test_regex_match_objects()
+test_regex_longer()
+test_regex_match_any()
+test_regex_match_any_seq_last()
+test_regex_match_any_seq_mid()
+'''Kleene incomplete
+test_regex_match_start_kleene()
+test_regex_match_kleene()
+test_regex_match_incomplete_kleene()
+'''

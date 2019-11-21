@@ -9,6 +9,10 @@ def consume(iter):
 
 def regex_matcher(regex, stack):
     # TODO empty regex always/never match?
+    #TODO check this assertion
+    if len(regex) > len(stack):
+        return False
+
     pred = None
     reg_iter = iter(regex)
     stack_iter = iter(stack)
@@ -37,17 +41,25 @@ def regex_matcher(regex, stack):
         if match(reg_el, _kleene) and pred is None:
             raise Exception('Regex starting with kleene')
         
-        if match(reg_el, _kleene) and pred is not None: #TODO Incomplete
+        '''#TODO Incomplete
+        if match(reg_el, _kleene) and pred is not None:
             while match(stack_el, pred):
                 try:
                     stack_el = consume(stack_iter)
                 except StopIteration:
                     continue
-        
+        '''
+
         if not match(stack_el, reg_el):
             # One element did not match
             return False
 
         pred = reg_el
-    # All elements matched
-    return True
+    # May have finished regex or finished stack
+    #If finished regex everything matched
+    try:
+        consume(reg_iter)
+    except StopIteration:
+        return True
+    # Otherwise stack was finished before regex e.g. regex=a.b, stack=a,b,b,b
+    return False
