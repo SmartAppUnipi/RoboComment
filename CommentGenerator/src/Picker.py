@@ -11,7 +11,7 @@ class Picker:
         with open(template_path, 'r') as json_file:
             self.template_pool = json.load(json_file)
         # load recognized categories
-        categories_path = 'assets/categories.json'
+        categories_path = 'CommentGenerator/assets/categories.json'
         with open(categories_path, 'r') as json_file:
             self.valid_categories = json.load(json_file)
 

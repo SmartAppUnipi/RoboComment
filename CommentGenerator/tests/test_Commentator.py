@@ -8,7 +8,7 @@ class TestApi(unittest.TestCase):
         self.commentator = Commentator()
        
     def test_run1(self):
-        with open('tests/mock_assets/input1.json', 'r') as json_file:
+        with open('CommentGenerator/tests/mock_assets/input1.json', 'r') as json_file:
             input_json = json.load(json_file)
         
         output = self.commentator.run(input_json)
