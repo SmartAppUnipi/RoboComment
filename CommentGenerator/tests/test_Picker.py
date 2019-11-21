@@ -9,7 +9,7 @@ class TestPicker(unittest.TestCase):
         
     def test_pick_comment1(self):
         input1 = None
-        with open("tests/mock_assets/input1.json",'r') as mock_json:
+        with open("tests/mock_assets/elementary/pass/input1.json",'r') as mock_json:
             input1 = json.load(mock_json)
         comment = self.comment_picker.pick_comment(input1)
 
@@ -17,7 +17,7 @@ class TestPicker(unittest.TestCase):
     
     def test_pick_comment2(self):
         input2 = None
-        with open("tests/mock_assets/input2.json",'r') as mock_json:
+        with open("tests/mock_assets/elementary/pass/input2.json",'r') as mock_json:
             input2 = json.load(mock_json)
         comment = self.comment_picker.pick_comment(input2)
 

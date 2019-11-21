@@ -1,0 +1,16 @@
+{
+
+    "time" :
+    {
+        "start": 10,
+        "end": 20
+    },
+    "type": "elementary",
+
+    "details":
+    {
+        "team1" : "team A",
+        "subtype"  : "possession_lost",
+        "confidence" : 0.4
+    }
+}
