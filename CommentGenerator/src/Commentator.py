@@ -2,14 +2,16 @@ from .Picker import Picker
 from .Filler import Filler
 from .Sentimentalizer import Sentimentalizer
 import json
+from pathlib import Path
 
 
 class Commentator:
 
     def __init__(self):
 
-        self.config = 'assets/config_test.json'
-        self.template = 'assets/templates.json'
+        self.config = Path('CommentGenerator/assets/config_test.json')
+        self.template = Path('CommentGenerator/assets/templates.json')
+
         self.picker = Picker(self.template)
         self.filler = Filler(self.config)
         self.sentimentalizer = Sentimentalizer(self.config)
@@ -35,6 +37,7 @@ class Commentator:
 
 
 cm = Commentator()
-with open("assets/input1.json", 'r') as input1_json:
+
+with open(Path("CommentGenerator/assets/input1.json"), 'r') as input1_json:
     input_json = json.load(input1_json)
     cm.run(input_json)

@@ -1,15 +1,16 @@
 import unittest
 from src.Picker import Picker
 import json
+from pathlib import Path
 
 
 class TestPicker(unittest.TestCase):
     def setUp(self):
-        self.comment_picker = Picker("assets/templates.json")
+        self.comment_picker = Picker(Path("CommentGenerator/assets/templates.json"))
         
     def test_pick_comment1(self):
         input1 = None
-        with open("tests/mock_assets/input1.json",'r') as mock_json:
+        with open(Path("CommentGenerator/tests/mock_assets/input1.json"), 'r') as mock_json:
             input1 = json.load(mock_json)
         comment = self.comment_picker.pick_comment(input1)
 
@@ -17,7 +18,7 @@ class TestPicker(unittest.TestCase):
     
     def test_pick_comment2(self):
         input2 = None
-        with open("tests/mock_assets/input2.json",'r') as mock_json:
+        with open(Path("CommentGenerator/tests/mock_assets/input2.json"),'r') as mock_json:
             input2 = json.load(mock_json)
         comment = self.comment_picker.pick_comment(input2)
 

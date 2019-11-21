@@ -1,5 +1,4 @@
 import re
-import json
 
 #TODO use a file for this
 template_modifiers = {
@@ -19,8 +18,7 @@ class Filler:
         if config is None:
             self.config = {"user_type" : "" ,"favourite_player" : "", "favourite_team" : ""}
         else:
-            with open(config,'r') as conf:
-                self.config = json.load(conf)
+            self.config = config
 
     def update_comment(self, comment, details):  
 
@@ -31,7 +29,7 @@ class Filler:
 
         if len(modifiers) > 0: # there are some modifier placeholders
             # bias allows to pick the right set of modifiers
-            bias = "good" if  details['team1'] == self.config['favourite_team'] else "bad"            
+            bias = "good" if  details['team1'] == self.config['favourite_team'] else "bad"
             for mod in modifiers:
                 # here we require a better picking strategy
                 details[mod] = template_modifiers[bias][mod][0]
