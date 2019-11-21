@@ -1,5 +1,3 @@
-import { isNullOrUndefined } from 'util'
-
 type Callback = (success: any, results: any) => void
 type DB = {
     execute(query: string, callback: Callback): void
@@ -94,6 +92,22 @@ export class Query {
 
     public static readonly get_match = (id: number) => `
     ${Query.header}
+    SELECT ?homeTeamName ?awayTeamName ?homeTeamScore ?awayTeamScore ?date
+
+	WHERE{
+
+		:${id} :homeTeam ?team1.
+		?team1 :teamOf ?team1a.
+		?team1a :hasName ?homeTeamName.
+
+		:${id} :awayTeam ?team2.
+		?team2 :teamOf ?team2a.
+		?team2a :hasName ?awayTeamName.
+
+		:${id} :homeTeamScore ?homeTeamScore.
+		:${id} :awayTeamScore ?awayTeamScore.
+		:${id} :date ?date.
+    }
     `
 
     public static readonly get_cup = (id: number) => `
@@ -108,4 +122,19 @@ export class Query {
     }
     `
     // 3157
+
+    public static readonly get_players = (id: number) => `
+    ${Query.header}
+	SELECT  ?Name ?teamName ?role
+    WHERE
+    { :${id} 	  :hasPlayedAsFirstTeam  ?team1 .
+        ?team1    :isPersona            ?Persons .
+        ?Persons  :hasName              ?Name .
+        ?team1    :isMember             ?Member .
+        ?Member   :teamOf               ?teamObject .
+        ?teamObject  :hasName           ?teamName .
+        ?team1    :role                 ?role
+    }
+    ORDER BY ?teamName ?role
+    `
 }
