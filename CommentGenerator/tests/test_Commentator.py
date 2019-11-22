@@ -1,11 +1,12 @@
 import unittest
 import json
 from src.Commentator import Commentator
+from utils.KnowledgeBase import KnowledgeBase
 
 
 class TestApi(unittest.TestCase):
     def setUp(self):
-        self.commentator = Commentator()
+        self.commentator = Commentator(KnowledgeBase('x.x.x.x:xxxx'))
        
     def test_run1(self):
         with open('CommentGenerator/tests/mock_assets/elementary/pass/input1.json', 'r') as json_file:
