@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>login and registration form</title>
+        <link rel="stylesheet" href="login.css">
+    </head>
+<body>
+    <div class="hero">
+        <div class="form-box">
+            <div class="button-box">
+                <div id="btn"></div>
+                <button type="button" class="toggle-btn" onclick="login()">Log In</button>
+                <button type="button" class="toggle-btn" onclick="register()">Register</button>
+            </div>
+            <form id="login" class="input-group">
+                <input id="email" type="text" class="input-field" placeholder="Email" required>
+                <input id="password" type="password" class="input-field" placeholder="Password" required>
+                <input type="checkbox" class="check-box"><span>Remember password</span>
+                <button id="login_button" type="button" class="submit-btn" onclick="loginUser()">Login</button>
+            </form>
+            <form id="register" class="input-group">
+                    <input id="r_email" type="email" class="input-field" placeholder="Email" required>
+                    <input id="r_password" type="password" class="input-field" placeholder="Password" required>
+                    <input id="r_firstname" type="text" class="input-field" placeholder="First name" required>
+                    <input id="r_lastname" type="text" class="input-field" placeholder="Last name" required>
+                    <input id="r_date" type="date" class="input-field" placeholder="Date of Birth" required>
+                    <input id="r_favoriteteam" type="text" class="input-field" placeholder="Favorite Team" required>
+
+<!--                    <input type="checkbox" class="check-box"><span>agree to terms and conditions</span> -->
+
+                    <button id="register_button" class="submit-btn" onclick="createUser()">Register</button>
+                </form>
+        </div>
+    </div>
+    <script>
+    let x=document.getElementById("login");
+    let y = document.getElementById("register");
+    let z = document.getElementById("btn");
+
+    function register(){
+        x.style.left="-400px";
+        y.style.left="50px";
+        z.style.left="110px";
+    }
+    function login(){
+        x.style.left="50px";
+        y.style.left="450px";
+        z.style.left="0px";
+    }
+    </script>
+    <script src="Queue.src.js"></script>
+    <script src="web_socket_client.js"></script>
+    <script src="user_account.js"></script>
+
+</body>
+</html>

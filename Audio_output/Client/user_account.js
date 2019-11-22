@@ -1,110 +1,60 @@
-const KBIP = "ip";
-
-let name = document.getElementById("name");
-let surname = document.getElementById("surname");
+let firstname = document.getElementById("firstname");
+let lastname = document.getElementById("lastname");
 let password = document.getElementById("password");
-let date_of_birth = document.getElementById("date");
+let date = document.getElementById("date");
 let email = document.getElementById("email");
-let favourite_team = document.getElementById("team");
+let favoriteteam = document.getElementById("favoriteteam");
+
 
 function createUser() {
     if(checkRegistrationField()) {
-        let KBhttp = new XMLHttpRequest();
-        // KBhttp.open("POST", KBIP + "/users", true);
-        // KBhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
-        KBhttp.send("{\n" +
-            "    \"users\": {\n" +
-            "        \"first_name\": \"" + name.textContent + "\",\n" +
-            "        \"last_name\": \"" + surname.textContent + "\",\n" +
-            "        \"date_of_birth\": \"" + date_of_birth.textContent + "\",\n" +
-            "        \"email\": \"" + email.textContent + "\",\n" +
-            "        \"password\": \"" + password.textContent + "\",\n" +
-            "        \"favourite_team\": \"" + favourite_team.textContent + "\"\n" +
+        ws.send("{\n" +
+            "    \"request\": {\n" +
+            "        \"first_name\": \"" + firstname.value + "\",\n" +
+            "        \"last_name\": \"" + lastname.value + "\",\n" +
+            "        \"date_of_birth\": \"" + date.value + "\",\n" +
+            "        \"email\": \"" + email.value + "\",\n" +
+            "        \"password\": \"" + password.value + "\",\n" +
+            "        \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
             "    }\n" +
-            "    \"request_type\": \"create\"\n" +
+            "    \"request_type\": \"user_registration\"\n" +
             "}");
-
-        KBhttp.addEventListener("load", function () {
-            if (KBhttp.readyState === 4) {
-                if (KBhttp.status === 200) {
-                    console.log("user created");
-                } else if (KBhttp.status === 400) {
-                    alert("This user already exists!")
-                }
-            }
-        })
     }
+    console.log("Send registration request")
 }
 
 function loginUser() {
     if (checkLoginFields()) {
-        let KBhttp = new XMLHttpRequest();
-
-        KBhttp.open("GET", KBIP + "/users/login", true);
-        KBhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
-        KBhttp.send("{\n" +
-            "    \"login\": {\n" +
-            "        \"email\": \"" + email + "\",\n" +
-            "        \"password\": \"" + password + "\"\n" +
+        ws.send("{\n" +
+            "    \"request\": {\n" +
+            "        \"email\": \"" + email.value + "\",\n" +
+            "        \"password\": \"" + password.value + "\"\n" +
             "    }\n" +
-            "    \"request_type\": \"login\"\n" +
+            "    \"request_type\": \"user_login\"\n" +
             "}");
-
-        KBhttp.addEventListener("load", function () {
-            if (KBhttp.readyState === 4) {
-                if (KBhttp.status === 200) {
-                    console.log("Login ok");
-                } else if (KBhttp.status === 400) {
-                    alert("This user already exists!")
-                }
-            }
-        })
+        ws.send("{\"request_type\": \"user_login\"\n" +
+            "}");
     }
+    console.log("Send login request")
+}
+
+function userUpdate() {
+    ws.send("{\n" +
+        "    \"request\": {?}\n" +
+        "    \"request_type\": \"user_update\"\n" +
+        "}");
 }
 
 function checkRegistrationField() {
-    let alertText="";
-    if (name.textContent === null) {
-        alertText = alertText+"Name\n"
-    }
-    if (surname.textContent === null) {
-        alertText = alertText+"Surname\n";
-    }
-    if (favourite_team.textContent === null) {
-        alertText = alertText+"Favourite team is missing\n";
-        return false
-    }
-    if (date_of_birth.textContent === null) {
-        alertText = alertText+"Date of birth\n";
-    }
-    if (password.textContent === null) {
-        alertText = alertText+"Password\n";
-    }
-    if (email.textContent === null) {
-        alertText = alertText+"Email\n";
-    }
-
-    if (alertText === "") {
-        alert("Theese fields are missing:\n"+alertText);
-        return false
-    }
-    else
-        return true
+    return email.checkValidity() &&
+        password.checkValidity() &&
+        firstname.checkValidity() &&
+        lastname.checkValidity() &&
+        date.checkValidity() &&
+        favoriteteam.checkValidity()
 }
 
 function checkLoginFields() {
-    let alertText="";
-    if (password.text === null) {
-        alertText = alertText+"Password\n";
-    }
-    if (email.text === null) {
-        alertText = alertText+"Email\n";
-    }
-
-    if (alertText === "") {
-        alert("Theese fields are missing:\n"+alertText);
-        return false
-    }
-    else
-        return true
+    return email.checkValidity() &&
+        password.checkValidity()
 }
