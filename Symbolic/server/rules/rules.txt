@@ -18,6 +18,9 @@
                 //
                 // poss(player1),void,void,void,void,poss(player2)
                 "pattern": "^poss+[(]player\d+[)]+[,]+(void,){0,4}poss+[(]player\d+[)]",
+                //
+                //another implementation can be:
+                // "pattern" : playerX,{0-5}void,playerY
                 "stack": "possStack"
             }
         ,
