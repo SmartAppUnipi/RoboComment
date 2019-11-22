@@ -1,0 +1,37 @@
+{
+    "player":{
+        "condition" : {
+            "pattern" : " ^player\d "
+        }
+    },
+
+    "ball":{
+        "condition":{
+            "pattern" : "^ball"
+        }
+    },
+
+    "passage": {
+        "condition": 
+            {   // playerID without "poss" should be better
+                // because we're working on possStack
+                //
+                // poss(player1),void,void,void,void,poss(player2)
+                "pattern": "^poss+[(]player\d+[)]+[,]+(void,){0,4}poss+[(]player\d+[)]",
+                "stack": "possStack"
+            }
+        ,
+        "action": "passageAction()"
+    },
+
+    "possession": {
+        "condition": 
+            {   
+                // player19
+                "pattern": "^player\d",
+                "stack": "stdin"
+            }
+        ,
+        "action": "push()"
+    }
+}

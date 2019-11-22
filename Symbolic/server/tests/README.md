@@ -2,9 +2,9 @@
 
 ## How to run our tests
 
-    $ cd Symbolic
+    $ cd Symbolic/server
     $ pip3 install -r requirements.txt
-    $ python3 -m pytest
+    $ python3 -m pytest -s
 
 ## dummy.json
 
