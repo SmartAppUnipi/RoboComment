@@ -3,12 +3,15 @@ import json
 import requests
 import sys
 from src.Commentator import Commentator
+from utils.KnowledgeBase import KnowledgeBase
 from threading import Thread
 
 app = Flask(__name__)
 
 AUDIO_IP = "x.x.x.x"
+KB_URL = "x.x.x.x:xxxx"
 commentator = None
+knowledge_base = None
 
 @app.route('/api', methods=['GET'])
 def api():
@@ -51,14 +54,18 @@ def action():
 @app.before_first_request
 def init():
     ''' this function will be called at the application startup to initialize our module '''
+    global knowledge_base
     global commentator
-    commentator = Commentator()
+
+    knowledge_base = KnowledgeBase(url=KB_URL)
+    commentator = Commentator(knowledge_base)
 
 if __name__ == '__main__':
     try:
         AUDIO_IP = sys.argv[1]
+        KB_URL = sys.argv[2]
     except IndexError:
-        print("USAGE: python3.6 app.py [AUDIO IP]")        
+        print("USAGE: python3.6 app.py [AUDIO IP] [KB IP]")
         exit(-1)
     
     app.run(host='0.0.0.0', port=3002)

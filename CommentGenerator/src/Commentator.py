@@ -3,11 +3,10 @@ from .Filler import Filler
 from .Sentimentalizer import Sentimentalizer
 import json
 
-
 class Commentator:
 
-    def __init__(self):
-
+    def __init__(self, knowledge_base):
+        self.kb = knowledge_base
         self.config = 'CommentGenerator/assets/config_test.json'
         self.template = 'CommentGenerator/assets/templates.json'
         self.picker = Picker(self.template)
