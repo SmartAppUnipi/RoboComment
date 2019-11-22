@@ -1,13 +1,15 @@
+let email = document.getElementById("email");
+let password = document.getElementById("password");
 let firstname = document.getElementById("firstname");
 let lastname = document.getElementById("lastname");
-let password = document.getElementById("password");
+let r_password = document.getElementById("password");
 let date = document.getElementById("date");
-let email = document.getElementById("email");
+let r_email = document.getElementById("email");
 let favoriteteam = document.getElementById("favoriteteam");
 
 
 function createUser() {
-    if(checkRegistrationField()) {
+    // if(checkRegistrationField()) {
         ws.send("{\n" +
             "    \"request\": {\n" +
             "        \"first_name\": \"" + firstname.value + "\",\n" +
@@ -19,7 +21,7 @@ function createUser() {
             "    },\n" +
             "    \"request_type\": \"user_registration\"\n" +
             "}");
-    }
+    // }
     console.log("Send registration request")
 }
 
@@ -44,8 +46,8 @@ function userUpdate() {
 }
 
 function checkRegistrationField() {
-    return email.checkValidity() &&
-        password.checkValidity() &&
+    return r_email.checkValidity() &&
+        r_password.checkValidity() &&
         firstname.checkValidity() &&
         lastname.checkValidity() &&
         date.checkValidity() &&
