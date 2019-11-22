@@ -211,7 +211,7 @@ function handleClientMessage(body, connection) {
         KBApp.post(url_login, body.request, config)
             .then((result) => {
                 response.reply_type = "user_login";
-                response.reply = result;
+                response.reply = result.data;
                 if (result.readyState === 4 && result.status === 200) {
                     connection.send(response)
                 }else{
@@ -230,7 +230,7 @@ function handleClientMessage(body, connection) {
         KBApp.post(url_user,body.request,config)
             .then((result) => {
                 response.reply_type = "user_registration";
-                response.reply = result;
+                response.reply = result.data;
                 if (result.readyState === 4 && result.status === 200) {
                     connection.send(response);
                 }else{
@@ -250,7 +250,7 @@ function handleClientMessage(body, connection) {
         KBApp.post(url_user,body.request,config)
             .then((result) => {
                 response.reply_type = "user_update";
-                response.reply = result;
+                response.reply = result.data;
                 if (result.readyState === 4 && result.status === 200) {
                     connection.send(response);
                 }else{
@@ -273,7 +273,7 @@ function handleClientMessage(body, connection) {
                 if (result.readyState === 4 && result.status === 200) {
                     console.log(response.data.url);
                     response.reply_type = "get_video";
-                    response.reply = result;
+                    response.reply = result.data;
                     connection.send(response);
                 }else {
                     console.log("Video not found")
@@ -296,7 +296,7 @@ function handleClientMessage(body, connection) {
             .then((result) => {
                 console.log("Match_ID arrived, now sending to Video Group");
                 response.reply_type = "get_matchID";
-                response.reply = result;
+                response.reply = result.data;
                 if (result.readyState === 4 && result.status === 200) {
                     let video_post = {
                         match_id: response.reply.id,
@@ -305,7 +305,7 @@ function handleClientMessage(body, connection) {
                     VideoApp.post(url_video, video_post, config )
                         .then((result_video)=>{
                             if (result_video.readyState === 4 && result_video.status === 200) {
-                                response.reply = result_video;
+                                response.reply = result_video.data;
                                 connection.send(response);
                             }else{
                                 console.log("Fail send Match ID to video Group")
