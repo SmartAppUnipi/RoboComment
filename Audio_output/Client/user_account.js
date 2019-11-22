@@ -16,7 +16,7 @@ function createUser() {
             "        \"email\": \"" + email.value + "\",\n" +
             "        \"password\": \"" + password.value + "\",\n" +
             "        \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
-            "    }\n" +
+            "    },\n" +
             "    \"request_type\": \"user_registration\"\n" +
             "}");
     }
@@ -29,10 +29,8 @@ function loginUser() {
             "    \"request\": {\n" +
             "        \"email\": \"" + email.value + "\",\n" +
             "        \"password\": \"" + password.value + "\"\n" +
-            "    }\n" +
+            "    },\n" +
             "    \"request_type\": \"user_login\"\n" +
-            "}");
-        ws.send("{\"request_type\": \"user_login\"\n" +
             "}");
     }
     console.log("Send login request")
@@ -40,7 +38,7 @@ function loginUser() {
 
 function userUpdate() {
     ws.send("{\n" +
-        "    \"request\": {?}\n" +
+        "    \"request\": {?},\n" +
         "    \"request_type\": \"user_update\"\n" +
         "}");
 }
