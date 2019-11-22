@@ -1,12 +1,5 @@
 from regex_matcher import regex_matcher
 
-'''Regex structure
-{
-    'pattern': [None],
-    'stack': None
-}
-'''
-
 def boolean_matcher(regexes):
     # TODO Empty se true or false?
     if len(regexes) < 1:

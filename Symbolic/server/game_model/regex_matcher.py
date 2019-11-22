@@ -1,15 +1,25 @@
 from matcher import match
 
+'''Regex structure
+{
+    'pattern': [Object1, Object2, ...],
+    'stack': None
+}
+An Object may be a generic object to be matched or a wildcard among the define below
+'''
+
 _any = '?'
 _anyseq = '.'
 _kleene = '*'
 
+
 def consume(iter):
     return next(iter)
 
+
 def regex_matcher(regex, stack):
     # TODO empty regex always/never match?
-    #TODO check this assertion
+    # TODO check this assertion
     if len(regex) > len(stack):
         return False
 
@@ -18,29 +28,29 @@ def regex_matcher(regex, stack):
     stack_iter = iter(stack)
     for reg_el, stack_el in zip(reg_iter, stack_iter):
         if match(reg_el, _any):
-            #Any value is ok, iterate
+            # Any value is ok, iterate
             continue
-        
+
         if match(reg_el, _anyseq):
-            #Check next element of regex
+            # Check next element of regex
             try:
                 reg_el = consume(reg_iter)
             except StopIteration:
-                #If last is anyseq for sure will match
+                # If last is anyseq for sure will match
                 return True
-            #Match any elemnt in stack until I match next
+            # Match any elemnt in stack until I match next
             while not match(stack_el, reg_el):
                 try:
                     stack_el = consume(stack_iter)
                 except StopIteration:
-                    #Stack finished, next element not matched
+                    # Stack finished, next element not matched
                     return False
-            #Matched first, any sequence, second
+            # Matched first, any sequence, second
             continue
 
         if match(reg_el, _kleene) and pred is None:
             raise Exception('Regex starting with kleene')
-        
+
         '''#TODO Incomplete
         if match(reg_el, _kleene) and pred is not None:
             while match(stack_el, pred):
@@ -56,7 +66,7 @@ def regex_matcher(regex, stack):
 
         pred = reg_el
     # May have finished regex or finished stack
-    #If finished regex everything matched
+    # If finished regex everything matched
     try:
         consume(reg_iter)
     except StopIteration:
