@@ -101,3 +101,10 @@ class FuzzySet:
         - list: the list of couples <x, f(x)>
         - name: a name to assign to the function"""
         self._memberships[name] = MembFunc(self._universe, list = list)
+
+    def find_strongest_modifier(self, x, name, confidency_threshold):
+        """Finds the most vincolating modifier to be applied to the function that still satisfies the threshold
+        - x: the point of the domain
+        - name: the name of the function
+        - confidency_threshold: The confidency threshold in [0, 1]"""
+        return self._memberships[name].best_fit(x, confidency_threshold)
