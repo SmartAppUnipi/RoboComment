@@ -18,6 +18,9 @@ $var    = variabile (fuzzy)
 
 rule(oggetto)
 
+
+https://blog.pitchero.com/soccer-tactics-explained
+
 ------------------------------------------------------------------------
 
 
