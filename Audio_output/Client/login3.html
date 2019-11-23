@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/style/custom.css">
+    <link rel="stylesheet" href="assets/style/snackbar.css">
     <!-- Favicon and touch icons -->
     <link rel="shortcut icon" href="assets/ico/favicon.png">
 
@@ -67,7 +68,7 @@
                         <div class="form-group" id="div_favoriteteam">
                             <div class="pos-r">
                                 <input id="favoriteteam" type="text" name="form-favoriteteam" placeholder="Favorite Team..." class="form-username form-control" required>
-                                <i class="fa fa-futbol"></i>
+                                <i class="fa fa-futbol"></i>
                             </div>
                         </div>
 
@@ -82,6 +83,9 @@
                         <div class="form-group" id="div_btn_login" style="display: none;">
                             <button type="submit" class="btn btn-primary form-control" onclick="loginUser()"><strong>Login</strong></button>
                         </div>
+
+                        <!-- The actual snackbar -->
+                        <div id="snackbar">Send registration</div>
 
                     </form>
                 </div> <!-- end  login-body -->
@@ -146,6 +150,17 @@
         btnRegister.style.display       = 'block';
         btnLogin.style.display          = 'none';
 
+    }
+
+    function showSnack() {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
 
 </script>
