@@ -2,29 +2,31 @@ import math
 
 
 class MembershipFunction:
-    def __init__(self, range, not_member, member, other = None): 
+    def __init__(self, range, not_member = None, member = None, other = None, list = None): 
         self._range = range
-        self._func = None
-        if other:
-            if member > not_member: # LHL
-                self._func = _LHL(not_member, member, other)
-            else: # HLH
-                self._func = _HLH(member, not_member, other)
+        if list:
+            self._func = _GenericFunction(list)
         else:
-            if member > not_member: # LH
-                self._func = _LH(not_member, member)
-            else: # HL
-                self._func = _HL(member, not_member)
-
-        self._degrees = {
-            'a little': 1.3, 
-            'slightly': 1.7,
-            'very': 2,
-            'extremely': 3,
-            'very very': 4,
-            'more or less': 0.5,
-            'somewhat': 0.5
-        }
+            self._func = None
+            if other:
+                if member > not_member: # LHL
+                    self._func = _LHL(not_member, member, other)
+                else: # HLH
+                    self._func = _HLH(member, not_member, other)
+            else:
+                if member > not_member: # LH
+                    self._func = _LH(not_member, member)
+                else: # HL
+                    self._func = _HL(member, not_member)
+            self._degrees = {
+                'a little': 1.3, 
+                'slightly': 1.7,
+                'very': 2,
+                'extremely': 3,
+                'very very': 4,
+                'more or less': 0.5,
+                'somewhat': 0.5
+            }
 
     def img(self, x, modifier = None):
         if x not in self._range:
@@ -104,3 +106,17 @@ class _HL:
             return 0
         else:
             return math.pow((self._low - x) / (self._low - self._high), degree)
+
+class _GenericFunction:
+    def __init__(self, member_list): 
+        self._elem = [a for (a,b) in member_list]
+        self._img = [b for (a,b) in member_list]
+
+    def img(self, x, degree):
+        if degree != 1:
+            raise "NotAbleToBeDegreedException"
+        if x in self._elem:
+            img = [b for (a,b) in list]
+            return img[self._elem.index(x)]
+        else:
+            return 0

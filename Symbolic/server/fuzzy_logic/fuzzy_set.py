@@ -22,7 +22,7 @@ class FuzzySet:
         - not_member is the membership threshold
         - member is the absolute membership certainty threshold
         - other is optional, and is used in order to get functions that are HighLowHigh or LowHighLow """
-        self._memberships[name] = MembFunc(self._universe, not_member, member, other)
+        self._memberships[name] = MembFunc(self._universe, not_member = not_member, member = member, other = other)
 
     def plot_membership(self, name, modifier = None):
         """ plots the function by name, by applying its modifier
@@ -38,24 +38,6 @@ class FuzzySet:
             plt.xlabel(self._univ_desc)
             plt.ylabel("membership degree")
             plt.show()
-
-    def plot_from_list(self, list, description = "user function"):
-        """ plots the function from a list of couples (x, f(x)). It can be partial, so x some x in domain could be missing
-        - list: partial list of couples (x, f(x)) to be plotted
-        - description: optional description of the function, it will be used as a title of the plot """
-        elem = [a for (a,b) in list]
-        img = [b for (a,b) in list]
-        plot_list = []
-        for i in self._universe:
-            if i in elem:
-                plot_list.append(img[elem.index(i)])
-            else:
-                plot_list.append(0)
-        plt.plot(self._universe, plot_list, 'b', linewidth=1.5, label="result")
-        plt.title("plotting " + description)
-        plt.xlabel(self._univ_desc)
-        plt.ylabel("membership degree")
-        plt.show()
         
     def _fill_list_for_plot(self, memb_f, modifier):
         ret_list = []
@@ -114,4 +96,8 @@ class FuzzySet:
                 res.append((i, maxim))
         return res
 
-    
+    def new_membership_func_from_list(self, list, name):
+        """Create a membership function over the given domain from a list. The list can be the one provided by the function intersection/union
+        - list: the list of couples <x, f(x)>
+        - name: a name to assign to the function"""
+        self._memberships[name] = MembFunc(self._universe, list = list)
