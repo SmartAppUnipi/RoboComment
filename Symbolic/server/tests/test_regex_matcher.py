@@ -152,6 +152,120 @@ def test_regex_match_any_seq_mid():
     assert regex_matcher(regex, stack)
 
 
+def test_regex_match_any_seq_bounded_upper():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '.{2,3}',
+        {
+            'last': 'newelem'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'second': 'skip',
+        },
+        {
+            'secondhalf': 'skipagain'
+        },
+        {
+            'second3quarter': 'tripleskip'
+        },
+        {
+            'last': 'newelem'
+        }
+    ]
+    
+    assert regex_matcher(regex, stack)
+
+def test_regex_match_any_seq_bounded_lower():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '.{2,3}',
+        {
+            'last': 'newelem'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'second': 'skip',
+        },
+        {
+            'secondhalf': 'skipagain'
+        },
+        {
+            'last': 'newelem'
+        }
+    ]
+    
+    assert regex_matcher(regex, stack)
+
+def test_regex_match_any_seq_bounded_short():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '.{2,3}',
+        {
+            'last': 'newelem'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'second': 'skip',
+        },
+        {
+            'last': 'newelem'
+        }
+    ]
+    
+    assert not regex_matcher(regex, stack)
+
+def test_regex_match_any_seq_bounded_long():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '.{2,3}',
+        {
+            'last': 'newelem'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'second': 'skip',
+        },
+        {
+            'secondhalf': 'skipagain'
+        },
+        {
+            'secondhalfhalf': 'skipagain'
+        },
+        {
+            'second3quarter': 'tripleskip'
+        },
+        {
+            'last': 'newelem'
+        }
+    ]
+    
+    assert not regex_matcher(regex, stack)
+
 def test_regex_match_start_kleene():
     regex = [
         '*',
@@ -228,6 +342,10 @@ test_regex_longer()
 test_regex_match_any()
 test_regex_match_any_seq_last()
 test_regex_match_any_seq_mid()
+test_regex_match_any_seq_bounded_lower()
+test_regex_match_any_seq_bounded_upper()
+test_regex_match_any_seq_bounded_short()
+test_regex_match_any_seq_bounded_long()
 '''Kleene incomplete
 test_regex_match_start_kleene()
 test_regex_match_kleene()
