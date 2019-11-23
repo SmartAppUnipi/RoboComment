@@ -154,7 +154,6 @@ commentApp.post("/", function (req, res) {
 });
 
 
-
 /**
  * Utils functions
  */

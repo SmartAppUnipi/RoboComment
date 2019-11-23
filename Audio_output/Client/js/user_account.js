@@ -1,11 +1,11 @@
-let email = document.getElementById("email");
-let password = document.getElementById("password");
-let firstname = document.getElementById("firstname");
-let lastname = document.getElementById("lastname");
-let r_password = document.getElementById("password");
-let date = document.getElementById("date");
-let r_email = document.getElementById("email");
-let favoriteteam = document.getElementById("favoriteteam");
+let email           = document.getElementById("email");
+let password        = document.getElementById("password");
+let firstname       = document.getElementById("firstname");
+let lastname        = document.getElementById("lastname");
+let r_password      = document.getElementById("password");
+let date            = document.getElementById("date");
+let r_email         = document.getElementById("email");
+let favoriteteam    = document.getElementById("favoriteteam");
 
 
 function createUser() {
