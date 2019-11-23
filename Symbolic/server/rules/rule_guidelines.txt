@@ -8,7 +8,13 @@
 :       = condizioni
 !=      = diverso
 ==      = uguale
+___fx   = funzioni interne
+A in B  = A è all'interno di B 
+$var    = variabile (fuzzy)
+&       = AND
+|       = OR
+
+rule(oggetto)
 
 
-pass        = p1 -> p2 : p1.team == p2.team
-intercept   = p1 -> p2 : p1.team != p2.team
+https://blog.pitchero.com/soccer-tactics-explained
