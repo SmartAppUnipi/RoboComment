@@ -9,7 +9,11 @@ let favoriteteam    = document.getElementById("favoriteteam");
 
 
 function createUser() {
-    // if(checkRegistrationField()) {
+
+    if(checkRegistrationField()) {
+        showSnack();
+        login();
+
         ws.send("{\n" +
             "    \"request\": {\n" +
             "        \"first_name\": \"" + firstname.value + "\",\n" +
@@ -21,8 +25,8 @@ function createUser() {
             "    },\n" +
             "    \"request_type\": \"user_registration\"\n" +
             "}");
-    // }
-    console.log("Send registration request")
+        console.log("Send registration request")
+    }
 }
 
 function loginUser() {
