@@ -31,44 +31,51 @@
                 </div>
                 <div class="login-body">
                     <form role="form" action="" method="post" class="login-form">
-                        <div class="form-group ">
+                        <div class="form-group " >
                             <div class="pos-r">
-                                <input   id="email" type="email" name="form-email" placeholder="Mail..." class="form-username form-control" required>
+<!--                                <input   id="email" type="email" name="form-email" placeholder="Mail..." class="form-username form-control" required>-->
+                                <input   id="email" type="email" name="form-email" placeholder="Mail..." class="form-username form-control"  >
                                 <i class="fa fa-at"></i>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="pos-r">
-                                <input id="password" type="password" name="form-password" placeholder="Password..." class="form-password form-control" required>
+                                <input id="password" type="password" name="form-password" placeholder="Password..." class="form-password form-control" >
+<!--                                <input id="password" type="password" name="form-password" placeholder="Password..." class="form-password form-control" required>-->
                                 <i class="fa fa-lock"></i>
                             </div>
                         </div>
 
                         <div class="form-group" id="div_firstname">
                             <div class="pos-r">
-                                <input id="firstname" type="text" name="form-firstname" placeholder="Firstname..." class="form-username form-control" required >
+                                <input id="firstname" type="text" name="form-firstname" placeholder="Firstname..." class="form-username form-control" >
+<!--                                <input id="firstname" type="text" name="form-firstname" placeholder="Firstname..." class="form-username form-control" required >-->
                                 <i class="fa fa-user"></i>
                             </div>
                         </div>
 
                         <div class="form-group" id="div_lastname">
                             <div class="pos-r">
-                                <input id="lastname" type="text" name="form-lastname" placeholder="Lastname..." class="form-username form-control" required>
+                                <input id="lastname" type="text" name="form-lastname" placeholder="Lastname..." class="form-username form-control" >
+<!--                                <input id="lastname" type="text" name="form-lastname" placeholder="Lastname..." class="form-username form-control" required>-->
                                 <i class="fa fa-user"></i>
                             </div>
                         </div>
 
                         <div class="form-group" id="div_date">
                             <div class="pos-r">
-                                <input id="date" type="date" name="form-date" placeholder="dd/mm/yyyy" class="form-username form-control" required>
+<!--                                <input id="date" type="date" name="form-date" placeholder="Birth date" class="form-username form-control" required>-->
+                                <input id="date" type="date" name="form-date" placeholder="Birth date" class="form-username form-control" >
+
                                 <i class="fa fa-calendar"></i>
                             </div>
                         </div>
 
                         <div class="form-group" id="div_favoriteteam">
                             <div class="pos-r">
-                                <input id="favoriteteam" type="text" name="form-favoriteteam" placeholder="Favorite Team..." class="form-username form-control" required>
-                                <i class="fa fa-futbol"></i>
+<!--                                <input id="favoriteteam" type="text" name="form-favoriteteam" placeholder="Favorite Team..." class="form-username form-control" required>-->
+                                <input id="favoriteteam" type="text" name="form-favoriteteam" placeholder="Favorite Team..." class="form-username form-control" >
+                                <i class="fa fa-futbol-o" aria-hidden="false"></i>
                             </div>
                         </div>
 
@@ -77,11 +84,11 @@
                         </div>
 
                         <div class="form-group" id="div_btn_register" style="display: block;">
-                            <button type="submit" class="btn btn-primary form-control" onclick="createUser()" ><strong>Register</strong></button>
+                            <button type="button" class="btn btn-primary form-control" onclick="createUser()"  ><strong>Register</strong></button>
                         </div>
 
                         <div class="form-group" id="div_btn_login" style="display: none;">
-                            <button type="submit" class="btn btn-primary form-control" onclick="loginUser()"><strong>Login</strong></button>
+                            <button type="button" class="btn btn-primary form-control" onclick="loginUser()" ><strong>Login</strong></button>
                         </div>
 
                         <!-- The actual snackbar -->
@@ -106,6 +113,7 @@
 <script src="js/Queue.src.js"></script>
 <script src="js/web_socket_client.js"></script>
 <script src="js/user_account.js"></script>
+
 <script>
 
     let firstname1       = document.getElementById("div_firstname");
@@ -152,6 +160,7 @@
 
     }
 
+
     function showSnack() {
         // Get the snackbar DIV
         var x = document.getElementById("snackbar");
@@ -164,6 +173,7 @@
     }
 
 </script>
+
 </body>
 
 </html>

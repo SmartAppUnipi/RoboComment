@@ -6,11 +6,32 @@ let r_password      = document.getElementById("password");
 let date            = document.getElementById("date");
 let r_email         = document.getElementById("email");
 let favoriteteam    = document.getElementById("favoriteteam");
-
+const  DEBUG        = true;
 
 function createUser() {
 
-    if(checkRegistrationField()) {
+
+    if (!DEBUG){
+        if((check(r_email) && check(r_password) && check(firstname)
+            && check(lastname) && check(date) && check(favoriteteam))) {
+
+            showSnack();
+            login();
+
+            ws.send("{\n" +
+                "    \"request\": {\n" +
+                "        \"first_name\": \"" + firstname.value + "\",\n" +
+                "        \"last_name\": \"" + lastname.value + "\",\n" +
+                "        \"date_of_birth\": \"" + date.value + "\",\n" +
+                "        \"email\": \"" + email.value + "\",\n" +
+                "        \"password\": \"" + password.value + "\",\n" +
+                "        \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
+                "    },\n" +
+                "    \"request_type\": \"user_registration\"\n" +
+                "}");
+            console.log("Send registration request")
+        }
+    }else{
         showSnack();
         login();
 
@@ -27,10 +48,13 @@ function createUser() {
             "}");
         console.log("Send registration request")
     }
+
 }
 
 function loginUser() {
-    if (checkLoginFields()) {
+
+
+    if (check(email) && check(password)){
         ws.send("{\n" +
             "    \"request\": {\n" +
             "        \"email\": \"" + email.value + "\",\n" +
@@ -38,8 +62,9 @@ function loginUser() {
             "    },\n" +
             "    \"request_type\": \"user_login\"\n" +
             "}");
+
+        console.log("Send login request")
     }
-    console.log("Send login request")
 }
 
 function userUpdate() {
@@ -49,16 +74,17 @@ function userUpdate() {
         "}");
 }
 
-function checkRegistrationField() {
-    return r_email.checkValidity() &&
-        r_password.checkValidity() &&
-        firstname.checkValidity() &&
-        lastname.checkValidity() &&
-        date.checkValidity() &&
-        favoriteteam.checkValidity()
-}
+function check(input) {
+    if (input.value === null || input.value === "") {
+        input.setCustomValidity("Please fill the filed");
+        input.reportValidity();
 
-function checkLoginFields() {
-    return email.checkValidity() &&
-        password.checkValidity()
+        return false;
+    } else {
+        // input is fine -- reset the error message
+        input.setCustomValidity('');
+        input.reportValidity();
+        return  true;
+
+    }
 }
