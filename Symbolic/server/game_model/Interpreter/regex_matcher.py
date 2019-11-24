@@ -19,14 +19,11 @@ def consume(iter):
 
 def regex_matcher(regex, stack):
     # TODO empty regex always/never match?
-    # TODO check this assertion
-    if len(regex) > len(stack):
-        return False
 
     pred = None
     reg_iter = iter(regex)
     stack_iter = iter(stack)
-    for reg_el, stack_el in zip(reg_iter, stack_iter):
+    for stack_el, reg_el in zip(stack_iter, reg_iter):
         # Any singleton value is ok, iterate
         if match(reg_el, _any):
             continue
@@ -41,16 +38,17 @@ def regex_matcher(regex, stack):
                 #Remove '}' and split on ','
                 corpus = first_split[1].split('}')[0].split(',')
                 #TODO consider lower and upper as timestamps, not number of objects
-                lower = corpus[0]
-                upper = corpus[1]
+                lower = int(corpus[0])
+                upper = int(corpus[1])
 
             if match(special, _anyseq):
-                # Check next element of regex
+                # Check next element of regex, look-ahead
                 try:
                     reg_el = consume(reg_iter)
                 except StopIteration:
                     # If last is anyseq for sure will match bounded or not
                     return True
+                    
                 if corpus is None:    
                     # Match any element in stack until I match next
                     while not match(stack_el, reg_el):
@@ -62,7 +60,16 @@ def regex_matcher(regex, stack):
                 else:
                     # Match any element in stack until I match next
                     count = 0
-                    while count < int(lower):
+                    '''Starting with timestamps
+                    while True:
+                        PASTE FROM BELOW
+                        if stack_el['timestamp']-reg_el['timestamp'] >= round(lower/1000):
+                            # Reached lower bound for elapsed time
+                            break
+                        DELETE COUNT
+                    TODO Timestamp considered as ms from epoch
+                    '''
+                    while count < lower:
                         #Consume lower elements (don't care what they are)
                         try:
                             stack_el = consume(stack_iter)
@@ -70,8 +77,17 @@ def regex_matcher(regex, stack):
                             # Stack finished, next element not matched
                             return False
                         count+=1
-
-                    while not match(stack_el, reg_el) and count <= int(upper):
+                    
+                    '''Starting with timestamps
+                    while not match(stack_el, reg_el):
+                        PASTE FROM BELOW
+                        if stack_el['timestamp']-reg_el['timestamp'] > round(upper/1000):
+                            # Matched or surpassed upper bound for time elapsed
+                            return False
+                        DELETE COUNT
+                        DELETE if count > upper BELOW
+                    '''
+                    while not match(stack_el, reg_el) and count <= upper:
                         #Consume elements until I match or until I am too far
                         try:
                             stack_el = consume(stack_iter)
@@ -79,8 +95,8 @@ def regex_matcher(regex, stack):
                             # Stack finished, next element not matched
                             return False
                         count+=1
-
-                    if count > int(upper):
+                    
+                    if count > upper:
                         #Next element not found in at most upper steps
                         return False
                 # Matched first, any bounded or unbounded sequence, second

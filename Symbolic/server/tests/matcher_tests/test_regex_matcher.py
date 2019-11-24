@@ -266,6 +266,52 @@ def test_regex_match_any_seq_bounded_long():
     
     assert not regex_matcher(regex, stack)
 
+
+def test_regex_match_any_seq_bounded_zero():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '.{0,3}',
+        {
+            'last': 'newelem'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'last': 'newelem'
+        }
+    ]
+    
+    assert regex_matcher(regex, stack)
+
+def test_regex_match_any_seq_bounded_zero_one():
+    regex = [
+        {
+            'first': 'elem'
+        },
+        '.{0,3}',
+        {
+            'last': 'newelem'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        },
+        {
+            'second': 'here'
+        },
+        {
+            'last': 'newelem'
+        }
+    ]
+    
+    assert regex_matcher(regex, stack)
+
 def test_regex_match_start_kleene():
     regex = [
         '*',
@@ -346,6 +392,8 @@ test_regex_match_any_seq_bounded_lower()
 test_regex_match_any_seq_bounded_upper()
 test_regex_match_any_seq_bounded_short()
 test_regex_match_any_seq_bounded_long()
+test_regex_match_any_seq_bounded_zero()
+test_regex_match_any_seq_bounded_zero_one()
 '''Kleene incomplete
 test_regex_match_start_kleene()
 test_regex_match_kleene()
