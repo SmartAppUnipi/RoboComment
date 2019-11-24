@@ -54,42 +54,6 @@ __Successful Response__:
 }
 ```
 
-__URL__: ```/league/:id```
-
-__Method__: ```GET```
-
-__Response Codes__: ``` 200 | 404 ```
-
-__Successful Response__: 
-```javascript 
-[
-    {
-        "name": "UCL",
-        "year": "2003-2004"
-    },
-    {
-        "name": "UCL",
-        "year": "2004-2005"
-    },
-    ...
-]
-```
-__URL__: ```/league/:id/:season```
-
-__Method__: ```GET```
-
-__Response Codes__: ``` 200 | 404 ```
-
-__Successful Response__: 
-```javascript 
-[
-    {
-        "name": "UCL",
-        "year": "2003-2004"
-    }
-]
-```
-
 __URL__: ```/match/:id```
 
 __Method__: ```GET```
