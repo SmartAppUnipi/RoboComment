@@ -10,6 +10,10 @@ class GameModel:
         self._vacant_since = None
 
 
+    # TODO
+    # def owner (self):
+    #   return self._ownership_stack().pop()
+
     def update_stacks(self, new_data):
         # extract data from json
         ball_pos = new_data['ball'][0]
