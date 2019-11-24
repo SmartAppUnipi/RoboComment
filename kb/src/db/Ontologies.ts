@@ -17,7 +17,6 @@ export class Ontologies {
     }
 
     public static process(results: any[]): any {
-        console.log(results)
         results.forEach(obj =>
             Object.keys(obj)
                 .filter(key => obj[key] !== null && obj[key] !== undefined)
@@ -116,19 +115,8 @@ export class Query {
         ?League :city ?city.
         ?League :teamType ?type.
         ?League :hasName ?name.
-    }
-    `
-    // public static readonly get_cup = (id: number) => `
-    // ${Query.header}
-    // SELECT (?League AS ?id) ?country ?city ?type ?name
-    // WHERE{
-    //     ?League :wyid "${id}".
-    //     ?League :country ?country.
-    //     ?League :city ?city.
-    //     ?League :teamType ?type.
-    //     ?League :hasName ?name.
-    // }
-    //2576091
+    }`
+
     public static readonly get_players = (match_id: number) => `
     ${Query.header}
     SELECT  ?wyid ?name ?club ?role

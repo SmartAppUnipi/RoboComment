@@ -7,8 +7,13 @@ export class PersonaDao {
     public static get(id: number): Promise<any> {
         const db = DB.Ontologies.data
 
-        return new Promise(resolve =>
-            db.execute(DB.Query.get_persona(id), (_success, results) => resolve(DB.Ontologies.process(results)[0]))
+        return new Promise((resolve, reject) =>
+            db.execute(DB.Query.get_persona(id), (_success, persona) => {
+                persona = DB.Ontologies.process(persona)[0]
+
+                persona === undefined ?
+                    reject(Errors.NON_EXISTENT('persona')) : resolve(persona)
+            })
         )
     }
 

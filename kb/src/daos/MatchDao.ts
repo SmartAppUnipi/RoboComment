@@ -13,7 +13,8 @@ export class MatchDao {
                 match = DB.Ontologies.process(match)[0]
 
                 if (match === undefined) {
-                    reject('match_not_found')
+                    reject(Errors.NON_EXISTENT('match'))
+                    return
                 }
 
                 db.execute(DB.Query.get_players(id), (_success, players: any[]) => {

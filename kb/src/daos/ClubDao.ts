@@ -7,8 +7,13 @@ export class ClubDao {
     public static get(id: number): Promise<any> {
         const db = DB.Ontologies.data
 
-        return new Promise(resolve =>
-            db.execute(DB.Query.get_club(id), (_success, results) => resolve(DB.Ontologies.process(results)[0]))
+        return new Promise((resolve, reject) =>
+            db.execute(DB.Query.get_club(id), (_success, club) => {
+                club = DB.Ontologies.process(club)[0]
+
+                club === undefined ?
+                    reject(Errors.NON_EXISTENT('club')) : resolve(club)
+            })
         )
     }
 

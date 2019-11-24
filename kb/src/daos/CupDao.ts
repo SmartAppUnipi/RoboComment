@@ -7,8 +7,13 @@ export class CupDao {
     public static get(id: number): Promise<any> {
         const db = DB.Ontologies.data
 
-        return new Promise(resolve =>
-            db.execute(DB.Query.get_cup(id), (success, results) => resolve(DB.Ontologies.process(results)[0]))
+        return new Promise((resolve, reject) =>
+            db.execute(DB.Query.get_cup(id), (_success, league) => {
+                league = DB.Ontologies.process(league)[0]
+
+                league === undefined ?
+                    reject(Errors.NON_EXISTENT('league')) : resolve(league)
+            })
         )
     }
 

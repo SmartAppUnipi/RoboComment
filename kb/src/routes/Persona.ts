@@ -1,5 +1,5 @@
 import { Request, Response, Router, Express } from 'express'
-import { BAD_REQUEST, CREATED, OK } from 'http-status-codes'
+import { BAD_REQUEST, CREATED, OK, NOT_FOUND } from 'http-status-codes'
 import { UserDao } from '../daos'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { Persona } from '../entities'
@@ -21,9 +21,9 @@ router.get('/:id', async (req, res) => {
             .type('json')
             .json(result)
     } catch (err) {
-        // logger.error(err.message, err);
-        return res.status(BAD_REQUEST).json({
-            error: err.message,
+        console.error(err)
+        return res.status(NOT_FOUND).json({
+            error: err,
         })
     }
 })

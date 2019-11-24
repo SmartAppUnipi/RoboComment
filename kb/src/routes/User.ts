@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
         user = UserDao.add(user)
         return res.status(CREATED).json(user)
     } catch (err) {
-        // logger.error(err.message, err)
+        console.error(err.message, err)
         return res.status(BAD_REQUEST).json({
             error: err.message,
         })
