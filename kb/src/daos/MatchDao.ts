@@ -8,22 +8,30 @@ export class MatchDao {
     public static get(id: number): Promise<Entities.Match> {
         const db = DB.Ontologies.data
 
-        return new Promise(resolve =>
-            db.execute(DB.Query.get_match(id), (success, results) => {
-                results = DB.Ontologies.process(results)[0]
-                resolve({
-                    home: {
-                        id: results.team1,
-                        name: results.home
-                    },
-                    away: {
-                        id: results.team2,
-                        name: results.away
-                    },
-                    result: [results.home_score, results.away_score],
-                    home_team: [],
-                    away_team: []
-                } as Entities.Match)
+        return new Promise((resolve, reject) =>
+            db.execute(DB.Query.get_match(id), (_success, match) => {
+                match = DB.Ontologies.process(match)[0]
+
+                if (match === undefined) {
+                    reject('match_not_found')
+                }
+
+                db.execute(DB.Query.get_players(id), (_success, players: any[]) => {
+                    players = DB.Ontologies.process(players)
+                    resolve({
+                        home: {
+                            id: match.team1,
+                            name: match.home
+                        },
+                        away: {
+                            id: match.team2,
+                            name: match.away
+                        },
+                        result: [match.home_score, match.away_score],
+                        home_team: players.filter(p => p.club === match.team1),
+                        away_team: players.filter(p => p.club === match.team2)
+                    } as Entities.Match)
+                })
             })
         )
     }

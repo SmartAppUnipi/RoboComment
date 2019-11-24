@@ -118,19 +118,28 @@ export class Query {
         ?League :hasName ?name.
     }
     `
-    // 3157
-
-    public static readonly get_players = (id: number) => `
+    // public static readonly get_cup = (id: number) => `
+    // ${Query.header}
+    // SELECT (?League AS ?id) ?country ?city ?type ?name
+    // WHERE{
+    //     ?League :wyid "${id}".
+    //     ?League :country ?country.
+    //     ?League :city ?city.
+    //     ?League :teamType ?type.
+    //     ?League :hasName ?name.
+    // }
+    //2576091
+    public static readonly get_players = (match_id: number) => `
     ${Query.header}
-	SELECT  ?Name ?teamName ?role
+    SELECT  ?wyid ?name ?club ?role
     WHERE
-    { :${id} 	  :hasPlayedAsFirstTeam  ?team1 .
-        ?team1    :isPersona            ?Persons .
-        ?Persons  :hasName              ?Name .
-        ?team1    :isMember             ?Member .
-        ?Member   :teamOf               ?teamObject .
-        ?teamObject  :hasName           ?teamName .
-        ?team1    :role                 ?role
+    { :${match_id}  :hasPlayedAsFirstTeam   ?team1 .
+        ?team1      :isPersona              ?Persons .
+        ?Persons    :wyid                   ?wyid .
+        ?Persons    :hasName                ?name .
+        ?team1      :isMember               ?Member .
+        ?Member     :teamOf                 ?club .
+        ?team1      :role                   ?role
     }
     ORDER BY ?teamName ?role
     `
