@@ -6,19 +6,6 @@ import { ParamsDictionary } from 'express-serve-static-core'
 // Init shared
 const router = Router()
 
-router.get('/:id', (req, res) => {
-    try {
-        const { id } = req.params as ParamsDictionary
-        const user = UserDao.get(Number(id))
-        return res.status(OK).json(user)
-    } catch (err) {
-        // logger.error(err.message, err);
-        return res.status(BAD_REQUEST).json({
-            error: err.message,
-        })
-    }
-})
-
 router.post('/', (req, res) => {
     try {
         let { user } = req.body
@@ -28,6 +15,24 @@ router.post('/', (req, res) => {
             })
         }
         user = UserDao.add(user)
+        return res.status(CREATED).json(user)
+    } catch (err) {
+        console.error(err.message, err)
+        return res.status(BAD_REQUEST).json({
+            error: err.message,
+        })
+    }
+})
+
+router.post('/login', (req, res) => {
+    try {
+        let { user } = req.body
+        if (!user) {
+            return res.status(BAD_REQUEST).json({
+                error: 'user is missing in body',
+            })
+        }
+        user = UserDao.login(user.email, user.password)
         return res.status(CREATED).json(user)
     } catch (err) {
         console.error(err.message, err)

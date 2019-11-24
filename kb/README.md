@@ -25,40 +25,16 @@ __URL__: ```/persona/:id```
 
 __Method__: ```GET```
 
-__Response Codes__: ``` 200 | 400 ```
+__Response Codes__: ``` 200 | 404 ```
 
 __Successful Response__: 
-```json 
+```javascript 
 {
-  "id": 5,
-  "first_name": "Andrea",
-  "last_name": "Pirlo",
-  "date_of_birth": "1970-12-22T00:00:00.000+01:00",
-  "career": [
-    {
-      "year": "2003-2004",
-      "roles": [
-        {
-          "type": "player",
-          "shirt_number": 21,
-          "at": {
-            "name": "ACM",
-            "city": "Milan",
-            "palmares": [
-              {
-                "name": "UCL",
-                "year": "2003-2004"
-              }
-            ],
-            "stadium": {
-              "name": "San Siro",
-              "capacity": 70000
-            }
-          }
-        }
-      ]
-    }
-  ]
+	"id": 11156,
+	"name": "M. Trotta",
+	"club": "FC Crotone",
+	"height": "188",
+	"date_of_birth": "1992-09-29"
 }
 ```
 
@@ -66,31 +42,23 @@ __URL__: ```/club/:id```
 
 __Method__: ```GET```
 
-__Response Codes__: ``` 200 | 400 ```
+__Response Codes__: ``` 200 | 404 ```
 
 __Successful Response__: 
 ```javascript 
 {
-    "name": "ACM",
-    "city": "Milan",
-    "palmares": [
-        {
-            "name": "UCL",
-            "year": "2003-2004"
-        }
-    ],
-    "stadium": {
-        "name": "San Siro",
-        "capacity": 70000
-    }
+	"id": 3161,
+	"country": "Italy",
+	"city": "Milano",
+	"name": "FC Internazionale Milano"
 }
 ```
 
-__URL__: ```/cup/:id```
+__URL__: ```/league/:id```
 
 __Method__: ```GET```
 
-__Response Codes__: ``` 200 | 400 ```
+__Response Codes__: ``` 200 | 404 ```
 
 __Successful Response__: 
 ```javascript 
@@ -106,11 +74,11 @@ __Successful Response__:
     ...
 ]
 ```
-__URL__: ```/cup/:id/:season```
+__URL__: ```/league/:id/:season```
 
 __Method__: ```GET```
 
-__Response Codes__: ``` 200 | 400 ```
+__Response Codes__: ``` 200 | 404 ```
 
 __Successful Response__: 
 ```javascript 
@@ -122,43 +90,137 @@ __Successful Response__:
 ]
 ```
 
-__URL__: ```/match/:home/:away/:date```
+__URL__: ```/match/:id```
 
 __Method__: ```GET```
 
-__Response Codes__: ``` 200 | 400 ```
+__Response Codes__: ``` 200 | 404 ```
 
 __Successful Response__: 
 ```javascript 
-[
-    {
-        "home": {
-            "name": "JUV",
-            "city": "Turin",
-            "palmares": [],
-            "stadium": {
-                "name": "Nameless",
-                "capacity": 10000
-            }
-        },
-        "away": {
-            "name": "LEC",
-            "city": "Lecce",
-            "palmares": [],
-            "stadium": {
-                "name": "Nameless",
-                "capacity": 30000
-            }
-        },
-        "result": [
-            0,
-            0
-        ],
-        "date": "2004-05-08T00:00:00.000+02:00",
-        "home_team": [{persona}, ...],
-        "away_team": [{persona}, ...]
-    }
-]
+{
+	"home": {
+		"id": 3162,
+		"name": "SS Lazio"
+	},
+	"away": {
+		"id": 3161,
+		"name": "FC Internazionale Milano"
+	},
+	"result": ["2", "3"],
+	"home_team": [{
+		"id": "130",
+		"name": "S. de Vrij",
+		"club": 3162,
+		"role": "Defender"
+	}, {
+		"id": "20550",
+		"name": "",
+		"club": 3162,
+		"role": "Defender"
+	}, {
+		"id": "376362",
+		"name": "Luiz Felipe",
+		"club": 3162,
+		"role": "Defender"
+	}, {
+		"id": "21384",
+		"name": "C. Immobile",
+		"club": 3162,
+		"role": "Forward"
+	}, {
+		"id": "166534",
+		"name": "T. Strakosha",
+		"club": 3162,
+		"role": "Goalkeeper"
+	}, {
+		"id": "20561",
+		"name": "S. Luli",
+		"club": 3162,
+		"role": "Midfielder"
+	}, {
+		"id": "228928",
+		"name": "A. Maru",
+		"club": 3162,
+		"role": "Midfielder"
+	}, {
+		"id": "265865",
+		"name": "S. Milinkovi",
+		"club": 3162,
+		"role": "Midfielder"
+	}, {
+		"id": "7965",
+		"name": "Lucas Leiva",
+		"club": 3162,
+		"role": "Midfielder"
+	}, {
+		"id": "346908",
+		"name": "A. Murgia",
+		"club": 3162,
+		"role": "Midfielder"
+	}, {
+		"id": "40806",
+		"name": "Felipe Anderson",
+		"club": 3162,
+		"role": "Midfielder"
+	}],
+	"away_team": [{
+		"id": "21094",
+		"name": "D. D'Ambrosio",
+		"club": 3161,
+		"role": "Defender"
+	}, {
+		"id": "135903",
+		"name": "Jo",
+		"club": 3161,
+		"role": "Defender"
+	}, {
+		"id": "138408",
+		"name": "M. ",
+		"club": 3161,
+		"role": "Defender"
+	}, {
+		"id": "3431",
+		"name": "Jo",
+		"club": 3161,
+		"role": "Defender"
+	}, {
+		"id": "206314",
+		"name": "M. Icardi",
+		"club": 3161,
+		"role": "Forward"
+	}, {
+		"id": "20571",
+		"name": "S. Handanovi",
+		"club": 3161,
+		"role": "Goalkeeper"
+	}, {
+		"id": "116349",
+		"name": "M. Vecino",
+		"club": 3161,
+		"role": "Midfielder"
+	}, {
+		"id": "14812",
+		"name": "I. Peri",
+		"club": 3161,
+		"role": "Midfielder"
+	}, {
+		"id": "20556",
+		"name": "A. Candreva",
+		"club": 3161,
+		"role": "Midfielder"
+	}, {
+		"id": "69968",
+		"name": "M. Brozovi",
+		"club": 3161,
+		"role": "Midfielder"
+	}, {
+		"id": "3344",
+		"name": "Rafinha",
+		"club": 3161,
+		"role": "Midfielder"
+	}]
+}
 ```
 
 

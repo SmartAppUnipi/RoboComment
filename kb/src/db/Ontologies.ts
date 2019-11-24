@@ -119,7 +119,7 @@ export class Query {
 
     public static readonly get_players = (match_id: number) => `
     ${Query.header}
-    SELECT  ?wyid ?name ?club ?role
+    SELECT  (?wyid AS ?id) ?name ?club ?role
     WHERE
     { :${match_id}  :hasPlayedAsFirstTeam   ?team1 .
         ?team1      :isPersona              ?Persons .

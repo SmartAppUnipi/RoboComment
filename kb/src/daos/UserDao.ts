@@ -1,13 +1,14 @@
 import * as Entities from '../entities'
 import * as DB from '../db'
 import * as Errors from '../errors'
+import e = require('express')
 
 export class UserDao {
 
-    public static get(id: number): Entities.User {
+    public static login(email: string, pwd: string): Entities.User {
         const db = DB.Users.data
 
-        const user = db.users.find(user => user.id === id)
+        const user = db.users.find(user => user.email === email && user.password === pwd)
 
         if (user === undefined) {
             throw Error(Errors.USER_NOT_FOUND)
