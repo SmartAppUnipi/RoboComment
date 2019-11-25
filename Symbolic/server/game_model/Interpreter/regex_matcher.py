@@ -10,6 +10,7 @@ An Object may be a generic object to be matched or a wildcard among the define b
 
 _any = '?'
 _anyseq = '.'
+#bounded_anyseq = '.{int, int}'
 _kleene = '*'
 
 
