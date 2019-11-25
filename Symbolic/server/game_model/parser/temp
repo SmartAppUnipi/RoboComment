@@ -1,0 +1,22 @@
+pass = possession(p1) -> possession(p2) : p1.team == p2.team
+
+=======>
+
+{
+    'condition': [
+        { //regex
+            'pattern': [
+                {
+                    type: 'possession'
+                },
+                .{0,1},
+                {
+                    type: 'possession'
+                }
+            ],
+            'stack': 'pass',
+            'out': []
+        }
+    ],
+    'action': lambda p1, p2: p1.team == p2.team
+}
