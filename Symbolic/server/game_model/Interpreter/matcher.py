@@ -37,7 +37,7 @@ def match(value, pattern):
             else:
                 return False
         # in this case the function was not correct (positional arguments)
-        except TypeError as e:
+        except TypeError:
             return False
     
     # Case of object, checks that every key is present and every value is equal recursively

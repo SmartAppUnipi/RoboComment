@@ -1,7 +1,24 @@
+import re
 
-_tokens = {
-    'possession': lambda: {'type': 'possession'}
-}
+_tokens = [
+    'possession',
+    r'.{\d,\d}',
+    '.',
+    'interception',
+    'ballOnTarget',
+    'ballOffTarget'
+]
+
+
+def _get_pattern(token, part):
+    if token in ['possession', 'interception', 'ballOnTarget', 'ballOffTarget']:
+        return {
+            'type': token
+        }
+    elif token in ['.', r'.{\d,\d}']:
+        return part
+
+    raise Exception('Unrecognized token: ' + token)
 
 
 def parse(rule_string):
@@ -13,34 +30,40 @@ def parse(rule_string):
         'action': None
     }
 
-    parse_rule(rule, parse_obj)
-    parse_stack(stack, parse_obj)
-    parse_constraints(constraints, parse_obj)
+    _parse_rule(rule, parse_obj)
+    _parse_stack(stack, parse_obj)
+    _parse_constraints(constraints, parse_obj)
 
     return parse_obj
 
 
-def parse_rule(rule, parse_obj):
+def _token_match(token, part):
+    if token == r'.{\d,\d}':
+        return len(re.findall(token, part)) != 0
+
+    return token in part
+
+
+def _parse_rule(rule, parse_obj):
     parts = rule.split(' -> ')
     parse_obj['condition']['pattern'] = []
 
     for part in parts:
-        for tok in _tokens.keys():
-            if tok not in part:
+        for token in _tokens:
+            if not _token_match(token, part):
                 continue
 
             parse_obj['condition']['pattern'].append(
-                _tokens[tok]()
+                _get_pattern(token, part)
             )
             break
 
 
-def parse_stack(stack, parse_obj):
+def _parse_stack(stack, parse_obj):
     parse_obj['condition']['stack'] = stack
 
 
-def parse_constraints(constraints, parse_obj):
-    import re
+def _parse_constraints(constraints, parse_obj):
     params = list(
         map(
             lambda s: s[:-1],
@@ -48,27 +71,14 @@ def parse_constraints(constraints, parse_obj):
         )
     )
 
-    f = 'lambda ' + ', '.join(params)+ ': ' + constraints
+    f = 'lambda ' + ', '.join(params) + ': ' + constraints
     print(f)
     parse_obj['action'] = eval(f)
 
 
-s = 'pass = possession(p1) -> possession(p2) : p1.team == p2.team'
-print(parse(s))
-# {
-#     'condition': [
-#         { //regex
-#             'pattern': [
-#                 {
-#                     type: 'possession'
-#                 },
-#                 .{0,1},
-#                 {
-#                     type: 'possession'
-#                 }
-#             ],
-#             'stack': 'pass',
-#         }
-#     ],
-#     'action': lambda p1, p2: p1.team == p2.team
-# }
+x1 = parse('pass = possession(p1) -> .{0,8} -> possession(p2) : p1.team == p2.team')
+x2 = parse('pass = possession(p1) -> .{0,8} -> possession(p2) : p1.team != p2.team')
+x3 = parse('shotOnTarget = possession(p1) -> ballOnTarget : p1.position in _awayhalf')
+x4 = parse('shotOffTarget = possession(p1) -> ballOffTarget : p1.position in _awayhalf')
+
+print([x1, x2, x3, x4])
