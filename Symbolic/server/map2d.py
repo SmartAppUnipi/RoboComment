@@ -1,63 +1,51 @@
 import json
-import random 
+from flask_socketio import SocketIO, emit
 
-_N_PLAYERS = 11
-_N_TEAMS = 2
-_N_BALLS = 1
-
-def build_fake_map(width,height):
-
-    fake_data = {}
-
-    for i in range(_N_TEAMS):
-        for j in range(_N_PLAYERS):
-
-            if i == 0:
-                fake_data["player_{}_T_{}".format(j,i)] = {'position':
-                            {
-                                'x':random.randrange(10,width / 2),
-                                'y':random.randrange(10,height),
-                            }
-                        }
-            else:
-                fake_data["player_{}_T_{}".format(j,i)] = {'position':
-                            {
-                                'x':random.randrange(width / 2,width),
-                                'y':random.randrange(10,height),
-                            }
-                        }
-    
-    fake_data["ball"] = {'position':
-                        {
-                            'x':random.randrange(10,width),
-                            'y':random.randrange(10,height),
-                        }
-                    }
-
-    return fake_data
 
 class Map2d():
 
-    def __init__(self,width,height,positions):
+    def __init__(self,width,height,positions,socketio,debug=True):
 
-        self.postions = {}
+        self.positions = positions
+        self.init_position = positions 
+        
         self.width = width
         self.height = height
 
-        for i in range(_N_TEAMS):
-            for j in range(_N_PLAYERS):
-               self.positions = positions
+        self.debug = debug
+        self.client_connected = False
 
+        self.socketio = socketio
+        if not debug:
+            self.socketio.on_event('notify',self._send_init_position)     
+    
     def _get_map_json(self):
         return {
+            'debug':self.debug,
             'width':self.width,
             'height': self.height,
             'positions':self.positions
         }
+    
+    def _get_init_position(self):
+        return {
+            'debug':self.debug,
+            'width':self.width,
+            'height': self.height,
+            'positions':self.init_position
+        }
 
-if __name__ == "__main__":
-   
-    print(build_fake_map())
-    map = Map2d(100,300,build_fake_map())
-    print(json.dumps(map._get_map_json(), indent=4)) 
+    def _update_position(self,new_positions):
+        self.positions = new_positions
+        if self.client_connected:
+            self.socketio.emit('update',data=self._get_map_json())
+    
+    def _send_init_position(self,msg=None):
+        self.client_connected = True
+        self.socketio.emit('new',data=self._get_init_position())
+
+    def _clear_init_position(self,init_pos):
+        self.init_position = init_pos
+    
+
 

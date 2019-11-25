@@ -5,25 +5,86 @@ import requests
 from time import sleep
 from flask import render_template,jsonify
 from map2d import *
+from flask_socketio import SocketIO,emit
+import pprint
+import threading
+import random
+from dummy_map import *
+import copy
 
 
 app = flask.Flask(__name__)
+socketio = SocketIO(app)
+
+#DIMENSIONI IN METRI DEL CAMPO... FARLI PASSARE DA QUALCUNO...
+_WIDTH = 110
+_HEIGHT = 90
+
+_DEBUG = False
+
 debug_map = None
-_WIDTH = 1200
-_HEIGHT = 752
+_N_ITERS_TEST = 0
+
+pp = pprint.PrettyPrinter(indent=4)
 
 """-------------AGGIUNTI ENDPOINT PER COMUNICARE CON LA PARTE CLIENT DELLA MAPPA----------"""
+#Avvia la simulazione della mappa (atteso input dopo che arriva il json da video processing)
 @app.route("/debug")
 def init_map():
+    global _DEBUG
+    _DEBUG = False
     return render_template('page_map.html')
 
+#Endpoint usato SOLO per testare la mappa
+@app.route("/debug/test/<int:n>")
+def test_map(n):
+    global socketio
+    global _DEBUG
+    global _N_ITERS_TEST
 
-@app.route("/debug/positions")
-def _get_positions():
+    _DEBUG = True
+    _N_ITERS_TEST = n
+    socketio.on_event('notify',handle)
+    #socketio.on_event('notify',handle)
+    return render_template('page_map.html')
+
+"""---------------------FUNZIONI USATE X DEBUG DELLA MAPPA--------------"""
+
+def update_periodic(socketio):
     global debug_map
-    if debug_map is None:
-        debug_map = Map2d(_WIDTH,_HEIGHT,build_fake_map(_WIDTH,_HEIGHT))
-    return debug_map._get_map_json()
+    global _DEBUG
+    global _WIDTH
+    global _HEIGHT
+    global _N_ITERS_TEST
+
+    dummy_new = copy.deepcopy(dummy[0])
+    debug_map = Map2d(_WIDTH,_HEIGHT,dummy_new,socketio,_DEBUG)
+    debug_map._send_init_position()
+    for i in range(_N_ITERS_TEST):
+        sleep(1)
+        for j in range(random.randint(1,22)):
+            dummy_new = move_player(dummy_new,random.randint(1,11),random.randint(0,1),random.uniform(-5,5),random.uniform(-5,5))
+        dummy_new = move_ball(dummy_new,random.uniform(-5,5),random.uniform(-5,5))
+
+        for j in range(random.randint(1,5)):
+            dummy_new = modify_id_confidence(dummy_new,random.randint(1,11),random.randint(0,1),random.uniform(0,1))
+            dummy_new = modify_team_confidence(dummy_new,random.randint(1,11),random.randint(0,1),random.uniform(0,1))
+        
+        dummy_new = move_player(dummy_new,4,-1,random.uniform(-10,10),random.uniform(-10,10))
+        
+        debug_map._update_position(dummy_new)
+   
+
+def handle(message):
+    global _DEBUG
+    if _DEBUG:
+        x = threading.Thread(target=update_periodic,args=(socketio,))
+        x.start()
+
+
+    
+"---------------------------------------------------------------------------------"
+
 
 "-------------------------------------------------------------"
 
@@ -70,6 +131,9 @@ if __name__ == '__main__':
         cg_host = config["comment-generation-host"] 
         cg_port = config["comment-generation-port"]
 
+    app.debug = True
+    socketio.run(app,use_reloader=False)#, port=symbolic_port)
     #app.run(debug=True)
-    app.run(host='0.0.0.0', port=symbolic_port, debug=True)
+    #app.run(host='0.0.0.0', port=symbolic_port, debug=True)
     #app.run(debug=True) #CON L'IP 0.0.0.0 non mi faceva visualizzare la pagina web (probabilmente x firewall)
+    #socketio.run(app,host='0.0.0.0', port=symbolic_port,use_reloader=False)

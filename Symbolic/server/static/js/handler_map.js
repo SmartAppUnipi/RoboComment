@@ -1,146 +1,291 @@
-/****
- * TODO:
- * - Definire per bene la struttura dati da utilizzare per la mappa => Struttura campi dizionario???
- * 
- * - Per l'aggiornamento: il server può informare il client con un evento che la struttura delle posizioni 
- *   è cambiata? => Evitare quindi il fetch da parte del client!
- * 
- * - Come gestire gli id???  Corrispondenza id => elemento + gestione id mancanti
- * 
- * - Gestire in modo proporzionale gli spostamenti/posizioni nel modello (1 metro == ? pixels??)
- * 
- * - Migliorare struttura codice 
- * 
- * - Migliorare struttura DOM
- * 
- * - Id su palle (grado di incertezza)
- * - Mettere arbitro (team = -1)
- * - Input: metri float
- * - Json video processing
- * - 
- */
+//Contiene tutte e sole le informazioni iniziali degli elementi nella mappa
+class InitialInfo {
+    //misure in metri!!
+    constructor(width, height, info) {
+        this.width = width
+        this.height = height
+        this.info = info
+        console.log('INIT_INFO: ',info)
 
+    };
 
-SVG_NS = 'http://www.w3.org/2000/svg'
-_RADIUS = 20
-_TEAM_0_COL = 'blue'
-_TEAM_1_COL = 'red'
-_BALL_COL = 'white'
-_N_PLAYERS = 11
-_N_TEAMS = 2
-_N_BALLS = 1
+    get_player_by_id(id, team) {
+        for (var p in this.info.players) {
+            var player_id = this.info.players[p].id.value
+            if (player_id == id && this.info.players[p].team.value == team)
+                return this.info.players[p]
 
-animating = false
-interval = null
-/***----------------FUNZIONI USATE SOLO PER DEBUG!!!!!-------*/
+        }
 
-/*Genera numeri casuali in [min,max]*/
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-}
-
-/*Richiede al server le nuove posizioni ed aggiorna le posizioni degli elementi a schermo*/
-async function debug_retrieve()
-{
-    var data = await fetch_position()
-    var positions = data[0]
-    for(var key in positions)
-    {
-        document.getElementById(key).setAttribute('cx',positions[key]['position']['x']+getRandomArbitrary(-30,30))
-        document.getElementById(key).setAttribute('cy',positions[key]['position']['y']+getRandomArbitrary(-30,30))
+        return null
     }
-}
 
-/*Avvia / stoppa l'animazione dell'aggiornamento casuale*/
-function debug_animate()
-{
-    animating = !animating
-    if(animating)
-        interval = window.setInterval(debug_retrieve,1000)
-    else
-        window.clearInterval(interval)
-}   
+    get_ball()
+    {
+        return this.info.ball[0]
+    }
 
-/*Aggiunge un bottone nel DOM. Se premuto, avvia/stoppa l'animazione dell'aggiornamento*/
-function add_debug_btn()
-{
-    var btn = document.createElement('button')
-    btn.style.width = '150px'
-    btn.style.height = '75px'
-    btn.innerHTML = 'Debug'
-    btn.style.position = 'absolute'
-    btn.style.top = '100px'
-    btn.style.left = '1200px'
-    document.getElementById('banner').appendChild(btn)
+    is_player_contained(id, team) {
+        for (var p in this.info.players) {
+            var player_id = this.info.players[p].id.value
+            if (player_id == id && this.info.players[p].team.value == team)
+                return true
 
-    btn.onclick = debug_animate
-}
+        }
 
-/*-------------------END DEBUG-------------------*/
+        return false
+    }
 
-/*Richiede al server le posizioni */
-async function fetch_position() {
-
-    var response = await  fetch("/debug/positions", { method: 'GET' })
-    var data = await response.json()
-    positions = data['positions']
-    height = data['height']
-    width = data['width']
-    return [positions,width,height]    
-}
-
-/*Carica nel dom i cerchi che rappresentano giocatori + palla*/
-function load_circles(positions) {
-    circle = null
-    for (i = 0; i < _N_TEAMS; i++) {
-        for (j = 0; j < _N_PLAYERS; j++) {
-            console.log('player_' + j + '_T_' + i)
-            pos = (positions['player_' + j + '_T_' + i]['position'])
-            console.log(pos)
-            console.log(pos['x'])
-            if (i == 0)
-                circle = createCircle(document.getElementById('group'), pos['x'], pos['y'],
-                    _RADIUS, _TEAM_0_COL, 'player_' + j + '_T_' + i)
-            else
-                circle = createCircle(document.getElementById('group'), pos['x'], pos['y'],
-                    _RADIUS, _TEAM_1_COL, 'player_' + j + '_T_' + i)
+    addPlayerInfo(player_info) {
+        if (!this.is_player_contained(player_info.id.value, player_info.team.value)) {
+            this.info.players.push(player_info)
         }
     }
 
-    pos = positions['ball']['position']
-    circle = createCircle(document.getElementById('group'), pos['x'], pos['y'],
-        _RADIUS, _BALL_COL, 'ball')
 }
 
+//Converte da metri in pixels lungo l'asse x
+function from_meters_to_pixels_x(init_info, pos, use_offset = true) {
+    // 1200 : 120 = x : pos
+    if (use_offset)
+        return ((1200 * pos) / init_info.width) + 40
+    return (1200 * (pos) / init_info.width)
+}
 
-/*Carica nel DOM la mappa del campo + giocatori*/
-async function load_map() {
+//Converte da metri in pixels lungo l'asse y
+function from_meters_to_pixels_y(init_info, pos, use_offset = true) {
+    // 500 : 90 = x : pos
+    if (use_offset)
+        return (500 * (pos) / init_info.height) + 40
+    return 500 * (pos) / init_info.height
 
-    var data = await fetch_position()
-    var positions = data[0]
-    var width = data[1]
-    var height = data[2]
-    console.log(positions)
-    load_image(width, height)
-    document.getElementById("map").onload = function () {
-        svg = createSVG()
-        document.getElementById("banner").appendChild(svg)
-        createGroup(svg, 'group')
-        load_circles(positions)
-        add_debug_btn()
+}
+
+//Disegna i giocatori/arbitro aggiungendo i rispettivi elementi nel DOM (da chiamare solo al momento dell'aggiunta nel DOM)
+function drawPlayers(init_info, info_players) {
+    console.log(info_players)
+
+    for (var p in info_players) {
+        
+        //Determina le informazioni da associare al giocatore/arbitro
+        switch (info_players[p].team.value) {
+            case 0:
+                fill = 'blue';
+                _text = (info_players[p].id.confidence >= 0.5) ? info_players[p].id.value : '?';
+                _class = 'player';
+                id = 'P_' + _text + '_T_0';
+                break;
+            case 1:
+                fill = 'red';
+                _text = (info_players[p].id.confidence >= 0.5) ? info_players[p].id.value : '?';
+                _class = 'player';
+                id = 'P_' + _text + '_T_1';
+                break;
+            case -1:
+                fill = 'yellow';
+                _text = "Ref";
+                _class = 'referee';
+                id = 'P_' + info_players[p].id.value+ '_T_-1';
+                break;
+        }
+
+        //Aggiunge al DOM l'elemento
+        createCircle(document.getElementById('svg'),
+            from_meters_to_pixels_x(init_info, info_players[p].position.x),
+            from_meters_to_pixels_y(init_info, info_players[p].position.y),
+            15, fill, _class, _text, id)
     }
 }
 
+
+//Disegna la palla e la aggiunge al DOM
+function drawBall(init_info, ball) {
+    for (var b in ball)
+        createCircle(document.getElementById('svg'),
+            from_meters_to_pixels_x(init_info, ball[b].position.x),
+            from_meters_to_pixels_y(init_info, ball[b].position.y),
+            15, 'white', 'ball', 'B_' + b, 'B_' + b)
+
+}
+
+//Inizializza la mappa, disegnando giocatori + arbitro
+function init(w, h, info) {
+    init_info = new InitialInfo(w, h, info)
+    console.log('GET: ', w, h)
+    console.log('INFO:', info)
+    drawPlayers(init_info, info.players)
+    drawBall(init_info, info.ball)
+    return init_info
+}
+
+//Accede al DOM e restituisce, se esiste l'elemento con id P_id_T_team
+function get_player_dom_element(id, team) {
+    
+    query = 'P_' + id + '_T_' + team
+    //console.log(query)
+    return document.getElementById(query)
+}
+
+function get_ball_dom_element()
+{
+    return document.getElementById('B_0')
+}
+
+//Aggiorna la posizione della palla sul campo... (per il momento solo la prima...)
+function updateBalls(init_info,positions)
+{
+    balls = positions.ball
+    
+    for(var b in balls)
+    {
+        var ball = balls[b]
+        init_x = init_info.get_ball().position.x
+        init_y = init_info.get_ball().position.y
+
+        new_x = ball.position.x
+        new_y = ball.position.y
+
+        ball_dom = get_ball_dom_element()
+       
+        dx = new_x - init_x
+        dy = new_y - init_y
+
+        move_x = from_meters_to_pixels_x(init_info, dx, false)
+        move_y = from_meters_to_pixels_y(init_info, dy, false)
+        ball_dom.setAttribute('transform', 'translate(' + move_x + ' ' + move_y + ')')
+    }
+}
+
+//Aggiorna i giocatori sul campo
+function updatePlayers(init_info, positions) {
+    players = positions.players
+    for (var p in players) {
+        player = players[p]
+
+        //Se non era già presente, aggiunge il nuovo giocatore sul campo
+        if (!init_info.is_player_contained(player.id.value, player.team.value)) {
+            drawPlayers(init_info, [player])
+            init_info.addPlayerInfo(player)
+            console.log('ADDED PLAYER: ', init_info)
+        } 
+
+
+        else {
+
+            //Se non sono sicuro dell'id (confidence <= 0.5) metto ? nel testo
+            if (player.id.confidence <= 0.5) {
+                target = get_player_dom_element(player.id.value, player.team.value)
+               // console.log('INNER:', target.childNodes[1].innerHTML)
+                target.childNodes[1].innerHTML = '?'
+
+            } else {
+
+                target = get_player_dom_element(player.id.value, player.team.value)
+                //console.log('INNER GREAT:', target.childNodes[1].innerHTML)
+                
+                //Se sono l'arbitro con prob > 0.5, scrivo Ref nel testo
+                if(player.team.value==-1 && player.team.confidence > 0.5)
+                    target.childNodes[1].innerHTML ='Ref'
+
+                else //Altrimenti metto l'id del giocatore nel testo
+                    target.childNodes[1].innerHTML = player.id.value
+            }
+
+            
+            
+            if (player.team.confidence <= 0.5) {
+                //Non sono sicuro del team (prob <= 0.5) => Coloro il giocatore di marrone
+                target = get_player_dom_element(player.id.value, player.team.value)
+                target.childNodes[0].setAttribute('fill', 'brown')
+            } else {
+
+                switch (player.team.value) {
+                    case 0: //Squadra 0 => blue
+                        fill = 'blue';
+                        break;
+                    case 1: //Squadra 1 => rosso
+                        fill = 'red';
+                        break;
+                    case -1: //Arbitro => Giallo
+                        fill = 'yellow';
+                        break;
+                }
+
+                target.childNodes[0].setAttribute('fill', fill)
+            }
+
+        }
+
+        //Prendo le informazioni iniziali
+        init_x = init_info.get_player_by_id(player.id.value, player.team.value).position.x
+        init_y = init_info.get_player_by_id(player.id.value, player.team.value).position.y
+        
+        //Prendo le nuove posizioni
+        new_x = player.position.x
+        new_y = player.position.y
+
+        player_dom = get_player_dom_element(player.id.value, player.team.value)
+        
+        dx = new_x - init_x
+        dy = new_y - init_y
+
+        //Aggiorno la mappa applicando una traslazione
+        move_x = from_meters_to_pixels_x(init_info, dx, false)
+        move_y = from_meters_to_pixels_y(init_info, dy, false)
+        player_dom.setAttribute('transform', 'translate(' + move_x + ' ' + move_y + ')')
+
+    }
+}
+
+$(document).ready(function () {
+
+    //Dimensioni in pixels della mappa... Mettere in file map_config.json!!!
+    w = 1200
+    h = 500
+    border = 40
+
+    //Disegno la mappa
+    pitch = new Pitch(w, h)
+    pitch.draw()
+
+    svg = createSVG(w + 2 * border, h + 2 * border)
+    init_info = null
+
+    //Vari listeners....
+    var socket = io()
+    socket.on('connect', function () {
+        console.log('Connected!')
+        document.getElementById('svg').innerHTML = ''
+        socket.emit('notify', {
+            data: 'I\'m connected!'
+        });
+    });
+
+    socket.on('new', function (data) {
+        console.log('DATA_NEW:', data.width, data.height)
+        init_info = init(data.width, data.height, data.positions)
+        console.log(init_info.get_player_by_id(2, 1))
+
+    });
+
+    socket.on('update', function (data) {
+        console.log('DATA_UPDATE:', data.positions)
+        updatePlayers(init_info, data.positions)
+        updateBalls(init_info,data.positions)
+            
+    });
+
+
+});
+
 /*Carica nel DOM l'elemento SVG*/
-function createSVG() {
+function createSVG(width, height) {
     var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
-    var w = $('#map').width()
-    var h = $('#map').height()
-    console.log(w, h)
-    svg.setAttribute('width', w)
-    svg.setAttribute('height', h)
+    svg.setAttribute('width', width + "px")
+    svg.setAttribute('height', height + "px")
     svg.setAttribute('id', 'svg')
     console.log(svg)
+    document.body.appendChild(svg)
     return svg
 }
 
@@ -156,35 +301,153 @@ function createGroup(svg, id) {
 
 
 /*Crea un elemento di tipo circle e lo carica nel DOM*/
-function createCircle(svg, cx, cy, r, fill, id) {
+function createCircle(svg, cx, cy, r, fill, _class, _text, id) {
     var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
     var circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    g.setAttribute('class', _class)
+    g.setAttribute('id', id)
+    g.setAttribute('transform', 'translate(0 0)')
     circle.setAttribute('cx', cx)
     circle.setAttribute('cy', cy)
     circle.setAttribute('r', r)
     circle.setAttribute('fill', fill)
-    circle.setAttribute('id', id)
+
+    var text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.innerHTML = _text
+    text.setAttribute('x', cx)
+    text.setAttribute('y', cy)
+    text.setAttribute('text-anchor', 'middle')
+    text.setAttribute('dy', '.3em')
 
     svg.appendChild(g)
     g.appendChild(circle)
+    g.appendChild(text)
 }
 
+//Struttura che permette di disegnare il campo
+class Pitch {
 
-/*Carica l'immagine del campo nel DOM e ne setta le dimensioni*/
-function load_image(width, height) {
-    document.getElementById("map").data = "/static/img/field.png"
-    document.getElementById("map").style.width = width
-    document.getElementById('map').style.height = height
-}
+    constructor(width, height) {
+        this.width = width
+        this.height = height
 
+    };
 
+    draw() {
+        var canvas = document.getElementById('pitch');
+        canvas.style.width = this.width + "px"
+        canvas.style.height = this.height + "px"
 
-$(document).ready(function () {
-    load_map()
-    document.getElementById("map").onload = function () {
-        svg = createSVG()
-        document.getElementById("banner").appendChild(svg)
+        var ctx = canvas.getContext('2d');
 
+        // Outer lines
+        ctx.beginPath();
+        ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#060";
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "#FFF";
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.fillStyle = "#FFF";
+
+        // Mid line
+        ctx.beginPath();
+        ctx.moveTo(canvas.width / 2, 0);
+        ctx.lineTo(canvas.width / 2, canvas.height);
+        ctx.stroke();
+        ctx.closePath();
+
+        //Mid circle
+        ctx.beginPath()
+        ctx.arc(canvas.width / 2, canvas.height / 2, 73, 0, 2 * Math.PI, false);
+        ctx.stroke();
+        ctx.closePath();
+        //Mid point
+        ctx.beginPath()
+        ctx.arc(canvas.width / 2, canvas.height / 2, 2, 0, 2 * Math.PI, false);
+        ctx.fill();
+        ctx.closePath();
+
+        //Home penalty box
+        ctx.beginPath();
+        ctx.rect(0, (canvas.height - 322) / 2, 132, 322);
+        ctx.stroke();
+        ctx.closePath();
+        //Home goal box
+        ctx.beginPath();
+        ctx.rect(0, (canvas.height - 146) / 2, 44, 146);
+        ctx.stroke();
+        ctx.closePath();
+        //Home goal 
+        ctx.beginPath();
+        ctx.moveTo(1, (canvas.height / 2) - 22);
+        ctx.lineTo(1, (canvas.height / 2) + 22);
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.lineWidth = 1;
+
+        //Home penalty point
+        ctx.beginPath()
+        ctx.arc(88, canvas.height / 2, 1, 0, 2 * Math.PI, true);
+        ctx.fill();
+        ctx.closePath();
+        //Home half circle
+        ctx.beginPath()
+        ctx.arc(88, canvas.height / 2, 73, 0.29 * Math.PI, 1.71 * Math.PI, true);
+        ctx.stroke();
+        ctx.closePath();
+
+        //Away penalty box
+        ctx.beginPath();
+        ctx.rect(canvas.width - 132, (canvas.height - 322) / 2, 132, 322);
+        ctx.stroke();
+        ctx.closePath();
+        //Away goal box
+        ctx.beginPath();
+        ctx.rect(canvas.width - 44, (canvas.height - 146) / 2, 44, 146);
+        ctx.stroke();
+        ctx.closePath();
+        //Away goal 
+        ctx.beginPath();
+        ctx.moveTo(canvas.width - 1, (canvas.height / 2) - 22);
+        ctx.lineTo(canvas.width - 1, (canvas.height / 2) + 22);
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.lineWidth = 1;
+        //Away penalty point
+        ctx.beginPath()
+        ctx.arc(canvas.width - 88, canvas.height / 2, 1, 0, 2 * Math.PI, true);
+        ctx.fill();
+        ctx.closePath();
+        //Away half circle
+        ctx.beginPath()
+        ctx.arc(canvas.width - 88, canvas.height / 2, 73, 0.71 * Math.PI, 1.29 * Math.PI, false);
+        ctx.stroke();
+        ctx.closePath();
+
+        //Home L corner
+        ctx.beginPath()
+        ctx.arc(0, 0, 8, 0, 0.5 * Math.PI, false);
+        ctx.stroke();
+        ctx.closePath();
+        //Home R corner
+        ctx.beginPath()
+        ctx.arc(0, canvas.height, 8, 0, 2 * Math.PI, true);
+        ctx.stroke();
+        ctx.closePath();
+        //Away R corner
+        ctx.beginPath()
+        ctx.arc(canvas.width, 0, 8, 0.5 * Math.PI, 1 * Math.PI, false);
+        ctx.stroke();
+        ctx.closePath();
+        //Away L corner
+        ctx.beginPath()
+        ctx.arc(canvas.width, canvas.height, 8, 1 * Math.PI, 1.5 * Math.PI, false);
+        ctx.stroke();
+        ctx.closePath();
     }
-})
-
+};

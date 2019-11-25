@@ -4,43 +4,11 @@
       <meta charset="utf-8">
       <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
       <script type='text/javascript' src="{{url_for('static', filename="js/handler_map.js")}}"></script>
-      <style>
-
-#banner {
-	height:2000px;
-	width: 2000px;
-  position:relative
-}
-
-#map {
-	width: 1200px;
-	height: auto;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-  position:absolute
-}
-
-svg {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	border: 2px solid;
-}
-
-circle{
-  position: absolute;
-	top: 0px;
-	left: 0px;
-}
-
-
-
-      </style>
-  </head>
-  <body>
-    <div id="banner">
-      <object id="map"/>
-    </div>
-  </body>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+      <link type="text/css" rel="stylesheet" href ="{{url_for('static', filename="css/field_style.css")}}">
+    <body>
+<canvas id="pitch" width="1200" height="400">
+</canvas>
+<span id="debug"></span>
+    </body>
 </html>
