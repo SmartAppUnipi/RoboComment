@@ -31,25 +31,28 @@
                 </form>
         </div>
     </div>
-    <script>
-    let x = document.getElementById("login");
-    let y = document.getElementById("register");
-    let z = document.getElementById("btn");
 
-    function register(){
-        x.style.left="-400px";
-        y.style.left="50px";
-        z.style.left="110px";
-    }
-    function login(){
-        x.style.left="50px";
-        y.style.left="450px";
-        z.style.left="0px";
-    }
-    </script>
     <script src="js/Queue.src.js"></script>
     <script src="js/web_socket_client.js"></script>
     <script src="js/user_account.js"></script>
+    <script src="js/cookie.js"></script>
+    <script>
+        let x = document.getElementById("login");
+        let y = document.getElementById("register");
+        let z = document.getElementById("btn");
 
+        function register(){
+            x.style.left="-400px";
+            y.style.left="50px";
+            z.style.left="110px";
+        }
+        function login(){
+            x.style.left="50px";
+            y.style.left="450px";
+            z.style.left="0px";
+        }
+
+        console.log("Cooookie: " +getCookie("userId"));
+    </script>
 </body>
 </html>

@@ -16,16 +16,17 @@ function createUser() {
             && check(lastname) && check(date) && check(favoriteteam))) {
 
             showSnack();
-            login();
 
             ws.send("{\n" +
                 "    \"request\": {\n" +
-                "        \"first_name\": \"" + firstname.value + "\",\n" +
-                "        \"last_name\": \"" + lastname.value + "\",\n" +
-                "        \"date_of_birth\": \"" + date.value + "\",\n" +
-                "        \"email\": \"" + email.value + "\",\n" +
-                "        \"password\": \"" + password.value + "\",\n" +
-                "        \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
+                "       \"user\": {\n" +
+                "           \"first_name\": \"" + firstname.value + "\",\n" +
+                "           \"last_name\": \"" + lastname.value + "\",\n" +
+                "           \"date_of_birth\": \"" + date.value + "\",\n" +
+                "           \"email\": \"" + email.value + "\",\n" +
+                "           \"password\": \"" + password.value + "\",\n" +
+                "           \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
+                "       }\n" +
                 "    },\n" +
                 "    \"request_type\": \"user_registration\"\n" +
                 "}");
@@ -33,7 +34,6 @@ function createUser() {
         }
     }else{
         showSnack();
-        login();
 
         ws.send("{\n" +
             "    \"request\": {\n" +
@@ -57,8 +57,10 @@ function loginUser() {
     if (check(email) && check(password)){
         ws.send("{\n" +
             "    \"request\": {\n" +
-            "        \"email\": \"" + email.value + "\",\n" +
-            "        \"password\": \"" + password.value + "\"\n" +
+            "       \"user\": {\n" +
+            "           \"email\": \"" + email.value + "\",\n" +
+            "           \"password\": \"" + password.value + "\"\n" +
+            "       }\n" +
             "    },\n" +
             "    \"request_type\": \"user_login\"\n" +
             "}");
