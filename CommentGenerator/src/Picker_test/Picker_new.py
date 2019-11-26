@@ -31,17 +31,30 @@ class Picker:
         :param input_json:
         :return:
         """
-
         final_comment = ""
-        # if json is empty drawn a others_comment
         if self.check_empty_json(input_json):
-            final_comment = random.choice(self.comment_others)
-        # if json is not empty
+            final_comment = self.create_others()
         else:
-            sentence = self.create_sentence(input_json['details'])
-            sentence_tagged = self.tagger.tag_sentence(sentence)
-            final_comment = self.template_generator.generate(sentence_tagged)
+            final_comment = self.create_template(input_json["details"])
 
+        return final_comment
+
+    def create_others(self):
+        """
+        This method pick a random template inside the comments_others.txt to fill the empty moments
+        :return:
+        """
+        return random.choice(self.comment_others)
+
+    def create_template(self, details):
+        """
+        This method receive the details inside the json and products the final comment
+        :param details:
+        :return:
+        """
+        sentence = self.create_sentence(details)
+        sentence_tagged = self.tagger.tag_sentence(sentence)
+        final_comment = self.template_generator.generate(sentence_tagged)
         return final_comment
 
     def create_sentence(self, information):
@@ -89,11 +102,6 @@ if __name__ == '__main__':
 
     with open("../../assets/input1.json", 'r') as input1_json:
         input_json = json.load(input1_json)
-        input_json = {
-            'time': {'start': 10, 'end': 20},
-            'type': 'elementary',
-            'details': {'team2': 'team B', 'player1': 'Ruicosta', 'field_zone': 'middle', 'subtype': 'cross', 'confidence': 0.4}
-        }
         print("INPUT:", input_json)
         comment = picker.pick_comment(input_json)
         print("\nFINAL comment:", comment)

@@ -14,16 +14,19 @@ class TemplateGenerator:
                 "no_empty": ["{p}"]
             },
             "Team_player": {
-                "no_empty": ["of the {p}", "belonging to {p}", ", a {p} player,", "of the {p} team",""]
+                "no_empty": ["of the {p}", "belonging to {p}", ", a {p} player,", "of the {p} team", ""]
+            },
+            "Team_receiver": {
+                "no_empty": ["of the {p}", "belonging to {p}", ", a {p} player,", "of the {p} team", ""]
             },
             "Action_active": {
-                "no_empty": ["do a {p}", "{p}"]
+                "no_empty": ["do a {p}", "{p}", "make a {p}"]
             },
             "Action_active_continue": {
                 "no_empty": ["is doing {p}", "continuously {p}"]
             },
             "Action_active_ball": {
-                "no_empty": ["{p} the ball", "{p}"]
+                "no_empty": ["{p} the ball", "{p}", "make a {p}"]
             },
             "Action_passive": {
                 "no_empty": ["receives a {p}", "has a {p}"]
