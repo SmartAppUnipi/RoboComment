@@ -17,7 +17,7 @@ function connect() {
         switch (message.replyType) {
             case "comment":
                 try {
-                    queue.enqueue(new CommentOBJ(message.comment, new XMLHttpRequest(),0));
+                    queue.enqueue(new CommentOBJ(message.reply, new XMLHttpRequest(),0));
                 } catch {
                     console.log("Comment is not received, Message is:: ", e.data);
                 }
