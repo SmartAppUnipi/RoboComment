@@ -53,7 +53,7 @@ class TemplateGenerator:
         for key, value in sentence_tagged.items():
             # insert or not insert the element with empty
             # The subject is always present
-            if key == "Subject_player" and value == "{empty}":
+            if key == "Active_player" and value == "{empty}" or key == "Passive_player" and value == "{empty}":
                 template = random.choice(self.leaf[key]["empty"])
                 sentence_template[key] = template
             else:

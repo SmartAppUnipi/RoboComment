@@ -18,6 +18,7 @@ class Picker:
         self.sentence_order = {
             "active": ['player1', 'team1', 'subtype', 'field_zone', 'player2', 'team2'],
             "passive": ['player2', 'team2', 'subtype', 'field_zone', 'player1', 'team1']
+
         }
         # element where insert value instead of key
         self.tag_to_value = ["subtype", "field_zone"]
@@ -88,6 +89,11 @@ if __name__ == '__main__':
 
     with open("../../assets/input1.json", 'r') as input1_json:
         input_json = json.load(input1_json)
+        input_json = {
+            'time': {'start': 10, 'end': 20},
+            'type': 'elementary',
+            'details': {'team2': 'team B', 'player1': 'Ruicosta', 'field_zone': 'middle', 'subtype': 'cross', 'confidence': 0.4}
+        }
         print("INPUT:", input_json)
         comment = picker.pick_comment(input_json)
         print("\nFINAL comment:", comment)
