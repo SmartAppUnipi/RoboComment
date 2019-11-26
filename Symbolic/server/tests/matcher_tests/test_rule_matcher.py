@@ -31,7 +31,7 @@ single_rule = {
             'stack': first_stack
         }
     ],
-    'action': action()
+    'action': action
 }
 
 double_rule = {
@@ -55,7 +55,7 @@ double_rule = {
             'stack': second_stack
         }
     ],
-    'action': action()
+    'action': action
 }
 
 def test_rule_match_single():
