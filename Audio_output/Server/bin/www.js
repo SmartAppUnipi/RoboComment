@@ -140,6 +140,7 @@ wsServer.on('request', function(request) {
 
 commentApp.post("/", function (req, res) {
   console.log("New comment");
+
   console.log(req.body);
   new_comment = JSON.parse(JSON.stringify(req.body));
   // if (connections.length !== 0) {
@@ -162,7 +163,11 @@ function sendComment() {
     if (old_comment == null) {
         for (let i = 0; i < connections.length; i++) {
             console.log("Broadcast to clients");
-            connections[i].send(JSON.stringify(new_comment));
+            let reply = {
+                reply_type: "comment",
+                reply: new_comment
+            };
+            connections[i].send(JSON.stringify(reply));
         }
          old_comment = new_comment;
     }
@@ -172,14 +177,22 @@ function sendComment() {
             if (!checkPriority(old_comment, new_comment)) {
                 for (let i = 0; i < connections.length; i++) {
                     console.log("Broadcast to clients");
-                    connections[i].send(JSON.stringify(new_comment));
+                    let reply = {
+                        reply_type: "comment",
+                        reply: new_comment
+                    };
+                    connections[i].send(JSON.stringify(reply));
                 }
                 old_comment = new_comment;
             }
         } else {
             for (let i = 0; i < connections.length; i++) {
                 console.log("Broadcast to clients");
-                connections[i].send(JSON.stringify(new_comment));
+                let reply = {
+                    reply_type: "comment",
+                    reply: new_comment
+                };
+                connections[i].send(JSON.stringify(reply));
             }
             old_comment = new_comment;
         }

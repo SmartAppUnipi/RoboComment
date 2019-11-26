@@ -69,101 +69,42 @@
 
 <body>
 
-<!-- Card package -->
-<div class="card-columns">
-
-
-
-    <!-- Material form register -->
-    <div class="card card-form mt-2 mb-4">
-
-        <!--Card content-->
-        <div class="card-body rounded-top pink darken-4">
-
-            <h3 class="font-weight-bold text-center text-uppercase text-white mt-4">Sign up</h3>
-
-            <!-- Form -->
-            <form class="pb-3 px-2">
-
-                <!-- First name -->
-                <div class="md-form">
-                    <i class="far fa-user prefix text-white"></i>
-                    <input type="text" id="materialRegisterFormFirstName" class="form-control text-white">
-                    <label class="text-white" for="materialRegisterFormFirstName">First name</label>
-                </div>
-                <!-- Last name -->
-                <div class="md-form">
-                    <i class="far fa-hand-point-right prefix text-white"></i>
-                    <input type="email" id="materialRegisterFormLastName" class="form-control text-white">
-                    <label class="text-white" for="materialRegisterFormLastName">Last name</label>
-                </div>
-
-                <!-- E-mail -->
-                <div class="md-form mt-0">
-                    <i class="far fa-envelope prefix text-white"></i>
-                    <input type="email" id="materialRegisterFormEmail" class="form-control text-white">
-                    <label class="text-white" for="materialRegisterFormEmail">E-mail</label>
-                </div>
-
-                <!-- Password -->
-                <div class="md-form">
-                    <i class="far fa-star prefix text-white"></i>
-                    <input type="password" id="materialRegisterFormPassword" class="form-control text-white" aria-describedby="materialRegisterFormPasswordHelpBlock">
-                    <label class="text-white" for="materialRegisterFormPassword">Password</label>
-                    <small id="materialRegisterFormPasswordHelpBlock" class="form-text text-white">
-                        At least 8 characters and 1 digit
-                    </small>
-                </div>
-
-            </form>
-            <!-- Form -->
-
-        </div>
-
-        <div class="card card-form-2 mb-0 z-depth-0">
-            <div class="card-body">
-
-                <!-- Form -->
-                <form class="text-center">
-
-                    <!-- Newsletter -->
-                    <div class="form-check my-3">
-                        <input type="checkbox" class="form-check-input filled-in" id="materialRegisterFormNewsletter">
-                        <label class="form-check-label" for="materialRegisterFormNewsletter">Subscribe to our newsletter</label>
-                    </div>
-
-                    <!-- Sign up button -->
-                    <button class="btn btn-outline-red-accent btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Sign in</button>
-
-                    <!-- Social register -->
-                    <p>or sign up with:</p>
-
-                    <i class="fab fa-lg fa-facebook-f pink-accent-text px-2"></i>
-                    <i class="fab fa-lg fa-twitter pink-accent-text px-2"></i>
-                    <i class="fab fa-lg fa-linkedin-in pink-accent-text px-2"></i>
-                    <i class="fab fa-lg fa-github pink-accent-text px-2"></i>
-
-                    <hr>
-
-                    <!-- Terms of service -->
-                    <p>By clicking
-                        <em>Sign up</em> you agree to our
-                        <a class="pink-accent-text" href="#!" target="_blank">terms of service</a> and
-                        <a class="pink-accent-text" href="#!" target="_blank">terms of service</a>. </p>
-
-                </form>
-                <!-- Form -->
-
-            </div>
-        </div>
-
+<div class="btn-group pull-xs-right">
+    <button class="btn bmd-btn-icon dropdown-toggle" type="button" id="mw2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="material-icons">more_vert</i>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="mw2">
+        <button class="dropdown-item" type="button">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut malesuada elit. Proin tristique, lorem eu vehicula congue, lectus ipsum porta quam, eget rutrum sapien turpis et libero.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut malesuada elit. Proin tristique, lorem eu vehicula congue, lectus ipsum porta quam, eget rutrum sapien turpis et libero.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut malesuada elit. Proin tristique, lorem eu vehicula congue, lectus ipsum porta quam, eget rutrum sapien turpis et libero.</button>
+        <button class="dropdown-item" type="button">Another action</button>
     </div>
-    <!-- Material form register -->
-
-
-
 </div>
-<!-- Card package -->
+
+<div class="card-deck">
+    <div class="card">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+    </div>
+    <div class="card">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+    </div>
+    <div class="card">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+    </div>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

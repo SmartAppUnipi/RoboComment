@@ -6,7 +6,7 @@ let r_password      = document.getElementById("password");
 let date            = document.getElementById("date");
 let r_email         = document.getElementById("email");
 let favoriteteam    = document.getElementById("favoriteteam");
-const  DEBUG        = true;
+const  DEBUG        = false;
 
 function createUser() {
 
