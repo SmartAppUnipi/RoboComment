@@ -1,4 +1,4 @@
-from rule_matcher import rule_matcher
+from game_model.interpreter.rule_matcher import rule_matcher
 
 def action():
     print('Correct')

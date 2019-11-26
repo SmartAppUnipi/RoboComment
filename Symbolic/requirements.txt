@@ -2,3 +2,4 @@ flask
 schema
 pytest
 mathplotlib
+flask-socketio

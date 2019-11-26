@@ -1,4 +1,4 @@
-from regex_matcher import regex_matcher
+from game_model.interpreter.regex_matcher import regex_matcher
 
 #Regex same size of stack
 def test_regex_match_single_string():

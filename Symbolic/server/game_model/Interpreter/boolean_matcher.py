@@ -1,4 +1,4 @@
-from regex_matcher import regex_matcher
+from game_model.interpreter.regex_matcher import regex_matcher
 
 def boolean_matcher(regexes):
     # TODO Empty se true or false?

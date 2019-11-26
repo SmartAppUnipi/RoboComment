@@ -2,7 +2,7 @@ import flask
 from json_validator import Validator
 import json
 import requests
-from time import sleep
+from time import sleep, time
 from flask import render_template,jsonify
 from map2d import *
 from flask_socketio import SocketIO,emit
@@ -11,14 +11,20 @@ import threading
 import random
 from dummy_map import *
 import copy
+from sched import scheduler
+from game_model.game_model import GameModel
 
 
 app = flask.Flask(__name__)
 socketio = SocketIO(app)
 
+model = GameModel()
+
 #DIMENSIONI IN METRI DEL CAMPO... FARLI PASSARE DA QUALCUNO...
 _WIDTH = 110
 _HEIGHT = 90
+
+_comment_generation_scheduler = None
 
 _DEBUG = False
 
@@ -81,7 +87,10 @@ def handle(message):
         x = threading.Thread(target=update_periodic,args=(socketio,))
         x.start()
 
-
+def _send_to_cg():
+    global model
+    to_send = model.to_comment_generation()
+    requests.post(cg_url, json=to_send)
     
 "---------------------------------------------------------------------------------"
 
@@ -111,7 +120,11 @@ def new_positions(second):
         print("data is incorrect:")
         print(data)
         print("########################")
-    
+
+    global _comment_generation_scheduler
+    if not _comment_generation_scheduler:
+        _comment_generation_scheduler = scheduler()
+        _comment_generation_scheduler.enter(delay=5, action=_send_to_cg)
     # validate input json and execute business logic code
     with open('../tests/dummy.json', 'r') as f: 
         dummy = json.load(f) 
@@ -130,10 +143,9 @@ if __name__ == '__main__':
         symbolic_port = config['symbolic-port']
         cg_host = config["comment-generation-host"] 
         cg_port = config["comment-generation-port"]
+        cg_url = cg_host + ":" + str(cg_port) + "/api/action"
 
     app.debug = True
-    socketio.run(app,use_reloader=False)#, port=symbolic_port)
-    #app.run(debug=True)
+    socketio.run(app, host='0.0.0.0', use_reloader=False, port=symbolic_port)
     #app.run(host='0.0.0.0', port=symbolic_port, debug=True)
-    #app.run(debug=True) #CON L'IP 0.0.0.0 non mi faceva visualizzare la pagina web (probabilmente x firewall)
     #socketio.run(app,host='0.0.0.0', port=symbolic_port,use_reloader=False)

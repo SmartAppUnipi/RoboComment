@@ -1,4 +1,4 @@
-from boolean_matcher import boolean_matcher
+from game_model.interpreter.boolean_matcher import boolean_matcher
 
 first = {
     'pattern': [

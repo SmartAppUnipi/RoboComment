@@ -1,4 +1,4 @@
-from matcher import match
+from game_model.interpreter.matcher import match
 
 '''Regex structure
 {
