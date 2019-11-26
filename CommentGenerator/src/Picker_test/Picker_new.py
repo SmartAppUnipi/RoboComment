@@ -16,7 +16,8 @@ class Picker:
 
         # order of tags, corresponding to definition of the grammar
         self.sentence_order = {
-            "active": ['player1', 'team1', 'subtype', 'field_zone', 'player2', 'team2']
+            "active": ['player1', 'team1', 'subtype', 'field_zone', 'player2', 'team2'],
+            "passive": ['player2', 'team2', 'subtype', 'field_zone', 'player1', 'team1']
         }
         # element where insert value instead of key
         self.tag_to_value = ["subtype", "field_zone"]
@@ -50,8 +51,10 @@ class Picker:
         :return:
         """
         sentence = []
+        # randomly chose between active and passive comment
         sorting = random.choice(list(self.sentence_order))
-        for element in sorting:
+
+        for element in self.sentence_order[sorting]:
             # we have the information
             if element in information:
                 # if value is needed
