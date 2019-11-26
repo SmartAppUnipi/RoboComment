@@ -9,9 +9,8 @@ class Picker:
     def __init__(self):
         self.tagger = Tagger()
         self.template_generator = TemplateGenerator()
-        others = './comments_others.txt'
         # list of possible comments to extract where no info are passed
-        with open(others, "r") as f:
+        with open('./comments_others.txt', "r") as f:
             self.comment_others = [str(line) for line in f.readlines()]
 
         # order of tags
@@ -25,7 +24,7 @@ class Picker:
         input_json = {
             'time': {'start': 10, 'end': 20},
             'type': 'elementary',
-            'details': {'team1': 'team A', 'subtype': 'pass'}
+            'details': {'subtype': 'pass', 'team1': 'Team A'}
         }
 
         print("Input:", input_json)
@@ -37,11 +36,14 @@ class Picker:
         # if json is not empty
         else:
             sentence = self.create_sentence(input_json['details'])
-            print("\nTransformed sentence:", sentence)
+            print("\nCreated sentence:", sentence)
 
             # tag the information in the json
             sentence_tagged = self.tagger.tag_sentence(sentence)
-            print("\nTransformed sentence tagged:", sentence_tagged)
+            print("\nTagged created sentence:", sentence_tagged)
+
+            # validate the grammar before generate template
+
 
             # create base sentence
             comment = self.template_generator.generate(sentence_tagged)
