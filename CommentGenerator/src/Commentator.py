@@ -3,12 +3,12 @@ from .Filler import Filler
 from .Sentimentalizer import Sentimentalizer
 import json
 
-
 class Commentator:
 
-    def __init__(self):
-        self.config = 'assets/config_test.json'
-        self.template = 'assets/templates.json'
+    def __init__(self, knowledge_base):
+        self.kb = knowledge_base
+        self.config = 'CommentGenerator/assets/config.json'
+        self.template = 'CommentGenerator/assets/templates.json'
         self.picker = Picker(self.template)
         self.filler = Filler(self.config)
         self.sentimentalizer = Sentimentalizer(self.config)
@@ -32,9 +32,9 @@ class Commentator:
         }
         return output
 
+from utils.KnowledgeBase import KnowledgeBase
 
-if __name__ == '__main__':
-    cm = Commentator()
-    with open("assets/input1.json", 'r') as input1_json:
-        input_json = json.load(input1_json)
-        cm.run(input_json)
+cm = Commentator(KnowledgeBase('x.x.x.x:xxxx'))
+with open("CommentGenerator/assets/input1.json", 'r') as input1_json:
+    input_json = json.load(input1_json)
+    cm.run(input_json)

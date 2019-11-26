@@ -10,11 +10,7 @@
     "details":
     {
         "team1" : "team A",
-        "team2": "team B",
-        "player1": "Ruicosta",
-        "player2": "Ronaldo",
-        "field_zone" : "middle",
-        "subtype"  : "pass",
+        "subtype"  : "foul",
         "confidence" : 0.4
     }
 }

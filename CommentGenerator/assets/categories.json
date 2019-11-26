@@ -1,5 +1,5 @@
 {
-	"elementary":["pass"],
+	"elementary":["pass","shot","holderMove","move","possession","cross","foul","duel","clearance","possession_lost","interception"],
 	"scenario":[],
 	"strategy":[]
 }

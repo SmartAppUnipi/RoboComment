@@ -3,7 +3,11 @@
 ## How to run it
 ``` 
 pip3 install -r requirements.txt 
-python3.6 app.py [AUDIO IP]
+python3.6 CommentGenerator/app.py [AUDIO IP]
+```
+## How to test it
+```
+pytest CommentGenerator/tests
 ```
 
 ## API

@@ -16,7 +16,11 @@ class TestApi(unittest.TestCase):
         assert response.status_code == 200
     
     def test_api_action1(self):
-        with open('./assets/input1.json', 'r') as json_file:
+        ''' testing a basic flow of our application'''
+
+        with open('CommentGenerator/tests/mock_assets/elementary/pass/input1.json', 'r') as json_file:
             input_json = json.load(json_file)
+
         res = self.client.post("/api/action", data=json.dumps(input_json))
+
         assert res.status_code == 200
