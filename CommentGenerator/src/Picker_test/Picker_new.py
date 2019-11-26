@@ -3,7 +3,6 @@ import json
 from CommentGenerator.src.Picker_test.Tagger import Tagger
 from CommentGenerator.src.Picker_test.TemplateGenerator import TemplateGenerator
 
-
 class Picker:
 
     def __init__(self):
@@ -12,7 +11,7 @@ class Picker:
 
         # order of tags
         self.sentence_order = ['player1', 'team1', 'subtype', 'field_zone', 'player2', 'team2']
-        # element where insert value instead key
+        # element where insert value instead of key
         self.tag_to_value = ["subtype", "field_zone"]
 
     def pick_comment(self, input_json: json):
@@ -57,10 +56,6 @@ class Picker:
 
         return sentence
 
-
-
-from CommentGenerator.src.Picker_test.Tagger import Tagger
-from CommentGenerator.src.Picker_test.TemplateGenerator import TemplateGenerator
 
 if __name__ == '__main__':
 
