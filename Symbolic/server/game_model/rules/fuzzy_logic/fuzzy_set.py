@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from fuzzy_logic.membership_function import MembershipFunction as MembFunc
+from game_model.rules.fuzzy_logic.membership_function import MembershipFunction as MembFunc
 
 class FuzzySet:
     def __init__(self, begin, end, step, universe_descr = None):
