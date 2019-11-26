@@ -1,6 +1,7 @@
 import { app } from './server'
-import { PORT, KB } from '../config'
+import { KB } from '../config'
 import { Ontologies } from './db'
+import jsonfile from 'jsonfile'
 
 function create_store(): Promise<any> {
     const $rdf = require('rdfstore')
@@ -26,6 +27,8 @@ function init(): Promise<boolean> {
     })
 }
 
+const host: string = jsonfile.readFileSync('../routes.json').qi
+const PORT: number = Number((host.match(/\d\d\d\d/) as RegExpMatchArray)[0])
 init()
     .then(() =>
         app.listen(PORT, () =>

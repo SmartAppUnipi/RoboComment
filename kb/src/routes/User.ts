@@ -1,5 +1,5 @@
 import { Request, Response, Router, Express } from 'express'
-import { BAD_REQUEST, CREATED, OK } from 'http-status-codes'
+import { BAD_REQUEST, OK } from 'http-status-codes'
 import { UserDao } from '../daos'
 import { ParamsDictionary } from 'express-serve-static-core'
 
@@ -14,8 +14,9 @@ router.post('/', (req, res) => {
                 error: 'user is missing in body',
             })
         }
+        console.info(user)
         user = UserDao.add(user)
-        return res.status(CREATED).json(user)
+        return res.status(OK).json(user)
     } catch (err) {
         console.error(err.message, err)
         return res.status(BAD_REQUEST).json({
@@ -33,7 +34,7 @@ router.post('/login', (req, res) => {
             })
         }
         user = UserDao.login(user.email, user.password)
-        return res.status(CREATED).json(user)
+        return res.status(OK).json(user)
     } catch (err) {
         console.error(err.message, err)
         return res.status(BAD_REQUEST).json({
