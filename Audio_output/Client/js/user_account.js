@@ -16,55 +16,75 @@ function createUser() {
             && check(lastname) && check(date) && check(favoriteteam))) {
 
             showSnack();
-            login();
 
             ws.send("{\n" +
                 "    \"request\": {\n" +
-                "        \"first_name\": \"" + firstname.value + "\",\n" +
-                "        \"last_name\": \"" + lastname.value + "\",\n" +
-                "        \"date_of_birth\": \"" + date.value + "\",\n" +
-                "        \"email\": \"" + email.value + "\",\n" +
-                "        \"password\": \"" + password.value + "\",\n" +
-                "        \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
+                "       \"user\": {\n" +
+                "           \"first_name\": \"" + firstname.value + "\",\n" +
+                "           \"last_name\": \"" + lastname.value + "\",\n" +
+                "           \"date_of_birth\": \"" + date.value + "\",\n" +
+                "           \"email\": \"" + email.value + "\",\n" +
+                "           \"password\": \"" + password.value + "\",\n" +
+                "           \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
+                "       }\n" +
                 "    },\n" +
                 "    \"request_type\": \"user_registration\"\n" +
+                "    \"user_id\": \"\"\n" +
                 "}");
             console.log("Send registration request")
         }
-    }else{
-        showSnack();
-        login();
-
-        ws.send("{\n" +
-            "    \"request\": {\n" +
-            "        \"first_name\": \"" + firstname.value + "\",\n" +
-            "        \"last_name\": \"" + lastname.value + "\",\n" +
-            "        \"date_of_birth\": \"" + date.value + "\",\n" +
-            "        \"email\": \"" + email.value + "\",\n" +
-            "        \"password\": \"" + password.value + "\",\n" +
-            "        \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
-            "    },\n" +
-            "    \"request_type\": \"user_registration\"\n" +
-            "}");
-        console.log("Send registration request")
+    // }else{
+    //     showSnack();
+    //
+    //     ws.send("{\n" +
+    //         "    \"request\": {\n" +
+    //         "        \"first_name\": \"" + firstname.value + "\",\n" +
+    //         "        \"last_name\": \"" + lastname.value + "\",\n" +
+    //         "        \"date_of_birth\": \"" + date.value + "\",\n" +
+    //         "        \"email\": \"" + email.value + "\",\n" +
+    //         "        \"password\": \"" + password.value + "\",\n" +
+    //         "        \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
+    //         "    },\n" +
+    //         "    \"request_type\": \"user_registration\"\n" +
+    //         "}");
+    //     console.log("Send registration request")
+    // }
     }
-
 }
 
 function loginUser() {
-
-
     if (check(email) && check(password)){
         ws.send("{\n" +
             "    \"request\": {\n" +
-            "        \"email\": \"" + email.value + "\",\n" +
-            "        \"password\": \"" + password.value + "\"\n" +
+            "       \"user\": {\n" +
+            "           \"email\": \"" + email.value + "\",\n" +
+            "           \"password\": \"" + password.value + "\"\n" +
+            "       }\n" +
             "    },\n" +
             "    \"request_type\": \"user_login\"\n" +
+            "    \"user_id\": \""+getCookie("userId")+"\"\n" +
             "}");
 
         console.log("Send login request")
     }
+}
+
+function ifCookie(field) {
+    let cookie = getCookie(field);
+    if (cookie === "")
+        return 0;
+    else
+        return cookie;
+}
+
+function userHello() {
+    ws.send("{\n" +
+        "    \"request\": \"New connection\",\n" +
+        "    \"request_type\": \"hello\",\n" +
+        "    \"user_id\": "+ifCookie("userId")+"\n" +
+        "}");
+
+    console.log("Send hello request")
 }
 
 function userUpdate() {

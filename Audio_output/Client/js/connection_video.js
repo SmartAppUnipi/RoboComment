@@ -110,7 +110,7 @@ function googleSpeak(item,text){
         "      'languageCode':'en-gb',\n" +
         "      'name':'en-GB-Standard-A',\n" +
         "      'ssmlGender':'FEMALE'\n" +
-        "    },\n" +
+        "    },\n" +    
         "    'audioConfig':{\n" +
         "      'audioEncoding':'OGG_OPUS'\n" +
         "    }\n" +
