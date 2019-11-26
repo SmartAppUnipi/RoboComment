@@ -4,6 +4,7 @@ import random
 from CommentGenerator.src.Picker_test.Tagger import Tagger
 from CommentGenerator.src.Picker_test.TemplateGenerator import TemplateGenerator
 
+
 class Picker:
 
     def __init__(self):
@@ -13,47 +14,44 @@ class Picker:
         with open('./comments_others.txt', "r") as f:
             self.comment_others = [str(line) for line in f.readlines()]
 
-        # order of tags
-        self.sentence_order = ['player1', 'team1', 'subtype', 'field_zone', 'player2', 'team2']
+        # order of tags, corresponding to definition of the grammar
+        self.sentence_order = {
+            "active": ['player1', 'team1', 'subtype', 'field_zone', 'player2', 'team2']
+        }
         # element where insert value instead of key
         self.tag_to_value = ["subtype", "field_zone"]
 
     def pick_comment(self, input_json: json):
-        ''' From json extract information and save in a ordered list according to sentence_order '''
+        """
+        From json extract information and produce a comment.
+        The comment is stored and filled from comments_others if the input is empty
+        The comment is tagged and produce if the json has useful information
+        :param input_json:
+        :return:
+        """
 
-        input_json = {
-            'time': {'start': 10, 'end': 20},
-            'type': 'elementary',
-            'details': {'team1': 'Juventus', 'subtype':'cross', 'field_zone':'middle'}
-        }
-
-        comment = ""
-        # extract information from json
-        # if json is empty
+        final_comment = ""
+        # if json is empty drawn a others_comment
         if self.check_empty_json(input_json):
-            comment = random.sample(self.comment_others, 1)[0]
+            final_comment = random.choice(self.comment_others)
         # if json is not empty
         else:
             sentence = self.create_sentence(input_json['details'])
-
-            # tag the information in the json
             sentence_tagged = self.tagger.tag_sentence(sentence)
+            final_comment = self.template_generator.generate(sentence_tagged)
 
-            # create base sentence
-            comment = self.template_generator.generate(sentence_tagged)
-
-        return comment
+        return final_comment
 
     def create_sentence(self, information):
         """
-        Structure the sentence in a predefine way.
-        The order is formalize according to sentence_order
+        Structures the sentence according to order in sentence_order
         Some tags are substitute with the value, useful to generate correct template
+        :param information:
+        :return:
         """
-        # insert in a sentence the information in order,
-        # substitute key with value in some field
         sentence = []
-        for element in self.sentence_order:
+        sorting = random.choice(list(self.sentence_order))
+        for element in sorting:
             # we have the information
             if element in information:
                 # if value is needed
@@ -68,7 +66,7 @@ class Picker:
 
         return sentence
 
-    def check_empty_json(self, input_json)->bool:
+    def check_empty_json(self, input_json) -> bool:
         """
         Check if the json has useful information, if not create a contextual template
         :param input_json:
@@ -76,12 +74,10 @@ class Picker:
         """
         if len(input_json) == 0:
             return True
-        else:
-            return False
+        return False
 
 
 if __name__ == '__main__':
-
     """
     Call this class from commentator
     """
@@ -89,7 +85,6 @@ if __name__ == '__main__':
 
     with open("../../assets/input1.json", 'r') as input1_json:
         input_json = json.load(input1_json)
-
+        print("INPUT:", input_json)
         comment = picker.pick_comment(input_json)
         print("\nFINAL comment:", comment)
-

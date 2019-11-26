@@ -6,13 +6,13 @@ class TemplateGenerator:
     def __init__(self):
         self.leaf = {
             "Subject_player": {
-                "empty" : ["the player"],
+                "empty": ["a player"],
                 "no_empty": ["{p}"]
             },
             "Team_player": {
                 "no_empty": ["of the {p}", "belonging to {p}", ", a {p} player,", ""]
             },
-            "Action_player_ball":{
+            "Action_player_ball": {
                 "no_empty": ["{p} the ball", "{p}"]
             },
             "Action_player_active": {
@@ -41,12 +41,12 @@ class TemplateGenerator:
             # insert or not insert the element with empty
             # The subject is always present
             if key == "Subject_player" and value == "{empty}":
-                template = random.sample(self.leaf[key]["empty"], 1)[0]
+                template = random.choice(self.leaf[key]["empty"])
                 sentence_template[key] = template
             else:
                 if value != "{empty}":
                     # find the correct sub-template, random
-                    template = random.sample(self.leaf[key]["no_empty"], 1)[0]
+                    template = random.choice(self.leaf[key]["no_empty"])
                     # substitute with correct word, if action is part of the final comment
                     template = template.replace("{p}", value)
 
