@@ -24,10 +24,9 @@ class Picker:
         input_json = {
             'time': {'start': 10, 'end': 20},
             'type': 'elementary',
-            'details': {'subtype': 'pass', 'team1': 'Team A'}
+            'details': {'team1': 'Juventus', 'subtype':'cross', 'field_zone':'middle'}
         }
 
-        print("Input:", input_json)
         comment = ""
         # extract information from json
         # if json is empty
@@ -36,14 +35,9 @@ class Picker:
         # if json is not empty
         else:
             sentence = self.create_sentence(input_json['details'])
-            print("\nCreated sentence:", sentence)
 
             # tag the information in the json
             sentence_tagged = self.tagger.tag_sentence(sentence)
-            print("\nTagged created sentence:", sentence_tagged)
-
-            # validate the grammar before generate template
-
 
             # create base sentence
             comment = self.template_generator.generate(sentence_tagged)
