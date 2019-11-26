@@ -39,15 +39,13 @@ class TemplateGenerator:
                 # find the correct sub-template, random
                 template = random.sample(self.leaf[key]["no_empty"], 1)[0]
                 # substitute with correct word, if action is part of the final comment
-                if key == "Action_player_active":
-                    value_action = value.replace("{","").replace("}","")
-                    template = template.replace("{p}", value_action)
-                else:
-                    template = template.replace("{p}", value)
+                template = template.replace("{p}", value)
 
                 sentence_template[key] = template
 
-        return sentence_template
+        final_comment = self.to_comment(sentence_template)
+
+        return final_comment
 
     def to_comment(self, comment_tagged):
         return ' '.join(comment_tagged.values())
