@@ -7,7 +7,7 @@ class Commentator:
 
     def __init__(self, knowledge_base):
         self.kb = knowledge_base
-        self.config = 'CommentGenerator/assets/config_test.json'
+        self.config = 'CommentGenerator/assets/config.json'
         self.template = 'CommentGenerator/assets/templates.json'
         self.picker = Picker(self.template)
         self.filler = Filler(self.config)

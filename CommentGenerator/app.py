@@ -44,7 +44,8 @@ def action():
     # call our main
 
     output = commentator.run(input)
-
+    
+    print(output['comment'])
     # post to the audio group
     forward_to_audio(output)
     
