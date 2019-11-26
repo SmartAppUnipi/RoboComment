@@ -12,6 +12,9 @@ class TemplateGenerator:
             "Team_player": {
                 "no_empty": ["of the {p}", "belonging to {p}", ", a {p} player,", ""]
             },
+            "Action_player_ball":{
+                "no_empty": ["{p} the ball", "{p}"]
+            },
             "Action_player_active": {
                 "no_empty": ["do a {p}", "{p}"]
             },

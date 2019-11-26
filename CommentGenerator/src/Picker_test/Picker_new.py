@@ -33,7 +33,7 @@ class Picker:
         # extract information from json
         # if json is empty
         if self.check_empty_json(input_json):
-            return random.sample(self.comment_others, 1)[0]
+            comment = random.sample(self.comment_others, 1)[0]
         # if json is not empty
         else:
             sentence = self.create_sentence(input_json['details'])
