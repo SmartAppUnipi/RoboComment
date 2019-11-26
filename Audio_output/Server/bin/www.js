@@ -9,8 +9,7 @@ let debug           = require('debug')('websportserver:server');
 let http            = require('http');
 let WebSocketServer = require('websocket').server;
 let connections     = [];
-let old_comment     = null;
-let new_comment     = null;
+let ConnectionUser  = require('../connectionClass');
 
 const KBApp         = require('axios');
 const VideoApp      = require('axios');
@@ -23,10 +22,9 @@ const kb_url        = routes.qi;
 const url_video     = routes.video;
 let url_login       = kb_url+"/users/login";
 let url_user        = kb_url+ "/users";
-console.log(COMMENT_PORT);
-const DEBUGERR      = false;
-const DEBUG_MODE     = true;
 
+const DEBUGERR      = false;
+const DEBUG_MODE    = true;
 const config = {
     headers: {
         'Content-Type': 'application/json'
@@ -118,7 +116,7 @@ function onListening() {
  * Event listener for HTTP server "listening" event.
  */
 function onListeningComment() {
-  debug('Listening on ' + commentPort);
+  debug('Listening on ' + commentPort + " for Fabula");
 }
 
 /**
@@ -128,8 +126,6 @@ wsServer.on('request', function(request) {
   console.log("New web socket connection");
   let connection = request.accept(null, request.origin);
 
-
-  // connections.push(connection);
   connection.on('message', function(message) {
     // on message received
     if (message.type === 'utf8') {
@@ -140,6 +136,7 @@ wsServer.on('request', function(request) {
   }).on('close', function(event) {
     console.log("Web socket connection closed");
     // remove the closed connection
+    console.log(connections.indexOf(connection));
     connections.splice(connections.indexOf(connection));
   });
 });
@@ -149,18 +146,18 @@ commentApp.post("/", function (req, res) {
 
   console.log(req.body);
 
-  new_comment = JSON.parse(JSON.stringify(req.body));
+  let comment = JSON.parse(JSON.stringify(req.body));
 
   res.sendStatus(200);
 
-  if (new_comment.id!==0){
+  if (comment.id!==0){
       for(let i=0; i< connections.length; i++) {
-          if(new_comment.id === connections[i].id){
-              sendComment(connections[i].socket);
+          if(comment.id === connections[i].id){
+              connections[i].new_comment = comment;
+              sendComment(connections[i]);
           }
       }
   }
-  // sendComment();
 });
 
 
@@ -168,7 +165,12 @@ commentApp.post("/", function (req, res) {
  * Utils functions
  */
 
-function sendComment(connection) {
+function sendComment(item) {
+
+    let connection = item.socket;
+    let new_comment = item.new_comment;
+    let old_comment = item.old_comment;
+
     if (old_comment == null) {
         console.log("Broadcast to clients");
         let reply = {
@@ -176,7 +178,7 @@ function sendComment(connection) {
             reply: new_comment
         };
         connection.socket.send(JSON.stringify(reply));
-        old_comment = new_comment;
+        item.old_comment = new_comment;
     }
     else {
         if(!DEBUG_MODE){
@@ -190,7 +192,7 @@ function sendComment(connection) {
                     };
                     connection.socket.send(JSON.stringify(reply));
 
-                    old_comment = new_comment;
+                    item.old_comment = new_comment;
                 }
             } else {
                 console.log("Broadcast to clients");
@@ -199,7 +201,7 @@ function sendComment(connection) {
                     reply: new_comment
                 };
                 connection.socket.send(JSON.stringify(reply));
-                old_comment = new_comment;
+                item.old_comment = new_comment;
             }
         }
     }
@@ -348,41 +350,3 @@ function set_video_response(id, url) {
     return "{\"match_id\": \""+id+"\",\n" +
         "\"match_url\": \"" +url+ "\"\n}";
 }
-
-class ConnectionUser {
-    constructor(socket, id) {
-        this.socket          = socket;
-        this.id     = id;
-    }
-}
-
-// function jsonParser() {
-//     // let routses = JSON.parse(filepath);
-//     // WSIP = routses.ui;
-//     // commentIP = routses.fabula;
-//     // kb_url = routses.qi;
-//     // url_video = routses.video;
-//
-//
-//     fs.readFile('../../routes.json', 'utf8', (err, jsonString) => {
-//         if (err) {
-//             console.log("Error reading file from disk:", err);
-//             return
-//         }
-//         try {
-//             const routses = JSON.parse(jsonString);
-//             WSIP = routses.ui.toString().split(":")[1].split("/")[2];
-//             console.log(WSIP);
-//             WS_PORT = routses.ui.toString().split(":")[2].split("/")[0];
-//             console.log(WS_PORT);
-//             commentIP = routses.fabula.toString().split(":")[1].split("/")[2];
-//             console.log(commentIP);
-//             COMMENT_PORT = routses.fabula.toString().split(":")[2].split("/")[0];
-//             console.log(COMMENT_PORT);
-//             kb_url = routses.qi;
-//             url_video = routses.video;
-//         }catch (e) {
-//             console.log(e);
-//         }
-//     });
-// }
