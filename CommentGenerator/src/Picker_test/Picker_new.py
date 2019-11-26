@@ -22,6 +22,12 @@ class Picker:
     def pick_comment(self, input_json: json):
         ''' From json extract information and save in a ordered list according to sentence_order '''
 
+        input_json = {
+            'time': {'start': 10, 'end': 20},
+            'type': 'elementary',
+            'details': {'team1': 'team A', 'subtype': 'pass'}
+        }
+
         print("Input:", input_json)
         comment = ""
         # extract information from json
@@ -88,7 +94,6 @@ if __name__ == '__main__':
     with open("../../assets/input1.json", 'r') as input1_json:
         input_json = json.load(input1_json)
 
-        input_json = {}
         comment = picker.pick_comment(input_json)
         print("\nFINAL comment:", comment)
 
