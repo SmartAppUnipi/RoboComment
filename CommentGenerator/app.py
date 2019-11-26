@@ -8,6 +8,8 @@ from threading import Thread
 
 app = Flask(__name__)
 
+AUDIO_URL = "http://audio.url:3003/"
+KB_URL = "http://kb.url:3004/"
 commentator = None
 knowledge_base = None
 
@@ -61,21 +63,12 @@ def init():
 
 if __name__ == '__main__':
     try:
-        with open("../routes.json",'r') as servicesfile:
+        with open("routes.json",'r') as servicesfile:
             services = json.load(servicesfile)
-
             AUDIO_URL = services['fabula']
             KB_URL = services['qi']
     
     except FileNotFoundError:
-        print("No services.json file provided")
-    
-    
-    # try:
-    #     AUDIO_IP = sys.argv[1]
-    #     KB_URL = sys.argv[2]
-    # except IndexError:
-    #     print("USAGE: python3.6 app.py [AUDIO IP] [KB IP]")
-    #     exit(-1)
+        print("No routes.json file provided")
     
     app.run(host='0.0.0.0', port=3002)
