@@ -9,57 +9,33 @@ class Tagger:
     """
 
     def __init__(self):
-        self.rules = {
-            "{player1}": "SUBJECT",
-            "{team1}": "SUBJECT_TEAM",
-            "{player2}": "OBJECT_PRONOUNS",
-            "{team2}": "OBJECT_PRONOUNS_TEAM",
-            "{type}": "ACTION_TYPE",
-            "{subtype}": "SUBTYPE",
-            "{field_zone}": "ZONE"
-        }
+        self.grammar = nltk.data.load('file:json_grammar.cfg')
 
     def tag_sentence(self, sentence):
-        """
-        In this method is solved the ordered dependency, thanks to dictionary
-        :param sentence: ["{player1}", "{team1}", ...]
-        :return: ["{player1}", entity tagged), ("{team1}", entity tag), ...]
-        """
-        sentence_tagged = []
-        for tag in sentence:
-            sentence_tagged.append((tag, self.rules[tag]))
-        return sentence_tagged
+        result = self.create_tree(sentence)
 
+        dict_result = self.to_dictionary(result)
 
-if __name__ == '__main__':
-    print("hello")
-    """
-    Syntax:
-    WORD are Node
-    Word are leaf
-    """
-    grammar = CFG.fromstring("""
-    JSON -> Subject DETAILS | TIME Subject DETAILS
-    Subject -> '{player1}' | '{team1}'
-    
-    SUBTYPE -> ELEMENTARY | STRATEGY | SCENARIO
-    Elementary -> 'pass' | 'shot' | 'holderMove' | 'move' | 'possession' | 'cross' | 'foul' | 'duel' | 'clearance' | 'possession lost' | 'interception'
-    Details -> '{team1}' | '{team2}' | '{player1}' | '{player2}' | '{field_zone}' | '{subtype}' | '{confidence}'
-    """)
+        return dict_result
 
-    print('A Grammar:', grammar)
-    print('grammar.start()   =>', grammar.start())
-    print('grammar.productions() =>')
-    # Use string.replace(...) is to line-wrap the output.
-    print(grammar.productions())
+    def create_tree(self, sentence):
+        if len(sentence) == 6:
+            try:
+                rd_parser = nltk.RecursiveDescentParser(self.grammar)
+                for tree in rd_parser.parse(sentence):
+                    result = tree
+                return result
+            except:
+                raise Exception("ERROR: Not matched passed data")
+        else:
+            raise Exception("Lentgh passed mismatch")
 
-    try:
-        input = ['{player1}']
-        grammar.check_coverage(input)
-        print("\nJson covered")
+    def to_dictionary(self, result):
+        final_result = {}
+        # This method select the most specific tag for the json content
+        for tags in result[0]:
+            str_cleaned = str(tags).replace("(","").replace(")","")
+            content = str_cleaned.split()
+            final_result[content[len(content)-2]] = content[len(content)-1]
 
-        rd_parser = nltk.RecursiveDescentParser(grammar)
-        for tree in rd_parser.parse(input):
-            print(tree)
-    except:
-        print("Same Json tag passed are not covered")
+        return final_result
