@@ -8,6 +8,7 @@ function connect() {
     ws.onopen = function() {
         // subscribe to some channels
         ws.send(JSON.stringify("New Connection"));
+        userHello();
         console.log("Web Socket connection established")
     };
 
@@ -39,7 +40,7 @@ function connect() {
                 if (message.status === "400")
                     alert("Registration failed");
                 else if (message.status === "200") {
-                    console.log("Registration ok");
+                    console.log("Registration ok, id = " + message.reply.id);
                     login();
                 }
                 break;
