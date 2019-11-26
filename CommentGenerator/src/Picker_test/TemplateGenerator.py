@@ -2,35 +2,52 @@ import random
 
 
 class TemplateGenerator:
-    """
-    Find the most depth path from the keywords passed.
-    # TODO add support to nested node in a recursive way
-    """
-
-    "Position 0 always phrase for empty, position 1 always position with content"
 
     def __init__(self):
         self.leaf = {
-            "Subject_player":[
-                ["a player", ""],
-                ["{placeholder}"]
-            ],
-            "Team_player": [],
-            "Action_player": [],
-            "Action_zone_from": [],
-            "Action_zone_in": [],
-            "Receiver_player": [],
-            "Team_receiver": []
+            "Subject_player": {
+                "no_empty": ["{p}", "the player"]
+            },
+            "Team_player": {
+                "no_empty": ["of the {p}", "belonging to {p}", ", a {p} player,", ""]
+            },
+            "Action_player_active": {
+                "no_empty": ["do a {p}", "{p}"]
+            },
+            "Action_player_continue": {
+                "no_empty": ["is doing {p}"]
+            },
+            "Action_zone_from": {
+                "no_empty": ["from {p} of the field", "from the {p}"]
+            },
+            "Action_zone_in": {
+                "no_empty": ["in the {p} of the field", "inside {p} of the field"]
+            },
+            "Receiver_player": {
+                "no_empty": ["to {p}", "towards the {p}"]
+            },
+            "Team_receiver": {
+                "no_empty": ["of the {p} team", ""]
+            }
         }
-    def generate(self, sentence_tagged):
-        list_comment = []
-        for key in sentence_tagged:
-            if sentence_tagged[key] == "{empty}":
-                # pick from empty random subtemplate
-                list_comment.append(random.sample(self.leaf[key][0]))
-                # pick from content random subtemplate
-            else:
-                # and fill the placeholder position with content
-                list_comment.append(random.sample(self.leaf[key][1]))
 
-        return list_comment
+    def generate(self, sentence_tagged):
+        sentence_template = {}
+        for key, value in sentence_tagged.items():
+            # insert or not insert the element with empty
+            if value != "{empty}":
+                # find the correct sub-template, random
+                template = random.sample(self.leaf[key]["no_empty"], 1)[0]
+                # substitute with correct word, if action is part of the final comment
+                if key == "Action_player_active":
+                    value_action = value.replace("{","").replace("}","")
+                    template = template.replace("{p}", value_action)
+                else:
+                    template = template.replace("{p}", value)
+
+                sentence_template[key] = template
+
+        return sentence_template
+
+    def to_comment(self, comment_tagged):
+        return ' '.join(comment_tagged.values())

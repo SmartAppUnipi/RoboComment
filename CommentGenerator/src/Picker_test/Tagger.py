@@ -1,6 +1,5 @@
-import nltk
-from nltk import CFG
-
+from nltk import RecursiveDescentParser
+from nltk import data
 
 class Tagger:
     """
@@ -9,7 +8,7 @@ class Tagger:
     """
 
     def __init__(self):
-        self.grammar = nltk.data.load('file:json_grammar.cfg')
+        self.grammar = data.load('file:json_grammar.cfg')
 
     def tag_sentence(self, sentence):
         result = self.create_tree(sentence)
@@ -21,7 +20,7 @@ class Tagger:
     def create_tree(self, sentence):
         if len(sentence) == 6:
             try:
-                rd_parser = nltk.RecursiveDescentParser(self.grammar)
+                rd_parser = RecursiveDescentParser(self.grammar)
                 for tree in rd_parser.parse(sentence):
                     result = tree
                 return result
