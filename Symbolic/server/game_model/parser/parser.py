@@ -24,12 +24,12 @@ def _get_pattern(token: str, part: str):
 
 
 def parse(rule_string: str):
-    stack, rules = rule_string.split(' = ')
+    name, rules = rule_string.split(' = ')
 
     if ':' not in rules:
         return {
-            'name': stack,
-            'function': rules
+            'name': name,
+            'function': rules[3:]
         }
 
     rules, constraints = rules.split(' : ')
@@ -37,11 +37,11 @@ def parse(rule_string: str):
     parse_obj = {
         'condition': [],
         'action': None,
-        'name': stack
+        'name': name
     }
     for rule in rules.split(' & '):
         _parse_rule(rule, parse_obj)
-        _parse_stack(stack, parse_obj)
+        _parse_stack(name, parse_obj)
     _parse_constraints(constraints, parse_obj)
 
     return parse_obj
