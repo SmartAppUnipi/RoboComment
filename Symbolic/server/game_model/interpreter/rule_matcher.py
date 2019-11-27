@@ -1,21 +1,25 @@
 from game_model.interpreter.boolean_matcher import boolean_matcher
 import types
 
-'''Rule structure
+'''
+This method picks a rule with the following structure:
+
+Rule structure
 {
     'condition': [regex1, regex2, ...],
     'action': function()
 }
-A regex is an object as define in regex_matcher.py
+
+if all the conditions match in AND then the action is executed
 '''
 
 
-def rule_matcher(condition, action, stacks):
+def rule_matcher(condition, action, stacks, registers):
     '''
     if not isinstance(action, types.FunctionType):
         raise TypeError
     '''
-    if boolean_matcher(condition, stacks):
+    if boolean_matcher(condition, stacks, registers):
         action()
         return True
     return False

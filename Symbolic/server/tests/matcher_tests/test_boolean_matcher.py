@@ -1,5 +1,7 @@
 from game_model.interpreter.boolean_matcher import boolean_matcher
 
+registers = {}
+
 stacks = {
     'firstsecondlast': [
         {
@@ -43,19 +45,13 @@ second = {
 }
 
 def test_boolean_match_singletrue_regex():
-    assert boolean_matcher([first], stacks)
+    assert boolean_matcher([first], stacks, registers)
 
 def test_boolean_match_singlefalse_regex():
-    assert not boolean_matcher([second], stacks)
+    assert not boolean_matcher([second], stacks, registers)
 
 def test_boolean_match_copy_regex():
-    assert boolean_matcher([first, first], stacks)
+    assert boolean_matcher([first, first], stacks, registers)
 
 def test_boolean_match_truefalse_regex():
-    assert not boolean_matcher([first, second], stacks)
-
-
-test_boolean_match_singletrue_regex()
-test_boolean_match_singlefalse_regex()
-test_boolean_match_copy_regex()
-test_boolean_match_truefalse_regex()
+    assert not boolean_matcher([first, second], stacks, registers)

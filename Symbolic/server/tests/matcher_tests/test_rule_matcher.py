@@ -3,6 +3,8 @@ from game_model.interpreter.rule_matcher import rule_matcher
 def action():
     print('Correct')
 
+registers = {}
+
 stacks = {
     'first_stack':[
         {
@@ -61,7 +63,7 @@ double_rule = {
 }
 
 def test_rule_match_single():
-    assert rule_matcher(single_rule['condition'], single_rule['action'], stacks)
+    assert rule_matcher(single_rule['condition'], single_rule['action'], stacks, registers)
 
 def test_rule_match_double():
-    assert rule_matcher(double_rule['condition'], double_rule['action'], stacks)
+    assert rule_matcher(double_rule['condition'], double_rule['action'], stacks, registers)
