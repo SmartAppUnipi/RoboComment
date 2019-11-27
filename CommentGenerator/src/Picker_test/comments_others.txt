@@ -9,4 +9,4 @@ From our perspective it is difficult to understand what is happening
 Perhaps the recordings will make us understand more clearly
 Hh, a funny joke came to mind: How did the programmer die in the shower?... He read the shampoo bottle instructions: Lather. Rinse. Repeat.
 Do you know how many programmers does it take to change a light bulb?...None, it's a hardware problem
-My teacher always said Programming is 10% science, 20% ingenuity, and 70% getting the ingenuity to work with the science.
+My mentor always said Programming is 10% science, 20% ingenuity, and 70% getting the ingenuity to work with the science.

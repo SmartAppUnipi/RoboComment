@@ -22,42 +22,40 @@ class Picker:
         }
         # element where insert value instead of key
         self.tag_to_value = ["subtype", "field_zone"]
+        # list of possible combination of inconsistent info to reject
+        self.inconsistent_information = []
 
-    def pick_comment(self, input_json: json):
+    def pick_comment(self, input_json: json) -> str:
         """
         From json extract information and produce a comment.
         The comment is stored and filled from comments_others if the input is empty
+        The comment is produced with a partial comment if the json has not consistent information
         The comment is tagged and produce if the json has useful information
         :param input_json:
         :return:
         """
-        final_comment = ""
         if self.check_empty_json(input_json):
             final_comment = self.create_others()
         else:
-            final_comment = self.create_template(input_json["details"])
+            sentence = self.create_sentence(input_json["details"])
+            # try to tag the sentence
+            try:
+                sentence_tagged = self.tagger.tag_sentence(sentence)
+                final_comment = self.template_generator.generate(sentence_tagged)
+            # if an error is found means that inconsistency was found
+            except:
+                final_comment = self.create_others()
 
         return final_comment
 
-    def create_others(self):
+    def create_others(self) -> str:
         """
         This method pick a random template inside the comments_others.txt to fill the empty moments
         :return:
         """
         return random.choice(self.comment_others)
 
-    def create_template(self, details):
-        """
-        This method receive the details inside the json and products the final comment
-        :param details:
-        :return:
-        """
-        sentence = self.create_sentence(details)
-        sentence_tagged = self.tagger.tag_sentence(sentence)
-        final_comment = self.template_generator.generate(sentence_tagged)
-        return final_comment
-
-    def create_sentence(self, information):
+    def create_sentence(self, information) -> list:
         """
         Structures the sentence according to order in sentence_order
         Some tags are substitute with the value, useful to generate correct template
@@ -102,6 +100,11 @@ if __name__ == '__main__':
 
     with open("../../assets/input1.json", 'r') as input1_json:
         input_json = json.load(input1_json)
+        input_json = {
+            'details': {'player2': 'Ronaldo',
+                        'subtype': 'cross',
+                        'field_zone': 'middle'}
+        }
         print("INPUT:", input_json)
         comment = picker.pick_comment(input_json)
         print("\nFINAL comment:", comment)
