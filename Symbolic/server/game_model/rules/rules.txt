@@ -1,16 +1,2 @@
 possession      = ___ball_owner
-ballOnTarget    = ___ball_on_target
-ballOffTarget   = ___ball_off_target
-fastBall        = ___fast_ball
-
 pass            = possession as @0 -> .{0,4} -> possession as @1 : @0.player.team == @1.player.team
-
-interception    = possession as @0 -> possession as @1 : @0.player.team != @1.player.team
-clearance       = possession as @0 -> fastBall : @0.player.team in #homehalf
-shotOnTarget    = possession as @0 -> ballOnTarget : @0.player.position in #awayhalf
-shotOffTarget   = possession as @0 -> ballOffTarget : @0.player.position in #awayhalf
-cross           = possession as @0 -> fastBall -> possession as @1 : @0.player.team == @1.player.team
-tikiTaka        = possession as @0 -> possession as @1 -> possession as @2 -> possession as @3 : @0.player.team == @1.player.team == @3.player.team == @4.player.team AND @0.player.team in #awayhalf
-parkTheBus      = tikiTaka as @0 -> tikiTaka as @0 : @0.team == #inFrontOfTheBall
-longBall        = cross as @0 -> .{0,4} -> cross as @1 : @0.player.team != @1.player.team
-pressing        = interception @0 : @0 == #homehalf

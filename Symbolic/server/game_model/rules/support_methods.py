@@ -1,5 +1,5 @@
 import math
-
+import random
 
 # TODO
 # Retrieve those methods
