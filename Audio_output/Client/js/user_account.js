@@ -85,6 +85,16 @@ function userUpdate() {
         "}");
 }
 
+function videoListRequest() {
+    ws.send("{\n" +
+        "    \"request\": \"\",\n" +
+        "    \"request_type\": \"get_videoList\",\n" +
+        "    \"user_id\": "+ifCookie("userId")+"\n" +
+        "}");
+
+    console.log("Send video list request")
+}
+
 function check(input) {
     if (input.value === null || input.value === "") {
         input.setCustomValidity("Please fill the filed");

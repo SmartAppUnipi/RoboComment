@@ -1,4 +1,4 @@
-const url        = 'ws://10.101.18.19:4020';
+const url        = 'ws://localhost:4020';
 let queue        = new Queue();
 let ws = null;
 
