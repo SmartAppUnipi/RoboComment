@@ -69,14 +69,6 @@ function loginUser() {
     }
 }
 
-function ifCookie(field) {
-    let cookie = getCookie(field);
-    if (cookie === "")
-        return 0;
-    else
-        return cookie;
-}
-
 function userHello() {
     ws.send("{\n" +
         "    \"request\": \"New connection\",\n" +

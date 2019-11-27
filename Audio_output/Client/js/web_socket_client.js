@@ -29,9 +29,9 @@ function connect() {
                     alert("Login failed");
                 else if (message.status === "200") {
                     console.log("Login ok:");
-                    setCookie("userId", message.reply.id);
+                    setCookie("userId", message.reply.id, 15);
                     console.log(getCookie("userId"));
-                    window.location.href = "cards.html";
+                    window.location.href = "index.html";
                     console.log(message.reply.id);
                 }
                 break;
