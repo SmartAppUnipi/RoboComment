@@ -10,10 +10,12 @@ A regex is an object as define in regex_matcher.py
 '''
 
 
-def rule_matcher(condition, action):
+def rule_matcher(condition, action, stacks):
+    '''
     if not isinstance(action, types.FunctionType):
         raise TypeError
-    if boolean_matcher(condition):
+    '''
+    if boolean_matcher(condition, stacks):
         action()
         return True
     return False
