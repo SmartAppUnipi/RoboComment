@@ -41,8 +41,7 @@ class Picker:
                 final_comment = self.template_generator.generate(sentence_tagged)
             # if an error is found means that inconsistency was found
             except:
-                # TODO try to create a comment with less possible information
-                # like time
+                # TODO try to create a comment with less possible information and querying kb
                 final_comment = self.create_others()
 
         return final_comment
@@ -99,11 +98,7 @@ if __name__ == '__main__':
 
     with open("../../assets/input1.json", 'r') as input1_json:
         input_json = json.load(input1_json)
-        input_json = {
-            'details': {'player2': 'Ronaldo',
-                        'subtype': 'cross',
-                        'field_zone': 'middle'}
-        }
+        # TODO add test test and test
         print("INPUT:", input_json)
         comment = picker.pick_comment(input_json)
         print("\nFINAL comment:", comment)
