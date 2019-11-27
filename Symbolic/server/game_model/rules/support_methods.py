@@ -9,47 +9,37 @@ import random
 # fastBall        = ___fast_ball
 
 
-dummy = {
+_dummy = {
     "players": [],
     "ball": {}
 }
 
 
-def deltaPlayersBall(pos=None):
+def _deltaPlayersBall(pos=None):
     # returns a list of players ordered by distance from the ball
 
     if not pos:
-        pos = dummy
-
-    retList = []
+        pos = _dummy
 
     ball_x = float(pos['ball']['position']['x'])
     ball_y = float(pos['ball']['position']['y'])
+
 
     for player in pos['players']:
         # check that player is not the referee
         if player['team'] != -1:
             x = float(player['position']['x'])
             y = float(player['position']['y'])
-            distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
+            distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))   
+            player['delta'] = distance
 
-            retList.append({
-                'distance': round(distance, 2),
-                'id': player['id']['value'],
-                'team': player['team']['value']
-            })
-
-            # diz = {"distance":str("%.4f" % distance)}
-            print(str("%.4f" % distance) + " p:" +
-                  player['id']['value'] + " t:" + player['team']['value'])
-
-        return retList
+    return pos
 
 
-def createDummy():
+def _create_dummy():
     # Creating players of team A
     for i in range(0, 11):
-        dummy['players'].append(
+        _dummy['players'].append(
             {
                 "position": {
                     "x": str("%.2f" % (random.random() * 100)),
@@ -66,7 +56,7 @@ def createDummy():
 
     # Creating players of team b
     for i in range(0, 11):
-        dummy['players'].append(
+        _dummy['players'].append(
             {
                 "position": {
                     "x": str("%.2f" % (random.random() * 100)),
@@ -81,7 +71,7 @@ def createDummy():
             }
         )
 
-    dummy['ball'].update(
+    _dummy['ball'].update(
         {
             "position": {
                 "x": str("%.2f" % (random.random() * 100)),
@@ -90,7 +80,20 @@ def createDummy():
         }
     )
 
-    # pprint.pprint(dummy)
+    # pprint.pprint(_dummy)
+
+
+def ball_owner(pos):
+    data = _deltaPlayersBall(pos)['players']
+    
+    min = math.inf
+    for player in data:
+        if player['delta'] < min:
+            min = player['delta']
+    
+    closest = data['delta' == min]
+
+    return closest
 
 
 def ___ball_on_target(positions):
@@ -101,3 +104,9 @@ def ___ball_on_target(positions):
     1. Cut it at one half
 
     """
+
+
+if __name__ == '__main__':
+    _create_dummy()
+    ball_owner(_dummy)
+
