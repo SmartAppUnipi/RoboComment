@@ -24,7 +24,7 @@ class KnowledgeBase:
         return self.get_item(self.user, user_id)
 
     def get_item(self, entity, id):
-        resp = requests.get("http://" + self.url + "/" + entity + "/" + str(id))
+        resp = requests.get( self.url + entity + "/" + str(id))
 
         if resp.status_code == 200:
             return resp.json()  # Maybe we should check if the format is correct

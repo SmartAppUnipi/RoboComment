@@ -32,9 +32,3 @@ class Commentator:
         }
         return output
 
-from utils.KnowledgeBase import KnowledgeBase
-
-cm = Commentator(KnowledgeBase('x.x.x.x:xxxx'))
-with open("CommentGenerator/assets/input1.json", 'r') as input1_json:
-    input_json = json.load(input1_json)
-    cm.run(input_json)
