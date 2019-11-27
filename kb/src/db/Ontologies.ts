@@ -133,23 +133,17 @@ export class Query {
     `
 }
 
-    public static readonly get_match = (id1: number, id2:number, id3:number) => `
-    ${Query.header}
-    SELECT  ?Match
-	WHERE
-  { ?Match  :homeTeam  ?x .
-    ?x      :teamOf    ?x1 .
-    ?x1     :hasName   "${id1}" .
-    ?Match  :awayTeam  ?y .
-    ?y      :teamOf    ?y1 .
-    ?y1     :hasName   "${id2}" .
-    ?Match  :date      "${id3}"
-  }
-    `
-}
-
-
-
-
-
-
+//     public static readonly get_match = (id1: number, id2:number, id3:number) => `
+//     ${Query.header}
+//     SELECT  ?Match
+// 	WHERE
+//   { ?Match  :homeTeam  ?x .
+//     ?x      :teamOf    ?x1 .
+//     ?x1     :hasName   "${id1}" .
+//     ?Match  :awayTeam  ?y .
+//     ?y      :teamOf    ?y1 .
+//     ?y1     :hasName   "${id2}" .
+//     ?Match  :date      "${id3}"
+//   }
+    // `
+// }
