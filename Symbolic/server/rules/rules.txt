@@ -3,13 +3,22 @@ ballOnTarget    = ___ball_on_target
 ballOffTarget   = ___ball_off_target
 fastBall        = ___fast_ball
 
-pass            = possession(p1) -> .{0,4} -> possession(p2) : p1.team == p2.team
-interception    = possession(p1) -> possession(p2) : p1.team != p2.team
-clearance       = possession(p1) -> fastBall : p1.team in $homehalf
-shotOnTarget    = possession(p1) -> ballOnTarget : p1.position in $awayhalf
-shotOffTarget   = possession(p1) -> ballOffTarget : p1.position in $awayhalf
-cross           = possession(p1) -> fastBall -> possession(p2) : p1.team == p2.team
-tikiTaka        = possession(p1) -> possession(p2) -> possession(p3) -> possession(p4) : p1.team == p2.team == p3.team == p4.team AND p1.team in $awayhalf
-parkTheBus      = tikiTaka(t1) -> tikiTaka(t1) : t1 == $inFrontOfTheBall
-longBall        = cross(t1) -> possession(p1)* -> cross(t1) : p1.team == t1
-pressing        = interception(t1) : t1 == $homehalf
+pass = possession as @0 -> .{0,4} -> possession as @1 : @0.player.team == @1.player.team
+
+interception = possession(p1) -> .{0,3} -> possession(p2) : p1.team != p2.team
+
+clearance = possession(p1) -> fastBall : p1.team in $homehalf
+
+shotOnTarget = possession(p1) -> ballOnTarget : p1.position in $awayhalf
+
+shotOffTarget = possession(p1) -> ballOffTarget : p1.position in $awayhalf
+
+cross = possession(p1) -> fastBall -> possession(p2) : p1.team == p2.team
+
+tikiTaka = possession(p1) -> possession(p2) -> possession(p3) -> possession(p4) : p1.team == p2.team == p3.team == p4.team AND p1.team in $awayhalf
+
+parkTheBus = tikiTaka(t1) -> tikiTaka(t1) : t1 == $inFrontOfTheBall
+
+longBall = cross(t1) -> possession(p1)* -> cross(t1) : p1.team == t1
+
+pressing = interception(t1) : t1 == $homehalf
