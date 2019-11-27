@@ -1,7 +1,10 @@
-// const url        = 'ws://10.101.15.48:4000';
-const url        = 'ws://10.101.18.19:4000';
+const url        = 'ws://10.101.18.19:4020';
 let queue        = new Queue();
 let ws = null;
+
+function insertCards(id, url) {
+    console.log("ID video: "+id+ " and URL video: "+ url);
+}
 
 function connect() {
     ws = new WebSocket(url);
@@ -23,6 +26,7 @@ function connect() {
                     console.log("Comment is not received, Message is:: ", e.data);
                 }
                 break;
+
             case "user_login":
                 console.log("login reply: "+message.reply.id);
                 if (message.status === "400")
@@ -35,15 +39,32 @@ function connect() {
                     console.log(message.reply.id);
                 }
                 break;
+
             case "user_registration":
                 console.log("registration reply");
                 if (message.status === "400")
                     alert("Registration failed");
                 else if (message.status === "200") {
+                    showSnack("Registration confirmed, log in!");
                     console.log("Registration ok, id = " + message.reply.id);
                     login();
                 }
                 break;
+
+            case "get_videoList":
+                console.log("Result of video list");
+                console.log(message.reply);
+                let videoList = message.reply;
+                for(let i = 0 ;i< videoList.length; i++){
+                    insertCards(videoList.id, videoList.url);
+                }
+                break;
+
+            case "get_infoMatch":
+                console.log("Info of the Matches");
+                console.log(message.reply);
+                break;
+
             default:
                 console.log("Unknown reply");
                 console.log(message.reply_type);

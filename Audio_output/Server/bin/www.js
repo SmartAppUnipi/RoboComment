@@ -14,14 +14,16 @@ let ConnectionUser  = require('../connectionClass');
 const KBApp         = require('axios');
 const VideoApp      = require('axios');
 const routes        = require('../../routes.json');
+const video_list    = require('../../videolist');
 const WSIP          = routes.ui.toString().split(":")[1].split("/")[2];
 const WS_PORT       = routes.ui.toString().split(":")[2].split("/")[0];
 const commentIP     = routes.fabula.toString().split(":")[1].split("/")[2];
 const COMMENT_PORT  = routes.fabula.toString().split(":")[2].split("/")[0];
 const kb_url        = routes.qi;
 const url_video     = routes.video;
-let url_login       = kb_url+"/users/login";
-let url_user        = kb_url+ "/users";
+let url_login       = kb_url + "/users/login";
+let url_user        = kb_url + "/users";
+let url_match       = kb_url + "/match/";
 
 const DEBUGERR      = false;
 const DEBUG_MODE    = true;
@@ -334,9 +336,40 @@ function handleClientMessage(body, connection) {
             })
     }
 
+    else if(message.request_type === "get_infoMatch"){
+        KBApp.get(url_match + message.request)
+            .then((result) => {
+                response = set_response("get_infoMatch",result.data, result.status);
+
+                if (result.status === 200) {
+                    console.log("Info match arrived, now sending to the Client");
+                    connection.send(response);
+
+                }else{
+                    console.log("Match information not found. " + result.data);
+                    response = set_response("get_infoMatch", JSON.stringify(result.data), 400);
+                    connection.send(response);
+                }
+            })
+            .catch((err) => {
+                if (DEBUGERR){
+                    console.log(err);
+                }
+                console.log("Catch: Match information not found. " + err.response.data);
+                response = set_response("get_infoMatch", JSON.stringify(err.response.data), 400);
+                connection.send(response);
+            })
+    }
+
     else if(message.request_type === "hello"){
         connections.push(new ConnectionUser(connection,message.user_id));
 
+    }
+
+    else if(message.request_type === "get_videoList"){
+        response = set_response("get_videoList",video_list, 200);
+        console.log("Send videos list");
+        connection.send(response);
     }
 }
 
