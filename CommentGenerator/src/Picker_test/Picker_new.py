@@ -102,3 +102,5 @@ if __name__ == '__main__':
         print("INPUT:", input_json)
         comment = picker.pick_comment(input_json)
         print("\nFINAL comment:", comment)
+
+    # TODO idea, use a model to rephrase the comment to obtain human readable and grammar spell checks
