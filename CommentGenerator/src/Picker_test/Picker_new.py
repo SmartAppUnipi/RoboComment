@@ -104,3 +104,4 @@ if __name__ == '__main__':
         print("\nFINAL comment:", comment)
 
     # TODO idea, use a model to rephrase the comment to obtain human readable and grammar spell checks
+    # check python paraphrase sentence and evaluate if split correction to paraphrase
