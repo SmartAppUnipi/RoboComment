@@ -10,12 +10,11 @@ const  DEBUG        = false;
 
 function createUser() {
 
-
     if (!DEBUG){
         if((check(r_email) && check(r_password) && check(firstname)
             && check(lastname) && check(date) && check(favoriteteam))) {
 
-            showSnack();
+            showSnack("Send registration");
 
             ws.send("{\n" +
                 "    \"request\": {\n" +
