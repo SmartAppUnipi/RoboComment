@@ -12,7 +12,7 @@ _tokens = [
 _GLOBAL_ARRAY = '_global_array'
 
 
-def _get_pattern(token, part):
+def _get_pattern(token: str, part: str):
     if token in ['possession', 'interception', 'ballOnTarget', 'ballOffTarget']:
         return {
             'type': token
@@ -23,8 +23,15 @@ def _get_pattern(token, part):
     raise Exception('Unrecognized token: ' + token)
 
 
-def parse(rule_string):
+def parse(rule_string: str):
     stack, rules = rule_string.split(' = ')
+
+    if ':' not in rules:
+        return {
+            'name': stack,
+            'function': rules
+        }
+
     rules, constraints = rules.split(' : ')
 
     parse_obj = {
@@ -40,18 +47,17 @@ def parse(rule_string):
     return parse_obj
 
 
-def _token_match(token, part):
+def _token_match(token: str, part: str):
     if token == r'.{\d,\d}':
         return len(re.findall(token, part)) != 0
 
     return token in part
 
 
-def _parse_rule(rule, parse_obj):
+def _parse_rule(rule: str, parse_obj):
     parts = rule.split(' -> ')
     parse_obj['condition'].append({
-        'pattern': [],
-        'alias': []
+        'pattern': []
     })
 
     for part in parts:
@@ -62,30 +68,33 @@ def _parse_rule(rule, parse_obj):
             parse_obj['condition'][-1]['pattern'].append(
                 _get_pattern(token, part)
             )
-            
-            parse_obj['condition'][-1]['alias'].append(
-                part.split(' as ')[1] if 'as' in part else None
-            )
+
+            if 'as' in part:
+                parse_obj['condition'][-1]['pattern'].append(
+                    part.split(' as ')[1]
+                )
             break
 
 
-def _parse_stack(stack, parse_obj):
+def _parse_stack(stack: str, parse_obj):
     parse_obj['condition'][-1]['stack'] = 'inner'
 
 
 def _parse_constraints(constraints: str, parse_obj):
     for param in re.findall(r'@\d', constraints):
-        index = param[-1]
-        constraints = constraints.replace(param, _GLOBAL_ARRAY + '[{}]'.format(index))
-    
-    f = 'lambda: ' + constraints
-    print(f)
+        constraints = constraints.replace(
+            param, "registers['{}']".format(param))
+
+    f = 'lambda registers: ' + constraints
+    # print(f)
     parse_obj['action'] = eval(f)
 
-x1 = parse('pass = possession as @0 -> .{0,4} -> possession as @1 : @0.player.team == @1.player.team')
+
+# x1 = parse('pass = possession as @0 -> .{0,4} -> possession as @1 : @0.player.team == @1.player.team')
 # x2 = parse('pass = possession(p1) -> .{0,8} -> possession(p2) : p1.team != p2.team')
 # x3 = parse('shotOnTarget = possession(p1) -> ballOnTarget : p1.position in _awayhalf')
 # x4 = parse('shotOffTarget = possession(p1) -> ballOffTarget : p1.position in _awayhalf')
-
+# x = parse('possession = ___ball_owner')
+# print(x)
 # print([x1, x2, x3, x4])
-print(x1)
+# print(x1)
