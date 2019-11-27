@@ -18,13 +18,13 @@ from game_model.game_model import GameModel
 app = flask.Flask(__name__)
 socketio = SocketIO(app)
 
-model = GameModel()
+model = None
 
 #DIMENSIONI IN METRI DEL CAMPO... FARLI PASSARE DA QUALCUNO...
-_WIDTH = 110
-_HEIGHT = 90
+_WIDTH = 105
+_HEIGHT = 68
+map = Map2d(_WIDTH, _HEIGHT, [], socketio)
 
-_comment_generation_scheduler = None
 
 _DEBUG = False
 
@@ -51,7 +51,6 @@ def test_map(n):
     _DEBUG = True
     _N_ITERS_TEST = n
     socketio.on_event('notify',handle)
-    #socketio.on_event('notify',handle)
     return render_template('page_map.html')
 
 """---------------------FUNZIONI USATE X DEBUG DELLA MAPPA--------------"""
@@ -86,11 +85,6 @@ def handle(message):
     if _DEBUG:
         x = threading.Thread(target=update_periodic,args=(socketio,))
         x.start()
-
-def _send_to_cg():
-    global model
-    to_send = model.to_comment_generation()
-    requests.post(cg_url, json=to_send)
     
 "---------------------------------------------------------------------------------"
 
@@ -107,45 +101,32 @@ def pos():
 
 @app.route('/positions', methods=['POST'])
 def new_positions(second):
+    global model
 
     data = flask.request.form
 
-    print("##############")
-    print(data)
-    print("##############")
+    print("Received data from video processing")
 
     if Validator.validate_positions(data):
         print("Data is correctly formatted")
     else: 
-        print("data is incorrect:")
-        print(data)
-        print("########################")
+        print("data is incorrect")
 
-    global _comment_generation_scheduler
-    if not _comment_generation_scheduler:
-        _comment_generation_scheduler = scheduler()
-        _comment_generation_scheduler.enter(delay=5, action=_send_to_cg)
-    # validate input json and execute business logic code
-    with open('../tests/dummy.json', 'r') as f: 
-        dummy = json.load(f) 
+    model.new_positions(data)
 
-    cg_url = cg_host + ":" + str(cg_port) + "/api/action"
-    print(cg_url)
-    print(dummy[2])
-    requests.post(cg_url, json=dummy[2])
+    return ""
 
-    return "ciao"
+def main():
+    global model
+    with open('../../routes.json', 'r') as f: 
+        config = json.load(f) 
+        symbolic_port = 3001
+        cg_url = config['tale']
 
+    model = GameModel(cg_url)
+
+    print("app is running, open localhost:3001/debug to display the map")
+    socketio.run(app, host='0.0.0.0', use_reloader=False, port=symbolic_port)
 
 if __name__ == '__main__':
-    with open('config.json', 'r') as f: 
-        config = json.load(f) 
-        symbolic_port = config['symbolic-port']
-        cg_host = config["comment-generation-host"] 
-        cg_port = config["comment-generation-port"]
-        cg_url = cg_host + ":" + str(cg_port) + "/api/action"
-
-    app.debug = True
-    socketio.run(app, host='0.0.0.0', use_reloader=False, port=symbolic_port)
-    #app.run(host='0.0.0.0', port=symbolic_port, debug=True)
-    #socketio.run(app,host='0.0.0.0', port=symbolic_port,use_reloader=False)
+    main()
