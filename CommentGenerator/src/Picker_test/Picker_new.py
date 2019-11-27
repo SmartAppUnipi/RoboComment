@@ -18,12 +18,9 @@ class Picker:
         self.sentence_order = {
             "active": ['player1', 'team1', 'subtype', 'field_zone', 'player2', 'team2'],
             "passive": ['player2', 'team2', 'subtype', 'field_zone', 'player1', 'team1']
-
         }
         # element where insert value instead of key
         self.tag_to_value = ["subtype", "field_zone"]
-        # list of possible combination of inconsistent info to reject
-        self.inconsistent_information = []
 
     def pick_comment(self, input_json: json) -> str:
         """
@@ -44,6 +41,8 @@ class Picker:
                 final_comment = self.template_generator.generate(sentence_tagged)
             # if an error is found means that inconsistency was found
             except:
+                # TODO try to create a comment with less possible information
+                # like time
                 final_comment = self.create_others()
 
         return final_comment
