@@ -311,7 +311,7 @@ def test_regex_match_any_seq_bounded_zero_one():
     ]
     
     assert regex_matcher(regex, stack)
-
+'''
 def test_regex_match_start_kleene():
     regex = [
         '*',
@@ -380,22 +380,4 @@ def test_regex_match_incomplete_kleene():
     ]
     
     assert regex_matcher(regex, stack)
-
-test_regex_match_single_string()
-test_regex_match_single_string_int()
-test_regex_match_objects()
-test_regex_longer()
-test_regex_match_any()
-test_regex_match_any_seq_last()
-test_regex_match_any_seq_mid()
-test_regex_match_any_seq_bounded_lower()
-test_regex_match_any_seq_bounded_upper()
-test_regex_match_any_seq_bounded_short()
-test_regex_match_any_seq_bounded_long()
-test_regex_match_any_seq_bounded_zero()
-test_regex_match_any_seq_bounded_zero_one()
-'''Kleene incomplete
-test_regex_match_start_kleene()
-test_regex_match_kleene()
-test_regex_match_incomplete_kleene()
 '''

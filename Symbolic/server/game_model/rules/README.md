@@ -36,7 +36,7 @@
   
   Means that object A is within B
 
-* `$var` 
+* `#var` 
   
   Used to refer to system variables
 
@@ -51,8 +51,8 @@
 
 # Pragmatic
 
-* `rule(object)` 
-    > possession(p1)
+* `rule as @object`  
+    > possession as @1
 
 
 * `"rule_name" = rule(object)`

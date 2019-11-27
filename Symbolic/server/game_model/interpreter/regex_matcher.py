@@ -3,7 +3,7 @@ from game_model.interpreter.matcher import match
 '''Regex structure
 {
     'pattern': [Object1, Object2, ...],
-    'stack': None
+    'stack': Stack
 }
 An Object may be a generic object to be matched or a wildcard among the define below
 '''
@@ -64,7 +64,7 @@ def regex_matcher(regex, stack):
                     '''Starting with timestamps
                     while True:
                         PASTE FROM BELOW
-                        if stack_el['timestamp']-reg_el['timestamp'] >= round(lower/1000):
+                        if stack_el['time']-reg_el['time'] >= round(lower/1000):
                             # Reached lower bound for elapsed time
                             break
                         DELETE COUNT
@@ -82,7 +82,7 @@ def regex_matcher(regex, stack):
                     '''Starting with timestamps
                     while not match(stack_el, reg_el):
                         PASTE FROM BELOW
-                        if stack_el['timestamp']-reg_el['timestamp'] > round(upper/1000):
+                        if stack_el['time']-reg_el['time'] > round(upper/1000):
                             # Matched or surpassed upper bound for time elapsed
                             return False
                         DELETE COUNT
