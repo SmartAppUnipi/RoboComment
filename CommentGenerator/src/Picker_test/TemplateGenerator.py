@@ -9,18 +9,18 @@ class TemplateGenerator:
     def __init__(self):
         self.leaf = {
             "Active_player": {
-                "empty": ["a player", "so the player", " a player, therefore,"],
-                "no_empty": ["{p}", "{p}, therefore,"]
+                "empty": ["a player", "so the player", " a player therefore,"],
+                "no_empty": ["{p}", "{p} therefore,"]
             },
             "Passive_player": {
-                "empty": ["a player", "so the player", "therefore, the player"],
-                "no_empty": ["{p}", "therefore {p},"]
+                "empty": ["a player", "so the player", "therefore the player"],
+                "no_empty": ["{p}", "therefore {p}"]
             },
             "Team_player": {
-                "no_empty": ["of the {p}", "belonging to {p}", ", a {p} player,", "of the {p} team", ""]
+                "no_empty": ["of the {p}", "belonging to {p}", " a {p} player", "of the {p} team", ""]
             },
             "Team_receiver": {
-                "no_empty": ["belonging to {p}", "of the {p}", "of the {p} team", "", ", a {p} player,"]
+                "no_empty": ["belonging to {p}", "of the {p}", "of the {p} team", "", " a {p} player"]
             },
             "Action_active": {
                 "no_empty": ["do a {p}", "perform a {p}", "{p}", "make a {p}"]
@@ -44,10 +44,10 @@ class TemplateGenerator:
                 "no_empty": ["from {p} of the field", "from the {p}", "arrive from {p}"]
             },
             "Action_zone_in": {
-                "no_empty": ["in the {p} of the field", "inside {p} of the field", "cutting {p} part of the field", "inner {p}"]
+                "no_empty": ["in the {p} of the field", "inside {p} of the field", "cutting the {p} part of the field", "inner {p} part"]
             },
             "Receiver_player": {
-                "no_empty": ["to {p}", "towards the {p}", "direct to {p}"]
+                "no_empty": ["to {p}", "towards {p}", "direct to {p}"]
             },
             "Does_player": {
                 "no_empty": ["from {p}", "by the player", "by {p}", "coming out of {p}"]
