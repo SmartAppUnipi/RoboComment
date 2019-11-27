@@ -10,11 +10,11 @@ class TemplateGenerator:
         self.leaf = {
             "Active_player": {
                 "empty": ["a player", "so the player", " a player, therefore,"],
-                "no_empty": ["{p}, {p}, therefore"]
+                "no_empty": ["{p}", "{p}, therefore,"]
             },
             "Passive_player": {
                 "empty": ["a player", "so the player", "therefore, the player"],
-                "no_empty": ["{p}", "therefore {p}"]
+                "no_empty": ["{p}", "therefore {p},"]
             },
             "Team_player": {
                 "no_empty": ["of the {p}", "belonging to {p}", ", a {p} player,", "of the {p} team", ""]
