@@ -202,19 +202,19 @@ def test_regex_match_any_seq_bounded_lower():
     stack = [
         {
             'first': 'elem',
-            'time': 20000
+            'time': 0
         },
         {
             'second': 'skip',
-            'time': 21000
+            'time': 1000
         },
         {
             'secondhalf': 'skipagain',
-            'time': 21500
+            'time': 1500
         },
         {
             'last': 'newelem',
-            'time': 22000
+            'time': 2000
         }
     ]
     
@@ -260,27 +260,27 @@ def test_regex_match_any_seq_bounded_long():
     stack = [
         {
             'first': 'elem',
-            'time': 0
+            'time': 1000
         },
         {
             'second': 'skip',
-            'time': 1
+            'time': 1001
         },
         {
             'secondhalf': 'skipagain',
-            'time': 2
+            'time': 1002
         },
         {
             'secondhalfhalf': 'skipagain',
-            'time' : 3
+            'time' : 1003
         },
         {
             'second3quarter': 'tripleskip',
-            'time': 4
+            'time': 1004
         },
         {
             'last': 'newelem',
-            'time': 4000
+            'time': 7000
         }
     ]
     
@@ -351,8 +351,79 @@ def test_regex_match_register_save():
         }
     ]
 
-    assert regex_matcher(regex, stack, registers)
-    #assert registers['@0'] == {'first':'elem'}
+    assert regex_matcher(regex, stack, reg)
+    assert reg['@0'] == {'first':'elem'}
+
+def test_regex_match_register_multisave():
+    reg = {}
+    regex = [
+    {
+        'first': 'elem'
+    },
+    '@0',
+    '@1'
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        }
+    ]
+
+    assert regex_matcher(regex, stack, reg)
+    assert reg['@0'] == {'first':'elem'}
+    assert reg['@1'] == {'first':'elem'}
+
+def test_regex_match_register_emptysave():
+    reg = {}
+    regex = [
+        '@0',
+        {
+        'first': 'elem'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        }
+    ]
+
+    assert not regex_matcher(regex, stack, reg)
+
+def test_regex_match_register_reference_save():
+    reg = {}
+    regex = [
+        {
+        'first': 'elem'
+        },
+        '@0'
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        }
+    ]
+
+    assert regex_matcher(regex, stack, reg)
+    assert reg['@0'] is stack[0]    # It is by reference
+
+def test_regex_match_register_remove():
+    reg = {}
+    regex = [
+        {
+        'first': 'elem'
+        },
+        '@0'
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        }
+    ]
+
+    assert regex_matcher(regex, stack, reg)
+    assert reg['@0'] is stack[0]
+    stack.remove(reg['@0'])
+    assert len(stack) == 0
 
 '''
 def test_regex_match_start_kleene():

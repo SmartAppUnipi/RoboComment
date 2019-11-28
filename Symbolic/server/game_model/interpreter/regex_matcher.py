@@ -26,15 +26,18 @@ def regex_matcher(regex, stack, registers):
     reg_iter = enumerate(regex)
     stack_iter = enumerate(stack)
     for (stack_index, stack_el), (reg_index, reg_el) in zip(stack_iter, reg_iter):
-        # Any singleton value is ok, iterate
-        if match(reg_el, _any):
-            continue
-
         if type(reg_el) is str:
             # Case '@num', save into registers the element of the stack matched previously
-            if re.match('@[0-9]+', reg_el):
+            while re.match('@[0-9]+', reg_el):
+                if pred_stack is None:
+                    # Regex cannot start with '@\d'
+                    return False
                 registers[reg_el] = pred_stack
                 consume(reg_iter)
+
+            # Any singleton value is ok, iterate
+            if match(reg_el, _any):
+                continue
             
             # Case '.' or '.{num, num}'
             if re.match('.({[0-9]+,[0-9]+})?', reg_el):
@@ -46,7 +49,6 @@ def regex_matcher(regex, stack, registers):
                     special = first_split[0]
                     #Remove '}' and split on ','
                     corpus = first_split[1].split('}')[0].split(',')
-                    #TODO consider lower and upper as timestamps, not number of objects
                     lower = int(corpus[0])
                     upper = int(corpus[1])
 
@@ -67,16 +69,27 @@ def regex_matcher(regex, stack, registers):
                             # Stack finished, next element not matched
                             return False
                 else:
-                    # Match any element in stack until I match next
-                    count = 0
-                    '''Starting with timestamps
-                    while True:
-                        PASTE FROM BELOW
-                        if stack_el['time']-reg_el['time'] >= round(lower/1000):
-                            # Reached lower bound for elapsed time
-                            break
-                        DELETE COUNT
-                    TODO Timestamp considered as ms from epoch
+                    # Match any element in stack until lower seconds have passed
+                    if stack_index == 0:
+                        start_time = 0
+                    else:
+                        start_time = stack[stack_index-1]['time']
+                    '''Starting with timestamps'''
+                    if lower > 0:
+                        while True:
+                            #Consume lower elements (don't care what they are)
+                            try:
+                                stack_index, stack_el = consume(stack_iter)
+                            except StopIteration:
+                                # Stack finished, next element not matched
+                                return False
+
+                            if stack_el['time']-start_time >= lower*1000:
+                                # Reached lower bound for elapsed time
+                                break
+                    if stack_el['time']-start_time > upper*1000:
+                        # Surpassed upper bound for time elapsed
+                        return False
                     '''
                     while count < lower:
                         #Consume lower elements (don't care what they are)
@@ -86,15 +99,19 @@ def regex_matcher(regex, stack, registers):
                             # Stack finished, next element not matched
                             return False
                         count+=1
-                    
-                    '''Starting with timestamps
+                    '''
+                    '''Starting with timestamps'''
                     while not match(stack_el, reg_el):
-                        PASTE FROM BELOW
-                        if stack_el['time']-reg_el['time'] > round(upper/1000):
-                            # Matched or surpassed upper bound for time elapsed
+                        #Consume elements until I match or until I am too far
+                        try:
+                            stack_index,stack_el = consume(stack_iter)
+                        except StopIteration:
+                            # Stack finished, next element not matched
                             return False
-                        DELETE COUNT
-                        DELETE if count > upper BELOW
+
+                        if stack_el['time']-start_time > upper*1000:
+                            # Surpassed upper bound for time elapsed
+                            return False
                     '''
                     while not match(stack_el, reg_el) and count <= upper:
                         #Consume elements until I match or until I am too far
@@ -108,6 +125,7 @@ def regex_matcher(regex, stack, registers):
                     if count > upper:
                         #Next element not found in at most upper steps
                         return False
+                    '''
                 # Matched first, any bounded or unbounded sequence, second
                 continue    
 
@@ -132,15 +150,13 @@ def regex_matcher(regex, stack, registers):
         pred_stack = stack[stack_index]
     # May have finished regex or finished stack
     # Check any other element in the regex
-    saved = False
     for reg_index, reg_el in reg_iter:
         # If it is any element not string, not matched
-        if saved or not isinstance(reg_el, str):
+        if not isinstance(reg_el, str):
             return False
-        # If it is one save in register, do it and continue. The next one will cause not match
+        # If it is a save do it, otherwise go on
         if isinstance(reg_el, str):
             if re.match('@[0-9]+', reg_el):
                 registers[reg_el] = pred_stack
-                saved = True
     # Regex finished, everything matched
     return True

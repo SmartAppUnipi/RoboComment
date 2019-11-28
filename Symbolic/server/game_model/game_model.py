@@ -47,7 +47,7 @@ class GameModel:
             if rule['type'] == 'function':
                 to_call = rule['function']
                 ret = to_call(self._stacks['stdin'])
-                self._stacks['elementary']
+                self._stacks['elementary']#.append(ret)?? #TODO
         self.try_match_loop()
 
 
@@ -61,6 +61,7 @@ class GameModel:
         # clear the stdout for next iteration
         self._stacks['stdout'].clear()
         return to_ret
+        #TODO add post to comment_generation
 
 
     def try_match_loop(self):
