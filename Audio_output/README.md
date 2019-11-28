@@ -33,7 +33,6 @@ POST with JSON data
     "endTime": 15
     "priority": 1
     "id": 1
-    "
 }
 ```
 
