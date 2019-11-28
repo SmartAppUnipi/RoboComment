@@ -8,7 +8,7 @@ class Tagger:
     """
 
     def __init__(self):
-        self.grammar = data.load('file:../assets/json_grammar.cfg')
+        self.grammar = data.load('file:CommentGenerator/assets/json_grammar.cfg')
 
     def tag_sentence(self, sentence):
         result = self.create_tree(sentence)
