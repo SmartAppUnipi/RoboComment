@@ -1,6 +1,5 @@
 import unittest
 from src.Filler import Filler
-from utils.KnowledgeBase import KnowledgeBase
 import json
 import requests_mock
 
@@ -8,15 +7,9 @@ import requests_mock
 class TestFiller(unittest.TestCase):
 
     def setUp(self):
-        self.kb_url = "http://kbendpoint:4242/"
-        self.kb = KnowledgeBase(self.kb_url)
+        self.kb = MockKB()
         self.comment_filler = Filler(self.kb)
-
-        self.player1 = { "id": 42, "name": "Pippo"}
-        self.player2 = { "id": 7, "name": "Topolino"}
-
-        self.team1 = { "id": 7, "name": "TeamPippo" }
-        self.team2 = { "id": 7, "name": "TeamTopolino" }
+    
 
     def test_update_comment1(self):
         details = {
@@ -29,13 +22,7 @@ class TestFiller(unittest.TestCase):
             "confidence" : 0.4
         }
 
-        with requests_mock.mock() as mock_request:
-            mock_request.get(self.kb_url + self.kb.PLAYER + "/42", text=json.dumps(self.player1), status_code=200)
-            mock_request.get(self.kb_url + self.kb.TEAM + "/42", text=json.dumps(self.team1), status_code=200)
-            mock_request.get(self.kb_url + self.kb.PLAYER + "/7", text=json.dumps(self.player2), status_code=200)
-            mock_request.get(self.kb_url + self.kb.TEAM + "/7", text=json.dumps(self.team2), status_code=200)
-
-            updated_comment = self.comment_filler.update_comment("{player1} from {team1} has passed to {player2} in the {field_zone}", details)
+        updated_comment = self.comment_filler.update_comment("{player1} from {team1} has passed to {player2} in the {field_zone}", details)
 
         assert updated_comment == "Pippo from TeamPippo has passed to Topolino in the middle"
 
@@ -50,11 +37,8 @@ class TestFiller(unittest.TestCase):
             "confidence" : 0.4
         }
 
-        with requests_mock.mock() as mock_request:
-            mock_request.get(self.kb_url + self.kb.PLAYER + "/42", text=json.dumps(self.player1), status_code=200)
-            mock_request.get(self.kb_url + self.kb.TEAM + "/42", text=json.dumps(self.team1), status_code=200)
             
-            updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details)
+        updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details)
 
         assert updated_comment == "Pippo has passed bad"
     
@@ -87,3 +71,25 @@ class TestFiller(unittest.TestCase):
         updated_comment = self.comment_filler.update_comment("{player1} has passed the ball, {complex_modifier}", details)
 
         assert updated_comment == "Ruicosta has passed the ball, what a fantastic action!"
+
+
+
+class MockKB():
+    def __init__(self):
+        pass
+
+    def get_player(self, player_id):
+        if player_id == 42:
+            return "Pippo"
+        elif player_id == 7:
+            return "Topolino"
+        else:
+            return "undefined"
+    
+    def get_team(self, team_id):
+        if team_id == 42:
+            return "TeamPippo"
+        elif team_id == 7:
+            return "TeamTopolino"
+        else:
+            return "undefined"

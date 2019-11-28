@@ -6,7 +6,8 @@ from utils.KnowledgeBase import KnowledgeBase
 
 class TestApi(unittest.TestCase):
     def setUp(self):
-        self.commentator = Commentator(KnowledgeBase('x.x.x.x:xxxx'))
+        self.kb = MockKB()
+        self.commentator = Commentator(self.kb)       
        
     def test_run1(self):
         with open('CommentGenerator/tests/mock_assets/elementary/pass/input1.json', 'r') as json_file:
@@ -65,3 +66,24 @@ class TestApi(unittest.TestCase):
         output = self.commentator.run(input_json)
 
         print(output['comment'])
+
+
+class MockKB():
+    def __init__(self):
+        pass
+
+    def get_player(self, player_id):
+        if player_id == 42:
+            return "Pippo"
+        elif player_id == 7:
+            return "Topolino"
+        else:
+            return "undefined"
+    
+    def get_team(self, team_id):
+        if team_id == 42:
+            return "TeamPippo"
+        elif team_id == 7:
+            return "TeamTopolino"
+        else:
+            return "undefined"
