@@ -7,11 +7,8 @@ nmp install
 ## 
 ### API
 
-**Comment IP address**:
-
-10.101.12.139:3003 (UniPisa net)
-
-**Client-server websocket port (internal)**: 4000
+**Comment address and port**:
+"fabula" on the routes.json file. 
 
 **Method**:
 POST with JSON data
@@ -25,6 +22,7 @@ POST with JSON data
  - startTime: Starting time of the comment (seconds from the beginning of the video).
  - endTime: Ending time of the comment (seconds from the beginning of the video).
  - priority
+ - id: user id
 
 **Sample JSON data**:
 ```
@@ -33,7 +31,9 @@ POST with JSON data
     "emphasis": "rage"
     "startTime": 10
     "endTime": 15
-    "priority": 1 
+    "priority": 1
+    "id": 1
+    "
 }
 ```
 
@@ -47,7 +47,7 @@ node Server/bin/www.js
 Client web page:
 
 ```
-Client/index.html
+Client/login.html
 ```
 
 ##
@@ -63,5 +63,5 @@ Client:
 - [x] Google API for text to speech
 - [x] Managed the possible API response delay, sync with subtitles
 - [ ] Improve GUI
-- [ ] Implement user login
+- [x] Implement user login
 - [ ] Implement video catalog
