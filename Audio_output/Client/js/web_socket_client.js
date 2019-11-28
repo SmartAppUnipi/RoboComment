@@ -16,7 +16,8 @@ function connect() {
         // subscribe to some channels
         ws.send(JSON.stringify("New Connection"));
         userHello();
-        videoListRequest();
+        if (window.location.pathname.split("/").pop() === "index.html")
+            videoListRequest();
         console.log("Web Socket connection established")
     };
 
@@ -59,17 +60,13 @@ function connect() {
                 break;
 
             case "get_videoList":
-                if (window.location.pathname.split("/").pop() === "index.html") {
-                    console.log("Result of video list");
-                    console.log(message.reply);
-                    let videoList = message.reply.urls;
-                    for (let i = 0; i < videoList.length; i++) {
-                        console.log(videoList[i])
-;                        insertCards(videoList[i].id, videoList[i].url);
-                    }
+                console.log("Result of video list");
+                console.log(message.reply);
+                let videoList = message.reply.urls;
+                for (let i = 0; i < videoList.length; i++) {
+                    console.log(videoList[i]);
+                    insertCards(videoList[i].id, videoList[i].url);
                 }
-                else
-                    console.log("bad html page check");
                 break;
 
             case "get_infoMatch":

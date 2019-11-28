@@ -1,0 +1,8 @@
+{
+  "ui" : "http://localhost:4020/",
+  "qi" : "http://localhost:5005/",
+  "video" : "http://localhost:4001/video_url",
+  "scene" : "http://localhost:3001/positions",
+  "tale" : "http://localhost:3002/api/action",
+  "fabula" : "http://localhost:3003/"
+}

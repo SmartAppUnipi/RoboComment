@@ -179,7 +179,7 @@ function sendComment(item) {
             reply_type: "comment",
             reply: new_comment
         };
-        connection.socket.send(JSON.stringify(reply));
+        connection.send(JSON.stringify(reply));
         item.old_comment = new_comment;
     }
     else {
@@ -192,7 +192,7 @@ function sendComment(item) {
                         reply_type: "comment",
                         reply: new_comment
                     };
-                    connection.socket.send(JSON.stringify(reply));
+                    connection.send(JSON.stringify(reply));
 
                     item.old_comment = new_comment;
                 }
