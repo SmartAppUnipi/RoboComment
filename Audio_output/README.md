@@ -66,12 +66,15 @@ Client/login.html
 Server:
 - [x] Multi client support
 - [x] Priority manager for comments
+- [x] Messages forward to other services
+- [x] Send comments based on user ID
 
 
 Client:
-- [x] Auto reconnection with servers (comments and video url)
+- [x] Auto reconnection with server
 - [x] Google API for text to speech
 - [x] Managed the possible API response delay, sync with subtitles
 - [ ] Improve GUI
 - [x] Implement user login
-- [ ] Implement video catalog
+- [x] Implement video catalog
+- [x] Manage cookies
