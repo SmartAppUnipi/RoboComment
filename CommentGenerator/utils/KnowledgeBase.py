@@ -41,9 +41,9 @@ class KnowledgeBase:
         try:
             resp = requests.get( self.url + entity + "/" + str(id))
         except requests.exceptions.ConnectionError:
-            return {"id" : -1, "name" : "undefined"}
+            return {"id" : -1, "name" :  entity}
 
         if resp.status_code == 200:
             return resp.json()  # Maybe we should check if the format is correct
         else:
-            return {"id" : -1, "name" : "undefined"}
+            return {"id" : -1, "name" : entity}
