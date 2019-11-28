@@ -8,11 +8,8 @@ from threading import Thread
 
 app = Flask(__name__)
 
-AUDIO_IP = "x.x.x.x"
-AUDIO_PORT = "3003"
-KB_IP = "x.x.x.x"
-KB_PORT = "3004"
-
+AUDIO_URL = "http://audio.url:3003/"
+KB_URL = "http://kb.url:3004/"
 commentator = None
 knowledge_base = None
 
@@ -27,9 +24,9 @@ def forward_to_audio(output):
     def async_request():
         headers = {'Content-type': 'application/json'}
         try:
-            response = requests.post(url="http://" + AUDIO_IP + ":" + AUDIO_PORT + "/", json=output, headers=headers)
+            response = requests.post(url=AUDIO_URL, json=output, headers=headers)
         except requests.exceptions.ConnectionError:
-            print("Audio unreachable at " + AUDIO_IP)
+            print("Audio unreachable at " + AUDIO_URL)
         
     t = Thread(target=async_request)
     t.start()
@@ -61,28 +58,17 @@ def init():
     global knowledge_base
     global commentator
 
-    knowledge_base = KnowledgeBase(url=KB_IP + ":" + KB_PORT)
+    knowledge_base = KnowledgeBase(url=KB_URL)
     commentator = Commentator(knowledge_base)
 
 if __name__ == '__main__':
     try:
-        with open("services.json",'r') as servicesfile:
+        with open("routes.json",'r') as servicesfile:
             services = json.load(servicesfile)
-
-            AUDIO_IP = services['audio.output']['host']
-            AUDIO_PORT = str(services['audio.output']['port'])
-            KB_IP = services['knowledgebase']['host']
-            KB_PORT = str(services['knowledgebase']['port'])
+            AUDIO_URL = services['fabula']
+            KB_URL = services['qi']
     
     except FileNotFoundError:
-        print("No services.json file provided")
-    
-    
-    # try:
-    #     AUDIO_IP = sys.argv[1]
-    #     KB_URL = sys.argv[2]
-    # except IndexError:
-    #     print("USAGE: python3.6 app.py [AUDIO IP] [KB IP]")
-    #     exit(-1)
+        print("No routes.json file provided")
     
     app.run(host='0.0.0.0', port=3002)
