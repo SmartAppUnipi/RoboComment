@@ -37,6 +37,17 @@ POST with JSON data
 ```
 
 ## 
+### Video group message
+**Sample JSON**
+```
+{
+    "match_id": 10,
+    "match_url": "https://someurl/video.mp4",
+    "user_id": 1
+}
+```
+
+## 
 ### How to run the code
 
 Server:

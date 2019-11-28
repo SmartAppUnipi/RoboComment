@@ -379,7 +379,8 @@ function set_response(reply_type, reply, status) {
         "\"status\": \"" +status+ "\"\n}";
 }
 
-function set_video_response(id, url) {
-    return "{\"match_id\": \""+id+"\",\n" +
-        "\"match_url\": \"" +url+ "\"\n}";
+function set_video_response(match_id, url, user_id) {
+    return "{\"match_id\": "+match_id+",\n" +
+        "\"match_url\": \"" +url+ "\",\n +" +
+        "\"match_id\": "+user_id+"\"\n}";
 }

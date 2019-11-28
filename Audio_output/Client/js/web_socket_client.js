@@ -104,7 +104,7 @@ function connect() {
                 }
                 break;
 
-            case "get_infoMatch":
+            case "get_matchID":
                 console.log("Info of the Matches");
                 console.log(message.reply);
                 break;
