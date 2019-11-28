@@ -4,6 +4,10 @@ let ws = null;
 
 function insertCards(id, url) {
     console.log("ID video: "+id+ " and URL video: "+ url);
+    let video = document.getElementById('video');
+    video.src = url;
+    video.type ="video/mp4";
+    //TODO: just a demo, here the cards have to be populated
 }
 
 function connect() {
@@ -12,11 +16,12 @@ function connect() {
         // subscribe to some channels
         ws.send(JSON.stringify("New Connection"));
         userHello();
+        videoListRequest();
         console.log("Web Socket connection established")
     };
 
     ws.onmessage = function(e) {
-        console.log(e.data);
+        console.log("Message: "+e.data);
         let message = JSON.parse(e.data);
         switch (message.reply_type) {
             case "comment":
@@ -30,7 +35,7 @@ function connect() {
             case "user_login":
                 console.log("login reply: "+message.reply.id);
                 if (message.status === "400")
-                    alert("Login failed");
+                    showSnack("Login failed");
                 else if (message.status === "200") {
                     console.log("Login ok:");
                     setCookie("userId", message.reply.id, 15);
@@ -43,21 +48,28 @@ function connect() {
             case "user_registration":
                 console.log("registration reply");
                 if (message.status === "400")
-                    alert("Registration failed");
+                    showSnack("Registration failed");
                 else if (message.status === "200") {
                     showSnack("Registration confirmed, log in!");
+                    if (getCookie('userId') !== "")
+                        setCookie("userID", message.reply.id);
                     console.log("Registration ok, id = " + message.reply.id);
                     login();
                 }
                 break;
 
             case "get_videoList":
-                console.log("Result of video list");
-                console.log(message.reply);
-                let videoList = message.reply;
-                for(let i = 0 ;i< videoList.length; i++){
-                    insertCards(videoList.id, videoList.url);
+                if (window.location.pathname.split("/").pop() === "index.html") {
+                    console.log("Result of video list");
+                    console.log(message.reply);
+                    let videoList = message.reply.urls;
+                    for (let i = 0; i < videoList.length; i++) {
+                        console.log(videoList[i])
+;                        insertCards(videoList[i].id, videoList[i].url);
+                    }
                 }
+                else
+                    console.log("bad html page check");
                 break;
 
             case "get_infoMatch":
