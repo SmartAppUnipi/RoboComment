@@ -1,8 +1,8 @@
 import json
 import random
 
-from CommentGenerator.src.Picker_test.Tagger import Tagger
-from CommentGenerator.src.Picker_test.TemplateGenerator import TemplateGenerator
+from CommentGenerator.src.Tagger import Tagger
+from CommentGenerator.src.TemplateGenerator import TemplateGenerator
 
 
 class Picker:
@@ -11,7 +11,7 @@ class Picker:
         self.tagger = Tagger()
         self.template_generator = TemplateGenerator()
         # list of possible comments to extract where no info are passed
-        with open('./comments_others.txt', "r") as f:
+        with open('../assets/comments_empty_moments.txt', "r") as f:
             self.comment_others = [str(line) for line in f.readlines()]
 
         # order of tags, corresponding to definition of the grammar
@@ -48,7 +48,7 @@ class Picker:
 
     def create_others(self) -> str:
         """
-        This method pick a random template inside the comments_others.txt to fill the empty moments
+        This method pick a random template inside the comments_empty_moments.txt to fill the empty moments
         :return:
         """
         return random.choice(self.comment_others)
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     """
     picker = Picker()
 
-    with open("../../assets/input1.json", 'r') as input1_json:
+    with open("../assets/input1.json", 'r') as input1_json:
         input_json = json.load(input1_json)
         # TODO add test test and test
         print("INPUT:", input_json)
