@@ -1,0 +1,104 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+}
+.clearfix{
+    clear:both;
+}
+
+.container-width{
+    width:90%;
+    max-width:1150px;
+    margin:0 auto;
+}
+
+
+.flex-sect{
+    background-color:#efefef;
+    padding:100px 0;
+    font-family:Helvetica, serif;
+    background-image:url(https://images.unsplash.com/photo-1518091043644-c1d4457512c6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center center;
+    height:1000px;
+}
+.flex-title{
+    margin-bottom:15px;
+    font-size:2em;
+    text-align:center;
+    font-weight:700;
+    color:#000000;
+    padding:5px;
+}
+.flex-desc{
+    margin-bottom:55px;
+    font-size:1em;
+    color:#798289;
+    text-align:center;
+    padding:5px;
+}
+.cards{
+    padding:20px 0;
+    display:flex;
+    justify-content:space-around;
+    flex-flow:wrap;
+}
+.card{
+    background-color:white;
+    height:300px;
+    width:300px;
+    margin-bottom:30px;
+    box-shadow:0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    border-radius:2px;
+    transition:all 0.5s ease;
+    font-weight:100;
+    overflow:hidden;
+}
+.card:hover{
+    margin-top:-5px;
+    box-shadow:0 20px 30px 0 rgba(0, 0, 0, 0.2);
+}
+.card-body{
+    padding:5px 15px 5px 15px;
+    color:#555;
+}
+.card-title{
+    font-size:1.4em;
+    margin-bottom:5px;
+}
+.card-desc{
+    font-size:0.85rem;
+    line-height:17px;
+}
+*{
+    box-sizing:border-box;
+}
+body{
+    margin:0;
+}
+.row{
+    display:flex;
+    justify-content:flex-start;
+    align-items:stretch;
+    flex-wrap:nowrap;
+    padding:10px;
+}
+.cell{
+    min-height:75px;
+    flex-grow:1;
+    flex-basis:100%;
+}
+.videoCard{
+    height:193px;
+    width:304px;
+}
+
+@media (max-width: 768px){
+    .row{
+        flex-wrap:wrap;
+    }
+}

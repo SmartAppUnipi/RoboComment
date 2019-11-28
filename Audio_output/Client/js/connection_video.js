@@ -1,11 +1,9 @@
-let intervalUrl, track;
+let intervalUrl, track, videoUrl, videoId;
 let video               = document.getElementById('video');
 let audio               = document.getElementById('audio');
 let supposedCurrentTime = 0;
 let request             = new XMLHttpRequest();
 let urlTaken            = false;
-// const video_url         = 'http://10.101.20.18:3000/video_url';
-const video_url         = 'http://localhost:3000';
 const debug             = true;
 const audioBrowser      = false;
 const audioHTTP         = true;
@@ -23,18 +21,21 @@ function main() {
     track = video.addTextTrack("captions", "English", "en");
     track.mode = "showing";
 
-    // intervalUrl = setInterval(function () {
-    //     if(!urlTaken) {
-    //         getVideoUrl(request);
-    //     }
-    // },1000);
-}
+    videoUrl = getCookie("videoURL");
+    videoId = getCookie("videoID");
+    console.log("Video ID: " + videoId);
 
+    if(videoUrl!==''){
+        video.src = videoUrl;
+        video.type = "video/mp4";
+        setTimeout(function () {
+            video.play()
+        }, 10000);
+    }else{
+        window.location.href = "catalog.html";
 
-// HTTP GET request for the video url
-function getVideoUrl(req) {
-    req.open('GET',video_url);
-    req.send();
+    }
+
 }
 
 
@@ -165,29 +166,6 @@ function checkFlagAudio(item){
 
 
 //----------------------------Event listener----------------------------------------
-
-// Listener for the result of HTTP request
-request.onreadystatechange = function() {
-    if (this.readyState === 4 && this.status === 200) {
-        console.log("Response from video server: " + this.responseText);
-
-        urlTaken = true;
-        clearInterval(intervalUrl);
-
-        video.src = this.responseText;
-        video.type ="video/mp4";
-        setTimeout(function () {
-            video.play()
-        },10000);
-    }else{
-        console.log("Video unavailable, video server is closed");
-        if (debug){
-            video.src = "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4";
-            video.type ="video/mp4";
-            clearInterval(intervalUrl);
-        }
-    }
-};
 
 
 // Listener for the CurrentTime event of video

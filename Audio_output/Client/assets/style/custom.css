@@ -1,17 +1,19 @@
 body{
-    background: url("../soccer-wallpaper.jpg") #132533  no-repeat center center;
+    background: url("../pic11.jpg") #132533  no-repeat center center;
     -webkit-background-size: cover;
     background-size: cover;
     height: 100vh;
 }
 .login-container{
+
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
 }
 .login-container .login-content{
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
+
 }
 .pos-r{
     position: relative;
@@ -122,4 +124,25 @@ button.link {
         transform:none;
         padding: 0;
     }
+}
+
+#titleText{
+    padding:10px;
+    top: 10px;
+    float:none;
+    display:inline;
+    font-size:73px;
+    font-weight:100;
+    font-family:Verdana, Geneva, sans-serif;
+    color:#0d4e7c;
+    line-height:0;
+}
+
+#titleImg {
+    color: black;
+    width: 33%;
+    background-repeat: repeat;
+    background-position: left top;
+    background-attachment: scroll;
+    background-size: auto;
 }
