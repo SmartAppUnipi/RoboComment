@@ -20,10 +20,10 @@ class TestKnowledgeBase(unittest.TestCase):
         }
 
         with requests_mock.mock() as mock_request:
-            mock_request.get(self.KB_URL + self.kb.player + "/42", text=json.dumps(player), status_code=200)
+            mock_request.get(self.KB_URL + self.kb.PLAYER + "/42", text=json.dumps(player), status_code=200)
             res = self.kb.get_player(42)
 
-            assert res['name'] == "Nome Del Giocatore"
+            assert res == "Nome Del Giocatore"
     
     def test_get_team1(self):
 
@@ -35,10 +35,10 @@ class TestKnowledgeBase(unittest.TestCase):
         }
 
         with requests_mock.mock() as mock_request:
-            mock_request.get(self.KB_URL + self.kb.team + "/42", text=json.dumps(team), status_code=200)
+            mock_request.get(self.KB_URL + self.kb.TEAM + "/42", text=json.dumps(team), status_code=200)
             res = self.kb.get_team(42)
 
-            assert res['name'] == "Nome Della Squadra"
+            assert res == "Nome Della Squadra"
     
 
     def test_get_match1(self):
@@ -68,7 +68,7 @@ class TestKnowledgeBase(unittest.TestCase):
         }
 
         with requests_mock.mock() as mock_request:
-            mock_request.get(self.KB_URL + self.kb.match +"/42", text=json.dumps(match), status_code=200)
+            mock_request.get(self.KB_URL + self.kb.MATCH +"/42", text=json.dumps(match), status_code=200)
             res = self.kb.get_match(42)
 
             assert res['home']['name'] == "SS Lazio"
