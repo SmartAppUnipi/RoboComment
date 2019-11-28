@@ -23,11 +23,11 @@ function main() {
     track = video.addTextTrack("captions", "English", "en");
     track.mode = "showing";
 
-    intervalUrl = setInterval(function () {
-        if(!urlTaken) {
-            getVideoUrl(request);
-        }
-    },1000);
+    // intervalUrl = setInterval(function () {
+    //     if(!urlTaken) {
+    //         getVideoUrl(request);
+    //     }
+    // },1000);
 }
 
 
