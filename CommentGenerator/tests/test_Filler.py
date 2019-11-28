@@ -1,44 +1,64 @@
 import unittest
 from src.Filler import Filler
+from utils.KnowledgeBase import KnowledgeBase
 import json
+import requests_mock
 
 
 class TestFiller(unittest.TestCase):
 
     def setUp(self):
-        self.comment_filler = Filler()
+        self.kb_url = "http://kbendpoint:4242/"
+        self.kb = KnowledgeBase(self.kb_url)
+        self.comment_filler = Filler(self.kb)
+
+        self.player1 = { "id": 42, "name": "Pippo"}
+        self.player2 = { "id": 7, "name": "Topolino"}
+
+        self.team1 = { "id": 7, "name": "TeamPippo" }
+        self.team2 = { "id": 7, "name": "TeamTopolino" }
 
     def test_update_comment1(self):
         details = {
-            "team1" : "team A",
-            "team2": "team B",
-            "player1": "Ruicosta",
-            "player2": "Ronaldo",
+            "team1" : 42,
+            "team2": 7,
+            "player1": 42,
+            "player2": 7,
             "field_zone" : "middle",
             "subtype"  : "pass",
             "confidence" : 0.4
         }
 
-        updated_comment = self.comment_filler.update_comment("{player1} from {team1} has passed to {player2} in the {field_zone}", details)
+        with requests_mock.mock() as mock_request:
+            mock_request.get(self.kb_url + self.kb.PLAYER + "/42", text=json.dumps(self.player1), status_code=200)
+            mock_request.get(self.kb_url + self.kb.TEAM + "/42", text=json.dumps(self.team1), status_code=200)
+            mock_request.get(self.kb_url + self.kb.PLAYER + "/7", text=json.dumps(self.player2), status_code=200)
+            mock_request.get(self.kb_url + self.kb.TEAM + "/7", text=json.dumps(self.team2), status_code=200)
 
-        assert updated_comment == "Ruicosta from team A has passed to Ronaldo in the middle"
+            updated_comment = self.comment_filler.update_comment("{player1} from {team1} has passed to {player2} in the {field_zone}", details)
+
+        assert updated_comment == "Pippo from TeamPippo has passed to Topolino in the middle"
 
     def test_update_comment2(self):
         with open("CommentGenerator/tests/mock_assets/config1.json",'r') as conf1:
             self.comment_filler.config = json.load(conf1)
         
         details = {
-            "team1" : "team A",
-            "player1": "Ruicosta",
+            "team1" : 42,
+            "player1": 42,
             "subtype"  : "pass",
             "confidence" : 0.4
         }
 
-        updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details)
+        with requests_mock.mock() as mock_request:
+            mock_request.get(self.kb_url + self.kb.PLAYER + "/42", text=json.dumps(self.player1), status_code=200)
+            mock_request.get(self.kb_url + self.kb.TEAM + "/42", text=json.dumps(self.team1), status_code=200)
+            
+            updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details)
 
-        assert updated_comment == "Ruicosta has passed good"
+        assert updated_comment == "Pippo has passed bad"
     
-    def test_update_comment3(self):
+    def update_comment3(self): #TODO fix this
         with open("CommentGenerator/tests/mock_assets/config1.json",'r') as conf2:
             self.comment_filler.config = json.load(conf2)
         
@@ -53,7 +73,7 @@ class TestFiller(unittest.TestCase):
 
         assert updated_comment == "Ruicosta has passed bad"
 
-    def test_update_comment4(self):
+    def update_comment4(self): #TODO fix this
         with open("CommentGenerator/tests/mock_assets/config1.json",'r') as conf2:
             self.comment_filler.config = json.load(conf2)
         

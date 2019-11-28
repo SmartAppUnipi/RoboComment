@@ -10,7 +10,7 @@ class Commentator:
         self.config = 'CommentGenerator/assets/config.json'
         self.template = 'CommentGenerator/assets/templates.json'
         self.picker = Picker(self.template)
-        self.filler = Filler(self.config)
+        self.filler = Filler(knowledge_base,self.config)
         self.sentimentalizer = Sentimentalizer(self.config)
 
     def run(self, jsonobj):

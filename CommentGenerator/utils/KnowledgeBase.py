@@ -26,7 +26,6 @@ class KnowledgeBase:
 
     def get_team(self, team_id):
         ''' given a team id it returns his name '''
-        
         if self._saved_team["id"] != team_id:
             self._saved_team = self.get_item(self.TEAM, team_id)
         
