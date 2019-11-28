@@ -22,7 +22,7 @@ class Picker:
         # element where insert value instead of key
         self.tag_to_value = ["subtype", "field_zone"]
 
-    def pick_comment(self, input_json: json) -> str:
+    def pick_comment(self, input_json: json, biased=False) -> str:
         """
         From json extract information and produce a comment.
         The comment is stored and filled from comments_others if the input is empty
@@ -38,7 +38,12 @@ class Picker:
             # try to tag the sentence
             try:
                 sentence_tagged = self.tagger.tag_sentence(sentence)
-                final_comment = self.template_generator.generate(sentence_tagged)
+
+                register = "neutral"
+                preference = "positive"
+
+                final_comment = self.template_generator.generate(sentence_tagged, register, preference)
+
             # if an error is found means that inconsistency was found
             except:
                 # TODO try to create a comment with less possible information and querying kb
@@ -92,9 +97,10 @@ class Picker:
 
 if __name__ == '__main__':
     """
-    Call this class from commentator
+    We will move that to Commentator
     """
     picker = Picker()
+
 
     with open("../assets/input1.json", 'r') as input1_json:
         input_json = json.load(input1_json)
