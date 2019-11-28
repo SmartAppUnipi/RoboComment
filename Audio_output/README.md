@@ -27,11 +27,11 @@ POST with JSON data
 **Sample JSON data**:
 ```
 {
-    "comment": "Maradona scores goal with the hand"
-    "emphasis": "rage"
-    "startTime": 10
-    "endTime": 15
-    "priority": 1
+    "comment": "Maradona scores goal with the hand",
+    "emphasis": "rage",
+    "startTime": 10,
+    "endTime": 15,
+    "priority": 1,
     "id": 1
 }
 ```
