@@ -1,5 +1,5 @@
-from .Tagger import Tagger
-from .TemplateGenerator import TemplateGenerator
+from Tagger import Tagger
+from TemplateGenerator import TemplateGenerator
 
 import json
 import random
