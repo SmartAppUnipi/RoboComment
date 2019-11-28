@@ -1,22 +1,24 @@
 {
-  "url1": {
-    "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
-    "id": 42
-  },
-  "url2": {
-    "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
-    "id": 5
-  },
-  "url3": {
-    "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
-    "id": 7
-  },
-  "url4": {
-    "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
-    "id": 98
-  },
-  "url5": {
-    "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
-    "id": 14
-  }
+  "urls": [
+    {
+      "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
+      "id": 42
+    },
+    {
+      "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
+      "id": 5
+    },
+    {
+      "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
+      "id": 7
+    },
+    {
+      "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
+      "id": 98
+    },
+    {
+      "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
+      "id": 14
+    }
+  ]
 }
