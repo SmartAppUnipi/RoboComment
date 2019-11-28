@@ -28,7 +28,6 @@ function createUser() {
                 "       }\n" +
                 "    },\n" +
                 "    \"request_type\": \"user_registration\"\n" +
-                "    \"user_id\": \"\"\n" +
                 "}");
             console.log("Send registration request")
         }
@@ -61,7 +60,6 @@ function loginUser() {
             "       }\n" +
             "    },\n" +
             "    \"request_type\": \"user_login\"\n" +
-            "    \"user_id\": \""+getCookie("userId")+"\"\n" +
             "}");
 
         console.log("Send login request")

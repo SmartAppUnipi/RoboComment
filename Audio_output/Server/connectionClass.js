@@ -6,3 +6,5 @@ class ConnectionUser {
         this.old_comment = null;
     }
 }
+
+module.exports = ConnectionUser;

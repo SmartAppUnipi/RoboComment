@@ -9,11 +9,11 @@ let debug           = require('debug')('websportserver:server');
 let http            = require('http');
 let WebSocketServer = require('websocket').server;
 let connections     = [];
-let ConnectionUser  = require('../connectionClass');
+let connectionUser  = require('../connectionClass');
 
 const KBApp         = require('axios');
 const VideoApp      = require('axios');
-const routes        = require('../../routes.json');
+const routes        = require('../../../routes.json');
 const video_list    = require('../../videolist');
 const WSIP          = routes.ui.toString().split(":")[1].split("/")[2];
 const WS_PORT       = routes.ui.toString().split(":")[2].split("/")[0];
@@ -21,8 +21,8 @@ const commentIP     = routes.fabula.toString().split(":")[1].split("/")[2];
 const COMMENT_PORT  = routes.fabula.toString().split(":")[2].split("/")[0];
 const kb_url        = routes.qi;
 const url_video     = routes.video;
-let url_login       = kb_url + "/users/login";
-let url_user        = kb_url + "/users";
+let url_login       = kb_url + "users/login";
+let url_user        = kb_url + "users";
 let url_match       = kb_url + "/match/";
 
 const DEBUGERR      = false;
@@ -49,7 +49,7 @@ commentApp.set('port', commentPort);
 
 let server = http.createServer(app);
 wsServer = new WebSocketServer({
-  httpServer: server
+    httpServer: server
 });
 
 /**
@@ -64,102 +64,102 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 function normalizePort(val) {
-  let port = parseInt(val, 10);
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-  return false;
+    let port = parseInt(val, 10);
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+    return false;
 }
 
 /**
  * Event listener for HTTP server "error" event.
  */
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-  let bind = typeof webSocketPort === 'string'
-    ? 'Pipe ' + webSocketPort
-    : 'Port ' + webSocketPort;
+    let bind = typeof webSocketPort === 'string'
+        ? 'Pipe ' + webSocketPort
+        : 'Port ' + webSocketPort;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 /**
  * Event listener for HTTP server "listening" event.
  */
 function onListening() {
-  let addr = server.address();
-  let bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  console.log('Listening on ' + bind);
+    let addr = server.address();
+    let bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    console.log('Listening on ' + bind);
 }
 
 /**
  * Event listener for HTTP server "listening" event.
  */
 function onListeningComment() {
-  debug('Listening on ' + commentPort + " for Fabula");
+    debug('Listening on ' + commentPort + " for Fabula");
 }
 
 /**
  * Event listener for WebSocket server "listening" event.
  */
 wsServer.on('request', function(request) {
-  console.log("New web socket connection");
-  let connection = request.accept(null, request.origin);
+    console.log("New web socket connection");
+    let connection = request.accept(null, request.origin);
 
-  connection.on('message', function(message) {
-    // on message received
-    if (message.type === 'utf8') {
-      // if it is a string we can read as usual
-      console.log('the message received is:\n' + message.utf8Data);
-      handleClientMessage(message.utf8Data, connection);
-    }
-  }).on('close', function(event) {
-    console.log("Web socket connection closed");
-    // remove the closed connection
-    console.log(connections.indexOf(connection));
-    connections.splice(connections.indexOf(connection));
-  });
+    connection.on('message', function(message) {
+        // on message received
+        if (message.type === 'utf8') {
+            // if it is a string we can read as usual
+            console.log('the message received is:\n' + message.utf8Data);
+            handleClientMessage(message.utf8Data, connection);
+        }
+    }).on('close', function(event) {
+        console.log("Web socket connection closed");
+        // remove the closed connection
+        console.log(connections.indexOf(connection));
+        connections.splice(connections.indexOf(connection));
+    });
 });
 
 commentApp.post("/", function (req, res) {
-  console.log("New comment");
+    console.log("New comment");
 
-  console.log(req.body);
+    console.log(req.body);
 
-  let comment = JSON.parse(JSON.stringify(req.body));
+    let comment = JSON.parse(JSON.stringify(req.body));
 
-  res.sendStatus(200);
+    res.sendStatus(200);
 
-  if (comment.id!==0){
-      for(let i=0; i< connections.length; i++) {
-          if(comment.id === connections[i].id){
-              connections[i].new_comment = comment;
-              sendComment(connections[i]);
-          }
-      }
-  }
+    if (comment.id!==0){
+        for(let i=0; i< connections.length; i++) {
+            if(comment.id === connections[i].id){
+                connections[i].new_comment = comment;
+                sendComment(connections[i]);
+            }
+        }
+    }
 });
 
 
@@ -228,7 +228,7 @@ function handleClientMessage(body, connection) {
         console.log("Sending request to KB");
         KBApp.post(url_login, JSON.stringify(message.request), config)
             .then((result) => {
-                response = set_response("user_login",result.data, result.status);
+                response = set_response("user_login", JSON.stringify(result.data), result.status);
 
                 if (result.status === 200) {
                     console.log("User Login: Status OK and Sending to Client");
@@ -252,7 +252,7 @@ function handleClientMessage(body, connection) {
 
         KBApp.post(url_user,JSON.stringify(message.request),config)
             .then((result) => {
-                response = set_response("user_registration",result.data, result.status);
+                response = set_response("user_registration", JSON.stringify(result.data), result.status);
                 if (result.status === 200) {
                     console.log("User Registration: Status OK and Sending to Client");
                     connection.send(response);
@@ -275,7 +275,7 @@ function handleClientMessage(body, connection) {
 
         KBApp.post(url_user,body.request,config)
             .then((result) => {
-                response = set_response("user_update",result.data, result.status);
+                response = set_response("user_update", JSON.stringify(result.data), result.status);
                 if (result.status === 200) {
                     console.log("User Update: Status OK and Sending to Client");
                     connection.send(response);
@@ -362,12 +362,12 @@ function handleClientMessage(body, connection) {
     }
 
     else if(message.request_type === "hello"){
-        connections.push(new ConnectionUser(connection,message.user_id));
+        connections.push(new connectionUser(connection, message.user_id));
 
     }
 
     else if(message.request_type === "get_videoList"){
-        response = set_response("get_videoList",video_list, 200);
+        response = set_response("get_videoList", JSON.stringify(video_list), 200);
         console.log("Send videos list");
         connection.send(response);
     }
