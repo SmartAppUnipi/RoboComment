@@ -5,6 +5,7 @@ import sys
 from src.Commentator import Commentator
 from utils.KnowledgeBase import KnowledgeBase
 from threading import Thread
+import logging
 
 app = Flask(__name__)
 
@@ -41,11 +42,13 @@ def action():
     global commentator
     input = json.loads(request.data)
     print(input)
+    logging.info(input)
     # call our main
 
     output = commentator.run(input)
     
     print(output['comment'])
+    logging.info(output)
     # post to the audio group
     forward_to_audio(output)
     
@@ -58,6 +61,8 @@ def init():
     global knowledge_base
     global commentator
 
+    logging.basicConfig(filename='CommentGenerator/commentgenerator.log',level=logging.INFO) # filemode='w'
+     
     knowledge_base = KnowledgeBase(url=KB_URL)
     commentator = Commentator(knowledge_base)
 
