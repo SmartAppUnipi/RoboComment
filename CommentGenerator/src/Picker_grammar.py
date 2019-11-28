@@ -1,8 +1,8 @@
+from .Tagger import Tagger
+from .TemplateGenerator import TemplateGenerator
+
 import json
 import random
-
-from CommentGenerator.src.Tagger import Tagger
-from CommentGenerator.src.TemplateGenerator import TemplateGenerator
 
 
 class Picker:
