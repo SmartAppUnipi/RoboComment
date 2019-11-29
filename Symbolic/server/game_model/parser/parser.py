@@ -1,29 +1,5 @@
 import re
 
-_tokens = [
-    'possession',
-    r'.{\d,\d}',
-    '.',
-    'interception',
-    'ballOnTarget',
-    'ballOffTarget',
-    'PACCHETTONE'
-]
-
-_GLOBAL_ARRAY = '_global_array'
-
-
-def _get_pattern(token: str, part: str):
-    if True or token in ['possession', 'interception', 'ballOnTarget', 'ballOffTarget']:
-        return {
-            'type': token
-        }
-    elif token in ['.', r'.{\d,\d}']:
-        return part
-
-    raise Exception('Unrecognized token: ' + token)
-
-
 def _token_match(token: str, part: str):
     if token == r'.{\d,\d}':
         return len(re.findall(token, part)) != 0
@@ -32,14 +8,8 @@ def _token_match(token: str, part: str):
 
 
 def _split(rule_string: str):
-    if ' : ' not in rule_string:
-        raise Exception('Not a rule.')
-
-    name_and_stack, rules_and_more = rule_string.split(' = ')
+    name_and_stack, rules, constraints, action = re.split(' = | : | then ', rule_string)
     name, stack = re.findall('[a-z]+', name_and_stack)
-    rules, constraints_and_more = rules_and_more.split(' : ')
-    constraints, action = constraints_and_more.split(' then ')
-
     return name, stack, rules, constraints, action
 
 
@@ -81,16 +51,14 @@ def _parse_rule(rule: str, parse_obj):
     })
 
     for part in parts:
-        for token in _tokens:
-            if not _token_match(token, part):
-                continue
+        name, *alias = part.split(' as ')
+        parse_obj['condition'][-1]['pattern'].append(name)
 
+        if len(alias) > 0:
             parse_obj['condition'][-1]['pattern'].append(
-                _get_pattern(token, part)
+                alias[0]
             )
 
-            if 'as' in part:
-                parse_obj['condition'][-1]['pattern'].append(
-                    part.split(' as ')[1]
-                )
-            break
+
+# x = parse("pass[elementary] = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 : @0.player.team == @1.player.team then push('elementary', {'type': 'pass', 'from': @0, 'to': @1})")
+# print(x)
