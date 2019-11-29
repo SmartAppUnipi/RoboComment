@@ -46,7 +46,7 @@ class TemplateGenerator:
                 "no_empty": ["is receiving a {simple_modifier} {p}", "continuously {p}"]
             },
             "Action_passive_ball": {
-                "no_empty": ["receive the ball", "get a {p}", "obtain the ball"]
+                "no_empty": ["{p} the ball", "get a {p}", "do a {p} with the ball"]
             },
             "Action_zone_from": {
                 "empty" : [""],
