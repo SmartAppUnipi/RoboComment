@@ -1,2 +1,3 @@
 possession      = ___ball_owner
 pass            = possession as @0 -> .{0,4} -> possession as @1 : @0.player.team == @1.player.team
+interception    = possession as @0 -> possession as @1 : @0.player.team != @1.player.team

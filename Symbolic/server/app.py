@@ -18,134 +18,58 @@ from game_model.game_model import GameModel
 app = flask.Flask(__name__)
 socketio = SocketIO(app)
 
-model = GameModel()
+model = None
 
-#DIMENSIONI IN METRI DEL CAMPO... FARLI PASSARE DA QUALCUNO...
-_WIDTH = 110
-_HEIGHT = 90
+#DIMENSIONI IN METRI DEL CAMPO...
+_WIDTH = 105
+_HEIGHT = 68
 
-_comment_generation_scheduler = None
-
-_DEBUG = False
-
-debug_map = None
-_N_ITERS_TEST = 0
-
+map = Map2d(_WIDTH, _HEIGHT,socketio)
 pp = pprint.PrettyPrinter(indent=4)
 
-"""-------------AGGIUNTI ENDPOINT PER COMUNICARE CON LA PARTE CLIENT DELLA MAPPA----------"""
+
 #Avvia la simulazione della mappa (atteso input dopo che arriva il json da video processing)
 @app.route("/debug")
 def init_map():
-    global _DEBUG
-    _DEBUG = False
     return render_template('page_map.html')
-
-#Endpoint usato SOLO per testare la mappa
-@app.route("/debug/test/<int:n>")
-def test_map(n):
-    global socketio
-    global _DEBUG
-    global _N_ITERS_TEST
-
-    _DEBUG = True
-    _N_ITERS_TEST = n
-    socketio.on_event('notify',handle)
-    #socketio.on_event('notify',handle)
-    return render_template('page_map.html')
-
-"""---------------------FUNZIONI USATE X DEBUG DELLA MAPPA--------------"""
-
-def update_periodic(socketio):
-    global debug_map
-    global _DEBUG
-    global _WIDTH
-    global _HEIGHT
-    global _N_ITERS_TEST
-
-    dummy_new = copy.deepcopy(dummy[0])
-    debug_map = Map2d(_WIDTH,_HEIGHT,dummy_new,socketio,_DEBUG)
-    debug_map._send_init_position()
-    for i in range(_N_ITERS_TEST):
-        sleep(1)
-        for j in range(random.randint(1,22)):
-            dummy_new = move_player(dummy_new,random.randint(1,11),random.randint(0,1),random.uniform(-5,5),random.uniform(-5,5))
-        dummy_new = move_ball(dummy_new,random.uniform(-5,5),random.uniform(-5,5))
-
-        for j in range(random.randint(1,5)):
-            dummy_new = modify_id_confidence(dummy_new,random.randint(1,11),random.randint(0,1),random.uniform(0,1))
-            dummy_new = modify_team_confidence(dummy_new,random.randint(1,11),random.randint(0,1),random.uniform(0,1))
-        
-        dummy_new = move_player(dummy_new,4,-1,random.uniform(-10,10),random.uniform(-10,10))
-        
-        debug_map._update_position(dummy_new)
-   
-
-def handle(message):
-    global _DEBUG
-    if _DEBUG:
-        x = threading.Thread(target=update_periodic,args=(socketio,))
-        x.start()
-
-def _send_to_cg():
-    global model
-    to_send = model.to_comment_generation()
-    requests.post(cg_url, json=to_send)
-    
-"---------------------------------------------------------------------------------"
-
-
-"-------------------------------------------------------------"
 
 @app.route("/")
 def welcome():
    return "Symbolic Level"
 
-@app.route("/pos")
-def pos():
-    return jsonify({'x':100,'y':200})
-
 @app.route('/positions', methods=['POST'])
-def new_positions(second):
+def new_positions():
+    global model
+    global map
 
-    data = flask.request.form
+    data = flask.request.json 
 
-    print("##############")
-    print(data)
-    print("##############")
-
+    print("Received data from video processing")
     if Validator.validate_positions(data):
         print("Data is correctly formatted")
     else: 
-        print("data is incorrect:")
-        print(data)
-        print("########################")
+        print("data is incorrect")
 
-    global _comment_generation_scheduler
-    if not _comment_generation_scheduler:
-        _comment_generation_scheduler = scheduler()
-        _comment_generation_scheduler.enter(delay=5, action=_send_to_cg)
-    # validate input json and execute business logic code
-    with open('../tests/dummy.json', 'r') as f: 
-        dummy = json.load(f) 
+    #Metto in map le nuove posizioni
+    map._update_position(data)
+    model.new_positions(data)
 
-    cg_url = cg_host + ":" + str(cg_port) + "/api/action"
-    print(cg_url)
-    print(dummy[2])
-    requests.post(cg_url, json=dummy[2])
+    with open('positions.out', 'a+') as dump_file:
+        string = json.dumps(data, separators=(',',':'))
+        dump_file.write(data)
+    return ""
 
-    return "ciao"
+def main():
+    global model
+    with open('../../routes.json', 'r') as f: 
+        config = json.load(f) 
+        symbolic_port = 3001
+        cg_url = config['tale']
 
+    model = GameModel(cg_url)
+
+    print("app is running, open localhost:3001/debug to display the map")
+    socketio.run(app, host='0.0.0.0', use_reloader=False, port=symbolic_port)
 
 if __name__ == '__main__':
-    with open('config.json', 'r') as f: 
-        config = json.load(f) 
-        symbolic_port = config['symbolic-port']
-        cg_host = config["comment-generation-host"] 
-        cg_port = config["comment-generation-port"]
-        cg_url = cg_host + ":" + str(cg_port) + "/api/action"
-
-    app.debug = True
-    socketio.run(app, host='0.0.0.0', use_reloader=False, port=symbolic_port)
-    #app.run(host='0.0.0.0', port=symbolic_port, debug=True)
-    #socketio.run(app,host='0.0.0.0', port=symbolic_port,use_reloader=False)
+    main()

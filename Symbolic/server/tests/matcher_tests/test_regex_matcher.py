@@ -1,11 +1,13 @@
 from game_model.interpreter.regex_matcher import regex_matcher
 
+registers = {}
+
 #Regex same size of stack
 def test_regex_match_single_string():
     regex = [{'first': 'elem'}]
     stack = [{'first': 'elem'}]
     
-    assert regex_matcher(regex, stack)
+    assert regex_matcher(regex, stack, registers)
 
 #Regex same size of stack
 def test_regex_match_single_string_int():
@@ -22,7 +24,7 @@ def test_regex_match_single_string_int():
         }
     ]
         
-    assert regex_matcher(regex, stack)
+    assert regex_matcher(regex, stack, registers)
 
 #Regex (and its element) fewer elements than stack (and its elements)
 def test_regex_match_objects():
@@ -46,7 +48,7 @@ def test_regex_match_objects():
         }
     ]
         
-    assert regex_matcher(regex, stack)
+    assert regex_matcher(regex, stack, registers)
 
 def test_regex_longer():
     regex = [
@@ -67,13 +69,13 @@ def test_regex_longer():
         }
     ]
 
-    assert not regex_matcher(regex, stack)
+    assert not regex_matcher(regex, stack, registers)
 
 def test_regex_match_stackfirst():
     regex = ['a', '.', 'c']
     stack = ['a', 'b', 'b', 'b', 'b']
 
-    assert not regex_matcher(regex, stack)
+    assert not regex_matcher(regex, stack, registers)
 
 def test_regex_match_any():
     regex = [
@@ -97,7 +99,7 @@ def test_regex_match_any():
         }
     ]
     
-    assert regex_matcher(regex, stack)
+    assert regex_matcher(regex, stack, registers)
 
 def test_regex_match_any_seq_last():
     regex = [
@@ -121,7 +123,7 @@ def test_regex_match_any_seq_last():
         }
     ]
     
-    assert regex_matcher(regex, stack)
+    assert regex_matcher(regex, stack, registers)
 
 
 def test_regex_match_any_seq_mid():
@@ -149,7 +151,7 @@ def test_regex_match_any_seq_mid():
         }
     ]
     
-    assert regex_matcher(regex, stack)
+    assert regex_matcher(regex, stack, registers)
 
 
 def test_regex_match_any_seq_bounded_upper():
@@ -164,23 +166,28 @@ def test_regex_match_any_seq_bounded_upper():
     ]
     stack = [
         {
-            'first': 'elem'
+            'first': 'elem',
+            'time': 20000
         },
         {
             'second': 'skip',
+            'time': 20001
         },
         {
-            'secondhalf': 'skipagain'
+            'secondhalf': 'skipagain',
+            'time': 21000
         },
         {
-            'second3quarter': 'tripleskip'
+            'second3quarter': 'tripleskip',
+            'time': 22000
         },
         {
-            'last': 'newelem'
+            'last': 'newelem',
+            'time': 23000
         }
     ]
     
-    assert regex_matcher(regex, stack)
+    assert regex_matcher(regex, stack, registers)
 
 def test_regex_match_any_seq_bounded_lower():
     regex = [
@@ -194,20 +201,24 @@ def test_regex_match_any_seq_bounded_lower():
     ]
     stack = [
         {
-            'first': 'elem'
+            'first': 'elem',
+            'time': 0
         },
         {
             'second': 'skip',
+            'time': 1000
         },
         {
-            'secondhalf': 'skipagain'
+            'secondhalf': 'skipagain',
+            'time': 1500
         },
         {
-            'last': 'newelem'
+            'last': 'newelem',
+            'time': 2000
         }
     ]
     
-    assert regex_matcher(regex, stack)
+    assert regex_matcher(regex, stack, registers)
 
 def test_regex_match_any_seq_bounded_short():
     regex = [
@@ -221,17 +232,20 @@ def test_regex_match_any_seq_bounded_short():
     ]
     stack = [
         {
-            'first': 'elem'
+            'first': 'elem',
+            'time': 0
         },
         {
             'second': 'skip',
+            'time': 1000
         },
         {
-            'last': 'newelem'
+            'last': 'newelem',
+            'time': 1500
         }
     ]
     
-    assert not regex_matcher(regex, stack)
+    assert not regex_matcher(regex, stack, registers)
 
 def test_regex_match_any_seq_bounded_long():
     regex = [
@@ -245,26 +259,32 @@ def test_regex_match_any_seq_bounded_long():
     ]
     stack = [
         {
-            'first': 'elem'
+            'first': 'elem',
+            'time': 1000
         },
         {
             'second': 'skip',
+            'time': 1001
         },
         {
-            'secondhalf': 'skipagain'
+            'secondhalf': 'skipagain',
+            'time': 1002
         },
         {
-            'secondhalfhalf': 'skipagain'
+            'secondhalfhalf': 'skipagain',
+            'time' : 1003
         },
         {
-            'second3quarter': 'tripleskip'
+            'second3quarter': 'tripleskip',
+            'time': 1004
         },
         {
-            'last': 'newelem'
+            'last': 'newelem',
+            'time': 7000
         }
     ]
     
-    assert not regex_matcher(regex, stack)
+    assert not regex_matcher(regex, stack, registers)
 
 
 def test_regex_match_any_seq_bounded_zero():
@@ -279,14 +299,16 @@ def test_regex_match_any_seq_bounded_zero():
     ]
     stack = [
         {
-            'first': 'elem'
+            'first': 'elem',
+            'time': 10
         },
         {
-            'last': 'newelem'
+            'last': 'newelem',
+            'time': 10
         }
     ]
     
-    assert regex_matcher(regex, stack)
+    assert regex_matcher(regex, stack, registers)
 
 def test_regex_match_any_seq_bounded_zero_one():
     regex = [
@@ -300,17 +322,109 @@ def test_regex_match_any_seq_bounded_zero_one():
     ]
     stack = [
         {
-            'first': 'elem'
+            'first': 'elem',
+            'time': 0
         },
         {
-            'second': 'here'
+            'second': 'here',
+            'time': 1000
         },
         {
-            'last': 'newelem'
+            'last': 'newelem',
+            'time': 2000
         }
     ]
     
-    assert regex_matcher(regex, stack)
+    assert regex_matcher(regex, stack, registers)
+
+def test_regex_match_register_save():
+    reg = {}
+    regex = [
+    {
+        'first': 'elem'
+    },
+    '@0'
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        }
+    ]
+
+    assert regex_matcher(regex, stack, reg)
+    assert reg['@0'] == {'first':'elem'}
+
+def test_regex_match_register_multisave():
+    reg = {}
+    regex = [
+    {
+        'first': 'elem'
+    },
+    '@0',
+    '@1'
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        }
+    ]
+
+    assert regex_matcher(regex, stack, reg)
+    assert reg['@0'] == {'first':'elem'}
+    assert reg['@1'] == {'first':'elem'}
+
+def test_regex_match_register_emptysave():
+    reg = {}
+    regex = [
+        '@0',
+        {
+        'first': 'elem'
+        }
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        }
+    ]
+
+    assert not regex_matcher(regex, stack, reg)
+
+def test_regex_match_register_reference_save():
+    reg = {}
+    regex = [
+        {
+        'first': 'elem'
+        },
+        '@0'
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        }
+    ]
+
+    assert regex_matcher(regex, stack, reg)
+    assert reg['@0'] is stack[0]    # It is by reference
+
+def test_regex_match_register_remove():
+    reg = {}
+    regex = [
+        {
+        'first': 'elem'
+        },
+        '@0'
+    ]
+    stack = [
+        {
+            'first': 'elem'
+        }
+    ]
+
+    assert regex_matcher(regex, stack, reg)
+    assert reg['@0'] is stack[0]
+    stack.remove(reg['@0'])
+    assert len(stack) == 0
+
 '''
 def test_regex_match_start_kleene():
     regex = [

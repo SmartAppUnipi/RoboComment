@@ -27,13 +27,15 @@ def __deltaPlayersBall(pos):
     return pos
 
 
-def ball_owner(pos):
+def ball_owner(queue):
     """
         Returns the ball owner given the list of position
     """
+    pos = queue[-1]
     data = __deltaPlayersBall(pos)['players']
     min_delta = min([x['delta'] for x in data])
     closest = data['delta' == min_delta]
+    closest['type'] = "owner"
     return closest
 
 
