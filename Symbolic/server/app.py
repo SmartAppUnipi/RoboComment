@@ -10,7 +10,7 @@ def welcome():
     return "Symbolic Level"
 
 @app.route('/positions', methods=['POST'])
-def new_positions(second):
+def new_positions():
 
     data = flask.request.form
 
@@ -26,23 +26,22 @@ def new_positions(second):
         print("########################")
     
     # validate input json and execute business logic code
-    with open('../tests/dummy.json', 'r') as f: 
-        dummy = json.load(f) 
 
-    cg_url = cg_host + ":" + str(cg_port) + "/api/action"
-    print(cg_url)
+    print("sending to ", cg_url)
     print(dummy[2])
     requests.post(cg_url, json=dummy[2])
 
-    return "ciao"
+    return ""
 
 
 if __name__ == '__main__':
-    with open('config.json', 'r') as f: 
+    with open('../../routes.json', 'r') as f: 
         config = json.load(f) 
-        symbolic_port = config['symbolic-port']
-        cg_host = config["comment-generation-host"] 
-        cg_port = config["comment-generation-port"]
+        symbolic_port = 3001
+        cg_url = config['tale']
+
+    with open('../tests/dummy.json', 'r') as f: 
+        dummy = json.load(f) 
 
     app.run(host='0.0.0.0', port=symbolic_port, debug=True)
 
