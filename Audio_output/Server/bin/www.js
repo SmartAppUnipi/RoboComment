@@ -156,7 +156,7 @@ commentApp.post("/", function (req, res) {
         for(let i=0; i< connections.length; i++) {
             if(comment.id === connections[i].id){
                 connections[i].new_comment = comment;
-                sendComment(connections[i]);
+                sendComment(connections[i], comment.id);
             }
         }
     }
@@ -167,14 +167,14 @@ commentApp.post("/", function (req, res) {
  * Utils functions
  */
 
-function sendComment(item) {
+function sendComment(item, id) {
 
     let connection = item.socket;
     let new_comment = item.new_comment;
     let old_comment = item.old_comment;
 
     if (old_comment == null) {
-        console.log("Broadcast to clients");
+        console.log("Broadcast to client of ID: "+ id);
         let reply = {
             reply_type: "comment",
             reply: new_comment
@@ -220,7 +220,7 @@ function checkPriority(comment1, comment2) {
 
 function handleClientMessage(body, connection) {
 
-    let response, video_response;
+    let response;
     let message = JSON.parse(body);
 
     if (message.request_type === "user_login") {
@@ -294,46 +294,26 @@ function handleClientMessage(body, connection) {
             })
     }
 
-    else if(message.request_type === "get_matchID"){
-        let home = message.request.home;
-        let away = message.request.away;
-        let date = message.request.date;
-        KBApp.post(url_match+"/"+home+"/"+away+"/"+"/"+date,body.request,config)
-            .then((result) => {
-                console.log("Match_ID arrived, now sending to Video Group");
-                response = set_response("get_matchID",result.data, result.status);
+    else if(message.request_type === "post_matchID"){
 
-                if (result.status === 200) {
+        console.log("Match_ID arrived, now sending to Video Group");
 
-                    video_response = set_video_response(response.reply.id, message.request.url);
-                    VideoApp.post(url_video, video_response, config )
-                        .then((result_video)=>{
-                            if (result_video.readyState === 4 && result_video.status === 200) {
-                                response = set_response("get_matchID",result_video.data, result_video.status);
-                                connection.send(response);
-                            }else{
-                                console.log("Fail send Match ID to video Group")
-                            }
-                        })
-                        .catch((err_video)=>{
-                            if(DEBUGERR){
-                                console.log(err_video);
-                            }
-                            console.log("Catch: Fail send Match ID to video Group")
-                        });
-                }else{
+        VideoApp.post(url_video, JSON.stringify(message.request), config )
+            .then((result_video)=>{
+                if (result_video.status === 200) {
+                    response = set_response("post_matchID","OK", result_video.status);
                     connection.send(response);
-                    console.log("Match ID not found")
+                }else{
+                    console.log("Fail send Match ID to video Group")
                 }
             })
-            .catch((err) => {
-                if (DEBUGERR){
-                    console.log(err);
+            .catch((err_video)=>{
+                if(DEBUGERR){
+                    console.log(err_video);
                 }
-                console.log("Catch: Match ID not found. "+ err.response.data);
-                response = set_response("get_matchID",err.response.data, 400);
-                connection.send(response);
-            })
+                console.log("Catch: Fail send Match ID to video Group")
+            });
+
     }
 
     else if(message.request_type === "get_infoMatch"){
