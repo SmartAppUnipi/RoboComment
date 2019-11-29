@@ -13,13 +13,12 @@ import random
 from dummy_map import *
 import copy
 from sched import scheduler
-from game_model.game_model import GameModel
+from game_model.game_model import GameModel, U
+import game_model.interpreter.set_rule_matcher
 
 
 app = flask.Flask(__name__)
 socketio = SocketIO(app)
-
-model = GameModel()
 
 # DIMENSIONI IN METRI DEL CAMPO...
 _WIDTH = 105
@@ -38,66 +37,9 @@ def init_map():
 
 @app.route("/stacks", methods=['POST', 'GET'])
 def stacks():
+    env = GameModel.get_env()
     if request.method == 'GET':
-        data = {
-            "stdin":[
-                {
-                    "aa" : 0
-                },
-                {
-                    "bb" : 1
-                },
-                {
-                    "cc" : 2
-                }
-            ],
-            "elementary":[
-                {
-                    "aa" : 0
-                },
-                {
-                    "bb" : 1
-                },
-                {
-                    "cc" : 2
-                }
-            ],
-            "scenario":[
-                {
-                    "aa" : 0
-                },
-                {
-                    "bb" : 1
-                },
-                {
-                    "cc" : 2
-                }
-            ],
-            "strategy":[
-                {
-                    "aa" : 0
-                },
-                {
-                    "bb" : 1
-                },
-                {
-                    "cc" : 2
-                }
-            ],
-            "stdout":[
-                {
-                    "aa" : 0
-                },
-                {
-                    "bb" : 1
-                },
-                {
-                    "cc" : 2
-                }
-            ],
-
-        }
-        return render_template('stacks.html', data=data)
+        return render_template('stacks.html', data=env['stacks'])
     elif request.method == 'POST':
         return 200
 
@@ -109,7 +51,6 @@ def welcome():
 
 @app.route('/positions', methods=['POST'])
 def new_positions():
-    global model
     global map
 
     data = flask.request.json
@@ -122,7 +63,8 @@ def new_positions():
 
     # Metto in map le nuove posizioni
     map._update_position(data)
-    model.new_positions(data)
+    U.new_positions(data)
+
 
     with open('positions.out', 'a+') as dump_file:
         string = json.dumps(data, separators=(',', ':'))
