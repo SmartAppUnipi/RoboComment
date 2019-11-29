@@ -38,7 +38,8 @@ def createDummy():
                     "y": float(str("%.2f" % (random.random() * 100)))
                 },
                 "id": {
-                    "value": i
+                    "value": i,
+                    "confidence": 1
                 },
                 "team": {
                     "value": 0
@@ -55,7 +56,8 @@ def createDummy():
                     "y": float(str("%.2f" % (random.random() * 100)))
                 },
                 "id": {
-                    "value": i
+                    "value": i,
+                    "confidence": 1
                 },
                 "team": {
                     "value": 1
@@ -98,7 +100,8 @@ def simulate_passage():
                 "y": 10
             },
             "id": {
-                "value": 0
+                "value": 0,
+                "confidence": 1
             },
             "team": {
                 "value": 0
@@ -113,7 +116,8 @@ def simulate_passage():
                 "y": 30
             },
             "id": {
-                "value": 1
+                "value": 1,
+                "confidence": 1
             },
             "team": {
                 "value": 0
@@ -139,7 +143,7 @@ def simulate_passage():
 
 
 if __name__ == '__main__':
-    url = "http://10.101.23.75:3001/positions"
+    url = "http://0.0.0.0:3001/positions"
     while True:
         pass_ = simulate_passage()
         requests.post(url, json=pass_)
