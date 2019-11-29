@@ -68,4 +68,4 @@ class GameModel:
         """This is the function that loops indefinitely and tries to match each rule and update the stacks"""
         for k, rule in self._rules:
             if rule['type'] != 'function':
-                RM.rule_matcher(rule['condition'], rule['action'], self._stacks, self._registers)
+                RM.rule_matcher(rule['condition'], rule['action'], rule['constraints'], self._stacks, self._registers)

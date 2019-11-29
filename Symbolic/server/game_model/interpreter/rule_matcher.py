@@ -14,13 +14,14 @@ if all the conditions match in AND then the action is executed
 '''
 
 
-def rule_matcher(condition, action, stacks, registers):
+def rule_matcher(condition, action, constraints, stacks, registers):
     '''
     if not isinstance(action, types.FunctionType):
         raise TypeError
     '''
     if boolean_matcher(condition, stacks, registers):
-        action()
-        return True
+        if constraints(registers):
+            action(registers)
+            return True
     return False
     # Probably return value is not needed since action is performed here
