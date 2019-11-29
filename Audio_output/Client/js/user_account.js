@@ -93,6 +93,16 @@ function videoListRequest() {
     console.log("Send video list request")
 }
 
+function sendInfoVideo(matchInfo) {
+    ws.send("{\n" +
+        "    \"request_type\": \"post_matchID\",\n" +
+        "    \"request\":" + matchInfo + ",\n" +
+        "    \"user_id\": "+ifCookie("userId")+"\n" +
+        "}");
+
+    console.log("Send hello request")
+}
+
 function check(input) {
     if (input.value === null || input.value === "") {
         input.setCustomValidity("Please fill the filed");
