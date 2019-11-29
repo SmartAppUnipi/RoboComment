@@ -12,10 +12,19 @@ def check(constraints):
     if len(constraints) < 1:
         return True
     constraints_prime = _resolve_placeholders(constraints)
-    stacks, registers = GameModel.get_env()
+    registers = GameModel.get_env()['registers']
     return eval(constraints_prime)
 
 def fire(actions):
     actions_prime = _resolve_placeholders(actions)
-    stacks, registers = GameModel.get_env()
+    stacks = GameModel.get_env()['stacks']
+    registers = GameModel.get_env()['registers']
     eval(actions_prime)
+
+def push(stack, element):
+    stacks = GameModel.get_env()['stacks']
+    stacks[stack].append(element)
+
+def spacchetpush(stack, element):
+    registers = GameModel.get_env()['registers']
+    push(stack, registers[element])
