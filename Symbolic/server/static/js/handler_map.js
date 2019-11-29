@@ -1,3 +1,9 @@
+var _CONSTANTS = {
+    "pixels_width": 1200,
+    "pixels_height": 500,
+    "pixels_border": 40
+}
+
 //Contiene tutte e sole le informazioni iniziali degli elementi nella mappa
 class InitialInfo {
     //misure in metri!!
@@ -5,7 +11,7 @@ class InitialInfo {
         this.width = width
         this.height = height
         this.info = info
-        console.log('INIT_INFO: ',info)
+        console.log('INIT_INFO: ', info)
 
     };
 
@@ -20,8 +26,7 @@ class InitialInfo {
         return null
     }
 
-    get_ball()
-    {
+    get_ball() {
         return this.info.ball[0]
     }
 
@@ -48,16 +53,16 @@ class InitialInfo {
 function from_meters_to_pixels_x(init_info, pos, use_offset = true) {
     // 1200 : 120 = x : pos
     if (use_offset)
-        return ((1200 * pos) / init_info.width) + 40
-    return (1200 * (pos) / init_info.width)
+        return ((_CONSTANTS.pixels_width * pos) / init_info.width) + _CONSTANTS.pixels_border
+    return (_CONSTANTS.pixels_width * (pos) / init_info.width)
 }
 
 //Converte da metri in pixels lungo l'asse y
 function from_meters_to_pixels_y(init_info, pos, use_offset = true) {
     // 500 : 90 = x : pos
     if (use_offset)
-        return (500 * (pos) / init_info.height) + 40
-    return 500 * (pos) / init_info.height
+        return ((_CONSTANTS.pixels_height * pos) / init_info.height) + _CONSTANTS.pixels_border
+    return (_CONSTANTS.pixels_height * (pos) / init_info.height)
 
 }
 
@@ -66,7 +71,7 @@ function drawPlayers(init_info, info_players) {
     console.log(info_players)
 
     for (var p in info_players) {
-        
+
         //Determina le informazioni da associare al giocatore/arbitro
         switch (info_players[p].team.value) {
             case 0:
@@ -85,7 +90,7 @@ function drawPlayers(init_info, info_players) {
                 fill = 'yellow';
                 _text = "Ref";
                 _class = 'referee';
-                id = 'P_' + info_players[p].id.value+ '_T_-1';
+                id = 'P_' + info_players[p].id.value + '_T_-1';
                 break;
         }
 
@@ -120,24 +125,21 @@ function init(w, h, info) {
 
 //Accede al DOM e restituisce, se esiste l'elemento con id P_id_T_team
 function get_player_dom_element(id, team) {
-    
+
     query = 'P_' + id + '_T_' + team
     //console.log(query)
     return document.getElementById(query)
 }
 
-function get_ball_dom_element()
-{
+function get_ball_dom_element() {
     return document.getElementById('B_0')
 }
 
 //Aggiorna la posizione della palla sul campo... (per il momento solo la prima...)
-function updateBalls(init_info,positions)
-{
+function updateBalls(init_info, positions) {
     balls = positions.ball
-    
-    for(var b in balls)
-    {
+
+    for (var b in balls) {
         var ball = balls[b]
         init_x = init_info.get_ball().position.x
         init_y = init_info.get_ball().position.y
@@ -146,7 +148,7 @@ function updateBalls(init_info,positions)
         new_y = ball.position.y
 
         ball_dom = get_ball_dom_element()
-       
+
         dx = new_x - init_x
         dy = new_y - init_y
 
@@ -167,32 +169,29 @@ function updatePlayers(init_info, positions) {
             drawPlayers(init_info, [player])
             init_info.addPlayerInfo(player)
             console.log('ADDED PLAYER: ', init_info)
-        } 
-
-
-        else {
+        } else {
 
             //Se non sono sicuro dell'id (confidence <= 0.5) metto ? nel testo
             if (player.id.confidence <= 0.5) {
                 target = get_player_dom_element(player.id.value, player.team.value)
-               // console.log('INNER:', target.childNodes[1].innerHTML)
+                // console.log('INNER:', target.childNodes[1].innerHTML)
                 target.childNodes[1].innerHTML = '?'
 
             } else {
 
                 target = get_player_dom_element(player.id.value, player.team.value)
                 //console.log('INNER GREAT:', target.childNodes[1].innerHTML)
-                
+
                 //Se sono l'arbitro con prob > 0.5, scrivo Ref nel testo
-                if(player.team.value==-1 && player.team.confidence > 0.5)
-                    target.childNodes[1].innerHTML ='Ref'
+                if (player.team.value == -1 && player.team.confidence > 0.5)
+                    target.childNodes[1].innerHTML = 'Ref'
 
                 else //Altrimenti metto l'id del giocatore nel testo
                     target.childNodes[1].innerHTML = player.id.value
             }
 
-            
-            
+
+
             if (player.team.confidence <= 0.5) {
                 //Non sono sicuro del team (prob <= 0.5) => Coloro il giocatore di marrone
                 target = get_player_dom_element(player.id.value, player.team.value)
@@ -219,13 +218,13 @@ function updatePlayers(init_info, positions) {
         //Prendo le informazioni iniziali
         init_x = init_info.get_player_by_id(player.id.value, player.team.value).position.x
         init_y = init_info.get_player_by_id(player.id.value, player.team.value).position.y
-        
+
         //Prendo le nuove posizioni
         new_x = player.position.x
         new_y = player.position.y
 
         player_dom = get_player_dom_element(player.id.value, player.team.value)
-        
+
         dx = new_x - init_x
         dy = new_y - init_y
 
@@ -237,12 +236,13 @@ function updatePlayers(init_info, positions) {
     }
 }
 
+
 $(document).ready(function () {
 
-    //Dimensioni in pixels della mappa... Mettere in file map_config.json!!!
-    w = 1200
-    h = 500
-    border = 40
+
+    w = _CONSTANTS.pixels_width
+    h = _CONSTANTS.pixels_height
+    border = _CONSTANTS.pixels_border
 
     //Disegno la mappa
     pitch = new Pitch(w, h)
@@ -271,9 +271,10 @@ $(document).ready(function () {
     socket.on('update', function (data) {
         console.log('DATA_UPDATE:', data.positions)
         updatePlayers(init_info, data.positions)
-        updateBalls(init_info,data.positions)
-            
+        updateBalls(init_info, data.positions)
+
     });
+
 
 
 });

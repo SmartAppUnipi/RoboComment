@@ -1,9 +1,6 @@
 import json
 import pprint
-dummy = [
-
-    #JSON NUMBER 1
-    {
+dummy =  {
                 "time": 37.5,
                 "camera": {
                     "position": {"x": 1.2, "y": 1.3, "z": 8.8},
@@ -101,10 +98,6 @@ dummy = [
                     },
                     
 
-                  
-                 
-
-                #----------------------------------------------------------------------
                     {
                         "position": {"x": 107, "y": 45, "confidence": 0},
                         "speed": {"x": 40, "y": 75, "confidence": 0},
@@ -198,9 +191,8 @@ dummy = [
                         "id": {"value": 4,"confidence": 0.8},
                         "team": {"value": -1,"confidence": 0.8},
                         "pose": "T-Pose"
-                    },
-
-                 
+                    }
+           
 
                 ],
                 "ball": [
@@ -213,7 +205,7 @@ dummy = [
                     }
                 ]
             }            
-]
+
 
 pp = pprint.PrettyPrinter(indent=4)
 
