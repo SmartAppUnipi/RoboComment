@@ -1,4 +1,5 @@
 from game_model.game_model import GameModel
+from collections import deque
 import re
 
 def _resolve_placeholders(s):
@@ -23,6 +24,9 @@ def fire(actions):
 
 def push(stack, element):
     stacks = GameModel.get_env()['stacks']
+    # If stack exists push
+    if stack not in stacks.keys():
+        stacks[stack] = deque()
     stacks[stack].append(element)
 
 def spacchetpush(stack, element):
