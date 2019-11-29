@@ -1,9 +1,9 @@
-possession      = ___ball_owner
-ballOnTarget    = ___ball_on_target
-ballOffTarget   = ___ball_off_target
-fastBall        = ___fast_ball
+possession[stdin]      = ___ball_owner
+ballOnTarget[stdin]    = ___ball_on_target
+ballOffTarget[stdin]   = ___ball_off_target
+fastBall[stdin]        = ___fast_ball
 
-pass = possession as @0 -> .{0,4} -> possession as @1 : @0.player.team == @1.player.team
+pass[elementary] = possession as @0 -> .{0,4} -> possession as @1 : @0.player.team == @1.player.team then push('pass', 'elementary', @0, @1)
 
 interception = possession(p1) -> .{0,3} -> possession(p2) : p1.team != p2.team
 
