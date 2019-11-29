@@ -1,6 +1,7 @@
 from game_model.interpreter.rule_matcher import rule_matcher
+from collections import deque
 
-def action(registers):
+def action(stacks, registers):
     print('Correct')
 
 def constraints(registers):

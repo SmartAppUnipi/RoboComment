@@ -1,5 +1,6 @@
 from game_model.interpreter.boolean_matcher import boolean_matcher
 import types
+from collections import deque    #Used by action
 
 '''
 This method picks a rule with the following structure:
@@ -16,12 +17,12 @@ if all the conditions match in AND then the action is executed
 
 def rule_matcher(condition, action, constraints, stacks, registers):
     '''
-    if not isinstance(action, types.FunctionType):
+    if not isinstance(action, types.FunctionType) or not isinstance(constraints, type.FunctionType):
         raise TypeError
     '''
     if boolean_matcher(condition, stacks, registers):
         if constraints(registers):
-            action(registers)
+            action(stacks, registers)
             return True
     return False
     # Probably return value is not needed since action is performed here
