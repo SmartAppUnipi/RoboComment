@@ -30,13 +30,76 @@ pp = pprint.PrettyPrinter(indent=4)
 
 
 # Avvia la simulazione della mappa (atteso input dopo che arriva il json da video processing)
-@app.route("/debug", methods=['POST', 'GET'])
+@app.route("/debug", methods=['GET'])
 def init_map():
     if request.method == 'GET':
         return render_template('page_map.html')
-    else:
-        dict = request.data
-        return render_template('page_map.html', **dict)
+
+
+@app.route("/stacks", methods=['POST', 'GET'])
+def stacks():
+    if request.method == 'GET':
+        data = {
+            "stdin":[
+                {
+                    "aa" : 0
+                },
+                {
+                    "bb" : 1
+                },
+                {
+                    "cc" : 2
+                }
+            ],
+            "elementary":[
+                {
+                    "aa" : 0
+                },
+                {
+                    "bb" : 1
+                },
+                {
+                    "cc" : 2
+                }
+            ],
+            "scenario":[
+                {
+                    "aa" : 0
+                },
+                {
+                    "bb" : 1
+                },
+                {
+                    "cc" : 2
+                }
+            ],
+            "strategy":[
+                {
+                    "aa" : 0
+                },
+                {
+                    "bb" : 1
+                },
+                {
+                    "cc" : 2
+                }
+            ],
+            "stdout":[
+                {
+                    "aa" : 0
+                },
+                {
+                    "bb" : 1
+                },
+                {
+                    "cc" : 2
+                }
+            ],
+
+        }
+        return render_template('stacks.html', data=data)
+    elif request.method == 'POST':
+        return 200
 
 
 @app.route("/")
@@ -68,15 +131,9 @@ def new_positions():
 
 
 if __name__ == '__main__':
-    with open('../../routes.json', 'r') as f:
-        config = json.load(f)
-        symbolic_port = 3001
-        cg_url = config['tale']
-        model.set_output_url(cg_url)
-        
     if os.path.exists("positions.out"):
         os.remove("positions.out")
 
     print("app is running, open localhost:3001/debug to display the map")
     socketio.run(app, host='0.0.0.0',
-                 use_reloader=False, port=symbolic_port)
+                 use_reloader=False, port=3001)
