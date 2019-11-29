@@ -20,6 +20,8 @@ def consume(iter):
 
 def regex_matcher(regex, stack, registers):
     # TODO empty regex always/never match?
+    if len(regex) < 1:
+        return True
     print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA2", regex, ", ", stack)
     
 
