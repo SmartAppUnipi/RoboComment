@@ -37,29 +37,26 @@ def init_map():
 def welcome():
    return "Symbolic Level"
 
-@app.route("/pos")
-def pos():
-    return jsonify({'x':100,'y':200})
-
 @app.route('/positions', methods=['POST'])
 def new_positions():
     global model
     global map
 
-    #data = flask.request.form
-    data = flask.request.json #NOTA: PER LA MAPPA MI SERVE IL JSON... 
-                              #CON FORM MI PASSA UN OGGETTO VUOTO NELLA MAPPA E FALLISCE LA VALIDAZIONE..
-   
+    data = flask.request.json 
+
     print("Received data from video processing")
     if Validator.validate_positions(data):
         print("Data is correctly formatted")
     else: 
         print("data is incorrect")
 
-    model.new_positions(data) #Questo dà errore!
-
     #Metto in map le nuove posizioni
     map._update_position(data)
+    model.new_positions(data)
+
+    with open('positions.out', 'a+') as dump_file:
+        string = json.dumps(data, separators=(',',':'))
+        dump_file.write(data)
     return ""
 
 def main():
