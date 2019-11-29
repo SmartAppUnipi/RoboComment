@@ -1,13 +1,13 @@
 from game_model.interpreter.rule_matcher import rule_matcher
+from game_model.game_model import U
 from collections import deque
 
-def action(stacks, registers):
-    print('Correct')
-
-def constraints(registers):
-    return True
+action = 'True'
+constraints = 'True'
 
 registers = {}
+
+model = U
 
 stacks = {
     'first_stack':[
@@ -27,6 +27,8 @@ stacks = {
         }
     ]
 }
+
+U._stacks = stacks
 
 single_rule = {
     'condition': [
@@ -69,7 +71,7 @@ double_rule = {
 }
 
 def test_rule_match_single():
-    assert rule_matcher(single_rule['condition'], single_rule['action'], single_rule['constraints'], stacks, registers)
+    assert rule_matcher(single_rule['condition'], single_rule['action'], single_rule['constraints'])
 
 def test_rule_match_double():
-    assert rule_matcher(double_rule['condition'], double_rule['action'], double_rule['constraints'], stacks, registers)
+    assert rule_matcher(double_rule['condition'], double_rule['action'], double_rule['constraints'])
