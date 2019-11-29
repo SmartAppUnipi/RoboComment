@@ -1,26 +1,6 @@
 import re
 
-_tokens = [
-    'possession',
-    r'.{\d,\d}',
-    '.',
-    'interception',
-    'ballOnTarget',
-    'ballOffTarget'
-]
-
 _GLOBAL_ARRAY = '_global_array'
-
-
-def _get_pattern(token: str, part: str):
-    if token in ['possession', 'interception', 'ballOnTarget', 'ballOffTarget']:
-        return {
-            'type': token
-        }
-    elif token in ['.', r'.{\d,\d}']:
-        return part
-
-    raise Exception('Unrecognized token: ' + token)
 
 
 def _token_match(token: str, part: str):
@@ -80,16 +60,14 @@ def _parse_rule(rule: str, parse_obj):
     })
 
     for part in parts:
-        for token in _tokens:
-            if not _token_match(token, part):
-                continue
+        name, *alias = part.split(' as ')
+        parse_obj['condition'][-1]['pattern'].append(name)
 
+        if len(alias) > 0:
             parse_obj['condition'][-1]['pattern'].append(
-                _get_pattern(token, part)
+                alias[0]
             )
 
-            if 'as' in part:
-                parse_obj['condition'][-1]['pattern'].append(
-                    part.split(' as ')[1]
-                )
-            break
+
+x = parse("pass[elementary] = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 : @0.player.team == @1.player.team then push('elementary', {'type': 'pass', 'passer': @0, 'receiver': @1})")
+print(x)
