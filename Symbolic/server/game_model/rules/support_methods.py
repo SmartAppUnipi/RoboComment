@@ -13,8 +13,8 @@ def __deltaPlayersBall(pos):
     """
         Returns a list of players with delta wrt the ball
     """
-    ball_x = float(pos['ball']['position']['x'])
-    ball_y = float(pos['ball']['position']['y'])
+    ball_x = float(pos['ball'][0]['position']['x'])
+    ball_y = float(pos['ball'][0]['position']['y'])
 
     for player in pos['players']:
         # check that player is not the referee

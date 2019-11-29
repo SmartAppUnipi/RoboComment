@@ -5,10 +5,10 @@ import game_model.rules.support_methods as support
 import requests
 
 class GameModel:
-    def __init__(self, cg_url):
+    def __init__(self):
         """Initializes the game model by parsing the rule file"""
         # some important app wise variables
-        self._cg_url = cg_url
+        self._cg_url = None
         self._user_id = 0
 
         # initialize queues and global registers
@@ -51,7 +51,7 @@ class GameModel:
         """This function gets called by the app whenever new positions arrive"""
         self._stacks['stdin'].append(positions)
         self._user_id = positions['user_id']
-        for rule in self._rules.items():
+        for rule in self._rules.values():
             if rule['type'] == 'function':
                 to_call = rule['function']
                 ret = to_call(self._stacks['stdin'])
@@ -73,8 +73,11 @@ class GameModel:
 
     def try_match_loop(self):
         """This is the function that loops indefinitely and tries to match each rule and update the stacks"""
-        for k, rule in self._rules:
+        for rule in self._rules.values():
             if rule['type'] != 'function':
                 RM.rule_matcher(rule['condition'], rule['action'], rule['constraints'], self._stacks, self._registers)
         
         self.to_comment_generation()
+
+    def set_output_url(self, url):
+        self._cg_url = url

@@ -110,7 +110,7 @@ def simulate_passage():
         {
             "position": {
                 "x": 10,
-                "y": 20
+                "y": 30
             },
             "id": {
                 "value": 1
