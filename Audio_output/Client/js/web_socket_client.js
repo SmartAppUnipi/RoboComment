@@ -33,13 +33,17 @@ function insertCards(id, url, home, away) {
     document.getElementById('Cards').appendChild(card);
 
     card.addEventListener('click', (event) => {
+
         let id = card.childNodes[0].metadata;
         let url = card.childNodes[0].src;
         console.log(card.childNodes[0].src);
         console.log(card.childNodes[0].metadata);
+
+        sendInfoVideo(set_matchInfo(id,url,getCookie("userId")));
+
         setCookie("videoID",id,2);
         setCookie("videoURL",url,2);
-        window.location.href = "index.html";
+        window.location.href = "video.html";
 
     });
 
@@ -77,7 +81,7 @@ function connect() {
                     setCookie("userId", message.reply.id, 15*24);
                     console.log(getCookie("userId"));
                     window.location.href = "catalog.html";
-                    console.log(message.reply.id);
+                    console.log("User ID: "+ message.reply.id);
                 }
                 break;
 
@@ -104,8 +108,8 @@ function connect() {
                 }
                 break;
 
-            case "get_matchID":
-                console.log("Info of the Matches");
+            case "post_matchID":
+                console.log("Sent info match");
                 console.log(message.reply);
                 break;
 
@@ -128,5 +132,12 @@ function connect() {
         ws.close();
     };
 }
+
+function set_matchInfo(match_id, url, user_id) {
+    return "{\"match_id\": "+match_id+",\n" +
+        "\"match_url\": \"" +url+ "\",\n" +
+        "\"match_id\": "+user_id+"\n}";
+}
+
 
 connect();
