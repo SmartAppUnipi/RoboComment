@@ -9,7 +9,7 @@
 
     "details":
     {
-        "team1" : "team A",
+        "team1" : 7,
         "subtype"  : "move",
         "confidence" : 0.4
     }

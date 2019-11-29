@@ -18,7 +18,7 @@ class Commentator:
 
         # Comment matching and updating
         comment = self.picker.pick_comment(jsonobj)
-        comment = self.filler.update_comment(comment, jsonobj["details"])
+        comment = self.filler.update_comment(comment, jsonobj["details"],4 )
         sentiment = self.sentimentalizer.add_emphasis(comment)
 
         time = jsonobj['time']

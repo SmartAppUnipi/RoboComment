@@ -2,12 +2,13 @@ import unittest
 from src.Filler import Filler
 import json
 import requests_mock
+from tests.MockKnowledgeBase import MockKnowledgeBase
 
 
 class TestFiller(unittest.TestCase):
 
     def setUp(self):
-        self.kb = MockKB()
+        self.kb = MockKnowledgeBase()
         self.comment_filler = Filler(self.kb)
     
 
@@ -22,9 +23,9 @@ class TestFiller(unittest.TestCase):
             "confidence" : 0.4
         }
 
-        updated_comment = self.comment_filler.update_comment("{player1} from {team1} has passed to {player2} in the {field_zone}", details)
+        updated_comment = self.comment_filler.update_comment("{player1} from {team1} has passed to {player2} in the {field_zone}", details, 4)
 
-        assert updated_comment == "Pippo from TeamPippo has passed to Topolino in the middle"
+        assert updated_comment == "Player42 from Team42 has passed to Player7 in the middle"
 
     def test_update_comment2(self):
         with open("CommentGenerator/tests/mock_assets/config1.json",'r') as conf1:
@@ -38,9 +39,9 @@ class TestFiller(unittest.TestCase):
         }
 
             
-        updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details)
+        updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details, 4)
 
-        assert updated_comment == "Pippo has passed bad"
+        assert updated_comment == "Player42 has passed bad"
     
     def update_comment3(self): #TODO fix this
         with open("CommentGenerator/tests/mock_assets/config1.json",'r') as conf2:
@@ -53,7 +54,7 @@ class TestFiller(unittest.TestCase):
             "confidence" : 0.4
         }
 
-        updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details)
+        updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details, 4)
 
         assert updated_comment == "Ruicosta has passed bad"
 
@@ -68,28 +69,6 @@ class TestFiller(unittest.TestCase):
             "confidence" : 0.4
         }
 
-        updated_comment = self.comment_filler.update_comment("{player1} has passed the ball, {complex_modifier}", details)
+        updated_comment = self.comment_filler.update_comment("{player1} has passed the ball, {complex_modifier}", details, 4)
 
         assert updated_comment == "Ruicosta has passed the ball, what a fantastic action!"
-
-
-
-class MockKB():
-    def __init__(self):
-        pass
-
-    def get_player(self, player_id):
-        if player_id == 42:
-            return "Pippo"
-        elif player_id == 7:
-            return "Topolino"
-        else:
-            return "undefined"
-    
-    def get_team(self, team_id):
-        if team_id == 42:
-            return "TeamPippo"
-        elif team_id == 7:
-            return "TeamTopolino"
-        else:
-            return "undefined"

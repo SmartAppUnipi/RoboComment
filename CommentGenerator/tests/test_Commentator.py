@@ -2,11 +2,12 @@ import unittest
 import json
 from src.Commentator import Commentator
 from utils.KnowledgeBase import KnowledgeBase
+from tests.MockKnowledgeBase import MockKnowledgeBase
 
 
 class TestApi(unittest.TestCase):
     def setUp(self):
-        self.kb = MockKB()
+        self.kb = MockKnowledgeBase()
         self.commentator = Commentator(self.kb)       
        
     def test_run1(self):
@@ -67,23 +68,3 @@ class TestApi(unittest.TestCase):
 
         print(output['comment'])
 
-
-class MockKB():
-    def __init__(self):
-        pass
-
-    def get_player(self, player_id):
-        if player_id == 42:
-            return "Pippo"
-        elif player_id == 7:
-            return "Topolino"
-        else:
-            return "undefined"
-    
-    def get_team(self, team_id):
-        if team_id == 42:
-            return "TeamPippo"
-        elif team_id == 7:
-            return "TeamTopolino"
-        else:
-            return "undefined"

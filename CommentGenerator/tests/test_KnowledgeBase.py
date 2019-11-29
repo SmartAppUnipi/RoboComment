@@ -40,6 +40,12 @@ class TestKnowledgeBase(unittest.TestCase):
 
             assert res == "Nome Della Squadra"
     
+    def test_get_team2(self):
+
+        res = self.kb.get_team(42)
+
+        assert res == "Team42"
+    
 
     def test_get_match1(self):
 

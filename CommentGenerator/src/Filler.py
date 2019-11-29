@@ -23,21 +23,22 @@ class Filler:
             with open(config,'r') as conf:
                 self.config = json.load(conf)
 
-    def update_comment(self, comment, details):
+    def update_comment(self, comment, details, user_id):
 
         # getting the placeholders {*_modifier} 
         placeholders = re.findall(r'{(.*?)}', comment)
         regex = re.compile(r'\w*_modifier')
         modifiers = [i for i in placeholders if regex.match(i)]
 
+        details = self.replace_id_with_names(details)
+        user_team = self.kb.get_user_team(user_id)
+
         if len(modifiers) > 0: # there are some modifier placeholders
             # bias allows to pick the right set of modifiers
-            bias = "good" if  details['team1'] == self.config['favourite_team'] else "bad"            
+            bias = "good" if  details['team1'] == user_team else "bad"            
             for mod in modifiers:
                 # here we require a better picking strategy
                 details[mod] = template_modifiers[bias][mod][0]
-
-        details = self.replace_id_with_names(details)
 
         comment = comment.format(**details)
 
