@@ -3,7 +3,6 @@ let video               = document.getElementById('video');
 let audio               = document.getElementById('audio');
 let supposedCurrentTime = 0;
 let request             = new XMLHttpRequest();
-let urlTaken            = false;
 const debug             = true;
 const audioBrowser      = false;
 const audioHTTP         = true;
@@ -23,6 +22,8 @@ function main() {
 
     videoUrl = getCookie("videoURL");
     videoId = getCookie("videoID");
+
+    console.log("User_ID: "+ getCookie("userId"));
     console.log("Video ID: " + videoId);
 
     if(videoUrl!==''){
