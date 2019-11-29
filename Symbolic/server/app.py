@@ -8,6 +8,7 @@ from map2d import *
 from flask_socketio import SocketIO, emit
 import pprint
 import threading
+import os
 import random
 from dummy_map import *
 import copy
@@ -58,7 +59,7 @@ def new_positions():
 
     with open('positions.out', 'a+') as dump_file:
         string = json.dumps(data, separators=(',', ':'))
-        dump_file.write(data)
+        dump_file.write(string+"\n")
     return ""
 
 
@@ -68,6 +69,9 @@ if __name__ == '__main__':
         symbolic_port = 3001
         cg_url = config['tale']
         model.set_output_url(cg_url)
+        
+    
+    os.remove("positions.out")
 
     print("app is running, open localhost:3001/debug to display the map")
     socketio.run(app, host='0.0.0.0',

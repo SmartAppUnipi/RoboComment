@@ -35,7 +35,7 @@ class GameModel:
                         self._rules[name] = {
                             'type': 'function',
                             'function': method_to_call, 
-                            #'stack': parse_obj['stack']
+                            'stack': parse_obj['stack']
                         }
                     else:
                         # this means that it is a regular rule (with action and condition)
@@ -43,7 +43,7 @@ class GameModel:
                             'type': 'rule', 
                             'condition': parse_obj['condition'], 
                             'action': parse_obj['action'],
-                            #'constraints': parse_obj['constraints']
+                            'constraints': parse_obj['constraints']
                         }
                     
 
@@ -54,7 +54,7 @@ class GameModel:
         for rule in self._rules.values():
             if rule['type'] == 'function':
                 to_call = rule['function']
-                ret = to_call(self._stacks['stdin'])
+                ret = to_call(self._stacks[rule['stack']])
                 self._stacks['elementary'].append(ret)
         self.try_match_loop()
 
