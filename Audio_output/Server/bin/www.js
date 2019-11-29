@@ -26,7 +26,7 @@ let url_user        = kb_url + "users";
 let url_match       = kb_url + "/match/";
 
 const DEBUGERR      = false;
-const DEBUG_MODE    = true;
+const DEBUG_MODE    = false;
 const config = {
     headers: {
         'Content-Type': 'application/json'
@@ -187,7 +187,7 @@ function sendComment(item, id) {
             if (overlaps(old_comment, new_comment)) {
                 console.log("OVERLAPS COMMENT: " + overlaps(old_comment, new_comment));
                 if (!checkPriority(old_comment, new_comment)) {
-                    console.log("Broadcast to clients");
+                    console.log("Broadcast to client of ID: "+ id);
                     let reply = {
                         reply_type: "comment",
                         reply: new_comment
@@ -197,12 +197,12 @@ function sendComment(item, id) {
                     item.old_comment = new_comment;
                 }
             } else {
-                console.log("Broadcast to clients");
+                console.log("Broadcast to client of ID: "+ id);
                 let reply = {
                     reply_type: "comment",
                     reply: new_comment
                 };
-                connection.socket.send(JSON.stringify(reply));
+                connection.send(JSON.stringify(reply));
                 item.old_comment = new_comment;
             }
         }
