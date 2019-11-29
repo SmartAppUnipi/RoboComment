@@ -32,7 +32,7 @@ class TestFiller(unittest.TestCase):
             self.comment_filler.config = json.load(conf1)
         
         details = {
-            "team1" : 42,
+            "team1" : 4,
             "player1": 42,
             "subtype"  : "pass",
             "confidence" : 0.4
@@ -41,7 +41,7 @@ class TestFiller(unittest.TestCase):
             
         updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details, 4)
 
-        assert updated_comment == "Player42 has passed bad"
+        assert updated_comment == "Player42 has passed good"
     
     def update_comment3(self): #TODO fix this
         with open("CommentGenerator/tests/mock_assets/config1.json",'r') as conf2:

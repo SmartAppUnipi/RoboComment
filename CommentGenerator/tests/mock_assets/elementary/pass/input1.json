@@ -9,10 +9,10 @@
 
     "details":
     {
-        "team1" : "team A",
-        "team2": "team B",
-        "player1": "Ruicosta",
-        "player2": "Ronaldo",
+        "team1" : 42,
+        "team2": 7,
+        "player1": 42,
+        "player2": 7,
         "field_zone" : "middle",
         "subtype"  : "pass",
         "confidence" : 0.4

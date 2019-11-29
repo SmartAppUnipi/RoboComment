@@ -9,7 +9,7 @@
 
     "details":
     {
-        "team1" : "team A",
+        "team1" : 42,
         "subtype"  : "possession_lost",
         "confidence" : 0.4
     }
