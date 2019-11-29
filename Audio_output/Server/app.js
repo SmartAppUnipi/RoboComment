@@ -40,15 +40,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// let stream;
-// app.use(function (req,res) {
-//   console.log("caricato");
-//   stream = fs.createReadStream('../data.txt');
-//   stream.pipe(res);
-// });
-
-// app.get('/url-to-file.pdf', function(req, res){
-//   res.download('server/path/to/file');
-// });
-
 module.exports = app;

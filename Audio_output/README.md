@@ -7,11 +7,8 @@ nmp install
 ## 
 ### API
 
-**Comment IP address**:
-
-10.101.12.139:3003 (UniPisa net)
-
-**Client-server websocket port (internal)**: 4000
+**Comment address and port**:
+"fabula" on the routes.json file. 
 
 **Method**:
 POST with JSON data
@@ -25,15 +22,28 @@ POST with JSON data
  - startTime: Starting time of the comment (seconds from the beginning of the video).
  - endTime: Ending time of the comment (seconds from the beginning of the video).
  - priority
+ - id: user id
 
 **Sample JSON data**:
 ```
 {
-    "comment": "Maradona scores goal with the hand"
-    "emphasis": "rage"
-    "startTime": 10
-    "endTime": 15
-    "priority": 1 
+    "comment": "Maradona scores goal with the hand",
+    "emphasis": "rage",
+    "startTime": 10,
+    "endTime": 15,
+    "priority": 1,
+    "id": 1
+}
+```
+
+## 
+### Video group message
+**Sample JSON**
+```
+{
+    "match_id": 10,
+    "match_url": "https://someurl/video.mp4",
+    "user_id": 1
 }
 ```
 
@@ -47,5 +57,24 @@ node Server/bin/www.js
 Client web page:
 
 ```
-Client/index.html
+Client/login.html
 ```
+
+##
+### To Do list
+
+Server:
+- [x] Multi client support
+- [x] Priority manager for comments
+- [x] Messages forward to other services
+- [x] Send comments based on user ID
+
+
+Client:
+- [x] Auto reconnection with server
+- [x] Google API for text to speech
+- [x] Managed the possible API response delay, sync with subtitles
+- [ ] Improve GUI
+- [x] Implement user login
+- [x] Implement video catalog
+- [x] Manage cookies

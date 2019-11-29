@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login form</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/style/custom.css">
+    <link rel="stylesheet" href="assets/style/snackbar.css">
+    <link rel="stylesheet" href="assets/style/catalog.css">
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="assets/image/pngguru.com.png">
+
+</head>
+
+<body>
+
+
+<div class="container ">
+    <div class="row">
+        <div class="login-container col-lg-4 col-md-6 col-sm-8 col-xs-12">
+            <div class="login-title text-center">
+
+
+                <h2><img id="titleImg" src="https://cdn.shopify.com/s/files/1/0871/7870/files/Robo_logo_PMS292_rgb_1200_439.png?14814529721209051649"/>
+                </h2>
+
+<!--                <div class="logo-container">-->
+                    <div id="titleText">Comment
+                    </div>
+<!--                </div>-->
+
+            </div>
+            <div class="login-content">
+                <div class="login-header ">
+                    <h3><strong>Welcome,</strong></h3>
+                    <h5>to the new era of sport entertainment!</h5>
+                </div>
+                <div class="login-body">
+                    <form role="form" action="" method="post" class="login-form">
+                        <div class="form-group " >
+                            <div class="pos-r">
+<!--                                <input   id="email" type="email" name="form-email" placeholder="Mail..." class="form-username form-control" required>-->
+                                <input   id="email" type="email" name="form-email" placeholder="Mail..." class="form-username form-control"  >
+                                <i class="fa fa-at"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="pos-r">
+                                <input id="password" type="password" name="form-password" placeholder="Password..." class="form-password form-control" >
+<!--                                <input id="password" type="password" name="form-password" placeholder="Password..." class="form-password form-control" required>-->
+                                <i class="fa fa-lock"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="div_firstname">
+                            <div class="pos-r">
+                                <input id="firstname" type="text" name="form-firstname" placeholder="Firstname..." class="form-username form-control" >
+<!--                                <input id="firstname" type="text" name="form-firstname" placeholder="Firstname..." class="form-username form-control" required >-->
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="div_lastname">
+                            <div class="pos-r">
+                                <input id="lastname" type="text" name="form-lastname" placeholder="Lastname..." class="form-username form-control" >
+<!--                                <input id="lastname" type="text" name="form-lastname" placeholder="Lastname..." class="form-username form-control" required>-->
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="div_date">
+                            <div class="pos-r">
+<!--                                <input id="date" type="date" name="form-date" placeholder="Birth date" class="form-username form-control" required>-->
+                                <input id="date" type="date" name="form-date" placeholder="Birth date" class="form-username form-control" >
+
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="div_favoriteteam">
+                            <div class="pos-r">
+<!--                                <input id="favoriteteam" type="text" name="form-favoriteteam" placeholder="Favorite Team..." class="form-username form-control" required>-->
+                                <input id="favoriteteam" type="text" name="form-favoriteteam" placeholder="Favorite Team..." class="form-username form-control" >
+                                <i class="fa fa-futbol-o" aria-hidden="false"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-right" id="ask_password" style="display: none">
+                            <a href="#" class="bold"> Forgot password?</a>
+                        </div>
+
+                        <div class="form-group" id="div_btn_register" style="display: block;">
+                            <button type="button" class="btn btn-primary form-control" onclick="createUser()"  ><strong>Register</strong></button>
+                        </div>
+
+                        <div class="form-group" id="div_btn_login" style="display: none;">
+                            <button type="button" class="btn btn-primary form-control" onclick="loginUser()" ><strong>Login</strong></button>
+                        </div>
+
+                        <!-- The actual snackbar -->
+                        <div id="snackbar"></div>
+
+                    </form>
+                </div> <!-- end  login-body -->
+            </div><!-- end  login-content -->
+            <div class="login-footer text-center template" style="display: none;" id="div_ask_signup">
+                <h5>Don't have an account? <button class="link" onclick="signup()">Sign up</button>     </h5>
+            </div>
+            <div class="login-footer text-center template" style="display: block;" id="div_ask_login">
+                <h5>Do you have already an account? <button class="link" onclick="login()">Login</button>     </h5>
+            </div>
+        </div>  <!-- end  login-container -->
+
+    </div>
+</div><!-- end container -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/Queue.src.js"></script>
+<script src="js/web_socket_client.js"></script>
+<script src="js/user_account.js"></script>
+<script src="js/cookie.js"></script>
+
+<script>
+
+    let firstname1       = document.getElementById("div_firstname");
+    let lastname1        = document.getElementById("div_lastname");
+    let date1            = document.getElementById("div_date");
+    let favoriteteam1    = document.getElementById("div_favoriteteam");
+
+    let btnRegister     = document.getElementById("div_btn_register");
+    let btnLogin        = document.getElementById("div_btn_login");
+
+    let div_ask_login   = document.getElementById("div_ask_login");
+    let div_ask_signup  = document.getElementById("div_ask_signup");
+    let div_ask_psw     = document.getElementById("ask_password");
+
+    function login() {
+        firstname1.style.display        = "none";
+        lastname1.style.display         = "none";
+        date1.style.display             = "none";
+        favoriteteam1.style.display     = 'none';
+
+        div_ask_signup.style.display    = 'block';
+        div_ask_login.style.display     = 'none';
+        div_ask_psw.style.display       = 'block';
+        div_ask_psw.style.display       = 'block';
+
+        btnRegister.style.display       = 'none';
+        btnLogin.style.display          = 'block';
+
+    }
+
+    function signup() {
+        firstname1.style.display        = "block";
+        lastname1.style.display         = "block";
+        date1.style.display             = "block";
+        favoriteteam1.style.display     = 'block';
+
+        div_ask_signup.style.display    = 'none';
+        div_ask_login.style.display     = 'block';
+        div_ask_psw.style.display       = 'none';
+        div_ask_psw.style.display       = 'none';
+
+        btnRegister.style.display       = 'block';
+        btnLogin.style.display          = 'none';
+
+    }
+
+
+    function showSnack(text) {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+
+        // Add the "show" class to DIV
+        x.className = "show";
+        x.textContent = text;
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    }
+</script>
+
+</body>
+
+</html>
