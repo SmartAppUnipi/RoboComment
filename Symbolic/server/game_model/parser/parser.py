@@ -8,14 +8,8 @@ def _token_match(token: str, part: str):
 
 
 def _split(rule_string: str):
-    if ' : ' not in rule_string:
-        raise Exception('Not a rule.')
-
-    name_and_stack, rules_and_more = rule_string.split(' = ')
+    name_and_stack, rules, constraints, action = re.split(' = | : | then ', rule_string)
     name, stack = re.findall('[a-z]+', name_and_stack)
-    rules, constraints_and_more = rules_and_more.split(' : ')
-    constraints, action = constraints_and_more.split(' then ')
-
     return name, stack, rules, constraints, action
 
 
@@ -66,5 +60,5 @@ def _parse_rule(rule: str, parse_obj):
             )
 
 
-x = parse("pass[elementary] = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 : @0.player.team == @1.player.team then push('elementary', {'type': 'pass', 'passer': @0, 'receiver': @1})")
-print(x)
+# x = parse("pass[elementary] = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 : @0.player.team == @1.player.team then push('elementary', {'type': 'pass', 'from': @0, 'to': @1})")
+# print(x)
