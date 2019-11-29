@@ -1,39 +1,38 @@
-from .Picker import Picker
+#from .Picker import Picker
 from .Filler import Filler
 from .Sentimentalizer import Sentimentalizer
+from .Picker_grammar import Picker
 import json
-
 
 class Commentator:
 
-    def __init__(self, config, template):
-        self.config = config
-        self.template = template
-        self.picker = Picker(self.template)
-        self.filler = Filler(self.config)
+    def __init__(self, knowledge_base):
+        self.kb = knowledge_base
+        self.config = 'CommentGenerator/assets/config.json'
+        self.template = 'CommentGenerator/assets/templates.json'
+        self.picker = Picker()
+        self.filler = Filler(knowledge_base,self.config)
         self.sentimentalizer = Sentimentalizer(self.config)
 
     def run(self, jsonobj):
-        time = jsonobj['time']
+        
+        ''' Extract the time where the json is occurred and match and update the resulting template'''
 
-        action = jsonobj["details"]["subtype"]
-
-        comment = self.picker.pick_comment(action)
-        comment = self.filler.update_comment(comment, jsonobj["details"])
-
+        user_id = jsonobj['user_id']
+        # Comment matching and updating
+        comment = self.picker.pick_comment(jsonobj)
+        comment = self.filler.update_comment(comment, jsonobj["details"],user_id )
         sentiment = self.sentimentalizer.add_emphasis(comment)
+
+        time = jsonobj['time']
 
         output = {
             'comment': comment,
             'emphasis': sentiment,
             'startTime': time['start'],
             'endTime' : time['end'],
-            'priority' : 4
+            'priority' : 4,
+            'id' : user_id
         }
         return output
 
-
-cm = Commentator("assets/config_test.json", "assets/templates.json")
-with open("assets/input1.json", 'r') as input1_json:
-    input_json = json.load(input1_json)
-    cm.run(input_json)

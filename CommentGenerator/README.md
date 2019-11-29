@@ -3,7 +3,11 @@
 ## How to run it
 ``` 
 pip3 install -r requirements.txt 
-python3.6 app.py 
+python3.6 CommentGenerator/app.py [AUDIO IP]
+```
+## How to test it
+```
+pytest CommentGenerator/tests
 ```
 
 ## API
@@ -14,3 +18,13 @@ python3.6 app.py
 ### POST an  action
 - **URL**  /api/action
 - **Expected Input** check  **assets/input1.json** 
+- **Produced Output**   json with format:
+    ```
+    {
+        "comment" : <string comment>,
+        "emphasis" : <integer value>,
+        "startTime" : <integer seconds>,
+        "endTime" : <integer seconds>,
+        "priority": <integer level from 0 to 5>
+    } 
+    ```

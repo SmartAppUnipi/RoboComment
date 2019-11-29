@@ -1,1 +1,5 @@
 flask
+requests
+pytest
+app
+nltk

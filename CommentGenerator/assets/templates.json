@@ -1,5 +1,51 @@
 {
     "pass": [
-        "{subject} has made a {modifier} pass"
+        "A player from {team1} did a pass",
+        "{player1} has made a {simple_modifier} pass",
+        "{player1} from {team1} has passed to {player2} in the {field_zone}",
+        "{player2} has received a pass",
+        "{player1} decides to pass the ball"
+    ],
+
+    "shot" : [
+        "A player from {team1} did a shot"
+    ],
+
+    "holderMove" : [
+        "A player from {team1} is keeping the ball"
+    ],
+
+    "move" : [
+        "A player from {team1} is moving"
+    ],
+
+    "possession" : [
+        "A player from {team1} got the possesion of the ball"
+    ],
+
+    "cross" : [
+        "A player from {team1} crossed"
+    ],
+
+    "foul" : [
+        "Foul by {team1}"
+    ],
+
+    "duel" : [
+        "A player from {team1} started a duel"
+    ],
+
+    "clearance" : [
+        "Dunno what clearance means"
+    ],
+    "possession_lost" : [
+        "A player from {team1} lost the possesion of the ball"
+    ],
+
+    "interception" : [
+        "A player from {team1} intercepts the ball"
     ]
+
+
+
 }
