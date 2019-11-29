@@ -5,11 +5,15 @@ import json
 template_modifiers = {
     "good" : {
         "simple_modifier" : ["good", "nice"],
-        "complex_modifier" : ["what a fantastic action!"] #TODO just an example need better definition
+        "complex_modifier" : ["what a fantastic action!"], #TODO just an example need better definition
+        "player_modifier" : ["skilled"],
+        "team_modifier" : ["supreme"]
     },
     "bad" : {
         "simple_modifier" : ["bad", "not nice"],
-        "complex_modifier" : ["He could have done better ... "]
+        "complex_modifier" : ["He could have done better ... "],
+        "player_modifier" : ["banana-footed"],
+        "team_modifier" : ["awful"]
     }
     # also a neutral bias could be provided
 }
@@ -32,6 +36,12 @@ class Filler:
 
         details = self.replace_id_with_names(details)
         user_team = self.kb.get_user_team(user_id)
+        
+        # BUGFIX
+        details[details['subtype']] = details['subtype']
+        if 'field_zone' in details.keys():
+            details[details['field_zone']] = details['field_zone']
+
 
         if len(modifiers) > 0: # there are some modifier placeholders
             # bias allows to pick the right set of modifiers

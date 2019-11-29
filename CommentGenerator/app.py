@@ -40,14 +40,15 @@ def action():
         sends it to the audio group
     '''
     global commentator
+
     input = json.loads(request.data)
-    print(input)
+    print("INPUT:: " + json.dumps(input))
     logging.info(input)
     # call our main
 
     output = commentator.run(input)
     
-    print(output['comment'])
+    print("OUTPUT:: " + output['comment'])
     logging.info(output)
     # post to the audio group
     forward_to_audio(output)
@@ -60,11 +61,13 @@ def init():
     ''' this function will be called at the application startup to initialize our module '''
     global knowledge_base
     global commentator
-
+    
     logging.basicConfig(filename='CommentGenerator/commentgenerator.log',level=logging.INFO) # filemode='w'
-     
+    
     knowledge_base = KnowledgeBase(url=KB_URL)
+
     commentator = Commentator(knowledge_base)
+
 
 if __name__ == '__main__':
     try:

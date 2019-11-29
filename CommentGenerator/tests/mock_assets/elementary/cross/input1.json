@@ -10,6 +10,7 @@
     "details":
     {
         "team1" : 42,
+        "team2" : 7,
         "subtype"  : "cross",
         "confidence" : 0.4
     }

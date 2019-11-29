@@ -1,5 +1,9 @@
-from Tagger import Tagger
-from TemplateGenerator import TemplateGenerator
+try:
+    from .Tagger import Tagger
+    from .TemplateGenerator import TemplateGenerator
+except Exception:
+    from Tagger import Tagger
+    from TemplateGenerator import TemplateGenerator
 
 import json
 import random
@@ -41,11 +45,12 @@ class Picker:
 
                 register = "neutral"
                 preference = "positive"
-
+                
                 final_comment = self.template_generator.generate(sentence_tagged, register, preference)
 
             # if an error is found means that inconsistency was found
-            except:
+            except Exception as e:
+                print(e)
                 # TODO try to create a comment with less possible information and querying kb
                 final_comment = self.create_others()
 

@@ -10,6 +10,7 @@
     "details":
     {
         "team1" : 42,
+        "team2" : 7,
         "subtype"  : "possession_lost",
         "confidence" : 0.4
     }
