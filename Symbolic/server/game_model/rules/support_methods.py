@@ -31,11 +31,17 @@ def ball_owner(queue):
     """
         Returns the ball owner given the list of position
     """
+    threshold = 1
     pos = queue[-1]
     data = __deltaPlayersBall(pos)['players']
     min_delta = min([x['delta'] for x in data])
-    closest = data['delta' == min_delta]
-    closest['type'] = "owner"
+    
+    closest = None
+    for player in data:
+        current = player['delta']
+        if (current == min_delta) and (current < threshold):
+            closest = player
+
     return closest
 
 

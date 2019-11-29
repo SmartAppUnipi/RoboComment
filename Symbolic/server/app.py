@@ -3,7 +3,7 @@ from json_validator import Validator
 import json
 import requests
 from time import sleep, time
-from flask import render_template, jsonify
+from flask import render_template, jsonify, request
 from map2d import *
 from flask_socketio import SocketIO, emit
 import pprint
@@ -30,9 +30,13 @@ pp = pprint.PrettyPrinter(indent=4)
 
 
 # Avvia la simulazione della mappa (atteso input dopo che arriva il json da video processing)
-@app.route("/debug")
+@app.route("/debug", methods=['POST', 'GET'])
 def init_map():
-    return render_template('page_map.html')
+    if request.method == 'GET':
+        return render_template('page_map.html')
+    else:
+        dict = request.data
+        return render_template('page_map.html', **dict)
 
 
 @app.route("/")
@@ -70,9 +74,9 @@ if __name__ == '__main__':
         cg_url = config['tale']
         model.set_output_url(cg_url)
         
-    
-    os.remove("positions.out")
+    if os.path.exists("positions.out"):
+        os.remove("positions.out")
 
     print("app is running, open localhost:3001/debug to display the map")
     socketio.run(app, host='0.0.0.0',
-                    use_reloader=False, port=symbolic_port)
+                 use_reloader=False, port=symbolic_port)
