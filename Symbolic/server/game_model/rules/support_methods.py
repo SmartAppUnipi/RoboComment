@@ -45,11 +45,30 @@ def ball_owner(queue):
     return closest
 
 
-def ball_on_target(positions):
+def ball_on_target(queue):
     """
     Compute the position of the ball with respect to the goal
 
     Pitch dimensions = 105 x 68
     1. Cut it at one half
-
     """
+    _field_width = 105
+    _field_height = 68
+
+    _goal_height = 7
+
+    _threshold = 2
+
+    pos = queue[-1]
+    
+    ball_pos_x = pos['ball'][0]['position']['x']
+    ball_pos_y = pos['ball'][0]['position']['y']
+
+    if (_field_height / 2 - _goal_height / 2) <= ball_pos_y <=  (_field_height / 2 + _goal_height / 2):
+        if  0 <= ball_pos_x <= _threshold or _field_width - _threshold <= ball_pos_x <= _field_width:
+            return True
+    
+    return False           
+
+
+    
