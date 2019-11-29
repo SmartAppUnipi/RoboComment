@@ -28,7 +28,8 @@ class Commentator:
             'emphasis': sentiment,
             'startTime': time['start'],
             'endTime' : time['end'],
-            'priority' : 4
+            'priority' : 4,
+            'id' : jsonobj['id']
         }
         return output
 

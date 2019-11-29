@@ -17,7 +17,7 @@ class TestApi(unittest.TestCase):
         output = self.commentator.run(input_json)
 
         # checking if the output we pass to audio is well formed
-        assert set(output.keys()) == set(['comment','emphasis','startTime','endTime','priority'])
+        assert set(output.keys()) == set(['comment','emphasis','startTime','endTime','priority','id'])
         assert 0 <= output['priority'] and output['priority'] <= 5
 
     def test_run2(self):
