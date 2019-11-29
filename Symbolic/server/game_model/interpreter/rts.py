@@ -1,12 +1,13 @@
 from game_model.game_model import GameModel
 from collections import deque
 import re
+import json
+import pdb
 
 def _resolve_placeholders(s):
+    registers = GameModel.get_env()['registers']
     for param in re.findall(r'@\d', s):
-        s = s.replace(
-            param, "registers['{}']".format(param)
-        )
+        s = s.replace(param, json.dumps(registers[param]))
     return s
 
 def check(constraints):
@@ -25,11 +26,11 @@ def fire(actions):
 def push(stack, element):
     print("=================================================")
     stacks = GameModel.get_env()['stacks']
-    # If stack exists push
+    # If stack does not exist create it
     if stack not in stacks.keys():
         stacks[stack] = deque()
     stacks[stack].append(element)
 
-def spacchetpush(stack, element):
+def spacchettpush(stack, element):
     registers = GameModel.get_env()['registers']
-    push(stack, registers[element])
+    push(stack, element)
