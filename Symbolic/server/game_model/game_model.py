@@ -3,12 +3,22 @@ from game_model.parser import parser
 from game_model.interpreter import rule_matcher as RM
 import game_model.rules.support_methods as support
 import requests
+import re
+import json
 
 class GameModel:
+
+    @staticmethod
+    def get_env():
+        return U._stacks, U._registers
+
     def __init__(self):
         """Initializes the game model by parsing the rule file"""
         # some important app wise variables
-        self._cg_url = None
+
+        with open('../../routes.json', 'r') as f:
+            config = json.load(f)
+            self._cg_url = config['tale']
         self._user_id = 0
 
         # initialize queues and global registers
@@ -22,29 +32,27 @@ class GameModel:
                         
         # parse rule file
         self._rules = {}
-        with open('game_model/rules/rules.txt', 'r') as rules:
-            # every line is a rule
-            for rule in rules:
-                if(len(rule) > 0):
-                    parse_obj = parser.parse(rule)
-                    name = parse_obj['name']
-                    if 'function' in parse_obj:
-                        # it means that the object is a special case
-                        function_name = parse_obj['function'].strip()
-                        method_to_call = getattr(support, function_name)
-                        self._rules[name] = {
-                            'type': 'function',
-                            'function': method_to_call, 
-                            'stack': parse_obj['stack']
-                        }
-                    else:
-                        # this means that it is a regular rule (with action and condition)
-                        self._rules[name] = {
-                            'type': 'rule', 
-                            'condition': parse_obj['condition'], 
-                            'action': parse_obj['action'],
-                            'constraints': parse_obj['constraints']
-                        }
+        rules = self._get_rules_strings('game_model/rules/rules.txt')
+        for rule in rules:
+            parse_obj = parser.parse(rule.strip())
+            name = parse_obj['name']
+            if 'function' in parse_obj:
+                # it means that the object is a special case
+                function_name = parse_obj['function'].strip()
+                method_to_call = getattr(support, function_name)
+                self._rules[name] = {
+                    'type': 'function',
+                    'function': method_to_call, 
+                    'stack': parse_obj['stack']
+                }
+            else:
+                # this means that it is a regular rule (with action and condition)
+                self._rules[name] = {
+                    'type': 'rule', 
+                    'condition': parse_obj['condition'], 
+                    'action': parse_obj['action'],
+                    'constraints': parse_obj['constraints']
+                }
                     
 
     def new_positions(self, positions):
@@ -54,8 +62,10 @@ class GameModel:
         for rule in self._rules.values():
             if rule['type'] == 'function':
                 to_call = rule['function']
-                ret = to_call(self._stacks[rule['stack']])
-                self._stacks['elementary'].append(ret)
+                ret_code, ret_list = to_call(self._stacks[rule['stack']])
+                if ret_code:
+                    for e in ret_list:
+                        self._stacks['elementary'].append(e)
         self.try_match_loop()
 
 
@@ -79,5 +89,27 @@ class GameModel:
         
         self.to_comment_generation()
 
-    def set_output_url(self, url):
-        self._cg_url = url
+    def _get_rules_strings(self, filename):
+        """Parse the rules file and build an array or rules strings
+        - filename: file name of the rules"""
+        rules = []
+        with open(filename, 'r') as f:
+            prev_rule = ""
+            end = False
+            while not end:
+                next_line = f.readline()
+                if not next_line:
+                    end = True
+                else:
+                    if not re.match(r'\s', next_line) and len(prev_rule) > 0:
+                        rules.append(prev_rule.rstrip())
+                        prev_rule = next_line.strip()
+                    else:
+                        prev_rule += next_line.strip()
+
+            rules.append(prev_rule.strip())
+            for e in rules:
+                print("a->", e)
+        return rules
+
+U = GameModel()
