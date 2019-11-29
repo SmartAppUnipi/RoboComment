@@ -86,7 +86,8 @@ def simulate_passage():
     tmp = {
         "time": 0,
         "players": [],
-        "ball": []
+        "ball": [], 
+        "type": 'PACCHETTONE'
     }
 
     tmp['time'] = pass_time
@@ -143,7 +144,7 @@ def simulate_passage():
 
 
 if __name__ == '__main__':
-    url = "http://0.0.0.0:3001/positions"
+    url = "http://127.0.0.1:3001/positions"
     while True:
         pass_ = simulate_passage()
         requests.post(url, json=pass_)

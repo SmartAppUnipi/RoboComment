@@ -20,8 +20,11 @@ if all the conditions match in AND then the action is executed
 def rule_matcher(condition, action, constraints):
     if not isinstance(action, str) or not isinstance(constraints, str):
         raise TypeError
-    stacks, registers = GameModel.get_env()
+    stacks = GameModel.get_env()['stacks'] 
+    registers = GameModel.get_env()['registers']
+    print("WUIRPFIEBHBHPUGOQBVAU", condition)
     if boolean_matcher(condition, stacks, registers):
+        print("========================================", condition)
         if check(constraints):
             fire(action)
             return True

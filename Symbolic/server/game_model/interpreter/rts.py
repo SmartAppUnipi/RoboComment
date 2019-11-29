@@ -22,6 +22,7 @@ def fire(actions):
     eval(actions_prime)
 
 def push(stack, element):
+    print("=================================================")
     stacks = GameModel.get_env()['stacks']
     stacks[stack].append(element)
 
