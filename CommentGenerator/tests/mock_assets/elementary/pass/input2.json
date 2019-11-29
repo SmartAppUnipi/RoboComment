@@ -1,5 +1,5 @@
 {
-
+    "user_id" : 42,
     "time" :
     {
         "start": 10,
@@ -9,7 +9,7 @@
 
     "details":
     {
-        "player1": "Ruicosta",
+        "player1": 7,
         "subtype"  : "pass",
         "confidence" : 0.4
     }

@@ -1,5 +1,5 @@
 {
-
+    "user_id" : 42,
     "time" :
     {
         "start": 10,
@@ -9,7 +9,8 @@
 
     "details":
     {
-        "team1" : "team A",
+        "team1" : 42,
+        "team2" : 7,
         "subtype"  : "possession",
         "confidence" : 0.4
     }

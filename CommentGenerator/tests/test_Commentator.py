@@ -2,11 +2,13 @@ import unittest
 import json
 from src.Commentator import Commentator
 from utils.KnowledgeBase import KnowledgeBase
+from tests.MockKnowledgeBase import MockKnowledgeBase
 
 
 class TestApi(unittest.TestCase):
     def setUp(self):
-        self.commentator = Commentator(KnowledgeBase('x.x.x.x:xxxx'))
+        self.kb = MockKnowledgeBase()
+        self.commentator = Commentator(self.kb)       
        
     def test_run1(self):
         with open('CommentGenerator/tests/mock_assets/elementary/pass/input1.json', 'r') as json_file:
@@ -15,7 +17,7 @@ class TestApi(unittest.TestCase):
         output = self.commentator.run(input_json)
 
         # checking if the output we pass to audio is well formed
-        assert set(output.keys()) == set(['comment','emphasis','startTime','endTime','priority'])
+        assert set(output.keys()) == set(['comment','emphasis','startTime','endTime','priority','id'])
         assert 0 <= output['priority'] and output['priority'] <= 5
 
     def test_run2(self):
@@ -65,3 +67,4 @@ class TestApi(unittest.TestCase):
         output = self.commentator.run(input_json)
 
         print(output['comment'])
+
