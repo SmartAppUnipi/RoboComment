@@ -23,6 +23,7 @@ def fire(actions):
     eval(actions_prime)
 
 def push(stack, element):
+    print("=================================================")
     stacks = GameModel.get_env()['stacks']
     # If stack exists push
     if stack not in stacks.keys():

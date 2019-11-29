@@ -14,7 +14,7 @@ from dummy_map import *
 import copy
 from sched import scheduler
 from game_model.game_model import GameModel, U
-import game_model.interpreter.set_rule_matcher
+from game_model.interpreter.set_rule_matcher import set_rule_matcher
 
 
 app = flask.Flask(__name__)
@@ -64,6 +64,7 @@ def new_positions():
     # Metto in map le nuove posizioni
     map._update_position(data)
     U.new_positions(data)
+    set_rule_matcher()
 
 
     with open('positions.out', 'a+') as dump_file:

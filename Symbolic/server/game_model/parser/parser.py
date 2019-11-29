@@ -6,14 +6,15 @@ _tokens = [
     '.',
     'interception',
     'ballOnTarget',
-    'ballOffTarget'
+    'ballOffTarget',
+    'PACCHETTONE'
 ]
 
 _GLOBAL_ARRAY = '_global_array'
 
 
 def _get_pattern(token: str, part: str):
-    if token in ['possession', 'interception', 'ballOnTarget', 'ballOffTarget']:
+    if True or token in ['possession', 'interception', 'ballOnTarget', 'ballOffTarget']:
         return {
             'type': token
         }
