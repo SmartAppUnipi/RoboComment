@@ -18,7 +18,7 @@ def boolean_matcher(regexes, stacks, registers):
     # TODO Empty se true or false?
     if len(regexes) < 1:
         # Empty
-        return False
+        return True
     for regex in regexes:
         if not regex_matcher(regex['pattern'], stacks[regex['stack']], registers):
             return False

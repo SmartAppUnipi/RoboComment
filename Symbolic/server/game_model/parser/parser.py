@@ -1,8 +1,5 @@
 import re
 
-_GLOBAL_ARRAY = '_global_array'
-
-
 def _token_match(token: str, part: str):
     if token == r'.{\d,\d}':
         return len(re.findall(token, part)) != 0

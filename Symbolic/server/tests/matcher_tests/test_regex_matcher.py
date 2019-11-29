@@ -347,12 +347,22 @@ def test_regex_match_register_save():
     ]
     stack = [
         {
-            'first': 'elem'
+            'first': 'elem',
+            'second': 'hope',
+            'third': {
+                'inner': ['aia', 'ciao']
+            }
         }
     ]
 
     assert regex_matcher(regex, stack, reg)
-    assert reg['@0'] == {'first':'elem'}
+    assert reg['@0'] == {
+                            'first':'elem',
+                            'second':'hope',
+                            'third': {
+                                'inner':['aia', 'ciao']
+                            }
+                        }
 
 def test_regex_match_register_multisave():
     reg = {}

@@ -14,3 +14,8 @@ tikiTaka        = possession as @0 -> possession as @1 -> possession as @2 -> po
 parkTheBus      = tikiTaka as @0 -> tikiTaka as @0 : @0.team == #inFrontOfTheBall
 longBall        = cross as @0 -> .{0,4} -> cross as @1 : @0.player.team != @1.player.team
 pressing        = interception @0 : @0 == #homehalf
+
+
+possession[stdin]      = ___ball_owner
+pass[elementary]       = possession as @0 -> .{0,4} -> possession as @1 : @0.player.team == @1.player.team then push('pass', 'elementary', @0, @1)
+interception[elementary]    = possession as @0 -> possession as @1 : @0.player.team != @1.player.team then push('interception', 'elementary', @0, @1)

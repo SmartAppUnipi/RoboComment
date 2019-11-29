@@ -20,6 +20,10 @@ def consume(iter):
 
 def regex_matcher(regex, stack, registers):
     # TODO empty regex always/never match?
+    if len(regex) < 1:
+        return True
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA2", regex, ", ", stack)
+    
 
     pred_reg = None
     pred_stack = None
@@ -33,7 +37,11 @@ def regex_matcher(regex, stack, registers):
                     # Regex cannot start with '@\d'
                     return False
                 registers[reg_el] = pred_stack
-                consume(reg_iter)
+                try:
+                    consume(reg_iter)
+                except:
+                    #TODO CHECK
+                    break
 
             # Any singleton value is ok, iterate
             if match(reg_el, _any):
