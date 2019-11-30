@@ -15,15 +15,6 @@ parkTheBus      = tikiTaka as @0 -> tikiTaka as @0 : @0.team == #inFrontOfTheBal
 longBall        = cross as @0 -> .{0,4} -> cross as @1 : @0.player.team != @1.player.team
 pressing        = interception @0 : @0 == #homehalf
 
-
-possession['elementary'] = {'type': 'ball'} as @0 -> {'type': 'player'} as @1 : 
-        @1['time'] == @0['time'] & CLOSE(@0['position'], @1['position']) then push('elementary', 
-        {'type':'possession', 'player': {'id': @1['id'], 'team': @1['team']}, position: @0['position']})
-
-pass[elementary]  = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 
-        : @0['player']['team'] == @1['player']['team'] then push('elementary', 
-        {'type': 'pass', 'passer': @0['player'], 'receiver': @1['player']})
-
-intercept[elementary]  = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 
-        : @0['player']['team'] != @1['player']['team'] then push('elementary', 
-        {'type': 'intercept', 'ball_loser': @0['player'], 'intercepter': @1['player']})
+shot[elementary] = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'ball'} as @1 :
+    homehalf(@0['position']) & in_target[@1['position]] then
+    push(['elementary', 'stdout'], {'type':'shot', 'player': @0})

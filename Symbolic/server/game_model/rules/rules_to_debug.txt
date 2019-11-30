@@ -1,0 +1,24 @@
+unpack[stdin] = . as @0 : True then spacchettpush('elementary', @0)
+Note relative a questa regola: al momento non matcha, per qualche motivo il punto non restituisce 
+true ma continua ad iterare su regex matcher. Questa regola andrebbe aggiunta, è il corrispettivo di 
+quella attuale di debug ma scritta meglio e senza il vincolo sul tipo
+
+possession['elementary'] = {'type': 'ball'} as @0 -> {'type': 'player'} as @1 : 
+    @1['time'] == @0['time'] & CLOSE(@0['position'], @1['position']) then push(['elementary', 'stdout'], 
+    {'type':'possession', 'player': {'id': @1['id'], 'team': @1['team']}, position: @0['position']})
+Note relative a questa regola:  ci sono due grossi dubbi che ho. Avrei bisogno di esprimere in @0 e @1 palla
+e player ma senza usare la sequenza, ma usando "allo stesso istante". al momento ho messo la freccina, ma 
+aiutatemi. Altro grosso dubbio, è che vorrei esprimere funzioni anche nelle condizioni. Per esempio in 
+questo caso mi farebbe comodo o CLOSE(posizione1, posizione2) che restituisce un booleano, oppure 
+DISTANCE(posizione1, posizione2) che restituisce un float, per poi fare DISTANCE(..) < threshold. Avete 
+idee?
+
+Le regole sotto penso che in realtà, funzionanti quelle sopra, funzionino
+
+pass[elementary]  = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 : 
+    @0['player']['team'] == @1['player']['team'] then push(['elementary', 'stdout'], 
+    {'type': 'pass', 'passer': @0['player'], 'receiver': @1['player']})
+
+intercept[elementary]  = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 : 
+    @0['player']['team'] != @1['player']['team'] then push(['elementary', 'stdout'], 
+    {'type': 'intercept', 'ball_loser': @0['player'], 'intercepter': @1['player']})
