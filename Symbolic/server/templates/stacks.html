@@ -21,7 +21,11 @@
                     {% for v in value %}
                     {% for x,y in v.items() %}
 
-                    <p> {{ x }} : {{ y }} </p>
+                    <p> 
+                        {% if "time" in x or "type" in x %}
+                            {{ x }} : {{ y }} 
+                        {% endif %}
+                    </p>
                     {% endfor %}
                     <hr>
                     {% endfor %}

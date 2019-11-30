@@ -28,7 +28,7 @@ def push(stack, element):
     # If stack does not exist create it
     if stack not in stacks.keys():
         stacks[stack] = deque()
-    stacks[stack].append(element)
+    stacks[stack].appendleft(element)
 
 def spacchettpush(stack, element):
     for key in element:
@@ -36,6 +36,9 @@ def spacchettpush(stack, element):
         if isinstance(value, list):
             for e in value:
                 a = e
-                a['type'] = key
+                if key == 'players':
+                    a['type'] = 'player'
+                else:
+                    a['type'] = key
                 a['time'] = element['time']
                 push(stack, a)

@@ -37,36 +37,17 @@ class GameModel:
         for rule in rules:
             parse_obj = parser.parse(rule.strip())
             name = parse_obj['name']
-            if 'function' in parse_obj:
-                # it means that the object is a special case
-                function_name = parse_obj['function'].strip()
-                method_to_call = getattr(support, function_name)
-                self._rules[name] = {
-                    'type': 'function',
-                    'function': method_to_call, 
-                    'stack': parse_obj['stack']
-                }
-            else:
-                # this means that it is a regular rule (with action and condition)
-                self._rules[name] = {
-                    'type': 'rule', 
-                    'condition': parse_obj['condition'], 
-                    'action': parse_obj['action'],
-                    'constraints': parse_obj['constraints']
-                }
+            self._rules[name] = {
+                'type': 'rule', 
+                'condition': parse_obj['condition'], 
+                'action': parse_obj['action'],
+                'constraints': parse_obj['constraints']
+            }
 
     def new_positions(self, positions):
         """This function gets called by the app whenever new positions arrive"""
-        self._stacks['stdin'].append(positions)
+        self._stacks['stdin'].appendleft(positions)
         self._user_id = positions['user_id']
-        #for rule in self._rules.values():
-        #    if rule['type'] == 'function':
-        #        to_call = rule['function']
-        #        ret_code, ret_list = to_call(self._stacks[rule['stack']])
-        #        if ret_code:
-        #            for e in ret_list:
-        #                self._stacks['elementary'].append(e)
-        #self.try_match_loop()
 
 
     def to_comment_generation(self):

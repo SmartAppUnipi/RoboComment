@@ -1,9 +1,0 @@
-/// DA DISCUTERE ///
-
-///  eventuale rappresentazione di ogni regola /// 
-
-pass: {
-    "from"  : P1
-    "to"    : P2
-    "_time" : XXXXXX
-}

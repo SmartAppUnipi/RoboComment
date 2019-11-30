@@ -16,6 +16,14 @@ longBall        = cross as @0 -> .{0,4} -> cross as @1 : @0.player.team != @1.pl
 pressing        = interception @0 : @0 == #homehalf
 
 
-possession[stdin]      = ___ball_owner
-pass[elementary]       = possession as @0 -> .{0,4} -> possession as @1 : @0.player.team == @1.player.team then push('pass', 'elementary', @0, @1)
-interception[elementary]    = possession as @0 -> possession as @1 : @0.player.team != @1.player.team then push('interception', 'elementary', @0, @1)
+possession['elementary'] = {'type': 'ball'} as @0 -> {'type': 'player'} as @1 : 
+        @1['time'] == @0['time'] & CLOSE(@0['position'], @1['position']) then push('elementary', 
+        {'type':'possession', 'player': {'id': @1['id'], 'team': @1['team']}, position: @0['position']})
+
+pass[elementary]  = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 
+        : @0['player']['team'] == @1['player']['team'] then push('elementary', 
+        {'type': 'pass', 'passer': @0['player'], 'receiver': @1['player']})
+
+intercept[elementary]  = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 
+        : @0['player']['team'] != @1['player']['team'] then push('elementary', 
+        {'type': 'intercept', 'ball_loser': @0['player'], 'intercepter': @1['player']})
