@@ -41,7 +41,7 @@ def regex_matcher(regex, stack, registers):
                     consume(reg_iter)
                 except:
                     #TODO CHECK
-                    break
+                    return True
 
             # Any singleton value is ok, iterate
             if match(reg_el, _any):
