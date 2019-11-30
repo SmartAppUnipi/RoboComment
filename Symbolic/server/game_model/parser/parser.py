@@ -1,4 +1,5 @@
 import re
+from ast import literal_eval
 
 def _token_match(token: str, part: str):
     if token == r'.{\d,\d}':
@@ -49,10 +50,14 @@ def _parse_rule(rule: str, parse_obj):
     parse_obj['condition'].append({
         'pattern': []
     })
-
     for part in parts:
         name, *alias = part.split(' as ')
-        parse_obj['condition'][-1]['pattern'].append(name)
+        match = r'\{\'[a-zA-Z]+\':.+\}'
+        if re.match(match, name):
+            parse_obj['condition'][-1]['pattern'].append(literal_eval(name))
+        else:
+            parse_obj['condition'][-1]['pattern'].append(name)
+
 
         if len(alias) > 0:
             parse_obj['condition'][-1]['pattern'].append(

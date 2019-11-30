@@ -1,1 +1,1 @@
-debug[stdin] = PACCHETTONE as @0 : True then spacchettpush('elementary', @0)
+debug[stdin] = {'type': 'PACCHETTONE'} as @0 : True then spacchettpush('elementary', @0)
