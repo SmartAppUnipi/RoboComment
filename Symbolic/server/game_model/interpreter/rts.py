@@ -24,7 +24,6 @@ def fire(actions):
     eval(actions_prime)
 
 def push(stack, element):
-    print("=================================================")
     stacks = GameModel.get_env()['stacks']
     # If stack does not exist create it
     if stack not in stacks.keys():
@@ -32,5 +31,11 @@ def push(stack, element):
     stacks[stack].append(element)
 
 def spacchettpush(stack, element):
-    registers = GameModel.get_env()['registers']
-    push(stack, element)
+    for key in element:
+        value = element[key]
+        if isinstance(value, list):
+            for e in value:
+                a = e
+                a['type'] = key
+                a['time'] = element['time']
+                push(stack, a)

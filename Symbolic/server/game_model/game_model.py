@@ -30,9 +30,6 @@ class GameModel:
         self._stacks = {}
         self._stacks['stdin'] = deque()
         self._stacks['stdout'] = deque()
-        self._stacks['elementary'] = deque()
-        self._stacks['scenario'] = deque()
-        self._stacks['strategy'] = deque()
                         
         # parse rule file
         self._rules = {}
