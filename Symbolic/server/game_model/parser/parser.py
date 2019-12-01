@@ -2,7 +2,8 @@ import re
 from ast import literal_eval
 
 def _split(rule_string: str):
-    name_and_stack, rules, constraints, action = re.split(' = | : | then ', rule_string
+    name_and_stack, rules, constraints, action = re.split(' = | : | then ', rule_string)
+
     name, stack = re.findall('[a-z]+', name_and_stack)
 
     return name, stack, rules, constraints, action
@@ -62,6 +63,6 @@ def _parse_rule(rule: str, parse_obj):
         #     parse_obj['condition'][-1]['pattern'].append(name)
 
 
-#x = parse("pass[elementary] = @0 as {'type': 'possession'} -> .{0,4} -> @1 as {'type': 'possession'} -> @3 as ? : @0.player.team == @1.player.team then push('elementary', {'type': 'pass', 'from': @0, 'to': @1})"), consume('elementary')
+x = parse("unpack[stdin] = @0 as ? : True then spacchettpush('elementary', @0)")
 
-#print(x)
+print(x)
