@@ -33,11 +33,11 @@ def push(push_to, element):
     stacks = GameModel.get_env()['stacks']
     for stack_name in tmp:
         # If stack does not exist create it
-        if stack_name not in stacks.keys():
+        if stack_name not in stacks.keys() or len(stacks[stack_name]) < 1:
             # Push as first
             stacks[stack_name] = deque([element])
             continue
-
+        #pdb.set_trace()
         # First element has time smaller
         if stacks[stack_name][0]['time'] <= element['time']:
             stacks[stack_name].appendleft(element)

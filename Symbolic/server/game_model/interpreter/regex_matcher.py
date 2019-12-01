@@ -92,10 +92,10 @@ def regex_matcher(regex, stack, registers):
                                 # Stack finished, next element not matched
                                 return False
 
-                            if stack_el['time']-start_time >= lower*1000:
+                            if abs(stack_el['time']-start_time) >= lower*1000:
                                 # Reached lower bound for elapsed time
                                 break
-                    if stack_el['time']-start_time > upper*1000:
+                    if abs(stack_el['time']-start_time) > upper*1000:
                         # Surpassed upper bound for time elapsed
                         return False
                     '''
@@ -117,7 +117,7 @@ def regex_matcher(regex, stack, registers):
                             # Stack finished, next element not matched
                             return False
 
-                        if stack_el['time']-start_time > upper*1000:
+                        if abs(stack_el['time']-start_time) > upper*1000:
                             # Surpassed upper bound for time elapsed
                             return False
                     '''
