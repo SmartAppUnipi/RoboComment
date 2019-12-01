@@ -1,6 +1,6 @@
-unpack[stdin] = ? as @0 : True then spacchettpush('elementary', @0)
+unpack[stdin] = @0 as ? : True then spacchettpush('elementary', @0)
 
-possession['elementary'] = {'type': 'ball'} as @0 -> {'type': 'player'} as @1 : 
-    @1['time'] == @0['time'] and distance(@0['position'], @1['position']) < 2 then 
+possession['elementary'] = @0 as {'type': 'ball'} -> .{0,1} -> @1 as {'type': 'player'} : 
+    @1['time'] == @0['time'] and distance(@0['position'], @1['position']) < 2 then
     push(['elementary', 'stdout'], {'type':'possession', 'player': {'id': @1['id'], 
-    'team': @1['team']}, position: @0['position']})
+    'team': @1['team']}})

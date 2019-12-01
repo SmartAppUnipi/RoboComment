@@ -54,8 +54,11 @@ def spacchettpush(stack, element):
 
 def distance(a, b):
     print("DISTANCE")
+    print(a, " and ", b)
     ax = float(a['x'])
     ay = float(a['y'])
     bx = float(b['x'])
     by = float(b['y'])
-    distance = math.sqrt(((ax - bx)**2)+((a - by)**2))
+    distance = math.sqrt(((ax - bx)**2)+((ay - by)**2))
+    print(distance)
+    return distance
