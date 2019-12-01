@@ -62,6 +62,6 @@ def _parse_rule(rule: str, parse_obj):
         #     parse_obj['condition'][-1]['pattern'].append(name)
 
 
-x = parse("pass[elementary] = @0 as {'type': 'possession'} -> .{0,4} -> @1 as {'type': 'possession'} -> @3 as ? : @0.player.team == @1.player.team then push('elementary', {'type': 'pass', 'from': @0, 'to': @1})"), consume('elementary')
+#x = parse("pass[elementary] = @0 as {'type': 'possession'} -> .{0,4} -> @1 as {'type': 'possession'} -> @3 as ? : @0.player.team == @1.player.team then push('elementary', {'type': 'pass', 'from': @0, 'to': @1})"), consume('elementary')
 
-print(x)
+#print(x)
