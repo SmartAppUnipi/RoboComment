@@ -3,6 +3,7 @@ from collections import deque
 import re
 import json
 import pdb
+import math
 
 def _resolve_placeholders(s):
     registers = GameModel.get_env()['registers']
@@ -19,6 +20,8 @@ def check(constraints):
 
 def fire(actions):
     actions_prime = _resolve_placeholders(actions)
+    print(actions_prime, " <- action prime")
+    print(actions)
     stacks = GameModel.get_env()['stacks']
     registers = GameModel.get_env()['registers']
     eval(actions_prime)
@@ -37,7 +40,7 @@ def push(push_to, element):
         stacks[stack_name].appendleft(element)
 
 def spacchettpush(stack, element):
-    for key in element:
+    for key in sorted(element):
         value = element[key]
         if isinstance(value, list):
             for e in value:
@@ -48,3 +51,11 @@ def spacchettpush(stack, element):
                     a['type'] = key
                 a['time'] = element['time']
                 push(stack, a)
+
+def distance(a, b):
+    print("DISTANCE")
+    ax = float(a['x'])
+    ay = float(a['y'])
+    bx = float(b['x'])
+    by = float(b['y'])
+    distance = math.sqrt(((ax - bx)**2)+((a - by)**2))

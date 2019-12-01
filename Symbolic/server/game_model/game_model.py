@@ -77,7 +77,7 @@ class GameModel:
                         rules.append(prev_rule.rstrip())
                         prev_rule = next_line.strip()
                     else:
-                        prev_rule += next_line.strip()
+                        prev_rule += " " + next_line.strip()
 
             rules.append(prev_rule.strip())
         return rules
