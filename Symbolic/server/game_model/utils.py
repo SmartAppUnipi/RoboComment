@@ -13,6 +13,7 @@ import pprint
 
 pass_time = float(str("%.2f" % (random.random() * 100)))
 pass_ball_y = 10
+direction = 'down'
 pp = pprint.PrettyPrinter(indent=4)
 
 
@@ -81,7 +82,7 @@ def createDummy():
 
 def simulate_passage():
 
-    global pass_time, pass_ball_y, pp
+    global pass_time, pass_ball_y, pp, direction
 
     tmp = {
         "time": 0,
@@ -139,7 +140,17 @@ def simulate_passage():
         }
     )
     pass_time += 1
-    pass_ball_y += 1
+
+    if pass_ball_y < 30 and direction == 'down':
+        pass_ball_y += 1
+    elif pass_ball_y ==30 and direction == 'down':
+        pass_ball_y -= 1
+        direction = 'up'
+    elif pass_ball_y > 10 and direction == 'up':
+        pass_ball_y -= 1
+    else:
+        pass_ball_y += 1
+        direction = 'down'
     return tmp
 
 

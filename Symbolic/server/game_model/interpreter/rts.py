@@ -31,11 +31,26 @@ def push(push_to, element):
     else:
         tmp = push_to
     stacks = GameModel.get_env()['stacks']
-    # If stack does not exist create it
     for stack_name in tmp:
+        # If stack does not exist create it
         if stack_name not in stacks.keys():
-            stacks[stack_name] = deque()
-        stacks[stack_name].appendleft(element)
+            # Push as first
+            stacks[stack_name] = deque([element])
+            continue
+
+        # First element has time smaller
+        if stacks[stack_name][0]['time'] <= element['time']:
+            stacks[stack_name].appendleft(element)
+            continue
+
+        # Find position to insert
+        for index, obj in enumerate(stacks[stack_name]):
+            if obj['time'] < element['time']:
+                # Insert element in the correct position
+                # After the last element with time greater than it
+                stacks[stack_name].insert(index-1, element)
+                break
+
 
 def spacchettpush(stack, element):
     for key in sorted(element):
