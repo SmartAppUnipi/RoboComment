@@ -31,10 +31,10 @@ def regex_matcher(regex, stack, registers):
         if type(reg_el) is str:
             # Case '@num', save into registers the element of the stack matched previously
             while re.match('@[0-9]+', reg_el):
-                if pred_stack is None:
+                if stack_index == 0:
                     # Regex cannot start with '@\d'
                     return False
-                registers[reg_el] = pred_stack
+                registers[reg_el] = stack[stack_index-1]
                 try:
                     consume(reg_iter)
                 except:
