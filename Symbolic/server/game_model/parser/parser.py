@@ -10,18 +10,7 @@ def _split(rule_string: str):
 
 
 def parse(rule_string: str):
-    try:
-        out = _split(rule_string)
-    except:
-        name_and_stack, rules = rule_string.split(' = ')
-        name, stack = re.findall('[a-z]+', name_and_stack)
-        return {
-            'name': name,
-            'function': rules[3:],
-            'stack': stack
-        }
-
-    name, stack, rules, constraints, action = out
+    name, stack, rules, constraints, action  = _split(rule_string)
 
     parse_obj = {
         'condition': [],
@@ -36,7 +25,6 @@ def parse(rule_string: str):
         parse_obj['condition'][-1]['stack'] = stack
 
     parse_obj['constraints'] = constraints
-    
     parse_obj['action'] = action
     return parse_obj
 
