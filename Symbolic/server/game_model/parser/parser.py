@@ -61,8 +61,3 @@ def _parse_rule(rule: str, parse_obj):
         #     parse_obj['condition'][-1]['pattern'].append(literal_eval(name))
         # else:
         #     parse_obj['condition'][-1]['pattern'].append(name)
-
-
-x = parse("unpack[stdin] = @0 as ? : True then spacchettpush('elementary', @0)")
-
-print(x)

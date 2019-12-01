@@ -20,8 +20,6 @@ def check(constraints):
 
 def fire(actions):
     actions_prime = _resolve_placeholders(actions)
-    print(actions_prime, " <- action prime")
-    print(actions)
     stacks = GameModel.get_env()['stacks']
     registers = GameModel.get_env()['registers']
     eval(actions_prime)
@@ -53,12 +51,38 @@ def spacchettpush(stack, element):
                 push(stack, a)
 
 def distance(a, b):
-    print("DISTANCE")
-    print(a, " and ", b)
     ax = float(a['x'])
     ay = float(a['y'])
     bx = float(b['x'])
     by = float(b['y'])
     distance = math.sqrt(((ax - bx)**2)+((ay - by)**2))
-    print(distance)
     return distance
+
+def push_closest(stack_name, pos):
+    ball_x = float(pos['ball'][0]['position']['x'])
+    ball_y = float(pos['ball'][0]['position']['y'])
+
+    for player in pos['players']:
+        # check that player is not the referee
+        if player['team'] != -1:
+            x = float(player['position']['x'])
+            y = float(player['position']['y'])
+            distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
+            player['delta'] = distance
+    
+    min_delta = min([a['delta'] for a in pos['players']])
+
+    closest = None
+    for player in pos['players']:
+        current = player['delta']
+        if (current == min_delta):
+            closest = player
+
+    to_push = {
+        'type': 'closest',
+        'time': pos['time'],
+        'id': closest['id'],
+        'team': closest['team'],
+        'position': closest['position']
+    }
+    push(stack_name, to_push)
