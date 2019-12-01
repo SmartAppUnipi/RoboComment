@@ -1,16 +1,11 @@
 import re
 from ast import literal_eval
 
-def _token_match(token: str, part: str):
-    if token == r'.{\d,\d}':
-        return len(re.findall(token, part)) != 0
-
-    return token in part
-
-
 def _split(rule_string: str):
     name_and_stack, rules, constraints, action = re.split(' = | : | then ', rule_string)
+
     name, stack = re.findall('[a-z]+', name_and_stack)
+
     return name, stack, rules, constraints, action
 
 
@@ -37,11 +32,12 @@ def parse(rule_string: str):
 
     for rule in rules.split(' & '):
         _parse_rule(rule, parse_obj)
+        list.reverse(parse_obj['condition'][-1]['pattern'])
         parse_obj['condition'][-1]['stack'] = stack
 
     parse_obj['constraints'] = constraints
+    
     parse_obj['action'] = action
-
     return parse_obj
 
 
@@ -51,19 +47,22 @@ def _parse_rule(rule: str, parse_obj):
         'pattern': []
     })
     for part in parts:
-        name, *alias = part.split(' as ')
-        match = r'\{\'[a-zA-Z]+\':.+\}'
-        if re.match(match, name):
-            parse_obj['condition'][-1]['pattern'].append(literal_eval(name))
-        else:
-            parse_obj['condition'][-1]['pattern'].append(name)
-
+        *alias, name = part.split(' as ')
 
         if len(alias) > 0:
             parse_obj['condition'][-1]['pattern'].append(
                 alias[0]
             )
 
+        parse_obj['condition'][-1]['pattern'].append(
+            literal_eval(name) if re.match(r'\{.*\}', name) else name
+        )
+        # if re.match(match, name):
+        #     parse_obj['condition'][-1]['pattern'].append(literal_eval(name))
+        # else:
+        #     parse_obj['condition'][-1]['pattern'].append(name)
 
-# x = parse("pass[elementary] = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'possession'} as @1 : @0.player.team == @1.player.team then push('elementary', {'type': 'pass', 'from': @0, 'to': @1})")
-# print(x)
+
+x = parse("unpack[stdin] = @0 as ? : True then spacchettpush('elementary', @0)")
+
+print(x)
