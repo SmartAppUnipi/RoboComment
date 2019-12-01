@@ -3,6 +3,7 @@ from game_model.interpreter.rts import check, fire
 from game_model.game_model import GameModel
 import types
 from collections import deque    #Used by action
+import pdb
 
 '''
 This method picks a rule with the following structure:
@@ -22,11 +23,10 @@ def rule_matcher(condition, action, constraints):
         raise TypeError
     stacks = GameModel.get_env()['stacks'] 
     registers = GameModel.get_env()['registers']
-    print("WUIRPFIEBHBHPUGOQBVAU", condition)
     if boolean_matcher(condition, stacks, registers):
-        print("========================================", condition)
         if check(constraints):
             fire(action)
+            GameModel.clean_reg()
             return True
     return False
     # Probably return value is not needed since action is performed here

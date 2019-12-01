@@ -16,6 +16,11 @@ class GameModel:
             'rules': U._rules
         }
 
+    @staticmethod
+    def clean_reg():
+        """returns stacks, registers and rules"""
+        U._registers = {}
+
     def __init__(self):
         """Initializes the game model by parsing the rule file"""
         # some important app wise variables

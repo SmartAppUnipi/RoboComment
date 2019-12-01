@@ -1,5 +1,6 @@
-from game_model.interpreter.matcher import match
+from game_model.interpreter.matcher import match as gen_match
 import re
+import pdb
 
 '''
 This method picks a pattern (regex) and a stack and matches the pattern on the stack.
@@ -22,7 +23,6 @@ def regex_matcher(regex, stack, registers):
     # TODO empty regex always/never match?
     if len(regex) < 1:
         return True
-
     pred_reg = None
     pred_stack = None
     reg_iter = enumerate(regex)
@@ -36,13 +36,15 @@ def regex_matcher(regex, stack, registers):
                     return False
                 registers[reg_el] = stack[stack_index-1]
                 try:
-                    consume(reg_iter)
+                    reg_index, reg_el = consume(reg_iter)
                 except:
                     #TODO CHECK
                     return True
-
+                if not isinstance(reg_el, str):
+                    break
+        if type(reg_el) is str:
             # Any singleton value is ok, iterate
-            if match(reg_el, _any):
+            if gen_match(reg_el, _any):
                 continue
             
             # Case '.' or '.{num, num}'
@@ -58,7 +60,7 @@ def regex_matcher(regex, stack, registers):
                     lower = int(corpus[0])
                     upper = int(corpus[1])
 
-            if match(special, _anyseq):
+            if gen_match(special, _anyseq):
                 # Check next element of regex, look-ahead
                 try:
                     reg_index, reg_el = consume(reg_iter)
@@ -68,7 +70,7 @@ def regex_matcher(regex, stack, registers):
                     
                 if corpus is None:    
                     # Match any element in stack until I match next
-                    while not match(stack_el, reg_el):
+                    while not gen_match(stack_el, reg_el):
                         try:
                             stack_index, stack_el = consume(stack_iter)
                         except StopIteration:
@@ -107,7 +109,7 @@ def regex_matcher(regex, stack, registers):
                         count+=1
                     '''
                     '''Starting with timestamps'''
-                    while not match(stack_el, reg_el):
+                    while not gen_match(stack_el, reg_el):
                         #Consume elements until I match or until I am too far
                         try:
                             stack_index,stack_el = consume(stack_iter)
@@ -135,7 +137,7 @@ def regex_matcher(regex, stack, registers):
                 # Matched first, any bounded or unbounded sequence, second
                 continue    
 
-            if match(reg_el, _kleene) and pred_reg is None:
+            if gen_match(reg_el, _kleene) and pred_reg is None:
                 raise Exception('Regex starting with kleene')
 
             '''#TODO Incomplete
@@ -147,7 +149,7 @@ def regex_matcher(regex, stack, registers):
                         continue
             '''
 
-        if not match(stack_el, reg_el):
+        if not gen_match(stack_el, reg_el):
             # One element did not match
             return False
 
