@@ -1,23 +1,16 @@
 import flask
 from json_validator import Validator
 import json
-import requests
-from time import sleep, time
-from flask import render_template, jsonify, request
+from flask import render_template, jsonify, request, Flask
 from map2d import *
 from flask_socketio import SocketIO, emit
 import pprint
-import threading
 import os
-import random
-from dummy_map import *
-import copy
-from sched import scheduler
 from game_model.game_model import GameModel, U
 from game_model.interpreter.set_rule_matcher import set_rule_matcher
 
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 socketio = SocketIO(app)
 
 # DIMENSIONI IN METRI DEL CAMPO...
@@ -67,15 +60,15 @@ def new_positions():
     set_rule_matcher()
 
 
-    with open('positions.out', 'a+') as dump_file:
+    with open('game_log.out', 'a+') as dump_file:
         string = json.dumps(data, separators=(',', ':'))
         dump_file.write(string+"\n")
     return ""
 
 
 if __name__ == '__main__':
-    if os.path.exists("positions.out"):
-        os.remove("positions.out")
+    if os.path.exists("game_log.out"):
+        os.remove("game_log.out")
 
     print("app is running, open localhost:3001/debug to display the map")
     socketio.run(app, host='0.0.0.0',

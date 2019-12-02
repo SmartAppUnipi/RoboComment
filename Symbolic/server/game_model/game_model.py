@@ -1,6 +1,5 @@
 from collections import deque
 from game_model.parser import parser
-import game_model.rules.support_methods as support
 import requests
 import re
 import json

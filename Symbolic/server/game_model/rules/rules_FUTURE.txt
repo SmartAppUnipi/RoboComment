@@ -14,7 +14,3 @@ tikiTaka        = possession as @0 -> possession as @1 -> possession as @2 -> po
 parkTheBus      = tikiTaka as @0 -> tikiTaka as @0 : @0.team == #inFrontOfTheBall
 longBall        = cross as @0 -> .{0,4} -> cross as @1 : @0.player.team != @1.player.team
 pressing        = interception @0 : @0 == #homehalf
-
-shot[elementary] = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'ball'} as @1 :
-    homehalf(@0['position']) & in_target[@1['position]] then
-    push(['elementary', 'stdout'], {'type':'shot', 'player': @0})

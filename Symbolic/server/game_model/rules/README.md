@@ -10,7 +10,7 @@
 
 * `.{0,N}` 
   
-  Any subsequences from 0 to N
+  Any subsequences occurring in the time span of 0 to n seconds
   
 * `?`
   
@@ -36,32 +36,11 @@
   
   Equal
 
-* `___fx` 
-  
-  Internal functions
-
-* `A in B` 
-  
-  Means that object A is within B
-
-* `#var` 
-  
-  Used to refer to system variables
-
-* `&` 
-  
-  AND operator
-
-* `|` 
-  
-  OR operator
-
 
 # Pragmatic
 
-* `rule as @object`  
-    > possession as @1
+* `placeholder as pattern`  
+    > @1 as {...} 
 
-
-* `"rule_name" = rule(object)`
-    > longBall = cross(t1) -> possession(p1)* -> cros(t1) : p1.team == t1
+# Ideas for rules 
+    <https://blog.pitchero.com/soccer-tactics-explained>
