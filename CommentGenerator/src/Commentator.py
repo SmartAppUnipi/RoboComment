@@ -2,6 +2,7 @@
 from .Filler import Filler
 from .Sentimentalizer import Sentimentalizer
 from .Picker_grammar import Picker
+from .Adapter import Adapter
 import json
 
 class Commentator:
@@ -19,7 +20,7 @@ class Commentator:
         
         ''' Extract the time where the json is occurred and match and update the resulting template'''
 
-        jsonobj = self.adapter(jsonobj)
+        jsonobj = self.adapter.adapt(jsonobj)
 
         user_id = jsonobj['user_id']
 
