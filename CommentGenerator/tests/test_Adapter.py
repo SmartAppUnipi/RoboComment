@@ -26,7 +26,8 @@ class TestFiller(unittest.TestCase):
                 "team2": 42
             }
         }
-        json_expected = json.dumps(json_expected, sort_keys=False)
+        # Todo compare json in a unordered way
+        #json_expected = json.dumps(json_expected, sort_keys=True)
 
         assert jsonobj == json_expected
 
