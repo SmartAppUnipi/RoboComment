@@ -57,6 +57,7 @@ def regex_matcher(regex, stack, registers):
                     special = first_split[0]
                     #Remove '}' and split on ','
                     corpus = first_split[1].split('}')[0].split(',')
+                    # Lower and upper are seconds
                     lower = int(corpus[0])
                     upper = int(corpus[1])
 
@@ -92,10 +93,10 @@ def regex_matcher(regex, stack, registers):
                                 # Stack finished, next element not matched
                                 return False
 
-                            if abs(stack_el['time']-start_time) >= lower*1000:
+                            if abs(stack_el['time']-start_time) >= lower:
                                 # Reached lower bound for elapsed time
                                 break
-                    if abs(stack_el['time']-start_time) > upper*1000:
+                    if abs(stack_el['time']-start_time) > upper:
                         # Surpassed upper bound for time elapsed
                         return False
                     '''
@@ -117,7 +118,7 @@ def regex_matcher(regex, stack, registers):
                             # Stack finished, next element not matched
                             return False
 
-                        if abs(stack_el['time']-start_time) > upper*1000:
+                        if abs(stack_el['time']-start_time) > upper:
                             # Surpassed upper bound for time elapsed
                             return False
                     '''

@@ -167,23 +167,23 @@ def test_regex_match_any_seq_bounded_upper():
     stack = [
         {
             'first': 'elem',
-            'time': 20000
+            'time': 20
         },
         {
             'second': 'skip',
-            'time': 20001
+            'time': 20.01
         },
         {
             'secondhalf': 'skipagain',
-            'time': 21000
+            'time': 21
         },
         {
             'second3quarter': 'tripleskip',
-            'time': 22000
+            'time': 22
         },
         {
             'last': 'newelem',
-            'time': 23000
+            'time': 23
         }
     ]
     
@@ -206,15 +206,15 @@ def test_regex_match_any_seq_bounded_lower():
         },
         {
             'second': 'skip',
-            'time': 1000
+            'time': 1
         },
         {
             'secondhalf': 'skipagain',
-            'time': 1500
+            'time': 1.5
         },
         {
             'last': 'newelem',
-            'time': 2000
+            'time': 2
         }
     ]
     
@@ -237,11 +237,11 @@ def test_regex_match_any_seq_bounded_short():
         },
         {
             'second': 'skip',
-            'time': 1000
+            'time': 1
         },
         {
             'last': 'newelem',
-            'time': 1500
+            'time': 1.5
         }
     ]
     
@@ -260,27 +260,27 @@ def test_regex_match_any_seq_bounded_long():
     stack = [
         {
             'first': 'elem',
-            'time': 1000
+            'time': 1
         },
         {
             'second': 'skip',
-            'time': 1001
+            'time': 1.01
         },
         {
             'secondhalf': 'skipagain',
-            'time': 1002
+            'time': 1.02
         },
         {
             'secondhalfhalf': 'skipagain',
-            'time' : 1003
+            'time' : 1.03
         },
         {
             'second3quarter': 'tripleskip',
-            'time': 1004
+            'time': 1.04
         },
         {
             'last': 'newelem',
-            'time': 7000
+            'time': 7
         }
     ]
     
@@ -327,11 +327,11 @@ def test_regex_match_any_seq_bounded_zero_one():
         },
         {
             'second': 'here',
-            'time': 1000
+            'time': 1
         },
         {
             'last': 'newelem',
-            'time': 2000
+            'time': 2
         }
     ]
     
