@@ -242,9 +242,14 @@ function handleClientMessage(body, connection) {
                 if(DEBUGERR){
                     console.log(err);
                 }
-                response = set_response("user_login",JSON.stringify(err.response.data), 400);
-                console.log("User Login: Status NOT_OK and Sending to Client: "+err.response.data);
-                connection.send(response)
+                if (err.response) {
+                    response = set_response("user_login", JSON.stringify(err.response.data), 400);
+                    console.log("User Login: Status NOT_OK and Sending to Client: " + err.response.data);
+                    connection.send(response)
+                }
+                else {
+                    console.log(err);
+                }
             })
     }
 
@@ -263,11 +268,16 @@ function handleClientMessage(body, connection) {
             })
             .catch((err) => {
                 if(DEBUGERR){
-                    console.log(err);
+                    console.log(err)
                 }
-                response = set_response("user_registration",JSON.stringify(err.response.data), 400);
-                console.log("User Registration: Status NOT_OK and Sending to Client. "+err.response.data.error);
-                connection.send(response);
+                if (err.response) {
+                    response = set_response("user_registration", JSON.stringify(err.response.data), 400);
+                    console.log("User Registration: Status NOT_OK and Sending to Client. " + err.response.data.error);
+                    connection.send(response);
+                }
+                else {
+                    console.log(err)
+                }
             })
     }
 
@@ -288,9 +298,13 @@ function handleClientMessage(body, connection) {
                 if(DEBUGERR){
                     console.log(err);
                 }
-                response = set_response("user_update",JSON.stringify(err.response.data), 400);
-                console.log("User Update: Status NOT_OK and Sending to Client");
-                connection.send(response);
+                if (err.response) {
+                    response = set_response("user_update", JSON.stringify(err.response.data), 400);
+                    console.log("User Update: Status NOT_OK and Sending to Client");
+                    connection.send(response);
+                }
+                else
+                    console.log(err)
             })
     }
 
@@ -335,9 +349,13 @@ function handleClientMessage(body, connection) {
                 if (DEBUGERR){
                     console.log(err);
                 }
-                console.log("Catch: Match information not found. " + err.response.data);
-                response = set_response("get_infoMatch", JSON.stringify(err.response.data), 400);
-                connection.send(response);
+                if (err.response) {
+                    console.log("Catch: Match information not found. " + err.response.data);
+                    response = set_response("get_infoMatch", JSON.stringify(err.response.data), 400);
+                    connection.send(response);
+                }
+                else
+                    console.log(err)
             })
     }
 
