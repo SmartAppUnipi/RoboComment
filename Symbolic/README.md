@@ -9,13 +9,13 @@
 ## Run our module
     
     $ cd Symbolic/server
-    $ pip3 install -r requirements.txt
+    $ pip3 install -r ../requirements.txt
     $ python3 app.py
 
 ## Run our tests
 
     $ cd Symbolic/server
-    $ pip3 install -r requirements.txt
+    $ pip3 install -r ../requirements.txt
     $ python3 -m pytest
 
 ## APIs
