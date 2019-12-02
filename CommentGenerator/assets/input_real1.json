@@ -17,8 +17,7 @@
       "id": {
         "value": 10,
         "confidence": 0.5
-      },
-      "team": 42
+      }
     },
     "position": {
       "x": 42,

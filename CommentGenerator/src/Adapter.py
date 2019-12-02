@@ -14,28 +14,34 @@ class Adapter:
         }
 
     def adapt(self, jsonobj):
+        """
+        Transform the input json in a format recognized by our module
+        :param jsonobj:
+        :return:
+        """
         for key, values in jsonobj.items():
             new_json = {}
             new_json["user_id"] = values["user_id"]
             new_json["time"] = values["time"]
             new_json["type"] = "elementary"
-            # TODO CHECK INSERTION
-            new_json["details"] = {
-                "player1" : values["player_active"]["id"]["value"],
-                "team1": values["player_active"]["team"],
-                "player2" : values["player_passive"]["id"]["value"],
-                "team2": values["player_passive"]["team"],
-                "subtype" : values["type"],
-                # field zone for now not taken, they pass a relative position
-                #"field_zone" : values["position"]
-            }
+            new_json["details"] = {}
+
+            if "player_active" in values and "id" in values["player_active"] and "value" in values["player_active"]["id"]:
+                new_json["details"]["player1"] = values["player_active"]["id"]["value"]
+            if "player_passive" in values and "id" in values["player_passive"] and "value" in values["player_passive"]["id"]:
+                new_json["details"]["player2"] = values["player_passive"]["id"]["value"]
+            if "player_active" in values and "team" in values["player_active"]:
+                new_json["details"]["team1"] = values["player_active"]["team"]
+            if "player_passive" in values and "team" in values["player_passive"]:
+                new_json["details"]["team2"] = values["player_passive"]["team"]
+            if "type" in values:
+                new_json["details"]["subtype"] = values["type"]
 
         return new_json
 
 
 if __name__ == '__main__':
     adapter = Adapter()
-
 
     with open("CommentGenerator/assets/input_real1.json", 'r') as input1_json:
         input_json = json.load(input1_json)
