@@ -28,5 +28,6 @@ def rule_matcher(condition, action, constraints):
             fire(action)
             GameModel.clean_reg()
             return True
+    GameModel.clean_reg()
     return False
     # Probably return value is not needed since action is performed here

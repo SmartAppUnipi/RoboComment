@@ -166,6 +166,6 @@ def regex_matcher(regex, stack, registers):
         # If it is a save do it, otherwise go on
         if isinstance(reg_el, str):
             if re.match('@[0-9]+', reg_el):
-                registers[reg_el] = stack[stack_index-1]
+                registers[reg_el] = stack[-1]
     # Regex finished, everything matched
     return True
