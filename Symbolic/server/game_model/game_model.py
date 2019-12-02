@@ -63,7 +63,11 @@ class GameModel:
         for e in to_send:
             jsn = e
             jsn['user_id'] = self._user_id
-            requests.post(self._cg_url, json=jsn)
+            print("sending to CommentGeneration: ", to_send)
+            try:
+                x = requests.post(self._cg_url, json=jsn, timeout=0.1)
+            except requests.Timeout:
+                print("Unable to write to CommentGeneration: Timeout")
 
     def _get_rules_strings(self, filename):
         """Parse the rules file and build an array or rules strings

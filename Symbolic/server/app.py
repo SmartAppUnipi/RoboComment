@@ -58,6 +58,7 @@ def new_positions():
     map._update_position(data)
     U.new_positions(data)
     set_rule_matcher()
+    U.to_comment_generation()
 
 
     with open('game_log.out', 'a+') as dump_file:
