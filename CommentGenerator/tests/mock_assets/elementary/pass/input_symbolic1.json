@@ -1,16 +1,24 @@
 {
-    "user_id" : 42,
-    "time" :
-    {
-        "start": 10,
-        "end": 20
+  "PASSAGGIO": {
+    "type": "pass",
+    "user_id": 10,
+    "time": {
+      "start": 10,
+      "end": 20
     },
-    "type": "elementary",
-
-    "details":
-    {
-        "player1": 7,
-        "subtype"  : "pass",
-        "confidence" : 0.4
+    "player_active": {
+      "id": {
+        "value": 10,
+        "confidence": 0.5
+      },
+      "team": 42
+    },
+    "player_passive": {
+      "id": {
+        "value": 10,
+        "confidence": 0.5
+      },
+      "team": 42
     }
+  }
 }
