@@ -3,15 +3,17 @@ unpack[stdin] = @0 as ? : True then spacchettpush('positions', @0)
 closest[stdin] = @0 as ? : True then push_closest('positions', @0)
 
 possession[positions] = @0 as {'type': 'ball'} -> .{0,1} -> @1 as {'type': 'closest'} : 
-    @1['time'] == @0['time'] and distance(@0['position'], @1['position']) < 1.5 then
-    push(['elementary', 'stdout'], {'type':'possession', 'time': @0['time'],
-    'player': {'id': @1['id'], 'team': @1['team']}, 'position': @0['position']})
+    @1['time'] == @0['time'] and distance(@0['position'], @1['position']) < 0.9 then
+    push(['elementary', 'stdout'], {'type':'possession', 'time': @0['time'], 'start_time': @0['time'], 
+    'player': {'id': @1['id'], 'team': @1['team']}, 'position': @0['position'], 'end_time': @0['time']})
 
 pass[elementary]  = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} : 
     @0['player']['team'] == @1['player']['team'] and @0['player']['id']['value'] !=
     @1['player']['id']['value'] then push(['elementary', 'stdout'], {'type': 'pass', 
-    'passer': @0['player'], 'receiver': @1['player'], 'time': @1['time']})
+    'player_active': @0['player'], 'player_passive': @1['player'], 'time': @1['time'], '
+    start_time': @0['time'], 'end_time': @1['time']})
 
 intercept[elementary]  = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} : 
     @0['player']['team'] != @1['player']['team'] then push(['elementary', 'stdout'], 
-    {'type': 'intercept', 'ball_loser': @0['player'], 'intercepter': @1['player'], 'time': @1['time']})
+    {'type': 'intercept', 'player_passive': @0['player'], 'player_active': @1['player'], 
+    'time': @1['time'], 'start_time': @0['time'], 'end_time': @1['time']})

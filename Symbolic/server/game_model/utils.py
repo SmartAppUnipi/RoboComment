@@ -139,7 +139,7 @@ def simulate_passage():
             }
         }
     )
-    pass_time += 1
+    pass_time += 0.05
 
     if pass_ball_y < 30 and direction == 'down':
         pass_ball_y += 1
