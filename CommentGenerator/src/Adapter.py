@@ -10,7 +10,7 @@ class Adapter:
                      "end": -1
                      },
             "type": "elementary",
-            "details":[]
+            "details": {}
         }
 
     def adapt(self, jsonobj):
@@ -19,6 +19,7 @@ class Adapter:
             new_json["user_id"] = values["user_id"]
             new_json["time"] = values["time"]
             new_json["type"] = "elementary"
+            # TODO CHECK INSERTION
             new_json["details"] = {
                 "player1" : values["player_active"]["id"]["value"],
                 "team1": values["player_active"]["team"],
