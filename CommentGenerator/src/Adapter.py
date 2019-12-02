@@ -1,5 +1,11 @@
 import json
 
+try:
+    from .Filler import Filler
+    from .Picker_grammar import Picker
+except Exception:
+    from Filler import Filler
+    from Picker_grammar import Picker
 
 class Adapter:
     def __init__(self):
