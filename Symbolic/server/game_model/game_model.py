@@ -58,14 +58,14 @@ class GameModel:
         """This method sends all the retrieved events to comment generation"""
         # get the whole stdout output
         to_send = list(self._stacks['stdout'])
-        # clear the stdout for next iteration
-        self._stacks['stdout'].clear()
         for e in to_send:
             jsn = e
             jsn['user_id'] = self._user_id
             print("sending to CommentGeneration: ", to_send)
             try:
                 x = requests.post(self._cg_url, json=jsn, timeout=0.1)
+                # clear the stdout for next iteration
+                self._stacks['stdout'].clear()
             except requests.Timeout:
                 print("Unable to write to CommentGeneration: Timeout")
 
