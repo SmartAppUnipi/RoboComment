@@ -15,12 +15,12 @@ class TemplateGenerator:
     def __init__(self):
         self.leaf = {
             "Active_player": {
-                "empty": ["A {player_modifier} player"],
-                "no_empty": ["A {player_modifier} player", "A player"]
+                "empty": ["A {player_modifier} player", "look at the player"],
+                "no_empty": ["A {player_modifier} player", "A player", "look at {p}"]
             },
             "Passive_player": {
                 "empty": ["A {player_modifier} player"],
-                "no_empty": ["{player_modifier} {p}", "therefore {player_modifier} {p}"]
+                "no_empty": ["{player_modifier} {p}", "therefore {player_modifier} {p}", "therefore, {p}"]
             },
             "Receiver_player":{
                 "empty": ["towards a player"],
