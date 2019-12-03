@@ -42,6 +42,10 @@ class Adapter:
         if "player_passive" in json_keys:
             new_json["details"]["player2"] = jsonobj["player_passive"]["id"]["value"]
             new_json["details"]["team2"] = jsonobj["player_passive"]["team"]
+        else:
+            #TODO check this better
+            # if there is no passive player we may assume the action is betwwen players of the same team
+            new_json["details"]["team2"] = jsonobj["player_active"]["team"]
 
         if "type" in json_keys:
             new_json["details"]["subtype"] = jsonobj["type"]

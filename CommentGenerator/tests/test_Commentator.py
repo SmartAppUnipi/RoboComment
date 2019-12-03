@@ -36,4 +36,12 @@ class TestApi(unittest.TestCase):
 
         print(output['comment'])
     
+    def test_run4(self): 
+        with open('CommentGenerator/tests/mock_assets/elementary/pass/input_symbolic1.json', 'r') as json_file:
+            input_json = json.load(json_file)
+        
+        output = self.commentator.run(input_json)
+
+        print(output['comment'])
+    
 
