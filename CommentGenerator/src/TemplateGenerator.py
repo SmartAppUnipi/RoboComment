@@ -40,7 +40,7 @@ class TemplateGenerator:
                 "no_empty": ["receives a {simple_modifier} {p}", "obtain {simple_modifier} {p}"]
             },
             "Team_player":{
-                "no_empty": ["playing in {p}", "a {team_modifier} {p} player", ""]
+                "no_empty": ["playing in {p}", "a {team_modifier} {p} ", ""]
             },
             "Team_receiver":{
                 "no_empty": ["playing in {p}", "a {team_modifier} {p} player", ""]
