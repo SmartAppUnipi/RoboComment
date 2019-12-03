@@ -8,13 +8,13 @@
         "value": 42,
         "confidence": 0.5
       },
-      "team": 42
+      "team": {"value" : 42}
     },
     "player_passive": {
       "id": {
         "value": 7,
         "confidence": 0.5
       },
-      "team": 42
+      "team": {"value" : 42}
     }
 }
