@@ -1,0 +1,39 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "semicolon": {
+      "options": ["never"],
+      "severity": "error"
+    },
+    "member-ordering": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "quotemark": [true, "single"],
+    "class-name": true,
+    "curly": true,
+    "eofline": true,
+    "interface-name": false,
+    "no-trailing-whitespace": true,
+    "no-duplicate-imports": true,
+    "trailing-comma": true,
+    "no-unused-variable": true,
+    "no-console": false,
+    "interface-over-type-literal": false,
+    "arrow-parens": false,
+    "no-shadowed-variable": false,
+    "variable-name": {
+      "options": [
+        "allow-leading-underscore",
+        "allow-snake-case",
+        "allow-pascal-case"
+      ], 
+      "severity": "error"
+    }
+  },
+  "linterOptions": {
+    "exclude": [
+      "./node_modules/**",
+      "./src/db/ontologies.ts"
+    ]
+  }
+}

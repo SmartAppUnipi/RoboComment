@@ -41,7 +41,6 @@ def stacks():
 def welcome():
     return "Symbolic Level"
 
-
 @app.route('/positions', methods=['POST'])
 def new_positions():
     global map
@@ -60,12 +59,10 @@ def new_positions():
     set_rule_matcher()
     U.to_comment_generation()
 
-
     with open('game_log.out', 'a+') as dump_file:
         string = json.dumps(data, separators=(',', ':'))
         dump_file.write(string+"\n")
     return ""
-
 
 if __name__ == '__main__':
     if os.path.exists("game_log.out"):
