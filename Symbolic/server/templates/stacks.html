@@ -11,25 +11,27 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-    <div class="container-fluid">
+<body style="margin:8px">
+    <div class="container-fluid bg-light">
         <div class="row">
             {% for key, value in data.items() %}
             <div class="col">
-                <h2> {{ key }} </h2>
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h2> {{ key }} </h2>
+                    </div>
+                </div>
                 <div>
                     {% for v in value %}
-                    {% for x,y in v.items() %}
-
-                    <p> 
-                        <!--{% if "time" in x or "type" in x %}-->
-                            {{ x }} : {{ y }} 
-                        <!--{% endif %}-->
-                    </p>
+                    <div class="card">
+                        <div class="card-body">
+                            {% for x,y in v.items() %}
+                            <p>{{ x }} : {{ y }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <br>
                     {% endfor %}
-                    <hr>
-                    {% endfor %}
-                    
                 </div>
             </div>
             {% endfor %}

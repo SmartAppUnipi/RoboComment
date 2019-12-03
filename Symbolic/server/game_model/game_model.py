@@ -61,7 +61,6 @@ class GameModel:
         for e in to_send:
             jsn = e
             jsn['user_id'] = self._user_id
-            print("sending to CommentGeneration: ", to_send)
             try:
                 x = requests.post(self._cg_url, json=jsn, timeout=0.1)
                 # clear the stdout for next iteration
