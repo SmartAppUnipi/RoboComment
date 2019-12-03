@@ -25,35 +25,26 @@ class Adapter:
         :param jsonobj:
         :return:
         """
-        for key, values in jsonobj.items():
-            new_json = {}
-            new_json["user_id"] = values["user_id"]
-            new_json["time"] = values["time"]
-            new_json["type"] = "elementary"
-            new_json["details"] = {}
+        new_json = {}
+        new_json["user_id"] = jsonobj["user_id"]
 
-            if "player_active" in values and "id" in values["player_active"] and "value" in values["player_active"]["id"]:
-                new_json["details"]["player1"] = values["player_active"]["id"]["value"]
-            if "player_passive" in values and "id" in values["player_passive"] and "value" in values["player_passive"]["id"]:
-                new_json["details"]["player2"] = values["player_passive"]["id"]["value"]
-            if "player_active" in values and "team" in values["player_active"]:
-                new_json["details"]["team1"] = values["player_active"]["team"]
-            if "player_passive" in values and "team" in values["player_passive"]:
-                new_json["details"]["team2"] = values["player_passive"]["team"]
-            if "type" in values:
-                new_json["details"]["subtype"] = values["type"]
+        new_json["time"] = {}
+        new_json["time"]["start"] = jsonobj["start_time"]
+        new_json["time"]["end"] = jsonobj["end_time"]
+
+        new_json["type"] = "elementary"
+        new_json["details"] = {}
+
+        json_keys = jsonobj.keys()
+        if "player_active" in json_keys:
+            new_json["details"]["player1"] = jsonobj["player_active"]["id"]["value"]
+            new_json["details"]["team1"] = jsonobj["player_active"]["team"]
+        if "player_passive" in json_keys:
+            new_json["details"]["player2"] = jsonobj["player_passive"]["id"]["value"]
+            new_json["details"]["team2"] = jsonobj["player_passive"]["team"]
+
+        if "type" in json_keys:
+            new_json["details"]["subtype"] = jsonobj["type"]
 
         return new_json
 
-
-if __name__ == '__main__':
-    adapter = Adapter()
-
-    with open("CommentGenerator/assets/input_real1.json", 'r') as input1_json:
-        input_json = json.load(input1_json)
-        print("INPUT:", input_json)
-        jsonobj = adapter.adapt(input_json)
-        print("\nFINAL comment:", jsonobj)
-
-    # TODO idea, use a model to rephrase the comment to obtain human readable and grammar spell checks
-    # check python paraphrase sentence and evaluate if split correction to paraphrase

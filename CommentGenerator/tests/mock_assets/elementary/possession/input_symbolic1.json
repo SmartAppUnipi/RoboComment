@@ -1,14 +1,12 @@
 {
-  "POSSESSO": {
+ 
     "type": "possession",
     "user_id": 10,
-    "time": {
-      "start": 10,
-      "end": 20
-    },
+    "start_time": 10,
+    "end_time" : 20,
     "player_active": {
       "id": {
-        "value": 10,
+        "value": 42,
         "confidence": 0.5
       },
       "team": 42
@@ -17,5 +15,5 @@
       "x": 42,
       "y": 42
     }
-  }
+  
 }
