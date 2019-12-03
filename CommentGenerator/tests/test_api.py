@@ -4,7 +4,10 @@ import json
 import requests_mock
 from utils.KnowledgeBase import KnowledgeBase
 
-player1 = { "id" : 42,  "name" : "Ruicosta" }
+assets = "CommentGenerator/tests/mock_assets/elementary/"
+
+player1 = { "id" : 42,  "name" : "Koulibaly" }
+player3 = { "id" : 41,  "name" : "Di Lorenzo" }
 player2 = { "id" : 7, "name" : "Ronaldo" }
 
 team1 = { "id" : 42, "name" : "Napoli" }
@@ -23,11 +26,14 @@ class TestApi(unittest.TestCase):
     
 
     def _mock_requests(self,mock):
-        mock.get(self.KB_URL + KnowledgeBase.PLAYER+ "/42", status_code=404)
-        mock.get(self.KB_URL + KnowledgeBase.PLAYER + "/7", status_code=404)
+        mock.get(self.KB_URL + KnowledgeBase.PLAYER+ "/42", text=json.dumps(player1),  status_code=200)
+        mock.get(self.KB_URL + KnowledgeBase.PLAYER+ "/41", text=json.dumps(player3),  status_code=200)
+        mock.get(self.KB_URL + KnowledgeBase.PLAYER + "/7", text=json.dumps(player2), status_code=200)
         mock.get(self.KB_URL + KnowledgeBase.TEAM + "/42", text=json.dumps(team1), status_code=200)
         mock.get(self.KB_URL + KnowledgeBase.TEAM + "/7", text=json.dumps(team2), status_code=200)
-        mock.get(self.KB_URL + KnowledgeBase.USER + "/10", status_code=404)
+        mock.get(self.KB_URL + KnowledgeBase.USER + "/10", text=json.dumps(user1), status_code=200)
+
+        mock.post(self.AUDIO_URL, status_code=200)
 
     def test_running_server(self):
         response = self.client.get("/api")
@@ -37,11 +43,12 @@ class TestApi(unittest.TestCase):
     def test_api_action1(self):
         ''' testing a basic flow of our application'''
 
-        with open('CommentGenerator/tests/mock_assets/elementary/possession/input_symbolic1.json', 'r') as json_file:
+        with open(assets + 'possession/input_symbolic1.json', 'r') as json_file:
             input_json = json.load(json_file)
 
         with requests_mock.mock() as mock_request:
             self._mock_requests(mock_request)
+            print()
             res = self.client.post("/api/action", data=json.dumps(input_json))
 
         assert res.status_code == 200
@@ -49,11 +56,12 @@ class TestApi(unittest.TestCase):
     def test_api_action2(self):
         ''' testing a basic flow of our application'''
 
-        with open('CommentGenerator/tests/mock_assets/elementary/pass/input_symbolic1.json', 'r') as json_file:
+        with open(assets + 'pass/input_symbolic1.json', 'r') as json_file:
             input_json = json.load(json_file)
 
         with requests_mock.mock() as mock_request:
             self._mock_requests(mock_request)
+            print()
             res = self.client.post("/api/action", data=json.dumps(input_json))
 
         assert res.status_code == 200
@@ -61,11 +69,12 @@ class TestApi(unittest.TestCase):
     def test_api_action3(self):
         ''' testing a basic flow of our application'''
 
-        with open('CommentGenerator/tests/mock_assets/elementary/intercept/input_symbolic1.json', 'r') as json_file:
+        with open(assets + 'intercept/input_symbolic1.json', 'r') as json_file:
             input_json = json.load(json_file)
 
         with requests_mock.mock() as mock_request:
             self._mock_requests(mock_request)
+            print()
             res = self.client.post("/api/action", data=json.dumps(input_json))
 
         assert res.status_code == 200
