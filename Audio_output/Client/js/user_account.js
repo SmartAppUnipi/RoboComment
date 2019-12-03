@@ -6,75 +6,46 @@ let r_password      = document.getElementById("password");
 let date            = document.getElementById("date");
 let r_email         = document.getElementById("email");
 let favoriteteam    = document.getElementById("favoriteteam");
-const  DEBUG        = false;
 
 function createUser() {
 
-    if (!DEBUG){
-        if((check(r_email) && check(r_password) && check(firstname)
-            && check(lastname) && check(date) && check(favoriteteam))) {
+    if((check(r_email) && check(r_password) && check(firstname)
+        && check(lastname) && check(date) && check(favoriteteam))) {
 
-            showSnack("Send registration");
+        showSnack("Send registration");
 
-            ws.send("{\n" +
-                "    \"request\": {\n" +
-                "       \"user\": {\n" +
-                "           \"first_name\": \"" + firstname.value + "\",\n" +
-                "           \"last_name\": \"" + lastname.value + "\",\n" +
-                "           \"date_of_birth\": \"" + date.value + "\",\n" +
-                "           \"email\": \"" + email.value + "\",\n" +
-                "           \"password\": \"" + password.value + "\",\n" +
-                "           \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
-                "       }\n" +
-                "    },\n" +
-                "    \"request_type\": \"user_registration\"\n" +
-                "}");
-            console.log("Send registration request")
-        }
-    // }else{
-    //     showSnack();
-    //
-    //     ws.send("{\n" +
-    //         "    \"request\": {\n" +
-    //         "        \"first_name\": \"" + firstname.value + "\",\n" +
-    //         "        \"last_name\": \"" + lastname.value + "\",\n" +
-    //         "        \"date_of_birth\": \"" + date.value + "\",\n" +
-    //         "        \"email\": \"" + email.value + "\",\n" +
-    //         "        \"password\": \"" + password.value + "\",\n" +
-    //         "        \"favourite_team\": \"" + favoriteteam.value + "\"\n" +
-    //         "    },\n" +
-    //         "    \"request_type\": \"user_registration\"\n" +
-    //         "}");
-    //     console.log("Send registration request")
-    // }
+        ws.send(JSON.stringify({
+            request_type: "user_registration",
+            request: {
+                user: {
+                    first_name: firstname.value,
+                    last_name: lastname.value,
+                    date_of_birth: date.value,
+                    email: email.value,
+                    password: password.value,
+                    favourite_team: favoriteteam.value
+                }
+            }
+        }));
+        console.log("Send registration request")
     }
 }
 
 function loginUser() {
-    if (check(email) && check(password)){
-        ws.send("{\n" +
-            "    \"request\": {\n" +
-            "       \"user\": {\n" +
-            "           \"email\": \"" + email.value + "\",\n" +
-            "           \"password\": \"" + password.value + "\"\n" +
-            "       }\n" +
-            "    },\n" +
-            "    \"request_type\": \"user_login\"\n" +
-            "}");
+    if (check(email) && check(password)) {
+        ws.send(JSON.stringify({
+            request_type: "user_login",
+            request: {
+                user: {
+                    email: email.value,
+                    password: password.value
+                }
+            }
+        }));
 
         console.log("Send login request")
     }
 }
-
-// function userHelloOld() {
-//     ws.send("{\n" +
-//         "    \"request\": \"New connection\",\n" +
-//         "    \"request_type\": \"hello\",\n" +
-//         "    \"user_id\": "+ifCookie("userId")+"\n" +
-//         "}");
-//
-//     console.log("Send hello request")
-// }
 
 function userHello() {
     ws.send(JSON.stringify({
@@ -85,29 +56,22 @@ function userHello() {
     console.log("Send hello request")
 }
 
-function userUpdate() {
-    ws.send("{\n" +
-        "    \"request\": {?},\n" +
-        "    \"request_type\": \"user_update\"\n" +
-        "}");
-}
-
 function videoListRequest() {
-    ws.send("{\n" +
-        "    \"request\": \"\",\n" +
-        "    \"request_type\": \"get_videoList\",\n" +
-        "    \"user_id\": "+ifCookie("userId")+"\n" +
-        "}");
+    ws.send(JSON.stringify({
+        request_type: "get_videoList",
+        request: "",
+        user_id: ifCookie("userId")
+    }));
 
     console.log("Send video list request")
 }
 
 function sendInfoVideo(matchInfo) {
-    ws.send("{\n" +
-        "    \"request_type\": \"post_matchID\",\n" +
-        "    \"request\":" + matchInfo + ",\n" +
-        "    \"user_id\": "+ifCookie("userId")+"\n" +
-        "}");
+    ws.send(JSON.stringify({
+        request_type: "post_matchID",
+        request: matchInfo,
+        user_id: ifCookie("userId")
+    }));
 
     console.log("Send hello request")
 }

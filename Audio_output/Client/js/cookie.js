@@ -38,5 +38,5 @@ function ifCookie(field) {
     if (cookie === "")
         return 0;
     else
-        return cookie;
+        return parseInt(cookie);
 }

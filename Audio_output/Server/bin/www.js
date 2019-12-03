@@ -152,12 +152,19 @@ commentApp.post("/", function (req, res) {
 
     res.sendStatus(200);
 
-    if (comment.id!==0){
+    if (comment.id) {
         for(let i=0; i< connections.length; i++) {
             if(comment.id === connections[i].id){
                 connections[i].new_comment = comment;
                 sendComment(connections[i], comment.id);
             }
+        }
+    }
+    else {
+        console.log("No id, broadcast to all");
+        for(let i=0; i< connections.length; i++) {
+            connections[i].new_comment = comment;
+            sendComment(connections[i], 0);
         }
     }
 });
@@ -312,9 +319,9 @@ function handleClientMessage(body, connection) {
 
         console.log("Match_ID arrived, now sending to Video Group");
 
-        console.log(JSON.stringify(message.request));
+        console.log(message.request);
 
-        VideoApp.post(url_video, JSON.stringify(message.request), config )
+        VideoApp.post(url_video, message.request, config )
             .then((result_video)=>{
                 if (result_video.status === 200) {
                     response = set_response("post_matchID","OK", result_video.status);
@@ -363,7 +370,6 @@ function handleClientMessage(body, connection) {
 
     else if(message.request_type === "hello"){
         connections.push(new connectionUser(connection, message.user_id));
-
     }
 
     else if(message.request_type === "get_videoList"){
