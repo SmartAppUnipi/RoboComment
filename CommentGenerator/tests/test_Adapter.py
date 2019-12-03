@@ -29,17 +29,18 @@ class TestFiller(unittest.TestCase):
         # Todo compare json in a unordered way
         #json_expected = json.dumps(json_expected, sort_keys=True)
 
-        assert jsonobj['details']['player1'] == 42
-        assert jsonobj['user_id'] == 10
+        
 
-"""
+
     def test_adapt_possession1(self):
         input1 = None
         with open("CommentGenerator/tests/mock_assets/elementary/possession/input_symbolic1.json", 'r') as mock_json:
             input1 = json.load(mock_json)
         jsonobj = self.adapter.adapt(input1)
 
-        assert jsonobj == "{player1} from {team1} has passed to {player2} in the {field_zone}"
+        assert jsonobj['details']['subtype'] == 'possession'
+        assert jsonobj['user_id'] == 10
+        assert jsonobj["time"]["end"] == 20
 
 
     def test_adapt_intercept1(self):
@@ -48,5 +49,6 @@ class TestFiller(unittest.TestCase):
             input1 = json.load(mock_json)
         jsonobj = self.adapter.adapt(input1)
 
-        assert jsonobj == "{player1} from {team1} has passed to {player2} in the {field_zone}"
-"""
+        assert jsonobj['details']['subtype'] == 'intercept'
+        assert jsonobj['user_id'] == 10
+        assert jsonobj["time"]["start"] == 10

@@ -28,23 +28,7 @@ class TestApi(unittest.TestCase):
 
         print(output['comment'])
     
-    def run3(self): #TODO fix this
-        with open('CommentGenerator/tests/mock_assets/elementary/foul/input1.json', 'r') as json_file:
-            input_json = json.load(json_file)
-        
-        output = self.commentator.run(input_json)
-
-        print(output['comment'])
-    
-    def run4(self): #TODO fix this
-        with open('CommentGenerator/tests/mock_assets/elementary/move/input1.json', 'r') as json_file:
-            input_json = json.load(json_file)
-        
-        output = self.commentator.run(input_json)
-
-        print(output['comment'])
-    
-    def test_run5(self): 
+    def test_run3(self): 
         with open('CommentGenerator/tests/mock_assets/elementary/possession/input_symbolic1.json', 'r') as json_file:
             input_json = json.load(json_file)
         
@@ -52,19 +36,4 @@ class TestApi(unittest.TestCase):
 
         print(output['comment'])
     
-    def run6(self): #TODO fix this
-        with open('CommentGenerator/tests/mock_assets/elementary/possession_lost/input1.json', 'r') as json_file:
-            input_json = json.load(json_file)
-        
-        output = self.commentator.run(input_json)
-
-        print(output['comment'])
-    
-    def run7(self): #TODO fix this
-        with open('CommentGenerator/tests/mock_assets/elementary/shot/input1.json', 'r') as json_file:
-            input_json = json.load(json_file)
-        
-        output = self.commentator.run(input_json)
-
-        print(output['comment'])
 
