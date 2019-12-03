@@ -57,7 +57,10 @@ class Filler:
     def replace_id_with_names(self,details):
         def check_and_replace(key,details, get_from_kb):
             if key in details.keys():
-                details[key] = get_from_kb(details[key])
+                if  details[key] != '{empty}':
+                    details[key] = get_from_kb(details[key])
+                else:
+                    details[key] = ""
             return details
         
         details = check_and_replace('team1', details, self.kb.get_team)

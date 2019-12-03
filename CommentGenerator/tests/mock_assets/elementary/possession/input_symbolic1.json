@@ -9,7 +9,7 @@
         "value": 42,
         "confidence": 0.5
       },
-      "team": 42
+      "team": {"value" : 42}
     },
     "position": {
       "x": 42,
