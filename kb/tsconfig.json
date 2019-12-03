@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs", 
+    "outDir": "dist",
+    "strict": true,
+    "moduleResolution": "node",
+    "baseUrl": "./kb/",                      
+    "typeRoots": [
+      "node_modules/@types"
+    ],                       
+    "types": [
+      "node"
+    ],
+    "esModuleInterop": true, 
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false 
+  },
+
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "config/**/*.ts"
+  ]
+}

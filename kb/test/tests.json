@@ -1,0 +1,854 @@
+{
+	"info": {
+		"_postman_id": "cb1e5381-42ba-41af-b1f1-6c82f2d3ab00",
+		"name": "Smart Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Mario Rossi",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fb35da34-6b03-4cac-821d-a0f19b875dba",
+						"exec": [
+							"pm.globals.set(\"Mario\", {",
+							"\t\t\"first_name\": \"Mario\",",
+							"\t    \"last_name\": \"Rossi\",",
+							"\t    \"date_of_birth\": \"01/01/1922\",",
+							"\t    \"email\": \"example@example.com\",",
+							"\t    \"favourite_team\": \"Pisa\",",
+							"\t    \"id\": 1",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "adbf5cfb-6767-47a5-87f2-40f30d86bd3a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"expected_response = pm.globals.get(\"Mario\");",
+							"",
+							"pm.test(\"expected_response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(expected_response);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n\t\t\"first_name\": \"Mario\",\n\t    \"last_name\": \"Rossi\",\n\t    \"date_of_birth\": \"01/01/1922\",\n\t    \"email\": \"example@example.com\",\n\t    \"favourite_team\": \"Pisa\",\n\t    \"password\": \"pwd1\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users"
+					]
+				},
+				"description": "The name says it all"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Giuseppe Verdi",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fb35da34-6b03-4cac-821d-a0f19b875dba",
+						"exec": [
+							"pm.globals.set(\"Giuseppe\", {",
+							"\t\t\"first_name\": \"Giuseppe\",",
+							"\t    \"last_name\": \"Verdi\",",
+							"\t    \"date_of_birth\": \"01/01/1940\",",
+							"\t    \"email\": \"example2@example.com\",",
+							"\t    \"favourite_team\": \"Pisa\",",
+							"\t    \"id\": 2",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "adbf5cfb-6767-47a5-87f2-40f30d86bd3a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"expected_response = pm.globals.get(\"Giuseppe\");",
+							"",
+							"pm.test(\"expected_response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(expected_response);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n\t\t\"first_name\": \"Giuseppe\",\n\t    \"last_name\": \"Verdi\",\n\t    \"date_of_birth\": \"01/01/1940\",\n\t    \"email\": \"example2@example.com\",\n\t    \"favourite_team\": \"Pisa\",\n\t    \"password\": \"pwd1\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users"
+					]
+				},
+				"description": "The name says it all"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Mario Verdi",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fb35da34-6b03-4cac-821d-a0f19b875dba",
+						"exec": [
+							"pm.globals.set(\"Giuseppe\", {",
+							"\t\t\"first_name\": \"Giuseppe\",",
+							"\t    \"last_name\": \"Verdi\",",
+							"\t    \"date_of_birth\": \"01/01/1940\",",
+							"\t    \"email\": \"example2@example.com\",",
+							"\t    \"favourite_team\": \"Pisa\",",
+							"\t    \"id\": 2",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "adbf5cfb-6767-47a5-87f2-40f30d86bd3a",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"expected_response = {",
+							"    \"error\": \"EMAIL_ALREADY_USED\"",
+							"}",
+							"",
+							"pm.test(\"expected_response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(expected_response);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n\t\t\"first_name\": \"Mario\",\n\t    \"last_name\": \"Verdi\",\n\t    \"date_of_birth\": \"01/01/1922\",\n\t    \"email\": \"example@example.com\",\n\t    \"favourite_team\": \"Pisa\",\n\t    \"password\": \"pwd1\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users"
+					]
+				},
+				"description": "The name says it all"
+			},
+			"response": []
+		},
+		{
+			"name": "Login Mario Rossi",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c453a9b-320f-4f41-bb1d-4b18d1085df5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"expected_response = pm.globals.get(\"Mario\");",
+							"",
+							"pm.test(\"expected_response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(expected_response);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n\t\t\"email\": \"example@example.com\",\n\t\t\"password\": \"pwd1\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Mario Rossi",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7c3b4ee2-5c7b-491f-b61d-508ce1a2b668",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "86f91afd-d643-4147-a4a6-43f37ee2e9a5",
+						"exec": [
+							"pm.globals.set(\"Mario\", {",
+							"\t\t\"first_name\": \"Mario\",",
+							"\t    \"last_name\": \"Bianchi\",",
+							"\t    \"date_of_birth\": \"01/01/1922\",",
+							"\t    \"email\": \"example@example.com\",",
+							"\t    \"favourite_team\": \"Pisa\",",
+							"\t    \"id\": 1",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n\t\t\"first_name\": \"Mario\",\n\t    \"last_name\": \"Bianchi\",\n\t    \"date_of_birth\": \"01/01/1922\",\n\t    \"email\": \"example@example.com\",\n\t    \"favourite_team\": \"Pisa\",\n\t    \"id\": 1\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Mario Bianchi",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c453a9b-320f-4f41-bb1d-4b18d1085df5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"expected_response = pm.globals.get(\"Mario\");",
+							"",
+							"pm.test(\"expected_response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(expected_response);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a67180ae-c0b3-46e3-8768-6015b93102cc",
+						"exec": [
+							"pm.globals.get(\"Mario\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n\t\t\"email\": \"example@example.com\",\n\t\t\"password\": \"pwd1\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Mario Bianchi",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c453a9b-320f-4f41-bb1d-4b18d1085df5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.globals.unset(\"Mario\");",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5005/users/example@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users",
+						"example@example.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Mario Bianchi",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c453a9b-320f-4f41-bb1d-4b18d1085df5",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"expected_response = {",
+							"    \"error\": \"USER_NOT_FOUND\"",
+							"}",
+							"",
+							"pm.test(\"expected_response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(expected_response);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n\t\t\"email\": \"example@example.com\",\n\t\t\"password\": \"pwd1\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Giuseppe Verdi",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c453a9b-320f-4f41-bb1d-4b18d1085df5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.globals.unset(\"Giuseppe\");",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5005/users/example2@example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users",
+						"example2@example.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Giuseppe Verdi",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9c453a9b-320f-4f41-bb1d-4b18d1085df5",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"expected_response = {",
+							"    \"error\": \"USER_NOT_FOUND\"",
+							"}",
+							"",
+							"pm.test(\"expected_response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(expected_response);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n\t\t\"email\": \"example2@example.com\",\n\t\t\"password\": \"pwd1\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Giuseppe Verdi",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fb35da34-6b03-4cac-821d-a0f19b875dba",
+						"exec": [
+							"pm.globals.set(\"Giuseppe\", {",
+							"\t\t\"first_name\": \"Giuseppe\",",
+							"\t    \"last_name\": \"Verdi\",",
+							"\t    \"date_of_birth\": \"01/01/1940\",",
+							"\t    \"email\": \"example2@example.com\",",
+							"\t    \"favourite_team\": \"Pisa\",",
+							"\t    \"id\": 1",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "adbf5cfb-6767-47a5-87f2-40f30d86bd3a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"expected_response = pm.globals.get(\"Giuseppe\");",
+							"",
+							"pm.test(\"expected_response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(expected_response);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": {\n\t\t\"first_name\": \"Giuseppe\",\n\t    \"last_name\": \"Verdi\",\n\t    \"date_of_birth\": \"01/01/1940\",\n\t    \"email\": \"example2@example.com\",\n\t    \"favourite_team\": \"Pisa\",\n\t    \"password\": \"pwd1\"\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5005/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"users"
+					]
+				},
+				"description": "The name says it all"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Persona (M.Trotta)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96f84423-ba3f-45a3-8923-672e51559bdd",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Get Persona\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(",
+							"        {\"id\":11156,\"name\":\"M. Trotta\",\"club\":\"FC Crotone\",\"height\":\"188\",\"date_of_birth\":\"1992-09-29\"}",
+							"    );",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5005/persona/11156",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"persona",
+						"11156"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Persona (L.Spalletti)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96f84423-ba3f-45a3-8923-672e51559bdd",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Get Persona having null fields\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(",
+							"        {\"id\":101547,\"name\":\"L. Spalletti\",\"club\":\"FC Internazionale Milano\",\"height\":null,\"date_of_birth\":\"1959-03-07\"}",
+							"    );",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5005/persona/101547",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"persona",
+						"101547"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Club (Inter)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96f84423-ba3f-45a3-8923-672e51559bdd",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Get Inter\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(",
+							"        {\"id\":3161,\"country\":\"Italy\",\"city\":\"Milano\",\"name\":\"FC Internazionale Milano\"}",
+							"    );",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5005/club/3161",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"club",
+						"3161"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Match",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96f84423-ba3f-45a3-8923-672e51559bdd",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Get CAG-LAZ\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.eql(",
+							"        {\"home\":{\"id\":3173,\"name\":\"Cagliari Calcio\"},\"away\":{\"id\":3161,\"name\":\"FC Internazionale Milano\"},\"result\":[\"1\",\"3\"],\"home_team\":[{\"id\":\"21639\",\"name\":\"L. Ceppitelli\",\"club\":3173,\"role\":\"Defender\"},{\"id\":\"20636\",\"name\":\"M. Andreolli\",\"club\":3173,\"role\":\"Defender\"},{\"id\":\"283832\",\"name\":\"F. Romagna\",\"club\":3173,\"role\":\"Defender\"},{\"id\":\"22933\",\"name\":\"L. Pavoletti\",\"club\":3173,\"role\":\"Forward\"},{\"id\":\"21299\",\"name\":\"Rafael\",\"club\":3173,\"role\":\"Goalkeeper\"},{\"id\":\"116171\",\"name\":\"Jo\",\"club\":3173,\"role\":\"Midfielder\"},{\"id\":\"20472\",\"name\":\"S. Padoin\",\"club\":3173,\"role\":\"Midfielder\"},{\"id\":\"20850\",\"name\":\"L. Cigarini\",\"club\":3173,\"role\":\"Midfielder\"},{\"id\":\"220359\",\"name\":\"P. Farag\",\"club\":3173,\"role\":\"Midfielder\"},{\"id\":\"286223\",\"name\":\"N. Barella\",\"club\":3173,\"role\":\"Midfielder\"},{\"id\":\"50073\",\"name\":\"A. Ioni\",\"club\":3173,\"role\":\"Midfielder\"}],\"away_team\":[{\"id\":\"21094\",\"name\":\"D. D'Ambrosio\",\"club\":3161,\"role\":\"Defender\"},{\"id\":\"138408\",\"name\":\"M. \",\"club\":3161,\"role\":\"Defender\"},{\"id\":\"3431\",\"name\":\"Jo\",\"club\":3161,\"role\":\"Defender\"},{\"id\":\"7982\",\"name\":\"D. Santon\",\"club\":3161,\"role\":\"Defender\"},{\"id\":\"206314\",\"name\":\"M. Icardi\",\"club\":3161,\"role\":\"Forward\"},{\"id\":\"20571\",\"name\":\"S. Handanovi\",\"club\":3161,\"role\":\"Goalkeeper\"},{\"id\":\"116349\",\"name\":\"M. Vecino\",\"club\":3161,\"role\":\"Midfielder\"},{\"id\":\"14812\",\"name\":\"I. Peri\",\"club\":3161,\"role\":\"Midfielder\"},{\"id\":\"20556\",\"name\":\"A. Candreva\",\"club\":3161,\"role\":\"Midfielder\"},{\"id\":\"241676\",\"name\":\"R. Gagliardini\",\"club\":3161,\"role\":\"Midfielder\"},{\"id\":\"3543\",\"name\":\"Borja Valero\",\"club\":3161,\"role\":\"Midfielder\"}]}",
+							"    );",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5005/match/2576091",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5005",
+					"path": [
+						"match",
+						"2576091"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
