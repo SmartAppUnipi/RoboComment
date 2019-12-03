@@ -27,8 +27,8 @@ __Method__: ```GET```
 
 __Response Codes__: ``` 200 | 404 ```
 
-__Successful Response__: 
-```javascript 
+__Successful Response__:
+```javascript
 {
 	"id": 11156,
 	"name": "M. Trotta",
@@ -44,8 +44,8 @@ __Method__: ```GET```
 
 __Response Codes__: ``` 200 | 404 ```
 
-__Successful Response__: 
-```javascript 
+__Successful Response__:
+```javascript
 {
 	"id": 3161,
 	"country": "Italy",
@@ -194,8 +194,8 @@ __Method__: ```POST```
 
 __Response Codes__: ``` 200 | 400 ```
 
-__Body__: 
-```javascript 
+__Body__:
+```javascript
 {
     "login": {
         "email": "",
@@ -203,8 +203,8 @@ __Body__:
     }
 }
 ```
-__Successful Response__: 
-```javascript 
+__Successful Response__:
+```javascript
 {
     "id": 1
     "first_name": "first",
@@ -271,8 +271,8 @@ __Body__:
 }
 ```
 
-__Successful Response__: 
-```javascript 
+__Successful Response__:
+```javascript
 {
     "id": 1,
     "first_name": "first1",
@@ -284,7 +284,7 @@ __Successful Response__:
 ```
 
 
-__URL__: ```/users/:id```
+__URL__: ```/users/:email```
 
 __Method__: ```DELETE```
 

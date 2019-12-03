@@ -89,22 +89,21 @@ export class Query {
     `
 
     public static readonly get_match = (id: number) => `
-    ${Query.header}
-    SELECT ?team1 ?team2 ?home ?away ?home_score ?away_score ?date
-	WHERE{
-		:${id} :homeTeam ?team1.
-		?team1 :teamOf ?team1a.
-		?team1a :hasName ?home.
+${Query.header}
+SELECT ?team1 ?team2 ?home ?away ?home_score ?away_score ?date
+WHERE{
+:${id} :homeTeam ?team1.
+?team1 :teamOf ?team1a.
+?team1a :hasName ?home.
 
-		:${id} :awayTeam ?team2.
-		?team2 :teamOf ?team2a.
-		?team2a :hasName ?away.
+:${id} :awayTeam ?team2.
+?team2 :teamOf ?team2a.
+?team2a :hasName ?away.
 
-		:${id} :homeTeamScore ?home_score.
-		:${id} :awayTeamScore ?away_score.
-		:${id} :date ?date.
-    }
-    `
+:${id} :homeTeamScore ?home_score.
+:${id} :awayTeamScore ?away_score.
+:${id} :date ?date.
+    }`
 
     public static readonly get_cup = (id: number) => `
     ${Query.header}
@@ -115,35 +114,41 @@ export class Query {
         ?League :city ?city.
         ?League :teamType ?type.
         ?League :hasName ?name.
-    }`
-
+}`
     public static readonly get_players = (match_id: number) => `
-    ${Query.header}
-    SELECT  (?wyid AS ?id) ?name ?club ?role
-    WHERE
-    { :${match_id}  :hasPlayedAsFirstTeam   ?team1 .
-        ?team1      :isPersona              ?Persons .
-        ?Persons    :wyid                   ?wyid .
-        ?Persons    :hasName                ?name .
-        ?team1      :isMember               ?Member .
-        ?Member     :teamOf                 ?club .
-        ?team1      :role                   ?role
-    }
-    ORDER BY ?teamName ?role
-    `
+${Query.header}
+SELECT (?wyid as ?id) ?name ?club ?role ?number
+WHERE
+{ :${match_id}  :hasPlayedAsFirstTeam  ?team1 .
+?team1    :isPersona            ?Persons .
+?Persons    :wyid                   ?wyid .
+?Persons  :hasName              ?name .
+?team1    :isMember             ?Member .
+?Member   :teamOf               ?club .
+?club  :hasName           ?teamName .
+?team1    :role                 ?role
+OPTIONAL
+{ ?team1  :playerNumber  ?number }
 }
+ORDER BY ?teamName ?role
+    `
 
-//     public static readonly get_match = (id1: number, id2:number, id3:number) => `
-//     ${Query.header}
-//     SELECT  ?Match
-// 	WHERE
-//   { ?Match  :homeTeam  ?x .
-//     ?x      :teamOf    ?x1 .
-//     ?x1     :hasName   "${id1}" .
-//     ?Match  :awayTeam  ?y .
-//     ?y      :teamOf    ?y1 .
-//     ?y1     :hasName   "${id2}" .
-//     ?Match  :date      "${id3}"
-//   }
-    // `
-// }
+    /*  public static readonly get_players = (match_id: number) => `
+    ${ Query.header }
+    SELECT(?wyid as ?id) ? name ? club ? role ? number
+    WHERE
+    { : ${ match_id }  : hasPlayedAsFirstTeam ? team1.
+    ? team1 : isPersona ? Persons.
+    ? Persons : wyid ? wyid.
+    ? Persons : hasName ? name.
+    ? team1 : isMember ? Member.
+    ? Member : teamOf ? club.
+    ? club : hasName ? teamName.
+    ? team1 : role ? role
+    OPTIONAL
+      { ?team1: playerNumber ? number }
+    }
+    ORDER BY ? teamName ? role
+      `
+    */
+}
