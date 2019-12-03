@@ -1,33 +1,37 @@
 from nltk import RecursiveDescentParser
 from nltk import data
+from itertools import permutations
 
 class Tagger:
     """
-    Tagger to tag the passed sentence, here define policy to tag information
-    Taken various tag information from a json, based on some policy, applying the tagging rules
+    Tagger to tag the passed sentence
     """
 
     def __init__(self):
         self.grammar = data.load('file:CommentGenerator/assets/json_grammar.cfg')
 
     def tag_sentence(self, sentence):
-        result = self.create_tree(sentence)
 
-        dict_result = self.to_dictionary(result)
+        print("\n sentence passed",sentence)
+        for comb in permutations(sentence):
+            try:
+                print(comb)
+                result = self.create_tree(comb)
+                print(result)
+            except:
+                pass
 
-        return dict_result
+        raise Exception("Not found compatible info")
 
     def create_tree(self, sentence):
-        if len(sentence) == 6:
-            try:
-                rd_parser = RecursiveDescentParser(self.grammar)
-                for tree in rd_parser.parse(sentence):
-                    result = tree
-                return result
-            except:
-                raise Exception("ERROR: Not matched passed data")
-        else:
-            raise Exception("Lentgh passed mismatch")
+
+        try:
+            rd_parser = RecursiveDescentParser(self.grammar)
+            for tree in rd_parser.parse(sentence):
+                result = tree
+            return result
+        except:
+            raise Exception("ERROR: Not matched passed data")
 
     def to_dictionary(self, result):
         final_result = {}

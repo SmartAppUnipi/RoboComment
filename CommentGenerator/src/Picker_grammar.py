@@ -18,11 +18,6 @@ class Picker:
         with open('CommentGenerator/assets/comments_empty_moments.txt', "r") as f:
             self.comment_others = [str(line) for line in f.readlines()]
 
-        # order of tags, corresponding to definition of the grammar
-        self.sentence_order = {
-            "active": ['player1', 'team1', 'subtype', 'field_zone', 'player2', 'team2'],
-            "passive": ['player2', 'team2', 'subtype', 'field_zone', 'player1', 'team1']
-        }
         # element where insert value instead of key
         self.tag_to_value = ["subtype", "field_zone"]
 
@@ -38,6 +33,8 @@ class Picker:
         if self.check_empty_json(input_json):
             final_comment = self.create_others()
         else:
+            print("Original", input_json["details"])
+
             sentence = self.create_sentence(input_json["details"])
             # try to tag the sentence
             try:
@@ -45,13 +42,12 @@ class Picker:
 
                 register = "neutral"
                 preference = "positive"
-                
+
                 final_comment = self.template_generator.generate(sentence_tagged, register, preference)
 
             # if an error is found means that inconsistency was found
             except Exception as e:
                 print(e)
-                # TODO try to create a comment with less possible information and querying kb
                 final_comment = self.create_others()
 
         return final_comment
@@ -65,27 +61,18 @@ class Picker:
 
     def create_sentence(self, information) -> list:
         """
-        Structures the sentence according to order in sentence_order
-        Some tags are substitute with the value, useful to generate correct template
+        Create the placeholders according to input
         :param information:
         :return:
         """
         sentence = []
-        # randomly chose between active and passive comment
-        sorting = random.choice(list(self.sentence_order))
 
-        for element in self.sentence_order[sorting]:
-            # we have the information
-            if element in information:
-                # if value is needed
-                if element in self.tag_to_value:
-                    sentence.append("{" + str(information[element]) + "}")
-                # if key is needed
-                else:
-                    sentence.append("{" + str(element) + "}")
-            # info is not present
+        print("Information", information.keys())
+        for element in information.keys():
+            if element in self.tag_to_value:
+                sentence.append("{" + str(information[element]) + "}")
             else:
-                sentence.append('{empty}')
+                sentence.append("{" + str(element) + "}")
 
         return sentence
 
@@ -101,11 +88,8 @@ class Picker:
 
 
 if __name__ == '__main__':
-    """
-    We will move that to Commentator
-    """
-    picker = Picker()
 
+    picker = Picker()
 
     with open("CommentGenerator/assets/input1.json", 'r') as input1_json:
         input_json = json.load(input1_json)

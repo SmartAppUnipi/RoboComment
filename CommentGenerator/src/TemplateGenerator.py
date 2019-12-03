@@ -34,7 +34,7 @@ class TemplateGenerator:
                 "no_empty": ["do a {simple_modifier} {p}", "perform a {p}", "{p}", "make a {p}"]
             },
             "Action_active_continue": {
-                "no_empty": ["is doing {p}", "continuously {p}", "keep doing {simple_modifier} {p}"]
+                "no_empty": ["keep {p} in a {simple_modifier} way"]
             },
             "Action_active_ball": {
                 "no_empty": ["{p} the ball", "execute a {p}", "{p}", "make a {simple_modifier} {p}"]
