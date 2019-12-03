@@ -15,56 +15,37 @@ class TemplateGenerator:
     def __init__(self):
         self.leaf = {
             "Active_player": {
-                "empty": ["A player", "So the player", " A {player_modifier} player therefore,"],
-                "no_empty": ["{player_modifier} {p}", "{player_modifier} {p} therefore"]
+                "empty": ["A {player_modifier} player", "look at the player"],
+                "no_empty": ["A {player_modifier} player", "A player", "look at {p}"]
             },
             "Passive_player": {
-                "empty": ["a player", "so the {player_modifier} player", "therefore the player"],
-                "no_empty": ["{player_modifier} {p}", "therefore {player_modifier} {p}"]
+                "empty": ["A {player_modifier} player"],
+                "no_empty": ["{player_modifier} {p}", "therefore {player_modifier} {p}", "therefore, {p}"]
             },
-            "Team_player": {
-                "empty" : "",
-                "no_empty": ["of the {team_modifier} {p}", "belonging to {team_modifier} {p}", " a {p} player", "of the {p} team", ""]
+            "Receiver_player":{
+                "empty": ["towards a player"],
+                "no_empty": ["towards a {player_modifier} {p}", "towards a player"]
             },
-            "Team_receiver": {
-                "empty" : "",
-                "no_empty": ["belonging to {p}", "of the {p}", "of the {team_modifier} {p} team", "", " a {p} player"]
+            "Action_active_continue_ball":{
+                "no_empty": ["maintain the {p}", "do {simple_modifier} {p}"]
             },
-            "Action_active": {
-                "no_empty": ["do a {simple_modifier} {p}", "perform a {p}", "{p}", "make a {p}"]
+            "Action_active_ball":{
+                "no_empty": ["do a {simple_modifier} {p}", "makes a {simple_modifier} {p}", "makes a {p}"]
             },
-            "Action_active_continue": {
-                "no_empty": ["is doing {p}", "continuously {p}", "keep doing {simple_modifier} {p}"]
+            "Does_player":{
+                "empty": ["by a {player_modifier} player"],
+                "no_empty": ["from {player_modifier} {p}", "by {player_modifier} {p}"]
             },
-            "Action_active_ball": {
-                "no_empty": ["{p} the ball", "execute a {p}", "{p}", "make a {simple_modifier} {p}"]
+            "Action_passive_ball":{
+                "no_empty": ["receives a {simple_modifier} {p}", "obtain {simple_modifier} {p}"]
             },
-            "Action_passive": {
-                "no_empty": ["receives a {p}", "has a {p}", "obtain a {p}"]
+            "Team_player":{
+                "no_empty": ["playing in {p}", "a {team_modifier} {p} ", ""]
             },
-            "Action_passive_continue": {
-                "no_empty": ["is receiving a {simple_modifier} {p}", "continuously {p}"]
-            },
-            "Action_passive_ball": {
-                "no_empty": ["{p} the ball", "get a {p}", "do a {p} with the ball"]
-            },
-            "Action_zone_from": {
-                "empty" : [""],
-                "no_empty": ["from {p} of the field", "from the {p}", "arrive from {p}"]
-            },
-            "Action_zone_in": {
-                "empty" : [""],
-                "no_empty": ["in the {p} of the field", "inside {p} of the field", "cutting the {p} part of the field",
-                             "inner {p} part"]
-            },
-            "Receiver_player": {
-                "empty" : ["to another player"],
-                "no_empty": ["to {player_modifier} {p}", "towards {p}", "direct to {p}"]
-            },
-            "Does_player": {
-                "empty" : ["by another player"],
-                "no_empty": ["from {p}", "by the {player_modifier} player", "by {p}", "coming out of {p}"]
+            "Team_receiver":{
+                "no_empty": ["playing in {p}", "a {team_modifier} {p} player", ""]
             }
+
         }
 
         self.modifier = {
@@ -84,7 +65,6 @@ class TemplateGenerator:
     def generate(self, sentence_tagged, register, preference):
         sentence_template = {}
         for key, value in sentence_tagged.items():
-            
             # The subject is always present even if empty
             if value == "{empty}":
                 template = random.choice(self.leaf[key]["empty"])

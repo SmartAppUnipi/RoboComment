@@ -1,0 +1,19 @@
+{
+ 
+    "type": "possession",
+    "user_id": 10,
+    "start_time": 10,
+    "end_time" : 20,
+    "player_active": {
+      "id": {
+        "value": 42,
+        "confidence": 0.5
+      },
+      "team": {"value" : 42}
+    },
+    "position": {
+      "x": 42,
+      "y": 42
+    }
+  
+}

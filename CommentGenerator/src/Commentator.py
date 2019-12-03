@@ -2,6 +2,7 @@
 from .Filler import Filler
 from .Sentimentalizer import Sentimentalizer
 from .Picker_grammar import Picker
+from .Adapter import Adapter
 import json
 
 class Commentator:
@@ -10,15 +11,19 @@ class Commentator:
         self.kb = knowledge_base
         self.config = 'CommentGenerator/assets/config.json'
         self.template = 'CommentGenerator/assets/templates.json'
+        self.adapter = Adapter()
         self.picker = Picker()
-        self.filler = Filler(knowledge_base,self.config)
+        self.filler = Filler(knowledge_base, self.config)
         self.sentimentalizer = Sentimentalizer(self.config)
 
     def run(self, jsonobj):
         
         ''' Extract the time where the json is occurred and match and update the resulting template'''
 
+        jsonobj = self.adapter.adapt(jsonobj)
+
         user_id = jsonobj['user_id']
+
         # Comment matching and updating
         comment = self.picker.pick_comment(jsonobj)
         comment = self.filler.update_comment(comment, jsonobj["details"],user_id )

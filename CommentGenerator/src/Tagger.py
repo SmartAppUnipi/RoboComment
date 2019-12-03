@@ -1,40 +1,48 @@
+import random
+import re
+
+import nltk
 from nltk import RecursiveDescentParser
 from nltk import data
+from itertools import permutations
+
 
 class Tagger:
     """
-    Tagger to tag the passed sentence, here define policy to tag information
-    Taken various tag information from a json, based on some policy, applying the tagging rules
+    Tagger to tag the passed sentence
     """
 
     def __init__(self):
         self.grammar = data.load('file:CommentGenerator/assets/json_grammar.cfg')
+        self.parser = RecursiveDescentParser(self.grammar)
 
     def tag_sentence(self, sentence):
-        result = self.create_tree(sentence)
 
-        dict_result = self.to_dictionary(result)
+        combinations_tuple = list(permutations(sentence))
+        combinations = []
+        for comb in combinations_tuple:
+            combinations.append(list(comb))
 
-        return dict_result
+        random.shuffle(combinations)
+        winner = self.try_descent_until_no_error(combinations)
+        result = self.to_dictionary(winner)
 
-    def create_tree(self, sentence):
-        if len(sentence) == 6:
-            try:
-                rd_parser = RecursiveDescentParser(self.grammar)
-                for tree in rd_parser.parse(sentence):
-                    result = tree
-                return result
-            except:
-                raise Exception("ERROR: Not matched passed data")
-        else:
-            raise Exception("Lentgh passed mismatch")
+        return result
+
+    def try_descent_until_no_error(self, combinations):
+        for i in range(0, len(combinations)):
+            for tree in self.parser.parse(combinations[i]):
+                return tree
+
+        raise Exception("Not found compatible grammar rules with sentence")
 
     def to_dictionary(self, result):
-        final_result = {}
-        # This method select the most specific tag for the json content
-        for tags in result[0]:
-            str_cleaned = str(tags).replace("(","").replace(")","")
-            content = str_cleaned.split()
-            final_result[content[len(content)-2]] = content[len(content)-1]
+        tree_as_string = str(result)
+        dict_resulting = {}
+        for leaf in result.leaves():
+            custom_escape = re.escape("(")
+            d = re.search(custom_escape+'(.+) '+str(leaf), tree_as_string)
 
-        return final_result
+            dict_resulting[d.group(1)] = leaf
+
+        return dict_resulting
