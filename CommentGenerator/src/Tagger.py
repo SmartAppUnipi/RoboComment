@@ -1,4 +1,5 @@
 import random
+import re
 
 import nltk
 from nltk import RecursiveDescentParser
@@ -23,10 +24,9 @@ class Tagger:
 
         random.shuffle(combinations)
         winner = self.try_descent_until_no_error(combinations)
-        print("WINNER", winner)
         result = self.to_dictionary(winner)
-        print("RISULTATO ", result)
-        return ""
+
+        return result
 
     def try_descent_until_no_error(self, combinations):
         for i in range(0, len(combinations)):
@@ -36,7 +36,12 @@ class Tagger:
         raise Exception("Not found compatible grammar rules with sentence")
 
     def to_dictionary(self, result):
+        tree_as_string = str(result)
+        dict_resulting = {}
         for leaf in result.leaves():
-            print(leaf)
+            custom_escape = re.escape("(")
+            d = re.search(custom_escape+'(.+) '+str(leaf), tree_as_string)
 
-        return ""
+            dict_resulting[d.group(1)] = leaf
+
+        return dict_resulting
