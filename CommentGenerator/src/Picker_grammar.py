@@ -41,7 +41,12 @@ class Picker:
                 register = "neutral"
                 preference = "positive"
 
+                print("TAG", sentence_tagged)
+
                 final_comment = self.template_generator.generate(sentence_tagged, register, preference)
+
+                print("FINAL", final_comment)
+                print("\n")
 
             # if an error is found means that inconsistency was found
             except Exception as e:
