@@ -17,6 +17,7 @@ class Tagger:
         self.parser = RecursiveDescentParser(self.grammar)
 
     def tag_sentence(self, sentence):
+
         combinations_tuple = list(permutations(sentence))
         combinations = []
         for comb in combinations_tuple:

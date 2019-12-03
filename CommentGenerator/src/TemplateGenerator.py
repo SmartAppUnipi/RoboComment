@@ -65,7 +65,6 @@ class TemplateGenerator:
     def generate(self, sentence_tagged, register, preference):
         sentence_template = {}
         for key, value in sentence_tagged.items():
-            
             # The subject is always present even if empty
             if value == "{empty}":
                 template = random.choice(self.leaf[key]["empty"])

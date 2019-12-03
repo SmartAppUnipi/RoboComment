@@ -48,6 +48,8 @@ class Adapter:
         if "player_passive" in json_keys:
             if "id" in jsonobj["player_active"].keys():
                 new_json["details"]["player2"] = jsonobj["player_passive"]["id"]["value"]
+            else:
+                new_json["details"]["player2"] = "{empty}"
             if "team" in jsonobj["player_active"].keys():
                 new_json["details"]["team2"] = jsonobj["player_passive"]["team"]
 
