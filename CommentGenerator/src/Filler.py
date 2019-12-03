@@ -19,13 +19,9 @@ template_modifiers = {
 }
 class Filler:
 
-    def __init__(self, kb, config=None):
+    def __init__(self, kb):
         self.kb = kb
-        if config is None:
-            self.config = {"user_type" : "" ,"favourite_player" : "", "favourite_team" : ""}
-        else:
-            with open(config,'r') as conf:
-                self.config = json.load(conf)
+
 
     def update_comment(self, comment, details, user_id):
 

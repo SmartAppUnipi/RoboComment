@@ -13,7 +13,7 @@ class TestFiller(unittest.TestCase):
         jsonobj = self.adapter.adapt(input1)
 
         assert jsonobj['details']['subtype'] == 'pass'
-        assert jsonobj['details']['player2'] == '{empty}'
+        assert jsonobj['details']['player2'] == 41
 
 
     def test_adapt_possession1(self):
