@@ -20,6 +20,8 @@ def boolean_matcher(regexes, stacks, registers):
         # Empty
         return True
     for regex in regexes:
+        if regex['stack'] not in stacks.keys():
+            return False
         if not regex_matcher(regex['pattern'], stacks[regex['stack']], registers):
             return False
     return True

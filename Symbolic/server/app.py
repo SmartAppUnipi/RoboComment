@@ -17,6 +17,8 @@ socketio = SocketIO(app)
 _WIDTH = 105
 _HEIGHT = 68
 
+i = 0
+
 map = Map2d(_WIDTH, _HEIGHT, socketio)
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -45,14 +47,23 @@ def welcome():
 @app.route('/positions', methods=['POST'])
 def new_positions():
     global map
+    global i
 
-    data = flask.request.json
+    # i += 1
+    # if i % 3 != 2:
+    #    return ""
+
+    data = flask.request.get_json()
 
     print("Received data from video processing")
-    if Validator.validate_positions(data):
-        print("Data is correctly formatted")
-    else:
-        print("data is incorrect")
+    #if Validator.validate_positions(data):
+    #    print("Data is correctly formatted")
+    #else:
+    #    print("data is incorrect")
+
+    #with open('game_log.out', 'a+') as dump_file:
+    #    string = json.dumps(data)
+    #    dump_file.write(string+"\n")
 
     # Metto in map le nuove posizioni
     map._update_position(data)
@@ -60,10 +71,8 @@ def new_positions():
     set_rule_matcher()
     U.to_comment_generation()
 
+    print("FINE ITERAZIONE ", i)
 
-    with open('game_log.out', 'a+') as dump_file:
-        string = json.dumps(data, separators=(',', ':'))
-        dump_file.write(string+"\n")
     return ""
 
 

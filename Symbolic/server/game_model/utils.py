@@ -6,7 +6,7 @@ import math
 import time
 import requests
 import pprint
-
+import json
 
 #    Pitch dimensions = 105 x 68
 
@@ -157,6 +157,10 @@ def simulate_passage():
 if __name__ == '__main__':
     url = "http://127.0.0.1:3001/positions"
     while True:
-        pass_ = simulate_passage()
+        #pass_ = simulate_passage()
+        with open("positions.out") as pos:
+            for e in pos:
+                e = e.strip()
+                pass_ = json.loads(e)
         requests.post(url, json=pass_)
         time.sleep(0.5)
