@@ -6,13 +6,13 @@ import json
 
 uncertain_number_schema = Schema({
     "value": Or(int, float),
-    "confidence": And(Or(int, float))
+    Optional("confidence"): And(Or(int, float))
 })
 
 coordinate_schema = Schema({
     "x": Or(int, float),
     "y": Or(int, float),
-    "confidence": And(Or(int, float), lambda x: x >= 0 and x <= 1)
+    Optional("confidence"): And(Or(int, float), lambda x: x >= 0 and x <= 1)
 })
 
 coordinate_3D_schema = Schema({
@@ -22,7 +22,8 @@ coordinate_3D_schema = Schema({
 })
 
 positions_schema = Schema({
-    "time": And(float, lambda t: t >= 0),
+    "user_id": int,
+    "time": And(Or(float, int), lambda t: t >= 0),
     Optional("camera"): {
         "position": Use(lambda x: coordinate_3D_schema.validate(x)),
         "target": Use(lambda x: coordinate_schema.validate(x)),
@@ -31,7 +32,7 @@ positions_schema = Schema({
     "players": [
         {
             "position": Use(lambda x: coordinate_schema.validate(x)),
-            "speed": Use(lambda x: coordinate_schema.validate(x)),
+            Optional("speed"): Use(lambda x: coordinate_schema.validate(x)),
             "id": Use(lambda x: uncertain_number_schema.validate(x)),
             "team": Use(lambda x: uncertain_number_schema.validate(x)),
             Optional("pose"): str
@@ -41,9 +42,9 @@ positions_schema = Schema({
         {
             "position": Use(lambda x: coordinate_schema.validate(x)),
             "speed": Use(lambda x: coordinate_schema.validate(x)),
-            "midair": And(Or(int, float), lambda x: x >= 0 or x <= 1),
-            "owner": Use(lambda x: uncertain_number_schema.validate(x)),
-            "owner team": Use(lambda x: uncertain_number_schema.validate(x)),
+            Optional("midair"): And(Or(int, float), lambda x: x >= 0 or x <= 1),
+            Optional("owner"): Use(lambda x: uncertain_number_schema.validate(x)),
+            Optional("owner team"): Use(lambda x: uncertain_number_schema.validate(x)),
         }
     ],
 })
@@ -67,7 +68,7 @@ event_schema = Schema({
         "team2": str,
         "player1": str,
         "player2": str,
-        "field-zone": str,
+        "field_zone": str,
         "subtype": And(str, lambda x: x in elementary or x in scenario or x in strategy),
         "confidence": And(Or(int, float), lambda x: x >= 0 and x <= 1)
     }
@@ -80,6 +81,7 @@ class Validator(object):
         try:
             positions_schema.validate(to_validate)
         except SchemaError as e:
+            print(e)
             return False
 
         return True

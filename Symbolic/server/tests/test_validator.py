@@ -1,5 +1,5 @@
 import pytest
-from server.json_validator import Validator
+from json_validator import Validator
 import json
 
 def test_position():

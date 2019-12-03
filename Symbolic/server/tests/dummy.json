@@ -1,5 +1,6 @@
 [
     {
+        "user_id": 69,
         "time": 37.5,
         "camera": {
             "position": {"x": 1.2, "y": 1.3, "z": 8.8},
@@ -33,6 +34,7 @@
         ]
     },
     {
+        "user_id": 420,
         "time": 38.6,
         "players": [
             {
@@ -69,7 +71,7 @@
             "team2": "team B",
             "player1": "Ruicosta",
             "player2": "Ronaldo",
-            "field-zone" : "middle",
+            "field_zone" : "middle",
             "subtype"  : "pass",
             "confidence" : 0.4
         }

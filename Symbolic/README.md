@@ -14,8 +14,8 @@
 
 ## Run our tests
 
-    $ cd Symbolic
-    $ pip3 install -r requirements.txt
+    $ cd Symbolic/server
+    $ pip3 install -r ../requirements.txt
     $ python3 -m pytest
 
 ## APIs
