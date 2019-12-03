@@ -9,12 +9,11 @@ class Commentator:
 
     def __init__(self, knowledge_base):
         self.kb = knowledge_base
-        self.config = 'CommentGenerator/assets/config.json'
-        self.template = 'CommentGenerator/assets/templates.json'
+
         self.adapter = Adapter()
         self.picker = Picker()
-        self.filler = Filler(knowledge_base, self.config)
-        self.sentimentalizer = Sentimentalizer(self.config)
+        self.filler = Filler(knowledge_base)
+        self.sentimentalizer = Sentimentalizer()
 
     def run(self, jsonobj):
         
