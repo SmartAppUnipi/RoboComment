@@ -41,7 +41,8 @@ function insertCards(id, url, home, away) {
         console.log(card.childNodes[0].src);
         console.log(card.childNodes[0].metadata);
 
-        sendInfoVideo(set_matchInfo(id,url));
+        console.log(set_matchInfo(id,url, getCookie("userId")));
+        sendInfoVideo(JSON.stringify(set_matchInfo(id,url, getCookie("userId"))));
 
         setCookie("videoID",id,2);
         setCookie("videoURL",url,2);
@@ -135,9 +136,18 @@ function connect() {
     };
 }
 
-function set_matchInfo(match_id, url) {
-    return "{\"match_id\": "+match_id+",\n" +
-        "\"match_url\": \"" +url+ "\"\n}";
+// function set_matchInfo(match_id, url, user_id) {
+//     return "{\"match_id\": "+match_id+",\n" +
+//         "\"match_url\": \"" +url+ "\",\n" +
+//         "\"user_id\": "+user_id+"\n}";
+// }
+
+function set_matchInfo(match_id, url, user_id) {
+    return {
+        match_id: match_id,
+        match_url: url,
+        user_id: user_id
+    };
 }
 
 

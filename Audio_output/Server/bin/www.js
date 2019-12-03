@@ -312,6 +312,8 @@ function handleClientMessage(body, connection) {
 
         console.log("Match_ID arrived, now sending to Video Group");
 
+        console.log(JSON.stringify(message.request));
+
         VideoApp.post(url_video, JSON.stringify(message.request), config )
             .then((result_video)=>{
                 if (result_video.status === 200) {
@@ -375,10 +377,4 @@ function set_response(reply_type, reply, status) {
     return "{\"reply_type\": \""+reply_type+"\",\n" +
         "\"reply\": "+reply+",\n" +
         "\"status\": \"" +status+ "\"\n}";
-}
-
-function set_video_response(match_id, url, user_id) {
-    return "{\"match_id\": "+match_id+",\n" +
-        "\"match_url\": \"" +url+ "\",\n +" +
-        "\"match_id\": "+user_id+"\"\n}";
 }

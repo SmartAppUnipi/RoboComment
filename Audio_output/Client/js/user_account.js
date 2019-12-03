@@ -66,13 +66,22 @@ function loginUser() {
     }
 }
 
-function userHello() {
-    ws.send("{\n" +
-        "    \"request\": \"New connection\",\n" +
-        "    \"request_type\": \"hello\",\n" +
-        "    \"user_id\": "+ifCookie("userId")+"\n" +
-        "}");
+// function userHelloOld() {
+//     ws.send("{\n" +
+//         "    \"request\": \"New connection\",\n" +
+//         "    \"request_type\": \"hello\",\n" +
+//         "    \"user_id\": "+ifCookie("userId")+"\n" +
+//         "}");
+//
+//     console.log("Send hello request")
+// }
 
+function userHello() {
+    ws.send(JSON.stringify({
+        request: "New connection",
+        request_type: "hello",
+        user_id: ifCookie("userId")
+    }));
     console.log("Send hello request")
 }
 
@@ -114,6 +123,5 @@ function check(input) {
         input.setCustomValidity('');
         input.reportValidity();
         return  true;
-
     }
 }
