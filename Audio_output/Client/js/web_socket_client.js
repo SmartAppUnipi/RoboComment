@@ -1,4 +1,4 @@
-const url        = 'ws://131.114.137.237:4020';
+const url        = 'ws://localhost:4020';
 let queue        = new Queue();
 let ws           = null;
 
@@ -11,6 +11,8 @@ function insertCards(id, url, home, away) {
     videoChild.src = url;
     videoChild.metadata = id;
     videoChild.type ="video/mp4";
+    // videoChild.poster = "../assets/image/pic11.jpg";
+
 
     let card_body1 = document.createElement("div");
     card_body1.className = "card-body";
@@ -39,7 +41,8 @@ function insertCards(id, url, home, away) {
         console.log(card.childNodes[0].src);
         console.log(card.childNodes[0].metadata);
 
-        sendInfoVideo(set_matchInfo(id,url,getCookie("userId")));
+        console.log(set_matchInfo(id,url, ifCookie("userId")));
+        sendInfoVideo(JSON.stringify(set_matchInfo(id,url, ifCookie("userId"))));
 
         setCookie("videoID",id,2);
         setCookie("videoURL",url,2);
@@ -79,7 +82,7 @@ function connect() {
                 else if (message.status === "200") {
                     console.log("Login ok:");
                     setCookie("userId", message.reply.id, 15*24);
-                    console.log(getCookie("userId"));
+                    console.log(ifCookie("userId"));
                     window.location.href = "catalog.html";
                     console.log("User ID: "+ message.reply.id);
                 }
@@ -91,7 +94,7 @@ function connect() {
                     showSnack("Registration failed");
                 else if (message.status === "200") {
                     showSnack("Registration confirmed, log in!");
-                    if (getCookie('userId') !== "")
+                    if (ifCookie('userId') !== 0)
                         setCookie("userID", message.reply.id, 15*24);
                     console.log("Registration ok, id = " + message.reply.id);
                     login();
@@ -134,9 +137,11 @@ function connect() {
 }
 
 function set_matchInfo(match_id, url, user_id) {
-    return "{\"match_id\": "+match_id+",\n" +
-        "\"match_url\": \"" +url+ "\",\n" +
-        "\"match_id\": "+user_id+"\n}";
+    return {
+        match_id: match_id,
+        match_url: url,
+        user_id: user_id
+    };
 }
 
 

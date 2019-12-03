@@ -23,7 +23,7 @@ function main() {
     videoUrl = getCookie("videoURL");
     videoId = getCookie("videoID");
 
-    console.log("User_ID: "+ getCookie("userId"));
+    console.log("User_ID: "+ ifCookie("userId"));
     console.log("Video ID: " + videoId);
 
     if(videoUrl!==''){
@@ -110,7 +110,7 @@ function googleSpeak(item,text){
         "    'input':{'text':'"+text+"'},\n" +
         "    'voice':{\n" +
         "      'languageCode':'en-gb',\n" +
-        "      'name':'en-GB-Standard-A',\n" +
+        "      'name':'en-US-Wavenet-D',\n" +
         "      'ssmlGender':'FEMALE'\n" +
         "    },\n" +    
         "    'audioConfig':{\n" +

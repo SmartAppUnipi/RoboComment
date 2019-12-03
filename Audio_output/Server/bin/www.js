@@ -152,12 +152,19 @@ commentApp.post("/", function (req, res) {
 
     res.sendStatus(200);
 
-    if (comment.id!==0){
+    if (comment.id) {
         for(let i=0; i< connections.length; i++) {
             if(comment.id === connections[i].id){
                 connections[i].new_comment = comment;
                 sendComment(connections[i], comment.id);
             }
+        }
+    }
+    else {
+        console.log("No id, broadcast to all");
+        for(let i=0; i< connections.length; i++) {
+            connections[i].new_comment = comment;
+            sendComment(connections[i], 0);
         }
     }
 });
@@ -242,9 +249,14 @@ function handleClientMessage(body, connection) {
                 if(DEBUGERR){
                     console.log(err);
                 }
-                response = set_response("user_login",JSON.stringify(err.response.data), 400);
-                console.log("User Login: Status NOT_OK and Sending to Client: "+err.response.data);
-                connection.send(response)
+                if (err.response) {
+                    response = set_response("user_login", JSON.stringify(err.response.data), 400);
+                    console.log("User Login: Status NOT_OK and Sending to Client: " + err.response.data);
+                    connection.send(response)
+                }
+                else {
+                    console.log(err);
+                }
             })
     }
 
@@ -263,11 +275,16 @@ function handleClientMessage(body, connection) {
             })
             .catch((err) => {
                 if(DEBUGERR){
-                    console.log(err);
+                    console.log(err)
                 }
-                response = set_response("user_registration",JSON.stringify(err.response.data), 400);
-                console.log("User Registration: Status NOT_OK and Sending to Client. "+err.response.data.error);
-                connection.send(response);
+                if (err.response) {
+                    response = set_response("user_registration", JSON.stringify(err.response.data), 400);
+                    console.log("User Registration: Status NOT_OK and Sending to Client. " + err.response.data.error);
+                    connection.send(response);
+                }
+                else {
+                    console.log(err)
+                }
             })
     }
 
@@ -288,9 +305,13 @@ function handleClientMessage(body, connection) {
                 if(DEBUGERR){
                     console.log(err);
                 }
-                response = set_response("user_update",JSON.stringify(err.response.data), 400);
-                console.log("User Update: Status NOT_OK and Sending to Client");
-                connection.send(response);
+                if (err.response) {
+                    response = set_response("user_update", JSON.stringify(err.response.data), 400);
+                    console.log("User Update: Status NOT_OK and Sending to Client");
+                    connection.send(response);
+                }
+                else
+                    console.log(err)
             })
     }
 
@@ -298,7 +319,9 @@ function handleClientMessage(body, connection) {
 
         console.log("Match_ID arrived, now sending to Video Group");
 
-        VideoApp.post(url_video, JSON.stringify(message.request), config )
+        console.log(message.request);
+
+        VideoApp.post(url_video, message.request, config )
             .then((result_video)=>{
                 if (result_video.status === 200) {
                     response = set_response("post_matchID","OK", result_video.status);
@@ -335,15 +358,18 @@ function handleClientMessage(body, connection) {
                 if (DEBUGERR){
                     console.log(err);
                 }
-                console.log("Catch: Match information not found. " + err.response.data);
-                response = set_response("get_infoMatch", JSON.stringify(err.response.data), 400);
-                connection.send(response);
+                if (err.response) {
+                    console.log("Catch: Match information not found. " + err.response.data);
+                    response = set_response("get_infoMatch", JSON.stringify(err.response.data), 400);
+                    connection.send(response);
+                }
+                else
+                    console.log(err)
             })
     }
 
     else if(message.request_type === "hello"){
         connections.push(new connectionUser(connection, message.user_id));
-
     }
 
     else if(message.request_type === "get_videoList"){
@@ -357,10 +383,4 @@ function set_response(reply_type, reply, status) {
     return "{\"reply_type\": \""+reply_type+"\",\n" +
         "\"reply\": "+reply+",\n" +
         "\"status\": \"" +status+ "\"\n}";
-}
-
-function set_video_response(match_id, url, user_id) {
-    return "{\"match_id\": "+match_id+",\n" +
-        "\"match_url\": \"" +url+ "\",\n +" +
-        "\"match_id\": "+user_id+"\"\n}";
 }
