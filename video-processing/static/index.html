@@ -1,0 +1,27 @@
+<html>
+<head>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="flex">
+    <div>
+        <img id="field-map" src="/map/0" alt="">
+    </div>
+    <div>
+        <img id="frame" src="/frame/0" alt="">
+    </div>
+</div>
+</body>
+<script>
+    const field_map = document.getElementById("field-map");
+    const frame = document.getElementById("frame");
+
+    let frame_n = 0;
+    window.setInterval(() => {
+        field_map.src = "/map/" + frame_n;
+        frame.src = "/frame/" + frame_n;
+        frame_n += 1;
+    }, 100);
+
+</script>
+</html>
