@@ -11,6 +11,8 @@ function insertCards(id, url, home, away) {
     videoChild.src = url;
     videoChild.metadata = id;
     videoChild.type ="video/mp4";
+    // videoChild.poster = "../assets/image/pic11.jpg";
+
 
     let card_body1 = document.createElement("div");
     card_body1.className = "card-body";
@@ -39,7 +41,7 @@ function insertCards(id, url, home, away) {
         console.log(card.childNodes[0].src);
         console.log(card.childNodes[0].metadata);
 
-        sendInfoVideo(set_matchInfo(id,url,getCookie("userId")));
+        sendInfoVideo(set_matchInfo(id,url));
 
         setCookie("videoID",id,2);
         setCookie("videoURL",url,2);
@@ -133,10 +135,9 @@ function connect() {
     };
 }
 
-function set_matchInfo(match_id, url, user_id) {
+function set_matchInfo(match_id, url) {
     return "{\"match_id\": "+match_id+",\n" +
-        "\"match_url\": \"" +url+ "\",\n" +
-        "\"match_id\": "+user_id+"\n}";
+        "\"match_url\": \"" +url+ "\"\n}";
 }
 
 
