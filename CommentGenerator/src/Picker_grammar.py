@@ -33,8 +33,6 @@ class Picker:
         if self.check_empty_json(input_json):
             final_comment = self.create_others()
         else:
-            print("Original", input_json["details"])
-
             sentence = self.create_sentence(input_json["details"])
             # try to tag the sentence
             try:
@@ -66,8 +64,6 @@ class Picker:
         :return:
         """
         sentence = []
-
-        print("Information", information.keys())
         for element in information.keys():
             if element in self.tag_to_value:
                 sentence.append("{" + str(information[element]) + "}")

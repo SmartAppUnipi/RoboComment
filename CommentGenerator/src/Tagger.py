@@ -1,6 +1,10 @@
+import random
+
+import nltk
 from nltk import RecursiveDescentParser
 from nltk import data
 from itertools import permutations
+
 
 class Tagger:
     """
@@ -9,36 +13,30 @@ class Tagger:
 
     def __init__(self):
         self.grammar = data.load('file:CommentGenerator/assets/json_grammar.cfg')
+        self.parser = RecursiveDescentParser(self.grammar)
 
     def tag_sentence(self, sentence):
+        combinations_tuple = list(permutations(sentence))
+        combinations = []
+        for comb in combinations_tuple:
+            combinations.append(list(comb))
 
-        print("\n sentence passed",sentence)
-        for comb in permutations(sentence):
-            try:
-                print(comb)
-                result = self.create_tree(comb)
-                print(result)
-            except:
-                pass
+        random.shuffle(combinations)
+        winner = self.try_descent_until_no_error(combinations)
+        print("WINNER", winner)
+        result = self.to_dictionary(winner)
+        print("RISULTATO ", result)
+        return ""
 
-        raise Exception("Not found compatible info")
+    def try_descent_until_no_error(self, combinations):
+        for i in range(0, len(combinations)):
+            for tree in self.parser.parse(combinations[i]):
+                return tree
 
-    def create_tree(self, sentence):
-
-        try:
-            rd_parser = RecursiveDescentParser(self.grammar)
-            for tree in rd_parser.parse(sentence):
-                result = tree
-            return result
-        except:
-            raise Exception("ERROR: Not matched passed data")
+        raise Exception("Not found compatible grammar rules with sentence")
 
     def to_dictionary(self, result):
-        final_result = {}
-        # This method select the most specific tag for the json content
-        for tags in result[0]:
-            str_cleaned = str(tags).replace("(","").replace(")","")
-            content = str_cleaned.split()
-            final_result[content[len(content)-2]] = content[len(content)-1]
+        for leaf in result.leaves():
+            print(leaf)
 
-        return final_result
+        return ""

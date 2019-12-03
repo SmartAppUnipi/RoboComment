@@ -35,8 +35,6 @@ class Adapter:
         new_json["type"] = "elementary"
         new_json["details"] = {}
 
-        print("Error here", jsonobj.keys())
-
         json_keys = jsonobj.keys()
         if "player_active" in json_keys:
             new_json["details"]["player1"] = jsonobj["player_active"]["id"]["value"]
