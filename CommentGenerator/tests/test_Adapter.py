@@ -12,24 +12,8 @@ class TestFiller(unittest.TestCase):
             input1 = json.load(mock_json)
         jsonobj = self.adapter.adapt(input1)
 
-        # jsonobj = json.dumps(jsonobj, sort_keys=False)
-        json_expected = {
-            "user_id": 10,
-            "time": {"start": 10,
-                     "end": 20
-                     },
-            "type": "elementary",
-            "details":{
-                "player1": 10,
-                "team1": 42,
-                "player2": 11,
-                "team2": 42
-            }
-        }
-        # Todo compare json in a unordered way
-        #json_expected = json.dumps(json_expected, sort_keys=True)
-
-        
+        assert jsonobj['details']['subtype'] == 'pass'
+        assert jsonobj['details']['player2'] == 7
 
 
     def test_adapt_possession1(self):
