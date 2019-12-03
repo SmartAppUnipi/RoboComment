@@ -3,7 +3,8 @@
 ## How to run it
 ``` 
 pip3 install -r requirements.txt 
-python3.6 CommentGenerator/app.py [AUDIO IP]
+# the app MUST be started in the RoboComment directory
+python3.6 CommentGenerator/app.py 
 ```
 ## How to test it
 ```
@@ -17,7 +18,7 @@ pytest CommentGenerator/tests
 
 ### POST an  action
 - **URL**  /api/action
-- **Expected Input** check  **assets/input1.json** 
+- **Expected Input** check  **assets/input_symbolic1.json** 
 - **Produced Output**   json with format:
     ```
     {
@@ -25,6 +26,7 @@ pytest CommentGenerator/tests
         "emphasis" : <integer value>,
         "startTime" : <integer seconds>,
         "endTime" : <integer seconds>,
-        "priority": <integer level from 0 to 5>
+        "priority": <integer level from 0 to 5>,
+        "id" : <int with the user id>
     } 
     ```
