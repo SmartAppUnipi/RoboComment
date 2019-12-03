@@ -205,6 +205,7 @@ function sendComment(item, id) {
                 }
             } else {
                 console.log("Broadcast to client of ID: "+ id);
+                // new_comment.endTime += 5;
                 let reply = {
                     reply_type: "comment",
                     reply: new_comment

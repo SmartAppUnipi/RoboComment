@@ -69,7 +69,9 @@ function connect() {
         switch (message.reply_type) {
             case "comment":
                 try {
-                    queue.enqueue(new CommentOBJ(message.reply, new XMLHttpRequest(),0));
+                    freshComment = new CommentOBJ(message.reply, new XMLHttpRequest(),0);
+                    checkFlagAudio(freshComment);
+                    queue.enqueue(freshComment);
                 } catch {
                     console.log("Comment is not received, Message is:: ", e.data);
                 }
