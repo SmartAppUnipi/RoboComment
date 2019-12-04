@@ -1,31 +1,31 @@
 {
 	"comments": [
 		{
-			"comment": "Long pass from Barcelona players",
+			"comment": "Fabregas receiving long pass",
 			"emphasis": 23,
 			"startTime": 5,
-			"endTime": 8,
+			"endTime": 7,
 			"priority": 1
 		},
 		{
-			"comment": "Tizio enters the penalty area",
+			"comment": "Adriano enters the penalty area",
 			"emphasis": 23,
-			"startTime": 10,
-			"endTime": 13,
+			"startTime": 8.5,
+			"endTime": 10,
 			"priority": 1
 		},
 		{
-			"comment": "Big shot from Messi",
+			"comment": "Pass the ball to Messi",
 			"emphasis": 23,
-			"startTime": 14,
-			"endTime": 16,
+			"startTime": 11,
+			"endTime": 12,
 			"priority": 1
 		},
 		{
 			"comment": "And thats a goal",
 			"emphasis": 23,
-			"startTime": 15,
-			"endTime": 20,
+			"startTime": 12,
+			"endTime": 14,
 			"priority": 100
 		}
 	]
