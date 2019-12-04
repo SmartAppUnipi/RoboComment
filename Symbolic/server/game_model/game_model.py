@@ -62,11 +62,12 @@ class GameModel:
             jsn = e
             jsn['user_id'] = self._user_id
             try:
-                x = requests.post(self._cg_url, json=jsn, timeout=0.1)
+                x = requests.post(self._cg_url, json=jsn, timeout=0.01)
                 # clear the stdout for next iteration
                 self._stacks['stdout'].clear()
             except requests.Timeout:
                 print("Unable to write to CommentGeneration: Timeout")
+                return
 
     def _get_rules_strings(self, filename):
         """Parse the rules file and build an array or rules strings

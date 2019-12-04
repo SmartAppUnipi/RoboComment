@@ -55,14 +55,10 @@ def new_positions():
     data = flask.request.get_json()
 
     print("Received data from video processing")
-    #if Validator.validate_positions(data):
-    #    print("Data is correctly formatted")
-    #else:
-    #    print("data is incorrect")
-
-    #with open('game_log.out', 'a+') as dump_file:
-    #    string = json.dumps(data)
-    #    dump_file.write(string+"\n")
+    if Validator.validate_positions(data):
+        print("Data is correctly formatted")
+    else:
+        print("data is incorrect")
 
     # Metto in map le nuove posizioni
     map._update_position(data)

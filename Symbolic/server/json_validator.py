@@ -9,6 +9,11 @@ uncertain_number_schema = Schema({
     Optional("confidence"): And(Or(int, float))
 })
 
+uncertain_string_schema = Schema({
+    "value": str,
+    Optional("confidence"): And(Or(int, float))
+})
+
 coordinate_schema = Schema({
     "x": Or(int, float),
     "y": Or(int, float),
@@ -22,7 +27,7 @@ coordinate_3D_schema = Schema({
 })
 
 positions_schema = Schema({
-    "user_id": int,
+    "user_id": Or(int, str),
     "time": And(Or(float, int), lambda t: t >= 0),
     Optional("camera"): {
         "position": Use(lambda x: coordinate_3D_schema.validate(x)),
@@ -42,7 +47,7 @@ positions_schema = Schema({
         {
             "position": Use(lambda x: coordinate_schema.validate(x)),
             "speed": Use(lambda x: coordinate_schema.validate(x)),
-            Optional("midair"): And(Or(int, float), lambda x: x >= 0 or x <= 1),
+            Optional("midair"): Use(lambda x: uncertain_string_schema.validate(x)),
             Optional("owner"): Use(lambda x: uncertain_number_schema.validate(x)),
             Optional("owner team"): Use(lambda x: uncertain_number_schema.validate(x)),
         }
