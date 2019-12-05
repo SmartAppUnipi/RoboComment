@@ -3,10 +3,11 @@ from ast import literal_eval
 
 def _split(rule_string: str):
     name_and_stack, rules, constraints, action = re.split(' = | : | then ', rule_string)
+    action_list = action.split(';')
 
     name, stack = re.findall('[a-z]+', name_and_stack)
 
-    return name, stack, rules, constraints, action
+    return name, stack, rules, constraints, action_list
 
 
 def parse(rule_string: str):

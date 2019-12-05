@@ -30,6 +30,10 @@ def push(push_to, element):
                 stacks[stack_name].insert(index-1, element)
                 break
 
+def consume(stack_name, element):
+    stacks = GameModel.get_env()['stacks']
+    stack = stacks[stack_name]
+    stack.remove(element)
 
 def spacchettpush(stack, element):
     for key in sorted(element):

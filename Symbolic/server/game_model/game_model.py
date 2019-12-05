@@ -68,6 +68,12 @@ class GameModel:
             except requests.Timeout:
                 print("Unable to write to CommentGeneration: Timeout")
                 return
+            
+    def _pythonize_rule(self, rule_str):
+        """Transforms the rule from JS style (@0.player.id) to python style (@0['player']['id'])"""
+        match = re.match(r"(\@[0-9]+\.)([a-z|.]+)", rule_str)
+        print(match)
+        return rule_str
 
     def _get_rules_strings(self, filename):
         """Parse the rules file and build an array or rules strings
@@ -87,7 +93,8 @@ class GameModel:
                     else:
                         prev_rule += " " + next_line.strip()
 
-            rules.append(prev_rule.strip())
+            rule_pythonized = self._pythonize_rule(prev_rule.strip())
+            rules.append(rule_pythonized)
         return rules
 
 U = GameModel()

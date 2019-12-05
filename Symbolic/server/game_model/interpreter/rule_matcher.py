@@ -19,7 +19,7 @@ if all the conditions match in AND then the action is executed
 
 
 def rule_matcher(condition, action, constraints):
-    if not isinstance(action, str) or not isinstance(constraints, str):
+    if not isinstance(action, list) or not isinstance(constraints, str):
         raise TypeError
     stacks = GameModel.get_env()['stacks'] 
     registers = GameModel.get_env()['registers']

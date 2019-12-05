@@ -1,5 +1,4 @@
 import flask
-from json_validator import Validator
 import json
 from flask import render_template, jsonify, request, Flask
 from map2d import *
@@ -55,10 +54,6 @@ def new_positions():
     data = flask.request.get_json()
 
     print("Received data from video processing")
-    if Validator.validate_positions(data):
-        print("Data is correctly formatted")
-    else:
-        print("data is incorrect")
 
     # Metto in map le nuove posizioni
     map._update_position(data)
