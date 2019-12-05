@@ -11,7 +11,7 @@ class GameModel:
         """returns stacks, registers and rules"""
         return {
             'stacks': U._stacks,
-            'registers': U._registers, 
+            'registers': U._registers,
             'rules': U._rules
         }
 
@@ -34,7 +34,7 @@ class GameModel:
         self._stacks = {}
         self._stacks['stdin'] = deque()
         self._stacks['stdout'] = deque()
-                        
+
         # parse rule file
         self._rules = {}
         rules = self._get_rules_strings('game_model/rules/rules.txt')
@@ -42,8 +42,8 @@ class GameModel:
             parse_obj = parser.parse(rule.strip())
             name = parse_obj['name']
             self._rules[name] = {
-                'type': 'rule', 
-                'condition': parse_obj['condition'], 
+                'type': 'rule',
+                'condition': parse_obj['condition'],
                 'action': parse_obj['action'],
                 'constraints': parse_obj['constraints']
             }
@@ -68,11 +68,15 @@ class GameModel:
             except requests.Timeout:
                 print("Unable to write to CommentGeneration: Timeout")
                 return
-            
-    def _pythonize_rule(self, rule_str):
+
+    def _pythonize_rule(rule_str):
         """Transforms the rule from JS style (@0.player.id) to python style (@0['player']['id'])"""
-        match = re.match(r"(\@[0-9]+\.)([a-z|.]+)", rule_str)
-        print(match)
+        match = re.finditer(r"(\.[a-z]+)+", rule_str)
+
+        for x in match:
+            js_syntax = x.group()
+            py_syntax = "['{}']".format(js_syntax[1:].replace(".", "']['"))
+            rule_str = rule_str.replace(x.group(), py_syntax, 1)
         return rule_str
 
     def _get_rules_strings(self, filename):
