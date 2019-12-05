@@ -17,7 +17,7 @@ class GameModel:
 
     @staticmethod
     def clean_reg():
-        """returns stacks, registers and rules"""
+        """cleans stacks, registers and rules"""
         U._registers = {}
 
     def __init__(self):
@@ -39,7 +39,9 @@ class GameModel:
         self._rules = {}
         rules = self._get_rules_strings('game_model/rules/rules.txt')
         for rule in rules:
-            parse_obj = parser.parse(rule.strip())
+            parse_obj = parser.parse(
+                self._pythonize_rule(rule.strip())
+            )
             name = parse_obj['name']
             self._rules[name] = {
                 'type': 'rule',
@@ -69,7 +71,7 @@ class GameModel:
                 print("Unable to write to CommentGeneration: Timeout")
                 return
 
-    def _pythonize_rule(rule_str):
+    def _pythonize_rule(self, rule_str):
         """Transforms the rule from JS style (@0.player.id) to python style (@0['player']['id'])"""
         match = re.finditer(r"(\.[a-z]+)+", rule_str)
 
