@@ -36,19 +36,18 @@ class GameModel:
         self._stacks['stdout'] = deque()
 
         # parse rule file
-        self._rules = {}
+        self._rules = []
         rules = self._get_rules_strings('game_model/rules/rules.txt')
         for rule in rules:
-            parse_obj = parser.parse(
-                self._pythonize_rule(rule.strip())
-            )
+            parse_obj = parser.parse(rule)
             name = parse_obj['name']
-            self._rules[name] = {
+            self._rules.append({
+                'name': name,
                 'type': 'rule',
                 'condition': parse_obj['condition'],
                 'action': parse_obj['action'],
                 'constraints': parse_obj['constraints']
-            }
+            })
 
     def new_positions(self, positions):
         """This function gets called by the app whenever new positions arrive"""
@@ -73,7 +72,7 @@ class GameModel:
 
     def _pythonize_rule(self, rule_str):
         """Transforms the rule from JS style (@0.player.id) to python style (@0['player']['id'])"""
-        match = re.finditer(r"(\.[a-z]+)+", rule_str)
+        match = re.finditer(r"(\.[a-z|_]+)+", rule_str)
 
         for x in match:
             js_syntax = x.group()
@@ -94,13 +93,12 @@ class GameModel:
                     end = True
                 else:
                     if not re.match(r'\s', next_line) and len(prev_rule) > 0:
-                        rules.append(prev_rule.rstrip())
+                        rule_pythonized = self._pythonize_rule(prev_rule.rstrip())
+                        rules.append(rule_pythonized)
                         prev_rule = next_line.strip()
                     else:
                         prev_rule += " " + next_line.strip()
 
-            rule_pythonized = self._pythonize_rule(prev_rule.strip())
-            rules.append(rule_pythonized)
         return rules
 
 U = GameModel()

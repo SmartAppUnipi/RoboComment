@@ -4,7 +4,7 @@ from game_model.game_model import GameModel
 def set_rule_matcher():
     rules = GameModel.get_env()['rules']
     any = False
-    for rule in rules.values():
+    for rule in rules:
         if rule_matcher(rule['condition'], rule['action'], rule['constraints']):
             # At least one rule matched
             any = True

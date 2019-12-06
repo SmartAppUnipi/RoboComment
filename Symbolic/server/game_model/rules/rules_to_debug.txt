@@ -1,19 +1,4 @@
-unpack[stdin] = @0 as ? : True then spacchettpush('positions', @0)
-
-closest[stdin] = @0 as ? : True then push_closest('positions', @0)
-
-possession[positions] = @0 as {'type': 'ball'} -> .{0,0} -> @1 as {'type': 'closest'} : 
-    @1.time == @0.time and distance(@0.position, @1.position) < 0.9 then
-    push('elementary', {'type':'possession', 'time': @0.time, 'player': {'id': @1.id, 
-    'team': @1.team}, 'position': @0.position})
-
-pass[elementary]  = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} : 
-    @0.player.team == @1.player.team and @0.player.id.value !=
-    @1.player.id.value then push(['elementary', 'internal_stdout'], {'type': 'pass', 
-    'passer': @0.player, 'receiver': @1.player, 'time': @1.time, 'start_time': @0.time, 
-    'end_time': @1.time})
-
-intercept[elementary]  = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} : 
-    @0.player.team != @1.player.team then push(['elementary', 'internal_stdout'], 
-    {'type': 'intercept', 'ball_loser': @0.player, 'interceptor': @1.player, 
-    'time': @1.time, 'start_time': @0.time, 'end_time': @1.time})
+possession_wrap[elementary] = @0 as {'type': 'possession'} -> .{0,1} -> @1 as {'type': 'possession'} :
+    @0.player.id.value == @1.player.id.value and @0.time != @1.time then consume('elementary', @0); 
+    consume('elementary', @1); push('elementary', {'type':'possession', 'time': @0.time, 'player': 
+    @1.player, 'position': @0.position, 'until': @1.time})
