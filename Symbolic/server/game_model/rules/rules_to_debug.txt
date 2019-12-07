@@ -1,4 +1,0 @@
-possession_wrap[elementary] = @0 as {'type': 'possession'} -> .{0,1} -> @1 as {'type': 'possession'} :
-    @0.player.id.value == @1.player.id.value and @0.time != @1.time then consume('elementary', @0); 
-    consume('elementary', @1); push('elementary', {'type':'possession', 'time': @0.time, 'player': 
-    @1.player, 'position': @0.position, 'until': @1.time})

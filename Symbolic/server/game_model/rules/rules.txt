@@ -3,9 +3,13 @@ unpack[stdin] = @0 as ? : True then spacchettpush('positions', @0)
 closest[stdin] = @0 as ? : True then push_closest('positions', @0)
 
 possession[positions] = @0 as {'type': 'ball'} -> .{0,0} -> @1 as {'type': 'closest'} :
-    @1.time == @0.time and distance(@0.position, @1.position) < 0.9 then
+    @1.time == @0.time and distance(@0.position, @1.position) < 1.1 then
     push('elementary', {'type':'possession', 'time': @0.time, 'player': {'id': @1.id,
     'team': @1.team}, 'position': @0.position, 'until': @0.time})
+
+possession_merger[elementary] = @0 as {'type': 'possession'} -> .{0,1} -> @1 as {'type': 'possession'} :
+    @0.player.id.value == @1.player.id.value and @0.time != @1.time then consume('elementary', @1); 
+    update('elementary', @0, {'until': @1.time})
 
 pass[elementary] = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} :
     @0.player.team == @1.player.team and @0.player.id.value !=

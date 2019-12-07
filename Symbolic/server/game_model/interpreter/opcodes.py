@@ -35,6 +35,17 @@ def consume(stack_name, element):
     stack = stacks[stack_name]
     stack.remove(element)
 
+def update(stack_name, value, new_entries):
+    """changes the value in stack name by updating the entries specified in new_entries"""
+    stacks = GameModel.get_env()['stacks']
+    stack = stacks[stack_name]
+    leng = len(stack)
+    idx = stack.index(value)
+    old = stack[idx]
+    for e in new_entries.keys():
+        old[e] = new_entries[e]
+    stack[idx] = old
+
 def spacchettpush(stack, element):
     for key in sorted(element):
         value = element[key]

@@ -5,6 +5,7 @@ from map2d import *
 from flask_socketio import SocketIO, emit
 import pprint
 import os
+import threading
 from game_model.game_model import GameModel, U
 from game_model.interpreter.set_rule_matcher import set_rule_matcher
 
@@ -68,9 +69,18 @@ def new_positions():
         dump_file.write(string+"\n")
     return ""
 
+def tick():
+    threading.Timer(10.0, tick).start()
+    print("tick")
+    U._stacks['stdin'].appendleft({'type': 'tick'})
+    set_rule_matcher()
+    U.to_comment_generation()
+
+
 if __name__ == '__main__':
     if os.path.exists("game_log.out"):
         os.remove("game_log.out")
+    # tick()
 
     print("app is running, open localhost:3001/debug to display the map")
     socketio.run(app, host='0.0.0.0',
