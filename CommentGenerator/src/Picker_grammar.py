@@ -20,7 +20,7 @@ class Picker:
         # this class will be responsible to extract info inside json
         self.__extractor = Extractor()
         with open('CommentGenerator/assets/comments_empty_moments.txt', "r") as f:
-            self.__lulls = [str(line) for line in f.readlines()]
+            self.__lulls = [line for line in f.readlines()]
 
     def pick_comment(self, input_json: json, template_type: int)->str:
         """
@@ -60,7 +60,7 @@ class Picker:
         if template_type == 2:
             (success, comment) = self.__lulls_comment()
             if success:
-                return " ".join(str(word) for word in comment)
+                return comment
             else:
                 template_type += 1
 
@@ -105,25 +105,18 @@ class Picker:
         else:
             raise Exception("Picker_pure-comment: action is not present")
 
-    def __pure_comment_repeated(self)->tuple:
-        """
-        Construct the sentence according to the json input, adding something that correlate to previous comment
-        :return: tuple composed (success result (true, false), comment list produced)
-        :return:
-        """
-
     def __hybrid_comment(self)-> tuple:
         """
         Construct the sentence according based hybrid info
         :return: tuple composed (success result (true, false), comment list)
         :return:
         """
-        result = self.__extractor.get_random_info_and_value()
+        key,value = self.__extractor.get_random_info_and_value()
         # the random info is not inside the json
-        if result[1] == None:
+        if value == None:
             return (False, [""])
         # here we are sure that json contain that info
-        return (True, [""])
+        return (True, ["{"+key+"}:{"+str(value)+"}"+"{space_where_get_info_from_kb}"])
 
     def __lulls_comment(self)-> tuple:
         """
@@ -141,13 +134,13 @@ if __name__ == '__main__':
     "user_id": 10,
     "start_time": 10,
     "end_time" : 20,
-    "player_active": {
-      "id": {
-        "value": 42,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    },
+    #"player_active": {
+    #  "id": {
+    #    "value": 42,
+    #    "confidence": 0.5
+    #  },
+    #  "team": {"value" : 42}
+    #},
     "player_passive": {
       "id": {
         "value": 7,
@@ -157,5 +150,5 @@ if __name__ == '__main__':
     }
 }
 
-    comment = picker.pick_comment(test1, 0)
+    comment = picker.pick_comment(test1, 1)
     print(comment)
