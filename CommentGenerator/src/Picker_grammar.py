@@ -125,3 +125,30 @@ class Picker:
         :return:
         """
         return (True, random.choice(self.__lulls))
+
+
+if __name__ == '__main__':
+    picker = Picker()
+    test1 = {
+        "type": "intercept",
+        "user_id": 10,
+        "start_time": 10,
+        "end_time": 20,
+        "player_active": {
+            "id": {
+                "value": 42,
+                "confidence": 0.5
+            },
+            "team": {"value": 42}
+        },
+        "player_passive": {
+            "id": {
+                "value": 7,
+                "confidence": 0.5
+            },
+            "team": {"value": 7}
+        }
+    }
+
+    comment = picker.pick_comment(test1, 0)
+    print(comment)
