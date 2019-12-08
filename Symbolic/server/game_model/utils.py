@@ -81,7 +81,7 @@ def createDummy():
     )
 
 
-def simulate_passage():
+def simulate_passage(x):
 
     global pass_time, pass_ball_y, pp, direction
 
@@ -96,10 +96,29 @@ def simulate_passage():
 
     tmp['user_id'] = 0
 
+    #REFREE
     tmp['players'].append(
         {
             "position": {
-                "x": 10,
+                "x": x - 10,
+                "y": (0 + x/2)
+            },
+            "id": {
+                "value": 99,
+                "confidence": 1
+            },
+            "team": {
+                "value": -1
+            },
+            "pose": ""
+        }
+    )
+
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x,
                 "y": 10
             },
             "id": {
@@ -115,7 +134,23 @@ def simulate_passage():
     tmp['players'].append(
         {
             "position": {
-                "x": 10,
+                "x": x,
+                "y": 20
+            },
+            "id": {
+                "value": 1,
+                "confidence": 1
+            },
+            "team": {
+                "value": 0
+            }
+        }
+    )
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x,
                 "y": 30
             },
             "id": {
@@ -131,11 +166,11 @@ def simulate_passage():
     tmp['players'].append(
         {
             "position": {
-                "x": 10,
-                "y": 20
+                "x": x,
+                "y": 40
             },
             "id": {
-                "value": 1,
+                "value": 3,
                 "confidence": 1
             },
             "team": {
@@ -144,10 +179,76 @@ def simulate_passage():
         }
     )
 
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x,
+                "y": 50
+            },
+            "id": {
+                "value": 4,
+                "confidence": 1
+            },
+            "team": {
+                "value": 0
+            }
+        }
+    )
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x + 20,
+                "y": 25
+            },
+            "id": {
+                "value": 11,
+                "confidence": 1
+            },
+            "team": {
+                "value": 1
+            }
+        }
+    )
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x + 20,
+                "y": 35
+            },
+            "id": {
+                "value": 12,
+                "confidence": 1
+            },
+            "team": {
+                "value": 1
+            }
+        }
+    )
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x + 20,
+                "y": 45
+            },
+            "id": {
+                "value": 13,
+                "confidence": 1
+            },
+            "team": {
+                "value": 1
+            }
+        }
+    )
+
+
+
     tmp['ball'].append(
         {
             "position": {
-                "x": 10,
+                "x": x,
                 "y": pass_ball_y
             },
             "speed": {
@@ -158,9 +259,9 @@ def simulate_passage():
     )
     pass_time += 0.05
 
-    if pass_ball_y < 30 and direction == 'down':
+    if pass_ball_y < 50 and direction == 'down':
         pass_ball_y += 1
-    elif pass_ball_y ==30 and direction == 'down':
+    elif pass_ball_y == 50 and direction == 'down':
         pass_ball_y -= 1
         direction = 'up'
     elif pass_ball_y > 10 and direction == 'up':
@@ -181,7 +282,17 @@ if __name__ == '__main__':
             requests.post(url, json=pass_)
             time.sleep(0.25)
     else:
-        while True:
-            pass_ = simulate_passage()
-            requests.post(url, json=pass_)
-            time.sleep(0.1)
+        start = 0
+        for i in range(0,105):
+            if (i < 40):
+                start += 1
+                pass_ = simulate_passage(start)
+                requests.post(url, json=pass_)
+                time.sleep(0.1)
+                
+            else:
+                start += 1
+                pass_ = simulate_passage(start)
+                requests.post(url, json=pass_)
+                time.sleep(0.1)
+

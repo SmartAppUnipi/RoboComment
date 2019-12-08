@@ -4,8 +4,8 @@ closest[stdin] = @0 as ? : True then push_closest('positions', @0)
 
 possession[positions] = @0 as {'type': 'ball'} -> .{0,0} -> @1 as {'type': 'closest'} :
     @1.time == @0.time and distance(@0.position, @1.position) < 1.1 then
-    push('elementary', {'type':'possession', 'time': @0.time, 'player': {'id': @1.id,
-    'team': @1.team}, 'position': @0.position, 'until': @0.time})
+    push('elementary', {'type':'possession', 'time': trunc(@0.time), 'player': {'id': @1.id,
+    'team': @1.team}, 'position': @0.position, 'until': trunc(@0.time)})
 
 possession_merger[elementary] = @0 as {'type': 'possession'} -> .{0,1} -> @1 as {'type': 'possession'} :
     @0.player.id.value == @1.player.id.value and @0.time != @1.time then consume('elementary', @1); 
@@ -13,28 +13,34 @@ possession_merger[elementary] = @0 as {'type': 'possession'} -> .{0,1} -> @1 as 
 
 pass[elementary] = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} :
     @0.player.team == @1.player.team and @0.player.id.value !=
-    @1.player.id.value then push(['elementary', 'internal_stdout'], {'type': 'pass',
-    'passer': @0.player, 'receiver': @1.player, 'time': @1.time, 'start_time': @0.time,
-    'end_time': @1.time}); consume('elementary', @0)
+    @1.player.id.value then push(['elementary', 'int_stdout', 'fpass'], {'type': 'pass',
+    'passer': @0.player, 'receiver': @1.player, 'time': trunc(@1.time), 'start_time': trunc(@0.time),
+    'end_time': trunc(@1.time)})
 
 intercept[elementary] = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} :
-    @0.player.team != @1.player.team then push(['elementary', 'internal_stdout'],
+    @0.player.team != @1.player.team then push(['elementary', 'int_stdout', 'fpass'],
     {'type': 'intercept', 'ball_loser': @0.player, 'interceptor': @1.player,
-    'time': @1.time, 'start_time': @0.time, 'end_time': @1.time}); consume('elementary', @0)
+    'time': @1.time, 'start_time': @0.time, 'end_time': @1.time})
 
-tikitaka[elementary] = @0 as {'type': 'pass'} -> .{0,1} -> @1 as {'type': 'pass'} -> .{0,1} -> @2 as {'type': 'pass' } -> .{0,1} -> @3 as {'type': 'pass'} :
-    @0.passer.team == @1.receiver.team and @1.passer.team == @2.receiver.team and @2.passer.team == @3.receiver.team 
-    then push(['strategy', 'internal_stdout'], {'type': 'tikitaka', 'time': @3.time, 'start_time': @0.time, 'end_time': @3.time});
-    consume('elementary', @0)
+tikitaka[fpass] = @0 as {'type': 'pass'} -> @1 as {'type': 'pass'} -> @2 as {'type': 'pass' } -> @3 as {'type': 'pass'} :
+    @0.passer.team == @1.passer.team == @2.passer.team == @3.passer.team
+    then push('strategy', {'type': 'quasi_tikitaka', 'team': @0.passer.team, 'time': mean(@0.time, @3.time), 'start_time': trunc(@0.time), 'end_time': trunc(@3.time)});
+    consume('fpass', @0); consume('fpass', @1); consume('fpass', @2); consume('fpass', @3)
 
-pass_stdout[internal_stdout] = @0 as {'type': 'pass'} : True then push('stdout', {'type': 'pass',
+tikitaka_out[strategy] = @0 as {'type': 'quasi_tikitaka'} -> .{0,5} -> @1 as {'type': 'quasi_tikitaka'} :
+    @0.time < @1.time and @0.team == @1.team then 
+    push('stdout', {'type': 'tikitaka', 'team': @0.team, 'time': @1.time, 'start_time': @0.time, 'end_time': @1.time});
+    consume('strategy', @0); consume('strategy', @1)
+
+pass_stdout[int_stdout] = @0 as {'type': 'pass'} : True then push('stdout', {'type': 'pass',
     'start_time': @0.start_time, 'end_time': @0.end_time, 'player_active': @0.passer, 'player_passive':
-    @0.receiver, 'time': @0.time}); consume('internal_stdout', @0)
+    @0.receiver, 'time': @0.time}); consume('int_stdout', @0)
 
-intercept_stdout[internal_stdout] = @0 as {'type': 'intercept'} : True then push('stdout', {'type': 
+intercept_stdout[int_stdout] = @0 as {'type': 'intercept'} : True then push('stdout', {'type': 
     'intercept', 'start_time': @0.start_time, 'end_time': @0.end_time, 'player_active': 
-    @0.interceptor, 'player_passive': @0.ball_loser, 'time': @0.time}); consume('internal_stdout', @0)
+    @0.interceptor, 'player_passive': @0.ball_loser, 'time': @0.time}); consume('int_stdout', @0)
 
-tikitaka_stdout[internal_stdout] = @0 as {'type': 'tikitaka'} -> .{0,1} -> @1 as {'type': 'tikitaka'} -> .{0,1} -> @2 as {'type': 'tikitaka'} : 
-    @0.time != @1.time and @1.time != @2.time then push('stdout', {'type': 'tikitaka', 'start_time': @0.start_time, 
-    'end_time': @2.end_time, 'time': @2.time}); consume('internal_stdout', @0); 
+on_target[stdin] = @0 as ? : ball_on_target(@0) then push('elementary', {'type': 'on_target', 'time': @0.time})
+    
+shot_on_target[elementary] = @0 as {'type': 'possession'} -> .{0,2} -> @1 as {'type': 'on_target'} -> @2 as {'type': 'on_target'} :
+    True then push('stdout', {'type': 'shot_on_target', 'time': @0.time, 'player_active': @0.player})

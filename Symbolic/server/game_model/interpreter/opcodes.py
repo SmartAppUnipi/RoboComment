@@ -57,7 +57,7 @@ def spacchettpush(stack, element):
                     a['type'] = 'player'
                 else:
                     a['type'] = key
-                a['time'] = element['time']
+                a['time'] = trunc(element['time'])
                 push(stack, a)
 
 def distance(a, b):
@@ -90,14 +90,14 @@ def push_closest(stack_name, pos):
 
     to_push = {
         'type': 'closest',
-        'time': pos['time'],
+        'time': trunc(pos['time']),
         'id': closest['id'],
         'team': closest['team'],
         'position': closest['position']
     }
     push(stack_name, to_push)
 
-def ball_on_target(queue):
+def ball_on_target(pos):
     """
     Compute the position of the ball with respect to the goal
 
@@ -109,9 +109,9 @@ def ball_on_target(queue):
 
     _goal_height = 7
 
-    _threshold = 2
+    _threshold = 1
 
-    pos = queue[-1]
+    #pos = queue[-1]
     
     ball_pos_x = pos['ball'][0]['position']['x']
     ball_pos_y = pos['ball'][0]['position']['y']
@@ -121,6 +121,12 @@ def ball_on_target(queue):
             return True
     
     return False           
+
+def trunc(a):
+    return int(a * 10000) / 10000
+
+def mean(a,b):
+    return (a+b)/2
 
 #TODO
 def fast_ball(queue):
