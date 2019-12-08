@@ -2,9 +2,9 @@ import json
 import logging
 import random
 
-from .tags.Elementary import Elementary
-from .tags.Extractor import Extractor
-from .tags.Player import Player
+from tags.Extractor import Extractor
+from tags.Player import Player
+from tags.Elementary import Elementary
 
 
 class Picker:
