@@ -48,7 +48,7 @@ class Player:
                 if self.__confidence != None:
                     if self.__confidence <= 0.5:
                         player_info.append(random.choice(["it seems that {player_modifier} {player1} ", "it seems that {player1} ",
-                                                          "apparently {player_modifier} {player1} ", "apparently {player_modifier} {player1}"
+                                                          "apparently {player_modifier} {player1} ", "apparently {player1}"
                                                           ]))
                     elif self.__confidence > 0.5:
                         player_info.append(random.choice(["clearly {player_modifier} {player1} ", "clearly {player1} ",
@@ -63,11 +63,13 @@ class Player:
             if self.__team_value != None:
                 if self.__team_confidence != None:
                     if self.__team_confidence <= 0.5:
-                        team_info.append(random.choice([", of the well-known team, ", ""]))
+                        pass
                     elif self.__team_confidence > 0.5:
-                        team_info.append(random.choice[(", of {team_modifier}{team1} team, ", ", of {team1} ")])
+                        team_info.append(random.choice[(", of well know {team_modifier}{team1} team, ", ", of well know {team1} ")])
                 else:
-                    team_info.append(random.choice([", {team1} man, ", ""]))
+                    team_info.append(random.choice([", {team1} man, ", "belonging to {team1}",
+                                                    ""
+                                                    ]))
 
         # receiver information
         elif self.__syntactic_rule == 'player_passive':

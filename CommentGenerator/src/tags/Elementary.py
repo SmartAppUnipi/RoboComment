@@ -36,13 +36,17 @@ class Elementary:
 
         # express POSSESSION
         if self.__type == 'possession':
-            action_info.append(random.choice(["take possession ", "take the ball "]))
+            action_info.append(random.choice(["takes possession ", "takes the responsibility of changing something ",
+                                              "takes the ball ", "takes the witness ",
+                                              "receives the ball ", "earns the ball ",
+                                              "has the ability to change the match "
+                                              ]))
             # customizing it based on time
             if self.__time_start != None and self.__time_end != None:
                 if (self.__time_end - self.__time_start) > 5:
-                    time_info.append(random.choice(["for a long time ", ""]))
-            else:
-                time_info.append(random.choice(["who knows how long it will continue to do so", ""]))
+                    time_info.append(random.choice([", repetitively ",
+                                                    ", teammates trust him ",
+                                                    ", will have the courage to dare? "]))
 
         # express PASS
         elif self.__type == 'pass':
