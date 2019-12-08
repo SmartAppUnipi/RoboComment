@@ -1,98 +1,125 @@
-try:
-    from .Tagger import Tagger
-    from .TemplateGenerator import TemplateGenerator
-except Exception:
-    from Tagger import Tagger
-    from TemplateGenerator import TemplateGenerator
-
 import json
+import logging
 import random
+
+from .tags.Elementary import Elementary
+from .tags.Extractor import Extractor
+from .tags.Player import Player
 
 
 class Picker:
+    """
+    This class constructs the sentence according to input json and the state of the commentator
+    """
 
     def __init__(self):
-        self.tagger = Tagger()
-        self.template_generator = TemplateGenerator()
-        # list of possible comments to extract where no info are passed
+        # this class will be responsible to extract info inside json
+        self.__extractor = Extractor()
         with open('CommentGenerator/assets/comments_empty_moments.txt', "r") as f:
-            self.comment_others = [str(line) for line in f.readlines()]
+            self.__lulls = [str(line) for line in f.readlines()]
 
-        # element where insert value instead of key
-        self.tag_to_value = ["subtype", "field_zone"]
-
-    def pick_comment(self, input_json: json) -> str:
+    def pick_comment(self, input_json: json, template_type: int)->str:
         """
-        From json extract information and produce a comment.
-        The comment is stored and filled from comments_others if the input is empty
-        The comment is produced with a partial comment if the json has not consistent information
-        The comment is tagged and produce if the json has useful information
+        Call this method to start the template generator
+        Try to follow the state of the machine, but if the error is some error try another level template
+        :param template_type: int category representing the state of who call this method
+            template_type=0 : pure comment
+            template_type=1 : comment/lulls
+            template_type=2 : pure lulls
         :param input_json:
-        :return:
+        :return: string comment generated with placeholder
         """
-        if self.check_empty_json(input_json):
-            final_comment = self.create_others()
-        else:
-            sentence = self.create_sentence(input_json["details"])
-            # try to tag the sentence
-            try:
-                sentence_tagged = self.tagger.tag_sentence(sentence)
+        if 0 > template_type > 2:
+            raise Exception("PICKER_receives: wrong input")
 
-                register = "neutral"
-                preference = "positive"
+        # store input into tagger
+        self.__extractor.set_input(input_json)
 
-                final_comment = self.template_generator.generate(sentence_tagged, register, preference)
-
-            # if an error is found means that inconsistency was found
-            except Exception as e:
-                print(e)
-                final_comment = self.create_others()
-
-        return final_comment
-
-    def create_others(self) -> str:
-        """
-        This method pick a random template inside the comments_empty_moments.txt to fill the empty moments
-        :return:
-        """
-        return random.choice(self.comment_others)
-
-    def create_sentence(self, information) -> list:
-        """
-        Create the placeholders according to input
-        :param information:
-        :return:
-        """
-        sentence = []
-        for element in information.keys():
-            if element in self.tag_to_value:
-                sentence.append("{" + str(information[element]) + "}")
+        # pure comment
+        if template_type == 0:
+            (success, comment) = self.__pure_comment()
+            if success:
+                return " ".join(str(word) for subtempl in comment for word in subtempl)
             else:
-                sentence.append("{" + str(element) + "}")
+                template_type += 1
 
-        return sentence
+        # hybrid comment
+        if template_type == 1:
+            (success, comment) = self.__hybrid_comment()
+            if success:
+                return " ".join(str(word) for word in comment)
+            else:
+                template_type += 1
 
-    def check_empty_json(self, input_json) -> bool:
+        # pure lulls
+        if template_type == 2:
+            (success, comment) = self.__lulls_comment()
+            if success:
+                return " ".join(str(word) for word in comment)
+            else:
+                template_type += 1
+
+        raise Exception("PICKER_receives: not possible construct template")
+
+    def __pure_comment(self) -> tuple:
         """
-        Check if the json has useful information, if not create a contextual template
-        :param input_json:
+        Construct the sentence according to the json input
+        :return: tuple composed (success result (true, false), comment list produced)
+        """
+        # check if the fundamental type is in the json
+        if self.__extractor.has_action():
+            # take the order for corresponding action
+            sentence_order = self.__extractor.get_order()
+
+            # instantiate object given information, the logic of sub-template is moved into respective class
+            template_generated = []
+            # are mutually exclusive obviously
+            for element in sentence_order:
+                sub_template = ""
+                if element == "Player_active":
+                    # create player object, passing extraction info by tags
+                    player1 = Player()
+                    player1.obtain_info(self.__extractor.get_player_info('active'))
+                    sub_template = player1.get_template()
+                elif element == "Player_passive":
+                    # create player object, passing extraction info by tags
+                    player2 = Player()
+                    player2.obtain_info(self.__extractor.get_player_info('passive'))
+                    sub_template = player2.get_template()
+
+                if element == "Elementary":
+                    # create elementary object, passing extraction info by tags
+                    action1 = Elementary()
+                    action1.obtain_info(self.__extractor.get_action_info())
+                    sub_template = action1.get_template()
+
+
+                template_generated.append(sub_template)
+
+            return True, template_generated
+
+        else:
+            raise Exception("Picker_pure-comment: action is not present")
+
+    def __hybrid_comment(self)-> tuple:
+        """
+        Construct the sentence according based hybrid info
+        :return: tuple composed (success result (true, false), comment list)
         :return:
         """
-        if len(input_json) == 0:
-            return True
-        return False
+        result = self.__extractor.get_random_info_and_value()
+        # the random info is not inside the json
+        if result[1] == None:
+            return (False, [""])
+       # TODO with KB retrieve data about info extracted
+        # here we are sure that json contain that info
+        print(result)
+        return (True, [""])
 
-
-if __name__ == '__main__':
-
-    picker = Picker()
-
-    with open("CommentGenerator/assets/input1.json", 'r') as input1_json:
-        input_json = json.load(input1_json)
-        # TODO add test test and test
-        print("INPUT:", input_json)
-        comment = picker.pick_comment(input_json)
-        print("\nFINAL comment:", comment)
-
-    # TODO idea, use a model to rephrase the comment to obtain human readable and grammar spell checks
-    # check python paraphrase sentence and evaluate if split correction to paraphrase
+    def __lulls_comment(self)-> tuple:
+        """
+        Construct the sentence completely lulls
+        :return: tuple composed (success result (true, false), comment list)
+        :return:
+        """
+        return (True, random.choice(self.__lulls))
