@@ -15,6 +15,7 @@ class CommentAutomata():
         Initialize the automata
         """
         #states by Luca
+        """The states"""
         states = [
                     'Commento su qualche info',
                     'Commento semplice',
@@ -22,7 +23,9 @@ class CommentAutomata():
                     'Commento Random'
                 ]
         #dictionaries
+        """Dict states to index"""
         self.states2idx = {k:i for i,k in enumerate(states)}
+        """Dict index to state"""
         self.id2st = {self.states2idx[k]:k for k in self.states2idx.keys()}
         self.n_states = len(states)
 
@@ -52,6 +55,7 @@ class CommentAutomata():
         '''
 
         #Defining ASF STATES
+        
         self.asf = machines.FiniteMachine()
         for i in range(self.n_states):
             self.asf.add_state(self.id2st[i])#on_exit=print_on_exit)
