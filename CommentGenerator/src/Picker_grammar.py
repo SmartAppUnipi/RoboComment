@@ -1,10 +1,14 @@
 import json
 import logging
 import random
-
-from .tags.Extractor import Extractor
-from .tags.Player import Player
-from .tags.Elementary import Elementary
+try:
+    from .tags.Extractor import Extractor
+    from .tags.Player import Player
+    from .tags.Elementary import Elementary
+except:
+    from tags.Extractor import Extractor
+    from tags.Player import Player
+    from tags.Elementary import Elementary
 
 
 class Picker:
