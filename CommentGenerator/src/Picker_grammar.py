@@ -111,9 +111,7 @@ class Picker:
         # the random info is not inside the json
         if result[1] == None:
             return (False, [""])
-       # TODO with KB retrieve data about info extracted
         # here we are sure that json contain that info
-        print(result)
         return (True, [""])
 
     def __lulls_comment(self)-> tuple:
