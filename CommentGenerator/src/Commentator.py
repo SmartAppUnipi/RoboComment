@@ -25,6 +25,7 @@ class Commentator:
 
         # Comment matching and updating
         comment = self.picker.pick_comment(jsonobj, 0)
+        # TODO update filler
         comment = self.filler.update_comment(comment, jsonobj)
         sentiment = self.sentimentalizer.add_emphasis(comment)
 
