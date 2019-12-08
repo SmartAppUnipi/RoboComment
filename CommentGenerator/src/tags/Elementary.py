@@ -29,6 +29,7 @@ class Elementary:
     def get_template(self)->list:
         """
         Based on info about action return the best descriptive comment, they are mutually exclusive
+        At least 5 different expression for every action
         :return:
         """
         action_info = []
@@ -50,13 +51,11 @@ class Elementary:
 
         # express PASS
         elif self.__type == 'pass':
-            action_info.append(random.choice(["has made a pass towards ", "gave the ball to "]))
-            # customizing it based on time
-            if self.__time_start != None and self.__time_end != None:
-                if (self.__time_end - self.__time_start) > 5:
-                    time_info.append(random.choice([", and who knows how many passes will do, ", ""]))
-            else:
-                time_info.append("")
+            action_info.append(random.choice(["has made a pass to", "gives the ball to",
+                                              "passes to", "passes the ball to",
+                                              "gives importance to ", "welcomes the request of",
+                                              "circulates the ball towards"
+                                              ]))
 
         # express INTERCEPT
         elif self.__type == 'intercept':

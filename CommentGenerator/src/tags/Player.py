@@ -47,17 +47,18 @@ class Player:
             if self.__value != None:
                 if self.__confidence != None:
                     if self.__confidence <= 0.5:
-                        player_info.append(random.choice(["it seems that {player_modifier} {player1} ", "it seems that {player1} ",
-                                                          "apparently {player_modifier} {player1} ", "apparently {player1}"
+                        player_info.append(random.choice(["it seems that {player_modifier} {player1}", "it seems that {player1}",
+                                                          "apparently {player_modifier} {player1}", "apparently {player1}"
                                                           ]))
                     elif self.__confidence > 0.5:
-                        player_info.append(random.choice(["clearly {player_modifier} {player1} ", "clearly {player1} ",
-                                                          "evidently {player_modifier} {player1} ", "evidently {player1} "
+                        player_info.append(random.choice(["clearly {player_modifier} {player1}", "clearly {player1}",
+                                                          "{player_modifier} {player1}", "{player1}",
+                                                          "evidently {player_modifier} {player1} ", "evidently {player1}"
                                                           ]))
                 else:
-                    player_info.append(random.choice(["{player_modifier} {player1} ","{player1} ", "a player "]))
+                    player_info.append(random.choice(["{player_modifier} {player1}","{player1}", "a player"]))
             else:
-                player_info.append(random.choice(["a player ", "the player"]))
+                player_info.append(random.choice(["a player", "the player"]))
 
             # continue sentence based on TEAM INFO
             if self.__team_value != None:
@@ -74,25 +75,17 @@ class Player:
         # receiver information
         elif self.__syntactic_rule == 'player_passive':
             # start sentence based on PLAYER CONFIDENCE
-            if self.__confidence != None:
-                if self.__confidence <= 0.5:
-                    if self.__value != None:
-                        player_info.append(random.choice(["perhaps {player_modifier} {player2} ", "maybe {player2} ", ""]))
-
-                elif self.__confidence >= 0.7:
-                    player_info.append(random.choice(["definitely {player_modifier} {player2} ", "resolutely {player2} "]))
+            if self.__value != None:
+                if self.__confidence != None:
+                    if self.__confidence <= 0.5:
+                        player_info.append(random.choice(["what it looks like {player_modifier} {player2}", "what it looks like {player2}",
+                                                              "indeed, the player"
+                                                          ]))
+                    elif self.__confidence > 0.5:
+                        player_info.append(random.choice(["{player_modifier} {player2} ", "{player2}",
+                                                          "indeed, teammate "]))
             else:
-                player_info.append("teammate ")
-
-            # continue sentence based on TEAM INFO
-            if self.__team_value != None:
-                if self.__team_confidence != None:
-                    if self.__team_confidence <= 0.5:
-                        team_info.append(random.choice([", probably ", ", supposing, i can't see well "]))
-                    else:
-                        team_info.append(random.choice[(", of same team, ", "")])
-            else:
-                team_info.append(random.choice([", of same team, ", ""]))
+                player_info.append(random.choice(["teammate ", "the companion", "the player"]))
 
 
         return player_info+team_info
