@@ -23,7 +23,7 @@ class Filler:
         self.kb = kb
 
 
-    def update_comment(self, comment, details, user_id):
+    def update_comment(self, comment, details:json):
 
         # getting the placeholders {*_modifier} 
         placeholders = re.findall(r'{(.*?)}', comment)

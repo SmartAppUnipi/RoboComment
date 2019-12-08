@@ -33,35 +33,38 @@ class Player:
     def get_template(self)->list:
         """
         Based on info about player return the best descriptive comment
+        "confidence, player_value, team_confidence, team_value"
         :return:
         """
         player_info = []
         team_info = []
 
+
         # subject information, so the starting of the sentence
         if self.__syntactic_rule == 'player_active':
 
-            # start sentence based on PLAYER CONFIDENCE
-            if self.__confidence != None:
-                if self.__confidence <= 0.5:
-                    player_info.append(random.choice(["it seemed to me that ", "maybe "]))
-                elif self.__confidence >= 0.7:
-                    player_info.append(random.choice(["it was clearly seen that ", "I saw that "]))
-            else:
-                player_info.append("")
-
             # continue sentence based on PLAYER INFO
             if self.__value != None:
-                player_info.append(random.choice(["{player_modifier} {player1} ","{player1} " ]))
+                if self.__confidence != None:
+                    if self.__confidence <= 0.5:
+                        player_info.append(random.choice(["it seems that {player_modifier} {player1} ", "it seems that {player1} ",
+                                                          "apparently {player_modifier} {player1} ", "apparently {player_modifier} {player1}"
+                                                          ]))
+                    elif self.__confidence > 0.5:
+                        player_info.append(random.choice(["clearly {player_modifier} {player1} ", "clearly {player1} ",
+                                                          "evidently {player_modifier} {player1} ", "evidently {player1} "
+                                                          ]))
+                else:
+                    player_info.append(random.choice(["{player_modifier} {player1} ","{player1} ", "a player "]))
             else:
-                player_info.append("a player ")
+                player_info.append(random.choice(["a player ", "the player"]))
 
             # continue sentence based on TEAM INFO
             if self.__team_value != None:
                 if self.__team_confidence != None:
                     if self.__team_confidence <= 0.5:
                         team_info.append(random.choice([", of the well-known team, ", ""]))
-                    else:
+                    elif self.__team_confidence > 0.5:
                         team_info.append(random.choice[(", of {team_modifier}{team1} team, ", ", of {team1} ")])
                 else:
                     team_info.append(random.choice([", {team1} man, ", ""]))

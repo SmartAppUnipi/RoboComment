@@ -28,8 +28,9 @@ class Picker:
         Try to follow the state of the machine, but if the error is some error try another level template
         :param template_type: int category representing the state of who call this method
             template_type=0 : pure comment
-            template_type=1 : comment/lulls
-            template_type=2 : pure lulls
+            template_type=1 : pure comment repeated
+            template_type=2 : comment/lulls
+            template_type=3 : pure lulls
         :param input_json:
         :return: string comment generated with placeholder
         """
@@ -97,13 +98,19 @@ class Picker:
                     action1.obtain_info(self.__extractor.get_action_info())
                     sub_template = action1.get_template()
 
-
                 template_generated.append(sub_template)
 
             return True, template_generated
 
         else:
             raise Exception("Picker_pure-comment: action is not present")
+
+    def __pure_comment_repeated(self)->tuple:
+        """
+        Construct the sentence according to the json input, adding something that correlate to previous comment
+        :return: tuple composed (success result (true, false), comment list produced)
+        :return:
+        """
 
     def __hybrid_comment(self)-> tuple:
         """
