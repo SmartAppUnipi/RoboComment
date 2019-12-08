@@ -55,18 +55,19 @@ class Extractor:
             syntactic_rule = 'player_passive'
 
         # search syntactic rule trying to reducing if
-        if 'id' in self.__input[syntactic_rule]:
-            if 'value' in self.__input[syntactic_rule]['id']:
-                value = self.__input[syntactic_rule]['id']['value']
-            if 'confidence' in self.__input[syntactic_rule]['id']:
-                confidence = self.__input[syntactic_rule]['id']['confidence']
+        if syntactic_rule in self.__input:
+            if 'id' in self.__input[syntactic_rule]:
+                if 'value' in self.__input[syntactic_rule]['id']:
+                    value = self.__input[syntactic_rule]['id']['value']
+                if 'confidence' in self.__input[syntactic_rule]['id']:
+                    confidence = self.__input[syntactic_rule]['id']['confidence']
 
-        if 'team' in self.__input[syntactic_rule]:
-            if 'value' in self.__input[syntactic_rule]['team']:
-                team_value = self.__input[syntactic_rule]['team']['value']
+            if 'team' in self.__input[syntactic_rule]:
+                if 'value' in self.__input[syntactic_rule]['team']:
+                    team_value = self.__input[syntactic_rule]['team']['value']
 
-            if 'confidence' in self.__input[syntactic_rule]['team']:
-                team_confidence = self.__input[syntactic_rule]['team']['confidence']
+                if 'confidence' in self.__input[syntactic_rule]['team']:
+                    team_confidence = self.__input[syntactic_rule]['team']['confidence']
 
         return syntactic_rule, value, confidence, team_value, team_confidence
 
