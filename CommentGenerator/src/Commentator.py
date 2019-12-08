@@ -21,12 +21,11 @@ class Commentator:
     def run(self, jsonobj:json):
         
         ''' Extract the time where the json is occurred and match and update the resulting template'''
-
         user_id = jsonobj['user_id']
 
         # Comment matching and updating
-        comment = self.picker.pick_comment(jsonobj)
-        comment = self.filler.update_comment(comment, jsonobj, user_id)
+        comment = self.picker.pick_comment(jsonobj, 0)
+        comment = self.filler.update_comment(comment, jsonobj)
         sentiment = self.sentimentalizer.add_emphasis(comment)
 
         output = {
@@ -39,7 +38,3 @@ class Commentator:
         }
         return output
 
-
-
-if __name__== "__main__":
-    print("Hello")
