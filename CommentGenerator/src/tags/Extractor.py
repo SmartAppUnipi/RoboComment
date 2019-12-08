@@ -1,5 +1,6 @@
 import json
 import random
+import re
 
 
 class Extractor:
@@ -40,6 +41,7 @@ class Extractor:
 
     def get_player_info(self, role:str) -> tuple:
         """
+        DON'T touch the order
         Search and return information about the player in
         :return: tuple ordered (syntactic_rule, value, confidence, team_value, team_confidence)
         """
@@ -140,11 +142,25 @@ class Extractor:
 
         return (key, value)
 
-    def get_value_from_placeholders(self, comment:str):
+    def get_value_from_placeholders(self, comment:str)->dict:
         """
         Search the value belonging to the placeholders in the comment, returning it as dictionary
+        Take sync this placeholders with the possible ones
         :param comment:
         :return: dict{placeholder:value}
         """
+
         pairs = {}
-        print("HOHOHO",comment)
+        placeholders = re.findall(r'{(.*?)}', comment)
+
+        for plh in placeholders:
+            if plh == "player1":
+                pairs[plh]= self.get_player_info('active')[1]
+            if plh == "player2":
+                pairs[plh] = self.get_player_info('passive')[1]
+            if plh == "team1":
+                pairs[plh] = self.get_player_info('active')[3]
+            if plh == "team2":
+                pairs[plh] = self.get_player_info('passive')[3]
+
+        return pairs
