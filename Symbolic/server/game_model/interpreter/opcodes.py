@@ -12,13 +12,13 @@ def push(push_to, element):
     stacks = GameModel.get_env()['stacks']
     for stack_name in tmp:
         # If stack does not exist create it
-        if stack_name not in stacks.keys() or len(stacks[stack_name]) < 1:
+        if stack_name not in stacks.keys():
             # Push as first
             stacks[stack_name] = deque([element])
             continue
         #pdb.set_trace()
         # First element has time smaller
-        if stacks[stack_name][0]['time'] <= element['time']:
+        if len(stacks[stack_name]) < 1 or stacks[stack_name][0]['time'] <= element['time']:
             stacks[stack_name].appendleft(element)
             continue
 
@@ -29,6 +29,7 @@ def push(push_to, element):
                 # After the last element with time greater than it
                 stacks[stack_name].insert(index-1, element)
                 break
+        stacks[stack_name].insert(len(stacks[stack_name])-1, element)
 
 def consume(stack_name, element):
     stacks = GameModel.get_env()['stacks']

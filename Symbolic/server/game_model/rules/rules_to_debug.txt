@@ -17,3 +17,20 @@ pass[elementary] = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'pos
     @1.player.id.value then push(['elementary', 'internal_stdout'], {'type': 'pass',
     'passer': @0.player, 'receiver': @1.player, 'time': @1.time, 'start_time': @0.time,
     'end_time': @1.time})
+
+
+================================== LOWRENZO ZONE ======================================
+pass[elementary] = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} :
+    @0.player.team == @1.player.team and @0.player.id.value !=
+    @1.player.id.value then push(['elementary', 'internal_stdout'], {'type': 'pass',
+    'passer': @0.player, 'receiver': @1.player, 'time': @1.time, 'start_time': @0.time,
+    'end_time': @1.time}); push('internal_stdout', @0)
+
+intercept[elementary] = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} :
+    @0.player.team != @1.player.team then push(['elementary', 'internal_stdout'],
+    {'type': 'intercept', 'ball_loser': @0.player, 'interceptor': @1.player,
+    'time': @1.time, 'start_time': @0.time, 'end_time': @1.time}); push('internal_stdout', @0)
+
+possession_stdout[internal_stdout] = @0 as {'type': 'possession'} : True then push('stdout', 
+    {'type': 'possession', 'start_time': @0.time, 'end_time': @0.until, 'player_active': 
+    @0.player, 'time': @0.time}); consume('internal_stdout', @0)
