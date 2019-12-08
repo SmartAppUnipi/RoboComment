@@ -147,3 +147,4 @@ class Extractor:
         :return: dict{placeholder:value}
         """
         pairs = {}
+        print("HOHOHO",comment)

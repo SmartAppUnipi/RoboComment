@@ -47,7 +47,7 @@ class Picker:
             (success, comment) = self.__pure_comment()
             if success:
                 comment =  " ".join(str(word) for subtempl in comment for word in subtempl)
-                placeholders = get_value_from_placeholders(comment)
+                placeholders = self.__extractor.get_value_from_placeholders(comment)
                 return comment, placeholders
             else:
                 template_type += 1
