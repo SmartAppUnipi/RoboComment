@@ -54,7 +54,7 @@ class CommentAutomata():
         #Defining ASF STATES
         self.asf = machines.FiniteMachine()
         for i in range(self.n_states):
-            self.asf.add_state(self.id2st[i],on_exit=print_on_exit)
+            self.asf.add_state(self.id2st[i])#on_exit=print_on_exit)
         #Defining ASF TRANSACTIONS
         for i in range(self.n_states):
             for j,pr in enumerate(self.transitions[i]):
@@ -78,7 +78,6 @@ class CommentAutomata():
         next_state = np.argmin(self.cum_SUM[current_state]<r)
         #send the right event
         self.asf.process_event(str(round(self.transitions[current_state,next_state],3))+"_"+self.id2st[next_state])
-        print(next_state)
         return next_state
 
     #Draw the Automata
