@@ -15,12 +15,17 @@ pass[elementary] = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'pos
     @0.player.team == @1.player.team and @0.player.id.value !=
     @1.player.id.value then push(['elementary', 'internal_stdout'], {'type': 'pass',
     'passer': @0.player, 'receiver': @1.player, 'time': @1.time, 'start_time': @0.time,
-    'end_time': @1.time})
+    'end_time': @1.time}); consume('elementary', @0)
 
 intercept[elementary] = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} :
     @0.player.team != @1.player.team then push(['elementary', 'internal_stdout'],
     {'type': 'intercept', 'ball_loser': @0.player, 'interceptor': @1.player,
-    'time': @1.time, 'start_time': @0.time, 'end_time': @1.time})
+    'time': @1.time, 'start_time': @0.time, 'end_time': @1.time}); consume('elementary', @0)
+
+tikitaka[elementary] = @0 as {'type': 'pass'} -> .{0,1} -> @1 as {'type': 'pass'} -> .{0,1} -> @2 as {'type': 'pass' } -> .{0,1} -> @3 as {'type': 'pass'} :
+    @0.passer.team == @1.receiver.team and @1.passer.team == @2.receiver.team and @2.passer.team == @3.receiver.team 
+    then push(['strategy', 'internal_stdout'], {'type': 'tikitaka', 'time': @3.time, 'start_time': @0.time, 'end_time': @3.time});
+    consume('elementary', @0)
 
 pass_stdout[internal_stdout] = @0 as {'type': 'pass'} : True then push('stdout', {'type': 'pass',
     'start_time': @0.start_time, 'end_time': @0.end_time, 'player_active': @0.passer, 'player_passive':
@@ -29,3 +34,7 @@ pass_stdout[internal_stdout] = @0 as {'type': 'pass'} : True then push('stdout',
 intercept_stdout[internal_stdout] = @0 as {'type': 'intercept'} : True then push('stdout', {'type': 
     'intercept', 'start_time': @0.start_time, 'end_time': @0.end_time, 'player_active': 
     @0.interceptor, 'player_passive': @0.ball_loser, 'time': @0.time}); consume('internal_stdout', @0)
+
+tikitaka_stdout[internal_stdout] = @0 as {'type': 'tikitaka'} -> .{0,1} -> @1 as {'type': 'tikitaka'} -> .{0,1} -> @2 as {'type': 'tikitaka'} : 
+    @0.time != @1.time and @1.time != @2.time then push('stdout', {'type': 'tikitaka', 'start_time': @0.start_time, 
+    'end_time': @2.end_time, 'time': @2.time}); consume('internal_stdout', @0); 

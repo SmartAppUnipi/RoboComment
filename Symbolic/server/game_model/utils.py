@@ -119,6 +119,22 @@ def simulate_passage():
                 "y": 30
             },
             "id": {
+                "value": 2,
+                "confidence": 1
+            },
+            "team": {
+                "value": 0
+            }
+        }
+    )
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": 10,
+                "y": 20
+            },
+            "id": {
                 "value": 1,
                 "confidence": 1
             },
@@ -157,14 +173,15 @@ def simulate_passage():
 
 if __name__ == '__main__':
     url = "http://127.0.0.1:3001/positions"
-    if len(sys.argv) > 1 and sys.argv[1] == 'file':
-        with open("positions.json") as json_file:
+    if len(sys.argv) > 1:
+        file_to_open = sys.argv[1]
+        with open(file_to_open) as json_file:
             pos = json.load(json_file)
         for pass_ in pos:
             requests.post(url, json=pass_)
-            time.sleep(0.1)
+            time.sleep(0.25)
     else:
         while True:
             pass_ = simulate_passage()
             requests.post(url, json=pass_)
-            time.sleep(0.25)
+            time.sleep(0.1)

@@ -1,0 +1,19 @@
+clearance       = possession as @0 -> fastBall : @0.player.team in #homehalf
+
+tikiTaka        = possession as @0 -> possession as @1 -> possession as @2 -> possession as @3 : 
+@0.player.team == @1.player.team == @3.player.team == @4.player.team AND @0.player.team in #awayhalf
+
+
+tikitaka[strategy] = @0 as {'type': 'possession'} -> .{0,2} -> @1 as {'type': 'possession'} -> .{0,2} -> 
+    @2 as {'type': 'possession'} -> .{0,2} -> @3 as {'type': 'possession'} :
+    @0.player.team == @1.player.team and @1.player.team == @2.player.team and 
+    @2.player.team == @3.player.team then push(['strategy', 'internal_stdout'], {'type': 'tikitaka',
+    'team': @0.player.team, 'time': @3.time, 'start_time': @0.time,
+    'end_time': @3.time})
+
+
+pass[elementary] = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type': 'possession'} :
+    @0.player.team == @1.player.team and @0.player.id.value !=
+    @1.player.id.value then push(['elementary', 'internal_stdout'], {'type': 'pass',
+    'passer': @0.player, 'receiver': @1.player, 'time': @1.time, 'start_time': @0.time,
+    'end_time': @1.time})

@@ -121,6 +121,9 @@ def ball_on_target(queue):
     
     return False           
 
+#TODO
+def fast_ball(queue):
+    pass
 
 def ciao(a):
     pass

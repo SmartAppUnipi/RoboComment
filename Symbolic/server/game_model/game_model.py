@@ -4,6 +4,7 @@ import requests
 import re
 import json
 
+
 class GameModel:
 
     @staticmethod
@@ -54,7 +55,6 @@ class GameModel:
         self._stacks['stdin'].appendleft(positions)
         self._user_id = positions['user_id']
 
-
     def to_comment_generation(self):
         """This method sends all the retrieved events to comment generation"""
         # get the whole stdout output
@@ -90,15 +90,21 @@ class GameModel:
             while not end:
                 next_line = f.readline()
                 if not next_line:
+                    if len(prev_rule) > 0:
+                        rule_pythonized = self._pythonize_rule(
+                            prev_rule.rstrip())
+                        rules.append(rule_pythonized)
                     end = True
                 else:
                     if not re.match(r'\s', next_line) and len(prev_rule) > 0:
-                        rule_pythonized = self._pythonize_rule(prev_rule.rstrip())
+                        rule_pythonized = self._pythonize_rule(
+                            prev_rule.rstrip())
                         rules.append(rule_pythonized)
                         prev_rule = next_line.strip()
                     else:
                         prev_rule += " " + next_line.strip()
 
         return rules
+
 
 U = GameModel()
