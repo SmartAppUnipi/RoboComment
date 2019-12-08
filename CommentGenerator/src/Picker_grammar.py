@@ -5,10 +5,12 @@ try:
     from .tags.Extractor import Extractor
     from .tags.Player import Player
     from .tags.Elementary import Elementary
+    from .Filler import Filler
 except:
     from tags.Extractor import Extractor
     from tags.Player import Player
     from tags.Elementary import Elementary
+    from Filler import Filler
 
 
 class Picker:
@@ -44,7 +46,9 @@ class Picker:
         if template_type == 0:
             (success, comment) = self.__pure_comment()
             if success:
-                return " ".join(str(word) for subtempl in comment for word in subtempl)
+                # TODO extract value of placeholders founded
+                comment =  " ".join(str(word) for subtempl in comment for word in subtempl)
+                return comment
             else:
                 template_type += 1
 
@@ -64,7 +68,7 @@ class Picker:
             else:
                 template_type += 1
 
-        raise Exception("PICKER_receives: not possible construct template")
+        raise Exception("PICKER_receives: register not correct")
 
     def __pure_comment(self) -> tuple:
         """
@@ -128,19 +132,18 @@ class Picker:
 
 
 if __name__ == '__main__':
-    picker = Picker()
     test1 = {
-    #"type": "intercept",
+    "type": "intercept",
     "user_id": 10,
     "start_time": 10,
     "end_time" : 20,
-    #"player_active": {
-    #  "id": {
-    #    "value": 42,
-    #    "confidence": 0.5
-    #  },
-    #  "team": {"value" : 42}
-    #},
+    "player_active": {
+        "id": {
+        "value": 42,
+        "confidence": 0.5
+      },
+      "team": {"value" : 42}
+    },
     "player_passive": {
       "id": {
         "value": 7,
@@ -149,6 +152,6 @@ if __name__ == '__main__':
       "team": {"value" : 7}
     }
 }
-
+    picker = Picker()
     comment = picker.pick_comment(test1, 0)
     print(comment)
