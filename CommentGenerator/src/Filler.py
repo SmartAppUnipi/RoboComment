@@ -23,7 +23,7 @@ class Filler:
         self.kb = kb
 
 
-    def update_comment(self, comment, details:json):
+    def update_comment(self, comment:str, placeholders:dict):
 
         # getting the placeholders {*_modifier} 
         placeholders = re.findall(r'{(.*?)}', comment)
@@ -65,3 +65,10 @@ class Filler:
         details = check_and_replace('player2', details, self.kb.get_player)
         
         return details
+
+if __name__ == '__main__':
+
+
+    filler = Filler("")
+    comment = filler.update_comment(test1, 0)
+    print(comment)

@@ -139,3 +139,11 @@ class Extractor:
                         value = self.__input['player_passive']['team']['value']
 
         return (key, value)
+
+    def get_value_from_placeholders(self, comment:str):
+        """
+        Search the value belonging to the placeholders in the comment, returning it as dictionary
+        :param comment:
+        :return: dict{placeholder:value}
+        """
+        pairs = {}

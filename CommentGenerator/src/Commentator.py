@@ -24,9 +24,8 @@ class Commentator:
         user_id = jsonobj['user_id']
 
         # create comment, fill it and sentimentalize
-        comment = self.picker.pick_comment(jsonobj, 0)
-        # TODO update filler
-        comment = self.filler.update_comment(comment, jsonobj)
+        (comment,placeholders) = self.picker.pick_comment(jsonobj, 0)
+        comment = self.filler.update_comment(comment, placeholders)
         # TODO modify sentiment
         sentiment = self.sentimentalizer.add_emphasis(comment)
 
