@@ -12,9 +12,9 @@ class Extractor:
         self.__input = None
         # prior assumption of min information given an action, the value corresponds to instance of class in tag folder
         self.__mapping_action = {
-            "possession": ['Player_active', 'Elementary'],
-            "intercept": ['Player_active', 'Elementary', 'Player_passive'],
-            "pass": ['Player_active', 'Elementary', 'Player_passive']
+            "possession": ['Intro','Player_active', 'Elementary'],
+            "intercept": ['Intro', 'Player_active', 'Elementary', 'Player_passive'],
+            "pass": ['Intro','Player_active', 'Elementary', 'Player_passive']
         }
         # randomly select one of this info to produce a comment based on this
         self.__possible_category_hybrid = ["player", 'action', 'time', 'team']
