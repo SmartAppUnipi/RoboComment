@@ -103,7 +103,7 @@ class Picker:
             return True, template_generated
 
         else:
-            raise Exception("Picker_pure-comment: action is not present")
+            return False, [""]
 
     def __hybrid_comment(self)-> tuple:
         """
@@ -130,7 +130,7 @@ class Picker:
 if __name__ == '__main__':
     picker = Picker()
     test1 = {
-    "type": "intercept",
+    #"type": "intercept",
     "user_id": 10,
     "start_time": 10,
     "end_time" : 20,
@@ -150,5 +150,5 @@ if __name__ == '__main__':
     }
 }
 
-    comment = picker.pick_comment(test1, 1)
+    comment = picker.pick_comment(test1, 0)
     print(comment)
