@@ -110,8 +110,6 @@ def ball_on_target(pos):
     _goal_height = 7
 
     _threshold = 1
-
-    #pos = queue[-1]
     
     ball_pos_x = pos['ball'][0]['position']['x']
     ball_pos_y = pos['ball'][0]['position']['y']
@@ -120,7 +118,41 @@ def ball_on_target(pos):
         if  0 <= ball_pos_x <= _threshold or _field_width - _threshold <= ball_pos_x <= _field_width:
             return True
     
-    return False           
+    return False 
+
+def ball_off_target(pos):
+    _field_width = 105
+    _field_height = 68
+
+    _goal_height = 7
+    
+    ball_pos_x = pos['ball'][0]['position']['x']
+    ball_pos_y = pos['ball'][0]['position']['y']
+
+    if (ball_pos_y > (_field_height / 2) + (_goal_height / 2) or ball_pos_y < (_field_height / 2) - (_goal_height / 2)) and (ball_pos_x <= 0):
+        return True
+    elif (ball_pos_y > (_field_height / 2) + (_goal_height / 2) or ball_pos_y < (_field_height / 2) - (_goal_height / 2)) and (ball_pos_x >= _field_width):
+        return True
+
+    return False  
+
+
+
+def ball_goal(pos):
+    _field_width = 105
+    _field_height = 68
+
+    _goal_height = 7
+    
+    ball_pos_x = pos['ball'][0]['position']['x']
+    ball_pos_y = pos['ball'][0]['position']['y']
+
+    if (_field_height / 2 - _goal_height / 2) <= ball_pos_y <=  (_field_height / 2 + _goal_height / 2):
+        if  ball_pos_x <= 0 or ball_pos_x >= _field_width:
+            return True
+
+    return False 
+    
 
 def trunc(a):
     return int(a * 10000) / 10000
