@@ -59,12 +59,9 @@ class Elementary:
 
         # express INTERCEPT
         elif self.__type == 'intercept':
-            action_info.append(random.choice(["intercepted ", "has blocked "]))
-            if self.__time_start != None and self.__time_end != None:
-                if self.__time_end >= 2700:
-                    time_info.append(random.choice([", in the second part of the match, ", ""]))
-                elif self.__time_end < 2700:
-                    time_info.append(random.choice([", in the first half, ", ""]))
+            action_info.append(random.choice(["intercepts the ball of", "has blocked", "intercepts",
+                                              "stops the ball of", "interrupts dreams of", "dirty the game of"
+                                              ]))
 
         return action_info+time_info
 

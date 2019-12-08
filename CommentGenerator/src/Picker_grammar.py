@@ -137,23 +137,23 @@ class Picker:
 if __name__ == '__main__':
     picker = Picker()
     test1 = {
-    "type": "pass",
+    "type": "intercept",
     "user_id": 10,
     "start_time": 10,
     "end_time" : 20,
     "player_active": {
       "id": {
         "value": 42,
-        "confidence": 0.6
+        "confidence": 0.5
       },
       "team": {"value" : 42}
     },
     "player_passive": {
       "id": {
-        "value": 41,
-        "confidence": 0.6
+        "value": 7,
+        "confidence": 0.5
       },
-      "team": {"value" : 42}
+      "team": {"value" : 7}
     }
 }
 
