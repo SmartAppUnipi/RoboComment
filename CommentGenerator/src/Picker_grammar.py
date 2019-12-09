@@ -154,7 +154,7 @@ if __name__ == '__main__':
     }
 }
     picker = Picker()
-    comment,placeholders, priority = picker.pick_comment(test1, 1)
+    comment,placeholders, priority = picker.pick_comment(test1, 0)
     print("Comment:", comment)
     print("Placeholders:",placeholders)
     print("Priority", priority)

@@ -68,6 +68,8 @@ class Filler:
 
 if __name__ == '__main__':
 
+    comment = "it seems that {player1} belonging to {team1} intercepts the ball of the player"
+    placeholders = {'player1': 42, 'team1': 42}
 
     filler = Filler("")
     comment = filler.update_comment(test1, 0)
