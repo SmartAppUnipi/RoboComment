@@ -24,7 +24,7 @@ class Commentator:
         user_id = jsonobj['user_id']
 
         # create comment, fill it and sentimentalize
-        (comment,placeholders) = self.picker.pick_comment(jsonobj, 0)
+        (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, 0)
         # TODO update filler
         comment = self.filler.update_comment(comment, placeholders)
         # TODO modify sentiment
@@ -36,7 +36,7 @@ class Commentator:
             'emphasis': sentiment,
             'startTime': jsonobj['start_time'],
             'endTime' : jsonobj['end_time'],
-            'priority' : 4,
+            'priority' : priority,
             'id' : user_id
         }
         return output

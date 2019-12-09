@@ -29,12 +29,12 @@ class Picker:
         Call this method to start the template generator
         Try to follow the state of the machine, but if the error is some error try another level template
         :param template_type: int category representing the state of who call this method
-            template_type=0 : pure comment
-            template_type=1 : pure comment repeated
-            template_type=2 : comment/lulls
-            template_type=3 : pure lulls
+            template_type=0 : pure comment, priority [3-10]
+            template_type=1 : pure comment repeated, priority[]
+            template_type=2 : comment/lulls , priority[2]
+            template_type=3 : pure lulls , priority[1]
         :param input_json:
-        :return: tuple with (string comment generated, placeholders (maybe empty)
+        :return: tuple with (string comment generated, placeholders (maybe empty), priority
         """
         if 0 > template_type > 2:
             raise Exception("PICKER_receives: wrong input")
@@ -48,7 +48,7 @@ class Picker:
             if success:
                 comment =  " ".join(str(word) for subtempl in comment for word in subtempl)
                 placeholders = self.__extractor.get_value_from_placeholders(comment)
-                return comment, placeholders
+                return comment, placeholders, self.__extractor.get_priority()
             else:
                 template_type += 1
 
@@ -57,7 +57,7 @@ class Picker:
             (success, comment) = self.__hybrid_comment()
             if success:
                 comment = " ".join(str(word) for word in comment)
-                return comment, {}
+                return comment, {}, 2
             else:
                 template_type += 1
 
@@ -65,7 +65,7 @@ class Picker:
         if template_type == 2:
             (success, comment) = self.__lulls_comment()
             if success:
-                return comment, {}
+                return comment, {}, 1
             else:
                 template_type += 1
 
@@ -154,6 +154,7 @@ if __name__ == '__main__':
     }
 }
     picker = Picker()
-    comment,placeholders = picker.pick_comment(test1, 0)
+    comment,placeholders, priority = picker.pick_comment(test1, 1)
     print("Comment:", comment)
     print("Placeholders:",placeholders)
+    print("Priority", priority)

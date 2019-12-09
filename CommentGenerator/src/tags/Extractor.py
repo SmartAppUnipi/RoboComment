@@ -19,16 +19,25 @@ class Extractor:
         }
         # randomly select one of this info to produce a comment based on this
         self.__possible_category_hybrid = ["player", 'action', 'time', 'team']
+        # priority value of this json
+        self.__priority = -1
 
     def set_input(self, jsonobj:json):
         self.__input = jsonobj
 
     def has_action(self) -> bool:
         """
-        Check if the action is present
+        Check if the action is present, if yes set the priority
         :return:
         """
+        # define priority of the actions in the range of [3-10]
+        priority_mapping = {
+            "possession": 3,
+            "intercept": 5,
+            "pass": 4,
+        }
         if "type" in self.__input:
+            self.__priority = priority_mapping[self.__input['type']]
             return True
         return False
 
@@ -164,3 +173,6 @@ class Extractor:
                 pairs[plh] = self.get_player_info('passive')[3]
 
         return pairs
+
+    def get_priority(self)->int:
+        return self.__priority
