@@ -20,7 +20,7 @@ class Extractor:
             "penalty": ["Elementary"]
         }
         # randomly select one of this info to produce a comment based on this
-        self.__possible_category_hybrid = ["player", 'action', 'time', 'team']
+        self.__possible_category_hybrid = ["player", 'team']
         self.__repeated_consideration = [
             "today the temperature will not favor this type of game, ",
             "football scandals usually affect the player's status a lot, ",
