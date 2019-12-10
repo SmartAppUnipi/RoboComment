@@ -17,10 +17,10 @@ class CommentAutomata():
         #states by Luca
         """The states"""
         states = [
-                    'Commento su qualche info',
-                    'Commento semplice',
-                    'Commento semplice ripetuto',
-                    'Commento Random'
+                    'pure comment',
+                    'pure comment repeated',
+                    'comment/lulls',
+                    'pure lulls'
                 ]
         #dictionaries
         """Dict states to index"""
@@ -31,14 +31,16 @@ class CommentAutomata():
 
         #transaction defined by Luca :P
         self.transitions = np.zeros((self.n_states,self.n_states))
-        self.transitions[0,1] = 1
-        self.transitions[1,0] = .25
-        self.transitions[1,2] = .5
-        self.transitions[1,3] = .25
-        self.transitions[2,0] = .25
-        self.transitions[2,1] = .5
-        self.transitions[2,3] = .25
-        self.transitions[3,1] = 1
+        self.transitions[0,1] = 0.10
+        self.transitions[0,2] = 0.25
+        self.transitions[0,3] = 0.25
+
+        self.transitions[1,2] = 0.25
+        self.transitions[1,3] = 0.25
+        self.transitions[1,0] = 0.50
+
+        self.transitions[2,0] = 1
+        self.transitions[3,0] = 1
 
 
         #PROBABILISTIC PART
