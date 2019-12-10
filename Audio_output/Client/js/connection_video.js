@@ -66,6 +66,31 @@ function flagItem(item) {
     return item.audio_flag
 }
 
+function emphasyItem(item) {
+    return item.json.emphasis
+}
+
+function calcolateRate(emphasy){
+    switch (emphasy) {
+        case 1: { return 10}
+        case 2: { return 100}
+        case 3: { return 354}
+        case 4: { return 5}
+        case 5: { return 88}
+    }
+}
+
+function calcolatePitch(emphasy){
+    switch (emphasy) {
+        case 1: { return 6}
+        case 2: { return 10}
+        case 3: { return 100}
+        case 4: { return 5}
+        case 5: { return 15}
+    }
+}
+
+
 
 // Say a message
 function speak(text, callback) {
@@ -110,9 +135,12 @@ function googleSpeak(item,text){
     xhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
     // xhttp.setRequestHeader("Authorization", "Bearer $(gcloud auth application-default print-access-token)");
 
+    let rate    = calcolateRate(emphasyItem(item));
+    let pitch   = calcolatePitch(emphasyItem(item));
 
     xhttp.send(JSON.stringify({
-        input: text,
+        input: {ssml: "<speak> <prosody rate=\"+"+rate+"%\" pitch=\"+" +pitch+"st\"  " + text + "   </prosody></speak>" },
+
         voice: {
             languageCode: 'en-gb',
             name: nameVoice
