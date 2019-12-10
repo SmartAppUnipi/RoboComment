@@ -151,10 +151,13 @@ wsServer.on('request', function(request) {
         for(let i=0; i<connections.length; i++){
             if(connections[i].socket === connection){
                 console.log("Web socket connection closed of the user: " + connections[i].id);
+                if (connections[i].user_page === "video.html"){
+                    console.log("Sending DELETE to the comment group for the user id: " + connections[i].id);
+                    CommentaryApp.delete(CommentAppIP+"/"+ connections[i].id.toString())
+                        .then((result) => {})
+                        .catch((err) => {})
+                }
                 connections.splice(connections[i]);
-                // CommentaryApp.delete(CommentAppIP+"/"+ idUser.toString())
-                //     .then((result) => {})
-                //     .catch((err) => {})
             }
         }
     });
@@ -412,7 +415,7 @@ function handleClientMessage(body, connection) {
     }
 
     else if(message.request_type === "hello"){
-        connections.push(new connectionUser(connection, message.user_id));
+        connections.push(new connectionUser(connection, message.user_id, message.request));
     }
 
     else if(message.request_type === "get_videoList"){
