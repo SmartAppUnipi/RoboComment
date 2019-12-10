@@ -13,6 +13,8 @@ off_target[stdin] = @0 as ? : ball_off_target(@0) then push('elementary', {'type
 quasi_goal[stdin] = @0 as ? : ball_goal(@0) then push('elementary',
     {'type': 'quasi_goal', 'time': @0.time})
 
+penalty[stdin] = @0 as ? : is_penalty(@0) then push('stdout', {'type': 'penalty', 'time': @0.time})
+
 possession[positions] = @0 as {'type': 'ball'} -> .{0,0} -> @1 as {'type': 'closest'} :
     @1.time == @0.time and distance(@0.position, @1.position) < 1.1 then
     push('elementary', {'type':'possession', 'time': trunc(@0.time), 'player': {'id': @1.id,
@@ -33,7 +35,7 @@ intercept[elementary] = @0 as {'type': 'possession'} -> .{0,3} -> @1 as {'type':
     {'type': 'intercept', 'ball_loser': @0.player, 'interceptor': @1.player,
     'time': @1.time, 'start_time': @0.time, 'end_time': @1.time}); push('int_stdout', @0)
 
-shot_on_target[elementary] = @0 as {'type': 'possession'} -> .{0,2} -> @1 as {'type': 'on_target'} : 
+shot_on_target[elementary] = @0 as {'type': 'possession'} -> .{0,2} -> @1 as {'type': 'on_target'} :
     True then push('stdout', {'type': 'shot_on_target', 'time':
     @0.time, 'player_active': @0.player}); push('int_stdout', @0)
 
@@ -44,7 +46,7 @@ shot_off_target[elementary] = @0 as {'type': 'possession'} -> .{0,2} -> @1 as {'
 goal[elementary] = @0 as {'type': 'possession'} -> .{0,2} -> @1 as {'type': 'on_target'} -> .{0,2} -> @2 as {'type': 'quasi_goal'} :
     True then push('stdout', {'type': 'goal', 'time': @0.time, 'player_active': @0.player})
 
-tikitaka[fpass] = @0 as {'type': 'pass'} -> @1 as {'type': 'pass'} -> @2 as {'type': 'pass' } -> 
+tikitaka[fpass] = @0 as {'type': 'pass'} -> @1 as {'type': 'pass'} -> @2 as {'type': 'pass' } ->
     @3 as {'type': 'pass'} : @0.passer.team == @1.passer.team == @2.passer.team == @3.passer.team
     then push('strategy', {'type': 'quasi_tikitaka', 'team': @0.passer.team, 'time': mean(@0.time, @3.time), 'start_time': trunc(@0.time), 'end_time': trunc(@3.time)});
     clear('fpass')
