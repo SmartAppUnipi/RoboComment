@@ -1,16 +1,20 @@
-let email           = document.getElementById("email");
-let password        = document.getElementById("password");
-let firstname       = document.getElementById("firstname");
-let lastname        = document.getElementById("lastname");
-let r_password      = document.getElementById("password");
-let date            = document.getElementById("date");
-let r_email         = document.getElementById("email");
-let favoriteteam    = document.getElementById("favoriteteam");
+let email            = document.getElementById("email");
+let password         = document.getElementById("password");
+let firstname        = document.getElementById("firstname");
+let lastname         = document.getElementById("lastname");
+let r_password       = document.getElementById("password");
+let date             = document.getElementById("date");
+let r_email          = document.getElementById("email");
+let favoriteteam     = document.getElementById("favoriteteam");
+let favoriteplayer   = document.getElementById("favoriteplayer");
+let favoritelanguage = document.getElementById("favoritelanguage");
+let favoritevoice    = document.getElementById("favoritevoice");
 
 function createUser() {
 
     if((check(r_email) && check(r_password) && check(firstname)
-        && check(lastname) && check(date) && check(favoriteteam))) {
+        && check(lastname) && check(date) && check(favoriteteam)
+        && check(favoritelanguage) && check(favoriteplayer))) {
 
         showSnack("Send registration");
 
@@ -23,7 +27,9 @@ function createUser() {
                     date_of_birth: date.value,
                     email: email.value,
                     password: password.value,
-                    favourite_team: favoriteteam.value
+                    favourite_team: favoriteteam.value,
+                    favorite_language: favoritelanguage,
+                    favorite_player: favoriteplayer.value
                 }
             }
         }));
