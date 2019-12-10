@@ -81,7 +81,7 @@ class CommentAutomata():
         next_state = np.argmin(self.cum_SUM[current_state]<r)
         #send the right event
         self.asf.process_event(str(round(self.transitions[current_state,next_state],3))+"_"+self.id2st[next_state])
-        return self.id2st(current_state)
+        return self.id2st[current_state]
 
     #Draw the Automata
     def DrawAutomata(self,fn='Commentator Automata.gv'):
@@ -104,8 +104,7 @@ class CommentAutomata():
 
         g.view()
 
-
 '''cm = CommentAutomata()
 for i in range(12):
-    print(cm.id2st[cm.NextState()])
+    print(cm.NextState())
 cm.DrawAutomata()'''
