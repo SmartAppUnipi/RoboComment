@@ -49,6 +49,9 @@ pytest CommentGenerator/tests
 - **URL** /api/session/<<int:matchid>>/<<int:userid>>
 - **method** POST
 - **effect** the I/O module should call this method to inform us that a user with userid wants a commentary for the match matchid
+- **status codes** 
+    - 200 if we already have the resource in cache, so the videogroup shouldn't be involved
+    - 201 if it's the first time we manage that match, the video group should be informed to start processing the video
 
 
 ### End a comment session

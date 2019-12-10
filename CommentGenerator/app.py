@@ -49,8 +49,8 @@ def session_start(matchid,userid):
     ''' this method will be called by the audio each time a new user watches a match'''
     global commentator_pool
     
-    commentator_pool.start_session(matchid,userid)
-    return "OK"
+    status_code = commentator_pool.start_session(matchid,userid)
+    return "OK", status_code
 
 @app.route('/api/session/<int:matchid>/<int:userid>', methods=['DELETE'])
 def session_end(matchid,userid):

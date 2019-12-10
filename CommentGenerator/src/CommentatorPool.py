@@ -24,21 +24,22 @@ class CommentatorPool:
         while True:
             event = symbolic_q.get()
             output = commentator.run(event)
-            
+
             self.send_to_audio(output)
 
     def start_session(self,match_id, user_id ):
-        session_status = 0 # new session
+        session_status = 200 # session already present
 
         if match_id not in self.commentator_pool.keys():
             # adding a new key to the comentator pool
+            # new session
             self.commentator_pool[match_id] = {}
-            session_status = 1 # session already present
+            session_status = 201 
 
         
         if user_id in self.commentator_pool[match_id].keys():
             # the user session is already here
-            return -1 # bad user id
+            return 200 # bad user id
 
         symbolic_q = SimpleQueue()
         commentator = Thread(target=self._new_commentator,args=(match_id,symbolic_q,user_id, self.kb_url))
