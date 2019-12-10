@@ -1,9 +1,10 @@
 {
  
     "type": "possession",
+    "match_id" : 42,
     "user_id": 10,
-    "start_time": 10,
-    "end_time" : 20,
+    "start_time": 12,
+    "end_time" : 22,
     "player_active": {
       "id": {
         "value": 42,
