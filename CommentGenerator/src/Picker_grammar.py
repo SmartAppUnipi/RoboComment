@@ -30,7 +30,7 @@ class Picker:
         Try to follow the state of the machine, but if the error is some error try another level template
         :param template_type: int category representing the state of who call this method
             template_type=0 : comment/lulls, priority[2]
-            template_type=1 : pure comment, priority [3-10]
+            template_type=1 : pure comment, priority [3-9]
             template_type=2 : pure comment repeated , [4-10]
             template_type=3 : pure lulls , priority[1]
         :param input_json:
@@ -61,10 +61,16 @@ class Picker:
             else:
                 template_type += 1
 
-        # TODO
         # pure comment repeated
         if template_type == 2:
-            return "REPEATED", {}, 4
+            (success, comment) = self.__pure_comment()
+            if success:
+                intro = self.__extractor.get_repeated_consideration()
+                comment = " ".join(str(word) for subtempl in comment for word in subtempl)
+                placeholders = self.__extractor.get_value_from_placeholders(comment)
+                return intro+comment, placeholders, self.__extractor.get_priority()+1
+            else:
+                template_type += 1
 
         # pure lulls
         if template_type == 3:
@@ -74,7 +80,7 @@ class Picker:
             else:
                 template_type += 1
 
-        raise Exception("PICKER_receives: register not correct")
+        raise Exception("PICKER_receives: registers error")
 
     def __pure_comment(self) -> tuple:
         """
