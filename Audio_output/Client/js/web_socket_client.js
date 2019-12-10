@@ -1,8 +1,9 @@
 const url        = 'ws://localhost:4020';
+// const url        = 'ws://131.114.137.237:4020';
 let queue        = new Queue();
 let ws           = null;
 
-function insertCards(id, url, home, away) {
+function insertCards(id, url, home, away, type) {
 
     let card = document.createElement("div");
     card.className = "card";
@@ -25,12 +26,14 @@ function insertCards(id, url, home, away) {
     card_title.textContent = home + " VS " + away ;
     let card_desc  = document.createElement("div");
     card_desc.className = "card-desc";
+    card_desc.textContent = type;
 
     card.appendChild(videoChild);
     card.appendChild(card_body1);
     card.appendChild(card_body2);
     card_body2.appendChild(card_title);
-    // card_body2.appendChild(card_desc);
+    card_body2.appendChild(card_desc);
+
 
     document.getElementById('Cards').appendChild(card);
 
@@ -38,11 +41,12 @@ function insertCards(id, url, home, away) {
 
         let id = card.childNodes[0].metadata;
         let url = card.childNodes[0].src;
+        let type = card.childNodes[2].childNodes[1].textContent;
         console.log(card.childNodes[0].src);
         console.log(card.childNodes[0].metadata);
 
         console.log(set_matchInfo(id,url, ifCookie("userId")));
-        sendInfoVideo(JSON.stringify(set_matchInfo(id,url, ifCookie("userId"))));
+        sendInfoVideo(set_matchInfo(id,url, ifCookie("userId"), type));
 
         setCookie("videoID",id,2);
         setCookie("videoURL",url,2);
@@ -109,7 +113,7 @@ function connect() {
                 let videoList = message.reply.urls;
                 for (let i = 0; i < videoList.length; i++) {
                     // console.log(videoList[i]);
-                    insertCards(videoList[i].id, videoList[i].url, videoList[i].home, videoList[i].away);
+                    insertCards(videoList[i].id, videoList[i].url, videoList[i].home, videoList[i].away, videoList[i].type);
                 }
                 break;
 
@@ -138,11 +142,12 @@ function connect() {
     };
 }
 
-function set_matchInfo(match_id, url, user_id) {
+function set_matchInfo(match_id, url, user_id, type) {
     return {
         match_id: match_id,
         match_url: url,
-        user_id: user_id
+        user_id: user_id,
+        type: type
     };
 }
 
