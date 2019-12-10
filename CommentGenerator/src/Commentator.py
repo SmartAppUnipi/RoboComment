@@ -28,6 +28,7 @@ class Commentator:
         state = self.automa.NextState()
         # create comment
         (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, state)
+        print(comment)
         # update it with kb
         comment = self.filler.update_comment(comment, placeholders)
         # retrieve sentiment
@@ -68,23 +69,3 @@ if __name__ == '__main__':
       "team": {"value" : 42}
     }
 })
-    comm.run({
-        "type": "pass",
-        "user_id": 10,
-        "start_time": 10,
-        "end_time": 20,
-        "player_active": {
-            "id": {
-                "value": 42,
-                "confidence": 0.5
-            },
-            "team": {"value": 42}
-        },
-        "player_passive": {
-            "id": {
-                "value": 41,
-                "confidence": 0.5
-            },
-            "team": {"value": 42}
-        }
-    })

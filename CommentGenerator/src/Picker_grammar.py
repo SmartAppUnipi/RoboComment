@@ -29,21 +29,30 @@ class Picker:
         Call this method to start the template generator
         Try to follow the state of the machine, but if the error is some error try another level template
         :param template_type: int category representing the state of who call this method
-            template_type=0 : pure comment, priority [3-10]
-            template_type=1 : pure comment repeated, priority[]
-            template_type=2 : comment/lulls , priority[2]
+            template_type=0 : comment/lulls, priority[2]
+            template_type=1 : pure comment, priority [3-10]
+            template_type=2 : pure comment repeated , [4-10]
             template_type=3 : pure lulls , priority[1]
         :param input_json:
         :return: tuple with (string comment generated, placeholders (maybe empty), priority
         """
-        if 0 > template_type > 2:
+        if 0 > template_type > 3:
             raise Exception("PICKER_receives: wrong input")
 
         # store input into tagger
         self.__extractor.set_input(input_json)
 
-        # pure comment
+        # hybrid comment
         if template_type == 0:
+            (success, comment) = self.__hybrid_comment()
+            if success:
+                comment = " ".join(str(word) for word in comment)
+                return comment, {}, 2
+            else:
+                template_type += 1
+
+        # pure comment
+        if template_type == 1:
             (success, comment) = self.__pure_comment()
             if success:
                 comment =  " ".join(str(word) for subtempl in comment for word in subtempl)
@@ -52,17 +61,13 @@ class Picker:
             else:
                 template_type += 1
 
-        # hybrid comment
-        if template_type == 1:
-            (success, comment) = self.__hybrid_comment()
-            if success:
-                comment = " ".join(str(word) for word in comment)
-                return comment, {}, 2
-            else:
-                template_type += 1
+        # TODO
+        # pure comment repeated
+        if template_type == 2:
+            return "REPEATED", {}, 4
 
         # pure lulls
-        if template_type == 2:
+        if template_type == 3:
             (success, comment) = self.__lulls_comment()
             if success:
                 return comment, {}, 1
