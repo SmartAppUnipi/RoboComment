@@ -13,17 +13,17 @@ import json
 
 class Commentator:
 
-    def __init__(self, knowledge_base):
+    def __init__(self, knowledge_base, user_id):
+        self.__user_id = user_id
         self.kb = knowledge_base
         self.automa = CommentAutomata()
         self.picker = Picker()
-        self.filler = Filler(knowledge_base)
+        self.filler = Filler(knowledge_base, user_id)
         self.sentimentalizer = Sentimentalizer()
 
     def run(self, jsonobj:json):
         
         ''' Extract the time where the json is occurred and match and update the resulting template'''
-        user_id = jsonobj['user_id']
         # get next state
         state = self.automa.NextState()
         # create comment
@@ -42,7 +42,7 @@ class Commentator:
             'startTime': jsonobj['start_time'],
             'endTime' : jsonobj['end_time'],
             'priority' : priority,
-            'id' : user_id
+            'id' : self.__user_id
         }
         return output
 
