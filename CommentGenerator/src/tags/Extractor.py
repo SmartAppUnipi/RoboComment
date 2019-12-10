@@ -26,6 +26,7 @@ class Extractor:
         ]
         # priority value of this json
         self.__priority = -1
+        self.__welcome_message = [""]
 
     def set_input(self, jsonobj:json):
         self.__input = jsonobj

@@ -1,5 +1,5 @@
 from automaton import machines
-from graphviz import Digraph
+#from graphviz import Digraph
 import numpy as np
 
 def print_on_exit(old_state, triggered_event):
