@@ -26,8 +26,7 @@ const commentIP      = routes.fabula.toString().split(":")[1].split("/")[2];
 const COMMENT_PORT   = routes.fabula.toString().split(":")[2].split("/")[0];
 
 // Commentary Session
-const CommentAppIP   = routes.commentary_session.toString().split(":")[1].split("/")[2];
-let CommentAppPort   = routes.commentary_session.toString().split(":")[2].split("/")[0];
+const CommentAppIP   = routes.commentary_session;
 
 const kb_url         = routes.qi;
 const url_video      = routes.video;
@@ -153,9 +152,9 @@ wsServer.on('request', function(request) {
             if(connections[i].socket === connection){
                 console.log("Web socket connection closed of the user: " + connections[i].id);
                 connections.splice(connections[i]);
-                CommentaryApp.delete(CommentAppIP+"/"+ idUser.toString())
-                    .then((result) => {})
-                    .catch((err) => {})
+                // CommentaryApp.delete(CommentAppIP+"/"+ idUser.toString())
+                //     .then((result) => {})
+                //     .catch((err) => {})
             }
         }
     });
@@ -353,7 +352,7 @@ function handleClientMessage(body, connection) {
         let idUser   = message.request.user_id;
         let idMatch  = message.request.match_id;
 
-        CommentaryApp.post(CommentAppIP+"/"+ idUser.toString()+"/"+ idMatch.toString(), JSON.stringify(message.request.start_time), config)
+        CommentaryApp.post(CommentAppIP+"/"+idMatch.toString() +"/"+ idUser.toString(), JSON.stringify({startTime: message.request.start_time}), config)
             .then((result) => {
                 if(result.status === 200){
                     response = set_response("post_matchID","OK", result.status);

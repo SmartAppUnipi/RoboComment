@@ -74,7 +74,7 @@ function connect() {
         switch (message.reply_type) {
             case "comment":
                 try {
-                    freshComment = new CommentOBJ(message.reply, new XMLHttpRequest(),0);
+                    let freshComment = new CommentOBJ(message.reply, new XMLHttpRequest(),0);
                     checkFlagAudio(freshComment);
                     queue.enqueue(freshComment);
                 } catch {
