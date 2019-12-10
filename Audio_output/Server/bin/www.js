@@ -3,30 +3,41 @@
 /**
  * Module dependencies and variables
  */
-let app             = require('../app');
-let commentApp      = require('../app2');
-let debug           = require('debug')('websportserver:server');
-let http            = require('http');
-let WebSocketServer = require('websocket').server;
-let connections     = [];
-let connectionUser  = require('../connectionClass');
+let app              = require('../app');
+let commentApp       = require('../app2');
+let debug            = require('debug')('websportserver:server');
+let http             = require('http');
+let WebSocketServer  = require('websocket').server;
+let connections      = [];
+let connectionUser   = require('../connectionClass');
 
-const KBApp         = require('axios');
-const VideoApp      = require('axios');
-const routes        = require('../../../routes.json');
-const video_list    = require('../../videolist');
-const WSIP          = routes.ui.toString().split(":")[1].split("/")[2];
-const WS_PORT       = routes.ui.toString().split(":")[2].split("/")[0];
-const commentIP     = routes.fabula.toString().split(":")[1].split("/")[2];
-const COMMENT_PORT  = routes.fabula.toString().split(":")[2].split("/")[0];
-const kb_url        = routes.qi;
-const url_video     = routes.video;
-let url_login       = kb_url + "users/login";
-let url_user        = kb_url + "users";
-let url_match       = kb_url + "/match/";
+const KBApp          = require('axios');
+const VideoApp       = require('axios');
+const CommentApp     = require('axios');
+const routes         = require('../../../routes.json');
+const video_list     = require('../../videolist');
 
-const DEBUGERR      = false;
-const DEBUG_MODE    = false;
+// Ui
+const WSIP           = routes.ui.toString().split(":")[1].split("/")[2];
+const WS_PORT        = routes.ui.toString().split(":")[2].split("/")[0];
+
+//Fabula
+const commentIP      = routes.fabula.toString().split(":")[1].split("/")[2];
+const COMMENT_PORT   = routes.fabula.toString().split(":")[2].split("/")[0];
+
+// Commentary Session
+const CommentAppIP   = routes.commentary_session.toString().split(":")[1].split("/")[2];
+let CommentAppPort   = routes.commentary_session.toString().split(":")[2].split("/")[0];
+
+const kb_url         = routes.qi;
+const url_video      = routes.video;
+
+let url_login        = kb_url + "users/login";
+let url_user         = kb_url + "users";
+let url_match        = kb_url + "/match/";
+
+const DEBUGERR       = false;
+const DEBUG_MODE     = false;
 const config = {
     headers: {
         'Content-Type': 'application/json'
@@ -329,22 +340,34 @@ function handleClientMessage(body, connection) {
 
         console.log(message.request);
 
-        VideoApp.post(url_video, message.request, config )
-            .then((result_video)=>{
-                if (result_video.status === 200) {
-                    response = set_response("post_matchID","OK", result_video.status);
-                    connection.send(response);
-                }else{
-                    console.log("Fail send Match ID to video Group")
-                }
-            })
-            .catch((err_video)=>{
-                if(DEBUGERR){
-                    console.log(err_video);
-                }
-                console.log("Catch: Fail send Match ID to video Group")
-            });
+        let idUser   = message.request.user_id;
+        let idMatch  = message.request.match_id;
+        let timePost = message.request.start_time;
 
+        CommentApp.post(CommentAppIP+"/"+ idUser.toString()+"/"+ idMatch.toString(), JSON.stringify(message.request.start_time), config)
+            .then((result) => {
+                if(result.status === 200){
+                    response = set_response("post_matchID","OK", result.status);
+                    connection.send(response);
+                }else if(result.status === 201){
+
+                    VideoApp.post(url_video, JSON.stringify(message.request), config )
+                        .then((result_video)=>{
+                            if (result_video.status === 200) {
+                                response = set_response("post_matchID","OK", result.status);
+                                connection.send(response);
+                            }else{
+                                console.log("Fail send Match ID to video Group")
+                            }
+                        })
+                        .catch((err_video)=>{
+                            if(DEBUGERR){
+                                console.log(err_video);
+                            }
+                            console.log("Catch: Fail send Match ID to video Group")
+                        });
+                }
+            });
     }
 
     else if(message.request_type === "get_infoMatch"){
