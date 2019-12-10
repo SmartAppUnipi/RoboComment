@@ -3,7 +3,7 @@ let video               = document.getElementById('video');
 let audio               = document.getElementById('audio');
 let supposedCurrentTime = 0;
 let request             = new XMLHttpRequest();
-const debug             = true;
+const debug             = false;
 const audioBrowser      = false;
 const audioHTTP         = true;
 
@@ -129,7 +129,6 @@ function googleSpeak(item,text){
      */
 
     let nameVoice = 'en-US-Wavenet-D';
-    let voice =
 
     xhttp.open("POST", "https://texttospeech.googleapis.com/v1/text:synthesize?key=AIzaSyDgUrhiDmKK0pM8OGpszCoehg2vbRL6pgI", true);
     xhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
@@ -139,7 +138,7 @@ function googleSpeak(item,text){
     let pitch   = calcolatePitch(emphasyItem(item));
 
     xhttp.send(JSON.stringify({
-        input: {ssml: "<speak> <prosody rate=\"+"+rate+"%\" pitch=\"+" +pitch+"st\"  " + text + "   </prosody></speak>" },
+        input: {ssml: "<speak> <prosody rate=\"+"+rate+"%\" pitch=\"+" +pitch+"%\" > " + text + "   </prosody></speak>" },
 
         voice: {
             languageCode: 'en-gb',
