@@ -14,7 +14,7 @@ import json
 class Commentator:
 
     def __init__(self, knowledge_base, user_id):
-        self.__user_id = user_id
+        self.user_id = user_id
         self.kb = knowledge_base
         self.automa = CommentAutomata()
         self.picker = Picker()
@@ -42,7 +42,7 @@ class Commentator:
             'startTime': jsonobj['start_time'],
             'endTime' : jsonobj['end_time'],
             'priority' : priority,
-            'id' : self.__user_id
+            'id' : self.user_id
         }
         return output
 
