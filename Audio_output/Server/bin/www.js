@@ -13,7 +13,7 @@ let connectionUser   = require('../connectionClass');
 
 const KBApp          = require('axios');
 const VideoApp       = require('axios');
-const CommentApp     = require('axios');
+const CommentaryApp  = require('axios');
 const routes         = require('../../../routes.json');
 const video_list     = require('../../videolist');
 
@@ -147,10 +147,17 @@ wsServer.on('request', function(request) {
             handleClientMessage(message.utf8Data, connection);
         }
     }).on('close', function(event) {
-        console.log("Web socket connection closed");
         // remove the closed connection
-        console.log(connections.indexOf(connection));
-        connections.splice(connections.indexOf(connection));
+
+        for(let i=0; i<connections.length; i++){
+            if(connections[i].socket === connection){
+                console.log("Web socket connection closed of the user: " + connections[i].id);
+                connections.splice(connections[i]);
+                CommentaryApp.delete(CommentAppIP+"/"+ idUser.toString())
+                    .then((result) => {})
+                    .catch((err) => {})
+            }
+        }
     });
 });
 
@@ -182,6 +189,9 @@ commentApp.post("/", function (req, res) {
     }
 });
 
+commentApp.post("/positions", function (req, res) {
+
+});
 
 /**
  * Utils functions
@@ -342,9 +352,8 @@ function handleClientMessage(body, connection) {
 
         let idUser   = message.request.user_id;
         let idMatch  = message.request.match_id;
-        let timePost = message.request.start_time;
 
-        CommentApp.post(CommentAppIP+"/"+ idUser.toString()+"/"+ idMatch.toString(), JSON.stringify(message.request.start_time), config)
+        CommentaryApp.post(CommentAppIP+"/"+ idUser.toString()+"/"+ idMatch.toString(), JSON.stringify(message.request.start_time), config)
             .then((result) => {
                 if(result.status === 200){
                     response = set_response("post_matchID","OK", result.status);
