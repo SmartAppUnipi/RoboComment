@@ -23,9 +23,11 @@ class Commentator:
         ''' Extract the time where the json is occurred and match and update the resulting template'''
         user_id = jsonobj['user_id']
 
-        # create comment, fill it and sentimentalize
+        # create comment
         (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, 0)
+        # update it with kb
         comment = self.filler.update_comment(comment, placeholders)
+        # retrieve sentiment
         # TODO modify sentiment
         sentiment = self.sentimentalizer.add_emphasis(comment)
 
