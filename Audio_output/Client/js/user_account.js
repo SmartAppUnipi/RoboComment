@@ -28,8 +28,9 @@ function createUser() {
                     email: email.value,
                     password: password.value,
                     favourite_team: favoriteteam.value,
-                    favorite_language: favoritelanguage,
-                    favorite_player: favoriteplayer.value
+                    favorite_language: favoritelanguage.value,
+                    favorite_player: favoriteplayer.value,
+                    favorite_voice: favoritevoice.value
                 }
             }
         }));
