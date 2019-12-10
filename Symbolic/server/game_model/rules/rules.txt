@@ -13,8 +13,6 @@ off_target[stdin] = @0 as ? : ball_off_target(@0) then push('elementary', {'type
 quasi_goal[stdin] = @0 as ? : ball_goal(@0) then push('elementary',
     {'type': 'quasi_goal', 'time': @0.time})
 
-penalty[stdin] = @0 as ? : is_penalty(@0) then push('stdout', {'type': 'penalty', 'time': @0.time})
-
 possession[positions] = @0 as {'type': 'ball'} -> .{0,0} -> @1 as {'type': 'closest'} :
     @1.time == @0.time and distance(@0.position, @1.position) < 1.1 then
     push('elementary', {'type':'possession', 'time': trunc(@0.time), 'player': {'id': @1.id,
