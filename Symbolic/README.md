@@ -5,6 +5,7 @@
 - Andrea Bruno
 - Michele Fontana
 - Lorenzo Spano
+- **NEW!** Danilo Numeroso
 
 ## Run our module
     
