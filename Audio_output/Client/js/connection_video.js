@@ -71,22 +71,23 @@ function emphasyItem(item) {
 }
 
 function languageItem(item){
-    try{
-        return item.json.language;
-    }catch (e) {
+    if(!item.json.language){
         return "en";
+    }else{
+        return item.json.language;
     }
 }
 
 function voiceItem(item){
-    try{
-        return item.json.language;
-    }catch (e) {
-        if(languageItem(item)==="en") {
+
+    if(!item.json.voice){
+        if(languageItem(item)==="en"){
             return "en-US-Wavenet-D";
         }else{
             return  "it-IT-Wavenet-D";
         }
+    }else{
+        return item.json.voice;
     }
 }
 
@@ -161,6 +162,7 @@ function googleSpeak(item,text){
     let rate    = calcolateRate(emphasyItem(item));
     let pitch   = calcolatePitch(emphasyItem(item));
 
+    console.log("Asking for audio with voice: " + nameVoice + " and language:" + lanCode);
     xhttp.send(JSON.stringify({
         input: {ssml: "<speak><prosody rate=\"+" + rate + "%\" pitch=\"+" + pitch + "%\" >" + text + "</prosody></speak>" },
 
