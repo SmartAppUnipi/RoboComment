@@ -60,7 +60,8 @@ class Picker:
                 template_type += 1
 
         # pure comment repeated
-        if template_type == "Pure comment":
+        """
+        if template_type == "Pure comment repeated":
             (success, comment) = self.__pure_comment()
             if success:
                 intro = self.__extractor.get_repeated_consideration()
@@ -69,6 +70,7 @@ class Picker:
                 return intro+comment, placeholders, self.__extractor.get_priority()+1
             else:
                 template_type += 1
+        """
 
         # pure lulls
         if template_type == "Lulls comment":
@@ -79,7 +81,8 @@ class Picker:
                 template_type += 1
 
         if template_type == "Welcome state":
-            return "BENVENUTO", {}, 1
+            comment = self.__extractor.get_welcome_message()
+            return comment, {}, 1
 
         raise Exception("PICKER_receives: registers error")
 
