@@ -275,18 +275,20 @@ def simulate_passage(x):
 
 url = "http://127.0.0.1:3001/positions"
 if len(sys.argv) > 1:
-    file_to_open = sys.argv[1]
-    with open(file_to_open) as json_file:
-        pos = json.load(json_file)
-    for pass_ in pos:
-        requests.post(url, json=pass_)
-        time.sleep(0.25)
-else:    
-    #shot on target and goal
-    pass_ball_y = 10
+    if sys.argv[1] == 'file':
+        file_to_open = sys.argv[1]
+        with open(file_to_open) as json_file:
+            pos = json.load(json_file)
+        for pass_ in pos:
+            requests.post(url, json=pass_)
+            time.sleep(0.25)   
 
-    #shot off target
-    # pass_ball_y = 20
+    elif sys.argv[1] == 'goal':
+        #shot on target and goal
+        pass_ball_y = 10
+    elif sys.argv[1] == 'fuori':
+        #shot off target
+        pass_ball_y = 20
 
     x_ = 0
     for i in range(0,105):

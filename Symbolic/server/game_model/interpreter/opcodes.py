@@ -36,6 +36,11 @@ def consume(stack_name, element):
     stack = stacks[stack_name]
     stack.remove(element)
 
+def clear(stack_name):
+    stacks = GameModel.get_env()['stacks']
+    stack = stacks[stack_name]
+    stack.clear()
+
 def update(stack_name, value, new_entries):
     """changes the value in stack name by updating the entries specified in new_entries"""
     stacks = GameModel.get_env()['stacks']
