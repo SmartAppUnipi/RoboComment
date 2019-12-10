@@ -1,4 +1,4 @@
-let intervalUrl, track, videoUrl, videoId;
+let track, videoUrl, videoId;
 let video               = document.getElementById('video');
 let audio               = document.getElementById('audio');
 let supposedCurrentTime = 0;
@@ -17,7 +17,7 @@ main();
 function main() {
 
     // Add track for dynamic subtitles
-    track = video.addTextTrack("captions", "English", "en");
+    track = video.addTextTrack("captions", "MultiLingual", "en");
     track.mode = "showing";
 
     videoUrl = getCookie("videoURL");
@@ -68,6 +68,26 @@ function flagItem(item) {
 
 function emphasyItem(item) {
     return item.json.emphasis
+}
+
+function languageItem(item){
+    try{
+        return item.json.language;
+    }catch (e) {
+        return "en";
+    }
+}
+
+function voiceItem(item){
+    try{
+        return item.json.language;
+    }catch (e) {
+        if(languageItem(item)==="en") {
+            return "en-US-Wavenet-D";
+        }else{
+            return  "it-IT-Wavenet-D";
+        }
+    }
 }
 
 function calcolateRate(emphasy){
@@ -127,39 +147,31 @@ function googleSpeak(item,text){
      power of API key should be limited). The second one is to append on RequestHeader the authorization
      through the Bearer token (TO OBTAIN)
      */
-
-    let nameVoice = 'en-US-Wavenet-D';
+    let nameVoice = voiceItem(item);
+    let lanCode;
+    if(languageItem(item) === "it"){
+        lanCode   = 'it-IT';
+    }else{
+        lanCode   = 'en-US';
+    }
 
     xhttp.open("POST", "https://texttospeech.googleapis.com/v1/text:synthesize?key=AIzaSyDgUrhiDmKK0pM8OGpszCoehg2vbRL6pgI", true);
     xhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
-    // xhttp.setRequestHeader("Authorization", "Bearer $(gcloud auth application-default print-access-token)");
 
     let rate    = calcolateRate(emphasyItem(item));
     let pitch   = calcolatePitch(emphasyItem(item));
 
     xhttp.send(JSON.stringify({
-        input: {ssml: "<speak> <prosody rate=\"+"+rate+"%\" pitch=\"+" +pitch+"%\" > " + text + "   </prosody></speak>" },
+        input: {ssml: "<speak><prosody rate=\"+" + rate + "%\" pitch=\"+" + pitch + "%\" >" + text + "</prosody></speak>" },
 
         voice: {
-            languageCode: 'en-gb',
+            languageCode: lanCode,
             name: nameVoice
         },
         audioConfig: {
             audioEncoding: 'OGG_OPUS'
         }
     }));
-
-    // xhttp.send("{\n" +
-    //     "    'input':{'text':'"+text+"'},\n" +
-    //     "    'voice':{\n" +
-    //     "      'languageCode':'en-gb',\n" +
-    //     "      'name':" + nameVoice + ",\n" +
-    //     "      'ssmlGender':'FEMALE'\n" +
-    //     "    },\n" +
-    //     "    'audioConfig':{\n" +
-    //     "      'audioEncoding':'OGG_OPUS'\n" +
-    //     "    }\n" +
-    //     "  }");
 }
 
 
