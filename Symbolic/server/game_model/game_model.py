@@ -80,7 +80,7 @@ class GameModel:
             rule_str = rule_str.replace(x.group(), py_syntax, 1)
 
 
-            match = re.findall(r"[A-Z]+", rule_str)
+            match = re.findall(r"[A-Z][A-Z]+", rule_str)
 
         for x in match:
             obj = "{'type': '" + x.lower() + "'}"
