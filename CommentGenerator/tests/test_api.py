@@ -52,6 +52,8 @@ class TestApi(unittest.TestCase):
             # starting the session for match id 42 and user id 7
             self.client.post("/api/session/42/7")
             res = self.client.post("/api/action", data=json.dumps(input_json))
+            self.client.delete("/api/session/42/7")
+            
 
         assert res.status_code == 200
     
@@ -67,6 +69,7 @@ class TestApi(unittest.TestCase):
             # starting the session for match id 42 and user id 7
             self.client.post("/api/session/42/7")
             res = self.client.post("/api/action", data=json.dumps(input_json))
+            self.client.delete("/api/session/42/7")
 
         assert res.status_code == 200
     
@@ -82,5 +85,6 @@ class TestApi(unittest.TestCase):
             # starting the session for match id 42 and user id 7
             self.client.post("/api/session/42/7")
             res = self.client.post("/api/action", data=json.dumps(input_json))
+            self.client.delete("/api/session/42/7")
 
         assert res.status_code == 200

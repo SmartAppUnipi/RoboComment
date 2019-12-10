@@ -16,16 +16,19 @@ class CommentatorPool:
     
     def _new_commentator(self, match_id, symbolic_q, user_id, kb_url):
         print("Welcome to this match! I will be your commentator!")
-        
+        run = True
+
         knowledge_base = KnowledgeBase(url= kb_url)
         commentator = Commentator(knowledge_base)
 
-        #TODO here we need to start the state machine
-        while True:
+        while run:
             event = symbolic_q.get()
-            output = commentator.run(event)
 
-            self.send_to_audio(output)
+            if event:
+                output = commentator.run(event)
+                self.send_to_audio(output)
+            else:
+                run = False
 
     def start_session(self,match_id, user_id ):
         session_status = 200 # session already present
@@ -54,19 +57,22 @@ class CommentatorPool:
 
         return session_status
         
+    def end_session(self,match_id,user_id):
+        self.commentator_pool[match_id][user_id]["symbolic_q"].put({})
+        del self.commentator_pool[match_id][user_id]
+        
+    
     def push_symbolic_event_to_match(self,match_id, event):
+        self._cache_event(match_id,event)
+
         if match_id not in self.commentator_pool.keys():
             return {}  
-
-        self._cache_event(match_id,event)
 
         for user_id in self.commentator_pool[match_id]:
             self.commentator_pool[match_id][user_id]["symbolic_q"].put(event)
 
-        return event
-    
-    def end_session(self,match_id,user_id):
-        pass
+        return event    
+
 
     def _cache_event(self,match_id, event):
         if not os.path.isdir("./CommentGenerator/.match_cache"):
