@@ -45,6 +45,7 @@ function insertCards(id, url, home, away, type) {
         console.log(card.childNodes[0].src);
         console.log(card.childNodes[0].metadata);
 
+
         console.log(set_matchInfo(id,url, ifCookie("userId")));
         sendInfoVideo(set_matchInfo(id,url, ifCookie("userId"), type));
 
@@ -143,11 +144,19 @@ function connect() {
 }
 
 function set_matchInfo(match_id, url, user_id, type) {
+
+    let start_time;
+    if(type==="realtime"){
+        start_time = Math.floor(Math.random() * 20);
+    }else {
+        start_time = 0;
+    }
+
     return {
         match_id: match_id,
         match_url: url,
         user_id: user_id,
-        type: type
+        start_time: start_time
     };
 }
 
