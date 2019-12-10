@@ -348,9 +348,9 @@ function handleClientMessage(body, connection) {
 
     else if(message.request_type === "post_matchID"){
 
-        console.log("Match_ID arrived, now sending to Video Group");
+        console.log("Match_ID arrived, now sending to Comment Group");
 
-        console.log(message.request);
+        // console.log(message.request);
 
         let idUser   = message.request.user_id;
         let idMatch  = message.request.match_id;
@@ -366,6 +366,7 @@ function handleClientMessage(body, connection) {
                     connection.send(response);
                 }else if(result.status === 201){
 
+                    console.log("Video not in cache, now sending to Video Group");
                     VideoApp.post(url_video, JSON.stringify(message.request), config )
                         .then((result_video)=>{
                             if (result_video.status === 200) {
