@@ -79,6 +79,7 @@ Client:
 - [x] Implement video catalog
 - [x] Manage cookies
 - [x] MultiLingual voice
+- [x] Multi voice
 - [ ] More Emphasis
 - [ ] Green filed of position
 - [ ] Cache play
