@@ -56,7 +56,6 @@ function loginUser() {
 
 function userHello() {
     let location = window.location.href.toString().split("/");
-    console.log(location[location.length - 1]);
     ws.send(JSON.stringify({
         request: location[location.length - 1],
         request_type: "hello",
