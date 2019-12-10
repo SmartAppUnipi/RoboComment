@@ -68,7 +68,7 @@ Server:
 - [x] Priority manager for comments
 - [x] Messages forward to other services
 - [x] Send comments based on user ID
-
+- [x] User connection/disconnection warning to Commentary
 
 Client:
 - [x] Auto reconnection with server
@@ -78,3 +78,7 @@ Client:
 - [x] Implement user login
 - [x] Implement video catalog
 - [x] Manage cookies
+- [x] MultiLingual voice
+- [ ] More Emphasis
+- [ ] Green filed of position
+- [ ] Cache play
