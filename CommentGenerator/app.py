@@ -29,7 +29,7 @@ def send_to_audio(output):
     except requests.exceptions.ConnectionError:
         print("Audio unreachable at " + AUDIO_URL)
 
-@app.route('/api/action', methods=['POST'])
+@app.route('/api/action', methods=['POST']) # think is better to use PUT here
 def action():
     ''' 
         it gets a json from the symbolic group, and forwards it to the right commentator
@@ -44,13 +44,20 @@ def action():
 
     return "OK"
 
-@app.route('/api/comment/<int:matchid>/<int:userid>', methods=['POST'])
-def comment_match(matchid,userid):
+@app.route('/api/session/<int:matchid>/<int:userid>', methods=['POST'])
+def session_start(matchid,userid):
     ''' this method will be called by the audio each time a new user watches a match'''
     global commentator_pool
     
-    commentator_pool.comment_match(matchid)
-    commentator_pool.add_user_to_match(matchid,userid)
+    commentator_pool.start_session(matchid,userid)
+    return "OK"
+
+@app.route('/api/session/<int:matchid>/<int:userid>', methods=['DELETE'])
+def session_end(matchid,userid):
+    ''' this method will be called by the audio each time a user ends the video streaming'''
+    global commentator_pool
+
+    commentator_pool.end_session(matchid,userid)
     return "OK"
 
 
@@ -62,7 +69,6 @@ def init():
     logging.basicConfig(filename='CommentGenerator/commentgenerator.log',level=logging.INFO) # filemode='w'
 
     commentator_pool = CommentatorPool(KB_URL,send_to_audio)
-    commentator_pool.comment_match(42) #TODO fix this, comment_match should be used instead
 
 if __name__ == '__main__':
     try:

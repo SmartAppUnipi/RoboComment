@@ -16,7 +16,7 @@ pytest CommentGenerator/tests
 - **URL** /api
 - **method** GET
 
-### POST an  action
+### POST an  action/event from the symbolic level
 - **URL**  /api/action
 - **Expected Input** check  **assets/input_symbolic1.json** 
 - **Produced Output**   json with format:
@@ -30,3 +30,28 @@ pytest CommentGenerator/tests
         "id" : <int with the user id>
     } 
     ```
+- ## Beta 
+    - **method** PUT 
+    - **URL** api/action
+    - **Expected input** need to tune with symbolic
+    - **Produced Output**   json with format:
+        ```
+        {
+            "comment" : <a string with the produced comment>,
+            "emphasis" : <?? we need to think about that>,
+            "startTime" : <integer seconds, the start time we recive from the symbolic level >,
+            "endTime" : <integer seconds, the end time we receive from the symbolic level>,
+            "priority": <float from 0 to 10 stating the importance of the comment, 10 is extremely important, 0 is not important>,
+            "user_id" : <int with the id of the user who has to receive this comment>
+        } 
+        ```
+### Start a comment session
+- **URL** /api/session/<<int:matchid>>/<<int:userid>>
+- **method** POST
+- **effect** the I/O module should call this method to inform us that a user with userid wants a commentary for the match matchid
+
+
+### End a comment session
+- **URL** /api/session/<<int:matchid>>/<<int:userid>>
+- **method** DELETE
+- **effect** the I/O module should call this method to inform us that a user with userid is no longer wathing the match matchid

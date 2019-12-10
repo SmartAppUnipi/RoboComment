@@ -2,7 +2,8 @@ from threading import Thread
 from  multiprocessing import SimpleQueue
 from .Commentator import Commentator
 from utils.KnowledgeBase import KnowledgeBase
-
+import os
+import json
 
 class CommentatorPool:
 
@@ -10,8 +11,10 @@ class CommentatorPool:
         self.kb_url = kb_url
         self.send_to_audio = send_to_audio
         self.commentator_pool = {}
+
+        self._match_cache = {}
     
-    def _new_commentator(self,match_id, symbolic_q, user_q, kb_url):
+    def _new_commentator(self, match_id, symbolic_q, user_id, kb_url):
         print("Welcome to this match! I will be your commentator!")
         
         knowledge_base = KnowledgeBase(url= kb_url)
@@ -24,34 +27,58 @@ class CommentatorPool:
             
             self.send_to_audio(output)
 
-    def comment_match(self,match_id):
-        if match_id in self.commentator_pool.keys():
-            return
+    def start_session(self,match_id, user_id ):
+        session_status = 0 # new session
+
+        if match_id not in self.commentator_pool.keys():
+            # adding a new key to the comentator pool
+            self.commentator_pool[match_id] = {}
+            session_status = 1 # session already present
+
+        
+        if user_id in self.commentator_pool[match_id].keys():
+            # the user session is already here
+            return -1 # bad user id
 
         symbolic_q = SimpleQueue()
-        user_q = SimpleQueue()
-        commentator = Thread(target=self._new_commentator,args=(match_id,symbolic_q,user_q, self.kb_url))
+        commentator = Thread(target=self._new_commentator,args=(match_id,symbolic_q,user_id, self.kb_url))
 
-        self.commentator_pool[match_id] = {
+        self.commentator_pool[match_id][user_id] = {
             "symbolic_q" : symbolic_q,
-            "commentator" : commentator,
-            "user_q" : user_q 
+            "commentator" : commentator
         }
+
         commentator.daemon = True
         commentator.start()
 
-        return
-    
-    def add_user_to_match(self,match_id, user_id):
-        if match_id not in self.commentator_pool.keys():
-            return  -1
+        return session_status
         
-        self.commentator_pool[match_id]["user_q"].put(user_id)
-        return user_id
-    
     def push_symbolic_event_to_match(self,match_id, event):
         if match_id not in self.commentator_pool.keys():
             return {}  
 
-        self.commentator_pool[match_id]["symbolic_q"].put(event)
+        self._cache_event(match_id,event)
+
+        for user_id in self.commentator_pool[match_id]:
+            self.commentator_pool[match_id][user_id]["symbolic_q"].put(event)
+
         return event
+    
+    def end_session(self,match_id,user_id):
+        pass
+
+    def _cache_event(self,match_id, event):
+        if not os.path.isdir("./CommentGenerator/.match_cache"):
+            os.mkdir("./CommentGenerator/.match_cache")
+        
+        if match_id not in  self._match_cache.keys():
+            # new match
+            self._match_cache[match_id] = []
+        
+        self._match_cache[match_id].append(event)
+
+        # TODO need to figure out a way to implement this that is not time consuming
+
+
+
+        
