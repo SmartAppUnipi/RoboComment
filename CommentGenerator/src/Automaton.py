@@ -1,5 +1,5 @@
 from automaton import machines
-from graphviz import Digraph
+#from graphviz import Digraph
 import numpy as np
 
 def print_on_exit(old_state, triggered_event):
@@ -17,10 +17,10 @@ class CommentAutomata():
         #states by Luca
         """The states"""
         states = [
-                    'Commento su qualche info',
-                    'Commento semplice',
-                    'Commento semplice ripetuto',
-                    'Commento Random'
+                    'Hybrid comment',
+                    'Pure comment',
+                    'Pure comment repeated',
+                    'Lulls comment'
                 ]
         #dictionaries
         """Dict states to index"""

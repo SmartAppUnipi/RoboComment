@@ -1,5 +1,7 @@
 import requests
 
+# TODO add querying about favourite player
+# TODO add queryng about info of particular id
 
 class KnowledgeBase:
     PLAYER = 'persona'
