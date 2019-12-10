@@ -40,7 +40,7 @@ def action():
     print("INPUT:: " + json.dumps(input))
     logging.info(input)
 
-    commentator_pool.push_symbolic_event_to_match(42,input) #TODO fix this 42, it should be get from the json
+    commentator_pool.push_symbolic_event_to_match(input["match_id"],input) 
 
     return "OK"
 

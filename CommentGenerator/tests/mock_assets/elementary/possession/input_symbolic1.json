@@ -1,6 +1,7 @@
 {
  
     "type": "possession",
+    "match_id" : 42,
     "user_id": 10,
     "start_time": 10,
     "end_time" : 20,

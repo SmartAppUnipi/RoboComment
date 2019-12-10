@@ -39,7 +39,7 @@ class CommentatorPool:
         
         if user_id in self.commentator_pool[match_id].keys():
             # the user session is already here
-            return 200 # bad user id
+            return 200 # session already present
 
         symbolic_q = SimpleQueue()
         commentator = Thread(target=self._new_commentator,args=(match_id,symbolic_q,user_id, self.kb_url))
@@ -49,7 +49,7 @@ class CommentatorPool:
             "commentator" : commentator
         }
 
-        commentator.daemon = True
+        commentator.daemon = False
         commentator.start()
 
         return session_status
