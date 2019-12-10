@@ -1,8 +1,10 @@
 lunpack[stdin] = @0 as ? : True then spacchettpush('positions', @0)
 
+send_positions[stdin] = @0 as ? : True then push('stdout', @0); update('stdout', @0, {'type': 'positions'})
+
 closest[stdin] = @0 as ? : True then push_closest('positions', @0)
 
-barycenter[stdin] = @0 as ? : True then compute_bari_diam('positions', @0)
+barycenter[stdin] = @0 as ? : True then compute_bari_diam('temp', @0)
 
 on_target[stdin] = @0 as ? : ball_on_target(@0) then push('elementary',
     {'type': 'on_target', 'time': @0.time})
