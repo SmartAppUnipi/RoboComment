@@ -103,20 +103,36 @@ function googleSpeak(item,text){
      through the Bearer token (TO OBTAIN)
      */
 
+    let nameVoice = 'en-US-Wavenet-D';
+    let voice =
+
     xhttp.open("POST", "https://texttospeech.googleapis.com/v1/text:synthesize?key=AIzaSyDgUrhiDmKK0pM8OGpszCoehg2vbRL6pgI", true);
     xhttp.setRequestHeader("Content-type", "application/json; charset=utf-8");
     // xhttp.setRequestHeader("Authorization", "Bearer $(gcloud auth application-default print-access-token)");
-    xhttp.send("{\n" +
-        "    'input':{'text':'"+text+"'},\n" +
-        "    'voice':{\n" +
-        "      'languageCode':'en-gb',\n" +
-        "      'name':'en-US-Wavenet-D',\n" +
-        "      'ssmlGender':'FEMALE'\n" +
-        "    },\n" +    
-        "    'audioConfig':{\n" +
-        "      'audioEncoding':'OGG_OPUS'\n" +
-        "    }\n" +
-        "  }");
+
+
+    xhttp.send(JSON.stringify({
+        input: text,
+        voice: {
+            languageCode: 'en-gb',
+            name: nameVoice
+        },
+        audioConfig: {
+            audioEncoding: 'OGG_OPUS'
+        }
+    }));
+
+    // xhttp.send("{\n" +
+    //     "    'input':{'text':'"+text+"'},\n" +
+    //     "    'voice':{\n" +
+    //     "      'languageCode':'en-gb',\n" +
+    //     "      'name':" + nameVoice + ",\n" +
+    //     "      'ssmlGender':'FEMALE'\n" +
+    //     "    },\n" +
+    //     "    'audioConfig':{\n" +
+    //     "      'audioEncoding':'OGG_OPUS'\n" +
+    //     "    }\n" +
+    //     "  }");
 }
 
 
