@@ -19,7 +19,7 @@ class Filler:
         }
 
 
-    def update_comment(self, comment:str, placeholders:dict)->str:
+    def update_comment(self, comment:str, placeholders:dict, state:str)->str:
         """
         Update commet with placeholders values
         :param comment:

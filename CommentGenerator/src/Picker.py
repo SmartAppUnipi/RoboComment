@@ -6,6 +6,7 @@ import random
 class Picker:
 
     def __init__(self, template_path):
+        """
         self.picking_strategy = PickingStrategy()
         # Load templates
         with open(template_path, 'r') as json_file:
@@ -14,6 +15,7 @@ class Picker:
         categories_path = 'CommentGenerator/assets/categories.json'
         with open(categories_path, 'r') as json_file:
             self.valid_categories = json.load(json_file)
+        """
 
     def pick_comment(self, input_json: json):
         ''' it gets the json in input so that it can decide which template match '''
