@@ -3,17 +3,19 @@ try:
     from .Filler import Filler
     from .Sentimentalizer import Sentimentalizer
     from .Picker_grammar import Picker
+    from .Automaton import CommentAutomata
 except:
     from Filler import Filler
     from Sentimentalizer import Sentimentalizer
     from Picker_grammar import Picker
+    from Automaton import CommentAutomata
 import json
 
 class Commentator:
 
     def __init__(self, knowledge_base):
         self.kb = knowledge_base
-
+        self.automa = CommentAutomata()
         self.picker = Picker()
         self.filler = Filler(knowledge_base)
         self.sentimentalizer = Sentimentalizer()
@@ -22,9 +24,10 @@ class Commentator:
         
         ''' Extract the time where the json is occurred and match and update the resulting template'''
         user_id = jsonobj['user_id']
-
+        # get next state
+        state = self.automa.NextState()
         # create comment
-        (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, 0)
+        (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, state)
         # update it with kb
         comment = self.filler.update_comment(comment, placeholders)
         # retrieve sentiment
@@ -41,4 +44,3 @@ class Commentator:
             'id' : user_id
         }
         return output
-
