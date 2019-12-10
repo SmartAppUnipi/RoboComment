@@ -35,9 +35,8 @@ class CommentatorPool:
 
         if match_id not in self.commentator_pool.keys():
             # adding a new key to the comentator pool
-            # new session
             self.commentator_pool[match_id] = {}
-            session_status = 201 
+            session_status = 201 # new session
 
         
         if user_id in self.commentator_pool[match_id].keys():
@@ -58,8 +57,17 @@ class CommentatorPool:
         return session_status
         
     def end_session(self,match_id,user_id):
+        if match_id not in self.commentator_pool.keys():
+            return
+        if user_id not in self.commentator_pool[match_id].keys():
+            return
+
         self.commentator_pool[match_id][user_id]["symbolic_q"].put({})
         del self.commentator_pool[match_id][user_id]
+
+        if not self.commentator_pool[match_id]:
+            # user_id was the last user watching that game
+            del self.commentator_pool[match_id]
         
     
     def push_symbolic_event_to_match(self,match_id, event):
@@ -75,16 +83,23 @@ class CommentatorPool:
 
 
     def _cache_event(self,match_id, event):
-        if not os.path.isdir("./CommentGenerator/.match_cache"):
-            os.mkdir("./CommentGenerator/.match_cache")
+        cache_path = "./CommentGenerator/.match_cache"
+        if not os.path.isdir(cache_path):
+            os.mkdir(cache_path)
         
         if match_id not in  self._match_cache.keys():
             # new match
+            if not os.path.isdir(cache_path + "/" + str(match_id)):
+                os.mkdir(cache_path + "/" + str(match_id))
             self._match_cache[match_id] = []
         
         self._match_cache[match_id].append(event)
 
-        # TODO need to figure out a way to implement this that is not time consuming
+        start_time = event['start_time']
+        end_time = event['end_time']
+
+        with open(cache_path + "/" + str(match_id) + "/" + str(start_time) + "_" + str(end_time) + ".json","w+") as filejson:
+            json.dump(event,filejson)
 
 
 
