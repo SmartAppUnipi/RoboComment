@@ -149,6 +149,8 @@ commentApp.post("/", function (req, res) {
     console.log(req.body);
 
     let comment = JSON.parse(JSON.stringify(req.body));
+    comment.endTime = comment.startTime + estimateTime(comment.comment);
+    console.log("Start-stop: "+comment.startTime + "-"+comment.endTime);
 
     res.sendStatus(200);
 
@@ -215,6 +217,10 @@ function sendComment(item, id) {
             }
         }
     }
+}
+
+function estimateTime(comment) {
+    return comment.split(' ').length / 2;
 }
 
 function overlaps(comment1, comment2) {
