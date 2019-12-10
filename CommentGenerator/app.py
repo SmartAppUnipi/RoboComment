@@ -29,7 +29,7 @@ def send_to_audio(output):
     except requests.exceptions.ConnectionError:
         print("Audio unreachable at " + AUDIO_URL)
 
-@app.route('/api/action', methods=['POST'])
+@app.route('/api/action', methods=['POST']) # think is better to use PUT here
 def action():
     ''' 
         it gets a json from the symbolic group, and forwards it to the right commentator
@@ -44,7 +44,7 @@ def action():
 
     return "OK"
 
-@app.route('/api/session/start/<int:matchid>/<int:userid>', methods=['POST'])
+@app.route('/api/session/<int:matchid>/<int:userid>', methods=['POST'])
 def session_start(matchid,userid):
     ''' this method will be called by the audio each time a new user watches a match'''
     global commentator_pool
@@ -52,7 +52,7 @@ def session_start(matchid,userid):
     commentator_pool.start_session(matchid,userid)
     return "OK"
 
-@app.route('/api/session/end/<int:matchid>/<int:userid>', methods=['POST'])
+@app.route('/api/session/<int:matchid>/<int:userid>', methods=['DELETE'])
 def session_end(matchid,userid):
     ''' this method will be called by the audio each time a user ends the video streaming'''
     global commentator_pool
