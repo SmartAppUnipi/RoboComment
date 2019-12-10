@@ -78,6 +78,14 @@ class GameModel:
             js_syntax = x.group()
             py_syntax = "['{}']".format(js_syntax[1:].replace(".", "']['"))
             rule_str = rule_str.replace(x.group(), py_syntax, 1)
+
+
+            match = re.findall(r"[A-Z]+", rule_str)
+
+        for x in match:
+            obj = "{'type': '" + x.lower() + "'}"
+            rule_str = rule_str.replace(x, obj)
+
         return rule_str
 
     def _get_rules_strings(self, filename):
