@@ -2,6 +2,7 @@ import math
 from game_model.game_model import GameModel
 from collections import deque
 from fuzzy_logic.fuzzy_set import FuzzySet
+import numpy as np
 
 def push(push_to, element):
     tmp = []
@@ -171,3 +172,77 @@ def fast_ball(queue):
 
 def ciao(a):
     pass
+
+def _barycenter(array):
+    arr = np.asarray(array)
+    length = arr.shape[0]
+    sum_x = np.sum(arr[:, 0])
+    sum_y = np.sum(arr[:, 1])
+    return [sum_x/length, sum_y/length]
+
+
+def compute_bari_diam(stack_name, pos):
+    team0 = []
+    team1 = []
+    for player in pos['players']:
+        x = float(player['position']['x'])
+        y = float(player['position']['y'])
+        current_team = player['team']['value']
+        if current_team == 0:
+            team0.append([x,y])
+        if current_team == 1:
+            team1.append([x,y])
+           
+    bary0 = _barycenter(team0)
+    bary1 = _barycenter(team1)
+    
+    diam0 = []
+    diam1 = []
+    
+    for player in pos['players']:
+        x = float(player['position']['x'])
+        y = float(player['position']['y'])
+        current_team = player['team']['value']
+        if current_team == 0:
+            distance = math.sqrt(((bary0[0] - x)**2)+((bary0[1] - y)**2))
+            diam0.append(distance)
+        if current_team == 1:
+            distance = math.sqrt(((bary1[0] - x)**2)+((bary1[1] - y)**2))
+            diam1.append(distance)
+    
+    meanDist0 = np.asarray(diam0).mean()
+    meanDist1 = np.asarray(diam1).mean()
+    
+    to_push = {
+        'type': 'barycenter',
+        'position' : {'x': bary0[0], 'y': bary0[1]},
+        'time': trunc(pos['time']),
+        'team': {'value': 0},
+        'mean_distance': {'value': trunc(meanDist0)}
+    }
+    push(stack_name, to_push)
+
+    to_push = {
+        'type': 'barycenter',
+        'position' : {'x': bary1[0], 'y': bary1[1]},
+        'time': trunc(pos['time']),
+        'team': {'value': 1},
+        'mean_distance': {'value': trunc(meanDist1)}
+    }
+    push(stack_name, to_push)
+
+def checkTackle(stack_name, pos):
+    pass
+'''    ball_x = float(pos['ball'][0]['position']['x'])
+    ball_y = float(pos['ball'][0]['position']['y'])
+
+    for player in pos['players']:
+        # check that player is not the referee
+        if player['team'] != -1:
+            x = float(player['position']['x'])
+            y = float(player['position']['y'])
+            distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
+            player['delta'] = distance
+
+    newlist = sorted(pos['players'], key=lambda x: x['delta'])
+'''
