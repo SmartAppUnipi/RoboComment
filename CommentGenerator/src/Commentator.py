@@ -28,6 +28,7 @@ class Commentator:
         state = self.automa.NextState()
         # create comment
         (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, state)
+        print(comment)
         # update it with kb
         comment = self.filler.update_comment(comment, placeholders)
         # retrieve sentiment

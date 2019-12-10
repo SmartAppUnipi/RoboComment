@@ -21,8 +21,8 @@ class Extractor:
         self.__possible_category_hybrid = ["player", 'action', 'time', 'team']
         self.__repeated_consideration = [
             "today the temperature will not favor this type of game, ",
-            "football scandals usually affect the player's status a lot, "
-            "You know, always playing this way can be decisive"
+            "football scandals usually affect the player's status a lot, ",
+            "You know, always playing this way can be decisive, "
         ]
         # priority value of this json
         self.__priority = -1
@@ -187,4 +187,4 @@ class Extractor:
         Return some intro before the pure comment, miming the consideration of "real commentator"
         :return:
         """
-        return random.choice(self.__intro_repeated)
+        return random.choice(self.__repeated_consideration)
