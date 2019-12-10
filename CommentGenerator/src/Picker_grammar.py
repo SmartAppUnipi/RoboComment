@@ -44,7 +44,6 @@ class Picker:
 
         # hybrid comment
         if template_type == 0:
-            print("HYBRID")
             (success, comment) = self.__hybrid_comment()
             if success:
                 comment = " ".join(str(word) for word in comment)
@@ -54,7 +53,6 @@ class Picker:
 
         # pure comment
         if template_type == 1:
-            print("PURE")
             (success, comment) = self.__pure_comment()
             if success:
                 comment =  " ".join(str(word) for subtempl in comment for word in subtempl)
@@ -65,7 +63,6 @@ class Picker:
 
         # pure comment repeated
         if template_type == 2:
-            print("REPEATED")
             (success, comment) = self.__pure_comment()
             if success:
                 intro = self.__extractor.get_repeated_consideration()
@@ -77,7 +74,6 @@ class Picker:
 
         # pure lulls
         if template_type == 3:
-            print("LULLS")
             (success, comment) = self.__lulls_comment()
             if success:
                 return comment, {}, 1
