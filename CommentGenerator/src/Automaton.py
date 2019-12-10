@@ -1,5 +1,5 @@
 from automaton import machines
-#from graphviz import Digraph
+from graphviz import Digraph
 import numpy as np
 
 def print_on_exit(old_state, triggered_event):
@@ -17,11 +17,12 @@ class CommentAutomata():
         #states by Luca
         """The states"""
         states = [
-                    'Hybrid comment',
+                    'Welcome state',
                     'Pure comment',
-                    'Pure comment repeated',
+                    'Hybrid comment',
                     'Lulls comment'
                 ]
+        self.states = states
         #dictionaries
         """Dict states to index"""
         self.states2idx = {k:i for i,k in enumerate(states)}
@@ -32,12 +33,10 @@ class CommentAutomata():
         #transaction defined by Luca :P
         self.transitions = np.zeros((self.n_states,self.n_states))
         self.transitions[0,1] = 1
-        self.transitions[1,0] = .25
-        self.transitions[1,2] = .5
-        self.transitions[1,3] = .25
-        self.transitions[2,0] = .25
-        self.transitions[2,1] = .5
-        self.transitions[2,3] = .25
+        self.transitions[1,2] = 1/4
+        self.transitions[2,1] = 1
+        self.transitions[1,1] = 1/2
+        self.transitions[1,3] = 1/4
         self.transitions[3,1] = 1
 
 
@@ -66,7 +65,7 @@ class CommentAutomata():
                     self.asf.add_transition(self.id2st[i],self.id2st[j], str(round(pr,3))+"_"+self.id2st[j])
 
         #INITIAL STATE
-        self.asf.default_start_state = self.id2st[1]
+        self.asf.default_start_state = self.id2st[0]
         self.asf.initialize()
 
         #print(self.asf.pformat())
@@ -82,7 +81,7 @@ class CommentAutomata():
         next_state = np.argmin(self.cum_SUM[current_state]<r)
         #send the right event
         self.asf.process_event(str(round(self.transitions[current_state,next_state],3))+"_"+self.id2st[next_state])
-        return next_state
+        return self.id2st(current_state)
 
     #Draw the Automata
     def DrawAutomata(self,fn='Commentator Automata.gv'):
@@ -104,3 +103,9 @@ class CommentAutomata():
 
 
         g.view()
+
+
+'''cm = CommentAutomata()
+for i in range(12):
+    print(cm.id2st[cm.NextState()])
+cm.DrawAutomata()'''
