@@ -16,7 +16,8 @@ class Extractor:
             "possession": ['Player_active', 'Elementary'],
             "intercept": ['Player_active', 'Elementary', 'Player_passive'],
             "pass": ['Player_active', 'Elementary', 'Player_passive'],
-            "offside":["Elementary"]
+            "offside":["Elementary"],
+            "penalty": ["Elementary"]
         }
         # randomly select one of this info to produce a comment based on this
         self.__possible_category_hybrid = ["player", 'action', 'time', 'team']
@@ -43,7 +44,8 @@ class Extractor:
             "possession": 3,
             "intercept": 5,
             "pass": 4,
-            "offside": 9
+            "offside": 9,
+            "penalty": 9
         }
         if "type" in self.__input:
             self.__priority = priority_mapping[self.__input['type']]
