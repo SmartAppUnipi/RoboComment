@@ -7,19 +7,19 @@ class Filler:
         self.__kb = kb
         self.__modifier = {
             "player_modifier":{
-                "good": ["skilled"],
+                "good": ["skilled","terrific","great"],
                 "neutral": [""],
-                "bad": ["stupid"]
+                "bad": ["stupid","boot"]
             },
             "team_modifier":{
-                "good": ["great"],
+                "good": ["great","victorious"],
                 "neutral": [],
-                "bad" : ["disgusting"]
+                "bad" : ["disgusting","terrible","awful"]
             }
         }
 
 
-    def update_comment(self, comment:str, placeholders:dict, state:str)->str:
+    def update_comment(self, comment:str, placeholders:dict)->str:
         """
         Update commet with placeholders values
         :param comment:
