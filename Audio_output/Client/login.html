@@ -95,7 +95,7 @@
                         <div class="form-group" id="div_language">
                                 <div class="pos-r">
     
-                                    <input id="language" type="text" name="form-language" placeholder="Language..." class="form-username form-control" >
+                                    <input id="favoritelanguage" type="text" name="form-language" placeholder="Language..." class="form-username form-control" >
                                     <i class="fa fa-language" aria-hidden="false"></i>
                                 </div>
                             </div>
@@ -151,6 +151,9 @@
     let date1            = document.getElementById("div_date");
     let favoriteteam1    = document.getElementById("div_favoriteteam");
 
+    let favoriteplayer1  = document.getElementById("div_favoriteplayer");
+    let favoritelanguage1= document.getElementById("div_language");
+
     let btnRegister     = document.getElementById("div_btn_register");
     let btnLogin        = document.getElementById("div_btn_login");
 
@@ -163,6 +166,8 @@
         lastname1.style.display         = "none";
         date1.style.display             = "none";
         favoriteteam1.style.display     = 'none';
+        favoriteplayer1.style.display   = 'none';
+        favoritelanguage1.style.display = 'none';
 
         div_ask_signup.style.display    = 'block';
         div_ask_login.style.display     = 'none';
@@ -179,6 +184,8 @@
         lastname1.style.display         = "block";
         date1.style.display             = "block";
         favoriteteam1.style.display     = 'block';
+        favoriteplayer1.style.display   = 'block';
+        favoritelanguage1.style.display = 'block';
 
         div_ask_signup.style.display    = 'none';
         div_ask_login.style.display     = 'block';
