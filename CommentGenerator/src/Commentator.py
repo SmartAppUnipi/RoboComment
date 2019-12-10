@@ -30,7 +30,7 @@ class Commentator:
         (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, state)
         print(comment)
         # update it with kb
-        comment = self.filler.update_comment(comment, placeholders, state)
+        comment = self.filler.update_comment(comment, placeholders)
         # retrieve sentiment
         # TODO modify sentiment
         sentiment = self.sentimentalizer.add_emphasis(comment)
