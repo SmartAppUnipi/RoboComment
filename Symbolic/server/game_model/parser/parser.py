@@ -46,7 +46,3 @@ def _parse_rule(rule: str, parse_obj):
         parse_obj['condition'][-1]['pattern'].append(
             literal_eval(name) if re.match(r'\{.*\}', name) else name
         )
-        # if re.match(match, name):
-        #     parse_obj['condition'][-1]['pattern'].append(literal_eval(name))
-        # else:
-        #     parse_obj['condition'][-1]['pattern'].append(name)
