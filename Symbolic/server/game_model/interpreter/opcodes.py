@@ -175,11 +175,11 @@ def is_penalty(pos):
         y = p["position"]["y"]
 
         if 0 <= x <= _goal_area_height and \
-           (_field_width / 2 + goal_area_width / 2 <= y <= \
-            _field_width / 2 - goal_area_width / 2) \
+           (_field_width / 2 + _goal_area_width / 2 <= y <= \
+            _field_width / 2 - _goal_area_width / 2) \
            or _field_height - _goal_area_height >= x and \
-           (_field_width / 2 + goal_area_width / 2 <= y <= \
-            _field_width / 2 - goal_area_width / 2):
+           (_field_width / 2 + _goal_area_width / 2 <= y <= \
+            _field_width / 2 - _goal_area_width / 2):
 
             no_players_in_goal_area += 1
             continue
