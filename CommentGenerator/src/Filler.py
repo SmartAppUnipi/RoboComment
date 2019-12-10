@@ -1,6 +1,5 @@
 import re
 import json
-from MockKnowledgeBase import MockKB
 import numpy as np
 class Filler:
 
@@ -137,6 +136,6 @@ if __name__ == '__main__':
     print("COMMENT:", comment)
     print("PLACEHOLDERS:", placeholders)
     user_id = 42
-    filler = Filler(kb=MockKB(),user_id = user_id)
+    filler = Filler(kb="",user_id = user_id)
     comment = filler.update_comment(comment, placeholders)
     print(comment)
