@@ -257,6 +257,8 @@ def simulate_passage(x):
             }
         }
     )
+
+    tmp['match_id'] = (1)
     pass_time += 0.05
 
     if pass_ball_y < 50 and direction == 'down':
