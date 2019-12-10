@@ -236,7 +236,7 @@ function handleClientMessage(body, connection) {
         console.log("Sending request to KB");
         KBApp.post(url_login, JSON.stringify(message.request), config)
             .then((result) => {
-                response = set_response("user_login", JSON.stringify(result.data), result.status);
+                response = set_response("user_login", result.data, result.status);
 
                 if (result.status === 200) {
                     console.log("User Login: Status OK and Sending to Client");
@@ -251,7 +251,7 @@ function handleClientMessage(body, connection) {
                     console.log(err);
                 }
                 if (err.response) {
-                    response = set_response("user_login", JSON.stringify(err.response.data), 400);
+                    response = set_response("user_login", err.response.data, 400);
                     console.log("User Login: Status NOT_OK and Sending to Client: " + err.response.data);
                     connection.send(response)
                 }
@@ -265,7 +265,7 @@ function handleClientMessage(body, connection) {
 
         KBApp.post(url_user,JSON.stringify(message.request),config)
             .then((result) => {
-                response = set_response("user_registration", JSON.stringify(result.data), result.status);
+                response = set_response("user_registration", result.data, result.status);
                 if (result.status === 200) {
                     console.log("User Registration: Status OK and Sending to Client");
                     connection.send(response);
@@ -279,7 +279,8 @@ function handleClientMessage(body, connection) {
                     console.log(err)
                 }
                 if (err.response) {
-                    response = set_response("user_registration", JSON.stringify(err.response.data), 400);
+                    console.log(JSON.stringify(err.response.data));
+                    response = set_response("user_registration", err.response.data, 400);
                     console.log("User Registration: Status NOT_OK and Sending to Client. " + err.response.data.error);
                     connection.send(response);
                 }
@@ -293,7 +294,7 @@ function handleClientMessage(body, connection) {
 
         KBApp.post(url_user,body.request,config)
             .then((result) => {
-                response = set_response("user_update", JSON.stringify(result.data), result.status);
+                response = set_response("user_update", result.data, result.status);
                 if (result.status === 200) {
                     console.log("User Update: Status OK and Sending to Client");
                     connection.send(response);
@@ -307,7 +308,7 @@ function handleClientMessage(body, connection) {
                     console.log(err);
                 }
                 if (err.response) {
-                    response = set_response("user_update", JSON.stringify(err.response.data), 400);
+                    response = set_response("user_update", err.response.data, 400);
                     console.log("User Update: Status NOT_OK and Sending to Client");
                     connection.send(response);
                 }
@@ -351,7 +352,7 @@ function handleClientMessage(body, connection) {
 
                 }else{
                     console.log("Match information not found. " + result.data);
-                    response = set_response("get_infoMatch", JSON.stringify(result.data), 400);
+                    response = set_response("get_infoMatch", result.data, 400);
                     connection.send(response);
                 }
             })
@@ -361,7 +362,7 @@ function handleClientMessage(body, connection) {
                 }
                 if (err.response) {
                     console.log("Catch: Match information not found. " + err.response.data);
-                    response = set_response("get_infoMatch", JSON.stringify(err.response.data), 400);
+                    response = set_response("get_infoMatch", err.response.data, 400);
                     connection.send(response);
                 }
                 else
@@ -374,14 +375,16 @@ function handleClientMessage(body, connection) {
     }
 
     else if(message.request_type === "get_videoList"){
-        response = set_response("get_videoList", JSON.stringify(video_list), 200);
+        response = set_response("get_videoList", video_list, 200);
         console.log("Send videos list");
         connection.send(response);
     }
 }
 
 function set_response(reply_type, reply, status) {
-    return "{\"reply_type\": \""+reply_type+"\",\n" +
-        "\"reply\": "+reply+",\n" +
-        "\"status\": \"" +status+ "\"\n}";
+    return JSON.stringify({
+        reply_type: reply_type,
+        reply: reply,
+        status: status
+    });
 }

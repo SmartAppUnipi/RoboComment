@@ -79,9 +79,9 @@ function connect() {
 
             case "user_login":
                 console.log("login reply: "+message.reply.id);
-                if (message.status === "400")
+                if (message.status === 400)
                     showSnack("Login failed");
-                else if (message.status === "200") {
+                else if (message.status === 200) {
                     console.log("Login ok:");
                     setCookie("userId", message.reply.id, 15*24);
                     console.log(ifCookie("userId"));
@@ -91,10 +91,10 @@ function connect() {
                 break;
 
             case "user_registration":
-                console.log("registration reply");
-                if (message.status === "400")
+                console.log("registration reply: "+message.status);
+                if (message.status === 400)
                     showSnack("Registration failed");
-                else if (message.status === "200") {
+                else if (message.status === 200) {
                     showSnack("Registration confirmed, log in!");
                     if (ifCookie('userId') !== 0)
                         setCookie("userID", message.reply.id, 15*24);
@@ -145,6 +145,5 @@ function set_matchInfo(match_id, url, user_id) {
         user_id: user_id
     };
 }
-
 
 connect();
