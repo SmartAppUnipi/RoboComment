@@ -43,6 +43,9 @@ class KnowledgeBase:
     def get_user_player(self,user_id):
         tmp_user = self.get_item(KnowledgeBase.USER, user_id)
         return tmp_user['favourite_player'] if tmp_user else " "
+     def get_user_language(self,user_id):
+        tmp_user = self.get_item(KnowledgeBase.USER, user_id)
+        return tmp_user['language'] if tmp_user else " "
     def get_item(self, entity, id):
         try:
             resp = requests.get( self.url + entity + "/" + str(id))
