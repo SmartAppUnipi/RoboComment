@@ -149,25 +149,10 @@ class Picker:
 
 if __name__ == '__main__':
     test1 = {
-    "type": "pass",
+    "type": "offside",
     "match_id" : 42,
-    "user_id": 10,
     "start_time": 11,
     "end_time" : 21,
-    "player_active": {
-      "id": {
-        "value": 42,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    },
-    "player_passive": {
-      "id": {
-        "value": 41,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    }
 }
     picker = Picker()
     comment, placeholders, priority = picker.pick_comment(test1, "Pure comment")

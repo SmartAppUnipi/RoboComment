@@ -49,7 +49,7 @@ class Commentator:
 
 if __name__ == '__main__':
 
-    comm = Commentator("")
+    comm = Commentator("", 1)
     comm.run({
     "type": "pass",
     "user_id": 10,

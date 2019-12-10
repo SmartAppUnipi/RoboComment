@@ -15,7 +15,8 @@ class Extractor:
         self.__mapping_action = {
             "possession": ['Player_active', 'Elementary'],
             "intercept": ['Player_active', 'Elementary', 'Player_passive'],
-            "pass": ['Player_active', 'Elementary', 'Player_passive']
+            "pass": ['Player_active', 'Elementary', 'Player_passive'],
+            "offside":["Elementary"]
         }
         # randomly select one of this info to produce a comment based on this
         self.__possible_category_hybrid = ["player", 'action', 'time', 'team']
@@ -37,11 +38,12 @@ class Extractor:
         Check if the action is present, if yes set the priority
         :return:
         """
-        # define priority of the actions in the range of [3-10]
+        # define priority of the actions in the range of [3-9]
         priority_mapping = {
             "possession": 3,
             "intercept": 5,
             "pass": 4,
+            "offside": 9
         }
         if "type" in self.__input:
             self.__priority = priority_mapping[self.__input['type']]
