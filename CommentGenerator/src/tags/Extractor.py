@@ -21,11 +21,6 @@ class Extractor:
         }
         # randomly select one of this info to produce a comment based on this
         self.__possible_category_hybrid = ["player", 'team']
-        self.__repeated_consideration = [
-            "today the temperature will not favor this type of game, ",
-            "football scandals usually affect the player's status a lot, ",
-            "You know, always playing this way can be decisive, "
-        ]
         # priority value of this json
         self.__priority = -1
         self.__welcome_message = ["Welcome to the match is speaking RoboComment and it will be with you to comment this match",
@@ -187,13 +182,6 @@ class Extractor:
 
     def get_priority(self)->int:
         return self.__priority
-
-    def get_repeated_consideration(self)->str:
-        """
-        Return some intro before the pure comment, miming the consideration of "real commentator"
-        :return:
-        """
-        return random.choice(self.__repeated_consideration)
 
     def get_welcome_message(self)->str:
         """

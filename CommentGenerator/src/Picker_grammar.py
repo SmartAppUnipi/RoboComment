@@ -18,11 +18,13 @@ class Picker:
     This class constructs the sentence according to input json and the state of the commentator
     """
 
-    def __init__(self):
+    def __init__(self, language:str):
+        self.__language = language
         # this class will be responsible to extract info inside json
         self.__extractor = Extractor()
         with open('CommentGenerator/assets/comments_empty_moments.txt', "r") as f:
             self.__lulls = [line for line in f.readlines()]
+
 
     def pick_comment(self, input_json: json, template_type: str)->tuple:
         """
@@ -56,17 +58,6 @@ class Picker:
                 comment =  " ".join(str(word) for subtempl in comment for word in subtempl)
                 placeholders = self.__extractor.get_value_from_placeholders(comment)
                 return comment, placeholders, self.__extractor.get_priority()
-
-        # pure comment repeated
-        """
-        if template_type == "Pure comment repeated":
-            (success, comment) = self.__pure_comment()
-            if success:
-                intro = self.__extractor.get_repeated_consideration()
-                comment = " ".join(str(word) for subtempl in comment for word in subtempl)
-                placeholders = self.__extractor.get_value_from_placeholders(comment)
-                return intro+comment, placeholders, self.__extractor.get_priority()+1
-        """
 
         # pure lulls
         if template_type == "Lulls comment":
