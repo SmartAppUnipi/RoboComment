@@ -5,12 +5,13 @@ try:
     from .Sentimentalizer import Sentimentalizer
     from .Picker_grammar import Picker
     from .Automaton import CommentAutomata
-    from .Translator import Translator
+    from .Translate import Translate
 except:
     from Filler import Filler
     from Sentimentalizer import Sentimentalizer
     from Picker_grammar import Picker
     from Automaton import CommentAutomata
+    from Translate import Translate
 import json
 
 class Commentator:
@@ -22,7 +23,7 @@ class Commentator:
         self.automa = CommentAutomata()
         self.picker = Picker()
         self.filler = Filler(knowledge_base, self.user_id)
-        self.translator = Translator(self.user_lang)
+        self.translator = Translate(self.user_lang)
         self.sentimentalizer = Sentimentalizer()
 
     def run(self, jsonobj:json):
@@ -35,7 +36,8 @@ class Commentator:
         # update it with kb
         comment = self.filler.update_comment(comment, placeholders)
         # translate in the correct language
-        comment = self.translator.translate(comment, self.user_lang)
+        comment = self.translator.get_translation(comment)
+        print(comment)
         # retrieve sentiment
         # TODO modify sentiment
         sentiment = self.sentimentalizer.add_emphasis(comment)
