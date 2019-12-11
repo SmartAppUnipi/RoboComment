@@ -1,5 +1,5 @@
-const url        = 'ws://localhost:4020';
-// const url        = 'ws://131.114.137.237:4020';
+// const url        = 'ws://localhost:4020';
+const url        = 'ws://131.114.137.237:4020';
 let queue        = new Queue();
 let ws           = null;
 
@@ -51,6 +51,7 @@ function insertCards(id, url, home, away, type) {
 
         setCookie("videoID",id,2);
         setCookie("videoURL",url,2);
+        setCookie("videoType",type,2);
         window.location.href = "video.html";
 
     });
@@ -147,7 +148,8 @@ function set_matchInfo(match_id, url, user_id, type) {
 
     let start_time;
     if(type==="realtime"){
-        start_time = Math.floor(Math.random() * 20);
+        // start_time = Math.floor(Math.random() * 20);
+        start_time = 20;
     }else {
         start_time = 0;
     }

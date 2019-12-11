@@ -1,4 +1,4 @@
-let track, videoUrl, videoId;
+let track, videoUrl, videoId, videoType;
 let video               = document.getElementById('video');
 let audio               = document.getElementById('audio');
 let supposedCurrentTime = 0;
@@ -18,10 +18,12 @@ function main() {
 
     // Add track for dynamic subtitles
     track = video.addTextTrack("captions", "MultiLingual", "en");
+    // track.scroll = "none";
     track.mode = "showing";
 
     videoUrl = getCookie("videoURL");
     videoId = getCookie("videoID");
+    videoType = getCookie("videoType");
 
     console.log("User_ID: "+ ifCookie("userId"));
     console.log("Video ID: " + videoId);
@@ -30,13 +32,32 @@ function main() {
         video.src = videoUrl;
         video.type = "video/mp4";
         setTimeout(function () {
-            video.play()
+            playVideo()
         }, 10000);
-    }else{
+    } else{
         window.location.href = "catalog.html";
 
     }
+}
 
+function playVideo() {
+    video.play();
+    if (videoType !== '' && videoType === "realtime") {
+        console.log(video.currentTime);
+        video.currentTime = 20;
+        console.log(video.currentTime);
+        console.log("Start realtime");
+    }
+    //Listening for seeking. Id debug is true than seeking is deactivated
+    video.onseeking = function() {
+        if (!debug){
+            let delta = video.currentTime - supposedCurrentTime;
+            if(Math.abs(delta)>0.01){
+                console.log("Seeking no");
+                video.currentTime = supposedCurrentTime;
+            }
+        }
+    };
 }
 
 
@@ -93,21 +114,21 @@ function voiceItem(item){
 
 function calcolateRate(emphasy){
     switch (emphasy) {
-        case 1: { return 10}
-        case 2: { return 100}
-        case 3: { return 354}
-        case 4: { return 5}
-        case 5: { return 88}
+        case 1: { return "medium"}
+        // case 2: { return 100}
+        case 3: { return "default"}
+        // case 4: { return 5}
+        case 5: { return "medium"}
     }
 }
 
 function calcolatePitch(emphasy){
     switch (emphasy) {
-        case 1: { return 6}
-        case 2: { return 10}
-        case 3: { return 100}
-        case 4: { return 5}
-        case 5: { return 15}
+        case 1: { return "high"}
+        // case 2: { return 10}
+        case 3: { return "default"}
+        // case 4: { return 5}
+        case 5: { return "x-low"}
     }
 }
 
@@ -164,7 +185,7 @@ function googleSpeak(item,text){
 
     console.log("Asking for audio with voice: " + nameVoice + " and language:" + lanCode);
     xhttp.send(JSON.stringify({
-        input: {ssml: "<speak><prosody rate=\"+" + rate + "%\" pitch=\"+" + pitch + "%\" >" + text + "</prosody></speak>" },
+        input: {ssml: "<speak><prosody rate=\"" + rate + "\" pitch=\"" + pitch + "\" >" + text + "</prosody></speak>" },
 
         voice: {
             languageCode: lanCode,
@@ -269,18 +290,6 @@ video.addEventListener('timeupdate', (event) => {
         }
     }
 });
-
-
-//Listening for seeking. Id debug is true than seeking is deactivated
-video.onseeking = function() {
-    if (!debug){
-        let delta = video.currentTime - supposedCurrentTime;
-        if(Math.abs(delta)>0.01){
-            console.log("Seeking no");
-            video.currentTime = supposedCurrentTime;
-        }
-    }
-};
 
 
 // Listener for the ending of the video
