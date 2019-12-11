@@ -1,6 +1,6 @@
 
 
-class MockKnowledgeBase():
+class MockKB():
     def __init__(self):
         pass
 
@@ -11,4 +11,7 @@ class MockKnowledgeBase():
         return "Team" + str(team_id)
     
     def get_user_team(self,user_id):
-        return "Team" + str(user_id)
+        return 42
+
+    def get_user_player(self,user_it):
+        return 7

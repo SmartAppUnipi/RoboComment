@@ -2,13 +2,13 @@ import unittest
 from src.Filler import Filler
 import json
 import requests_mock
-from tests.MockKnowledgeBase import MockKnowledgeBase
+from tests.MockKnowledgeBase import MockKB
 
 
 class TestFiller(unittest.TestCase):
 
     def setUp(self):
-        self.kb = MockKnowledgeBase()
+        self.kb = MockKB()
         self.comment_filler = Filler(self.kb)
     
 

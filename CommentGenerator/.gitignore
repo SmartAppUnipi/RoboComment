@@ -4,3 +4,5 @@ db.sqlite3
 .idea
 .vs
 commentgenerator.log
+.match_cache
+Commentator Automata.gv.pdf

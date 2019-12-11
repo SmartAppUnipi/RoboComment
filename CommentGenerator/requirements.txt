@@ -3,3 +3,5 @@ requests
 pytest
 app
 nltk
+automaton
+googletrans

@@ -1,42 +1,97 @@
-#from .Picker import Picker
-from .Filler import Filler
-from .Sentimentalizer import Sentimentalizer
-from .Picker_grammar import Picker
-from .Adapter import Adapter
+import logging
+
+try:
+    from .Filler import Filler
+    from .Sentimentalizer import Sentimentalizer
+    from .Picker_grammar import Picker
+    from .Automaton import CommentAutomata
+    from .Translate import Translate
+except:
+    from Filler import Filler
+    from Sentimentalizer import Sentimentalizer
+    from Picker_grammar import Picker
+    from Automaton import CommentAutomata
+    from Translate import Translate
 import json
 
 class Commentator:
 
-    def __init__(self, knowledge_base):
+    def __init__(self, knowledge_base, user_id):
+        self.user_id = user_id
         self.kb = knowledge_base
-
-        self.adapter = Adapter()
+        self.user_lang = self.kb.get_user_language(self.user_id)
+        self.automa = CommentAutomata()
         self.picker = Picker()
-        self.filler = Filler(knowledge_base)
+        self.filler = Filler(knowledge_base, self.user_id)
+        self.translator = Translate(self.user_lang)
         self.sentimentalizer = Sentimentalizer()
 
-    def run(self, jsonobj):
+    def run(self, jsonobj:json):
         
         ''' Extract the time where the json is occurred and match and update the resulting template'''
+        # get next state
+        state = self.automa.NextState()
+        # create comment
+        (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, state)
+        # update it with kb
+        comment = self.filler.update_comment(comment, placeholders)
+        # retrieve sentiment
+        sentiment = self.sentimentalizer.get_sentiment(comment)
+        # translate in the correct language
+        comment = self.translator.get_translation(comment)
+        print(comment)
 
-        jsonobj = self.adapter.adapt(jsonobj)
-
-        user_id = jsonobj['user_id']
-
-        # Comment matching and updating
-        comment = self.picker.pick_comment(jsonobj)
-        comment = self.filler.update_comment(comment, jsonobj["details"],user_id )
-        sentiment = self.sentimentalizer.add_emphasis(comment)
-
-        time = jsonobj['time']
-
+        # TODO modify priority
         output = {
             'comment': comment,
             'emphasis': sentiment,
-            'startTime': time['start'],
-            'endTime' : time['end'],
-            'priority' : 4,
-            'id' : user_id
+            'startTime': jsonobj['start_time'],
+            'endTime' : jsonobj['end_time'],
+            'priority' : priority,
+            'id' : self.user_id
         }
         return output
 
+if __name__ == '__main__':
+
+    comm = Commentator("", 1)
+    comm.run({
+    "type": "pass",
+    "user_id": 10,
+    "start_time": 10,
+    "end_time" : 20,
+    "player_active": {
+      "id": {
+        "value": 42,
+        "confidence": 0.5
+      },
+      "team": {"value" : 42}
+    },
+    "player_passive": {
+      "id": {
+        "value": 41,
+        "confidence": 0.5
+      },
+      "team": {"value" : 42}
+    }
+})
+    comm.run({
+    "type": "pass",
+    "user_id": 10,
+    "start_time": 10,
+    "end_time" : 20,
+    "player_active": {
+      "id": {
+        "value": 42,
+        "confidence": 0.5
+      },
+      "team": {"value" : 42}
+    },
+    "player_passive": {
+      "id": {
+        "value": 41,
+        "confidence": 0.5
+      },
+      "team": {"value" : 42}
+    }
+})
