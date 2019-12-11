@@ -35,12 +35,11 @@ class Commentator:
         (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, state)
         # update it with kb
         comment = self.filler.update_comment(comment, placeholders)
+        # retrieve sentiment
+        sentiment = self.sentimentalizer.get_sentiment(comment)
         # translate in the correct language
         comment = self.translator.get_translation(comment)
         print(comment)
-        # retrieve sentiment
-        # TODO modify sentiment
-        sentiment = self.sentimentalizer.add_emphasis(comment)
 
         # TODO modify priority
         output = {
