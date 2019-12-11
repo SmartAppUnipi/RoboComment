@@ -1,19 +1,15 @@
 import unittest
 import app as flaskapp
 import json
-import requests_mock
-from utils.KnowledgeBase import KnowledgeBase
 
 assets = "CommentGenerator/tests/mock_assets/elementary/"
 
-player1 = { "id" : 42,  "name" : "Koulibaly" }
-player3 = { "id" : 41,  "name" : "Di Lorenzo" }
-player2 = { "id" : 7, "name" : "Ronaldo" }
+io_json = {
+    "match_id" : 42,
+    "start_time" : 0,
+    "clip_uri" : "http://clip.of.the.match/juve/napoli"
+}
 
-team1 = { "id" : 42, "name" : "Napoli" }
-team2 = { "id" : 7,  "name" : "Juventus" }
-
-user1 = { "id" : 10, "favourite_team" : "Napoli" }
 
 class TestApi(unittest.TestCase):
     
@@ -23,17 +19,7 @@ class TestApi(unittest.TestCase):
 
         flaskapp.app.config['TESTING'] = True
         self.client = flaskapp.app.test_client()
-    
 
-    def _mock_requests(self,mock):
-        mock.get(self.KB_URL + KnowledgeBase.PLAYER+ "/42", text=json.dumps(player1),  status_code=200)
-        mock.get(self.KB_URL + KnowledgeBase.PLAYER+ "/41", text=json.dumps(player3),  status_code=200)
-        mock.get(self.KB_URL + KnowledgeBase.PLAYER + "/7", text=json.dumps(player2), status_code=200)
-        mock.get(self.KB_URL + KnowledgeBase.TEAM + "/42", text=json.dumps(team1), status_code=200)
-        mock.get(self.KB_URL + KnowledgeBase.TEAM + "/7", text=json.dumps(team2), status_code=200)
-        mock.get(self.KB_URL + KnowledgeBase.USER + "/10", text=json.dumps(user1), status_code=200)
-
-        mock.post(self.AUDIO_URL, status_code=200)
 
     def test_running_server(self):
         response = self.client.get("/api")
@@ -46,14 +32,13 @@ class TestApi(unittest.TestCase):
         with open(assets + 'possession/input_symbolic1.json', 'r') as json_file:
             input_json = json.load(json_file)
 
-        with requests_mock.mock() as mock_request:
-            self._mock_requests(mock_request)
-            print()
-            # starting the session for match id 42 and user id 7
-            self.client.post("/api/session/42/7")
-            res = self.client.post("/api/action", data=json.dumps(input_json))
-            res = self.client.post("/api/action", data=json.dumps(input_json))
-            self.client.delete("/api/session/42/7")
+
+        print()
+        # starting the session for match id 42 and user id 7
+        self.client.post("/api/session/7", data=json.dumps(io_json))
+        res = self.client.post("/api/action", data=json.dumps(input_json))
+        res = self.client.post("/api/action", data=json.dumps(input_json))
+        self.client.delete("/api/session/7")
             
 
         assert res.status_code == 200
@@ -64,14 +49,12 @@ class TestApi(unittest.TestCase):
         with open(assets + 'pass/input_symbolic1.json', 'r') as json_file:
             input_json = json.load(json_file)
 
-        with requests_mock.mock() as mock_request:
-            self._mock_requests(mock_request)
-            print()
-            # starting the session for match id 42 and user id 7
-            self.client.post("/api/session/42/7")
-            res = self.client.post("/api/action", data=json.dumps(input_json))
-            res = self.client.post("/api/action", data=json.dumps(input_json))
-            self.client.delete("/api/session/42/7")
+    
+        # starting the session for match id 42 and user id 7
+        self.client.post("/api/session/7", data=json.dumps(io_json))
+        res = self.client.post("/api/action", data=json.dumps(input_json))
+        res = self.client.post("/api/action", data=json.dumps(input_json))
+        self.client.delete("/api/session/7")
 
         assert res.status_code == 200
     
@@ -81,13 +64,11 @@ class TestApi(unittest.TestCase):
         with open(assets + 'intercept/input_symbolic1.json', 'r') as json_file:
             input_json = json.load(json_file)
 
-        with requests_mock.mock() as mock_request:
-            self._mock_requests(mock_request)
-            print()
-            # starting the session for match id 42 and user id 7
-            self.client.post("/api/session/42/7")
-            res = self.client.post("/api/action", data=json.dumps(input_json))
-            res = self.client.post("/api/action", data=json.dumps(input_json))
-            self.client.delete("/api/session/42/7")
+
+        # starting the session for match id 42 and user id 7
+        self.client.post("/api/session/7", data=json.dumps(io_json))
+        res = self.client.post("/api/action", data=json.dumps(input_json))
+        res = self.client.post("/api/action", data=json.dumps(input_json))
+        self.client.delete("/api/session/42/7")
 
         assert res.status_code == 200
