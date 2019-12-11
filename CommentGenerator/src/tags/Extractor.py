@@ -15,19 +15,17 @@ class Extractor:
         self.__mapping_action = {
             "possession": ['Player_active', 'Elementary'],
             "intercept": ['Player_active', 'Elementary', 'Player_passive'],
-            "pass": ['Player_active', 'Elementary', 'Player_passive']
+            "pass": ['Player_active', 'Elementary', 'Player_passive'],
+            "offside":["Elementary"],
+            "penalty": ["Elementary"]
         }
         # randomly select one of this info to produce a comment based on this
-        self.__possible_category_hybrid = ["player", 'action', 'time', 'team']
-        self.__repeated_consideration = [
-            "today the temperature will not favor this type of game, ",
-            "football scandals usually affect the player's status a lot, ",
-            "You know, always playing this way can be decisive, "
-        ]
+        self.__possible_category_hybrid = ["player", 'team']
         # priority value of this json
         self.__priority = -1
         self.__welcome_message = ["Welcome to the match is speaking RoboComment and it will be with you to comment this match",
                                   "Welcome, here is RoboComment and i will comment the match {team1} versus {team2}"]
+
 
     def set_input(self, jsonobj:json):
         self.__input = jsonobj
@@ -37,11 +35,13 @@ class Extractor:
         Check if the action is present, if yes set the priority
         :return:
         """
-        # define priority of the actions in the range of [3-10]
+        # define priority of the actions in the range of [3-9]
         priority_mapping = {
             "possession": 3,
             "intercept": 5,
             "pass": 4,
+            "offside": 9,
+            "penalty": 9
         }
         if "type" in self.__input:
             self.__priority = priority_mapping[self.__input['type']]
@@ -183,13 +183,6 @@ class Extractor:
 
     def get_priority(self)->int:
         return self.__priority
-
-    def get_repeated_consideration(self)->str:
-        """
-        Return some intro before the pure comment, miming the consideration of "real commentator"
-        :return:
-        """
-        return random.choice(self.__repeated_consideration)
 
     def get_welcome_message(self)->str:
         """

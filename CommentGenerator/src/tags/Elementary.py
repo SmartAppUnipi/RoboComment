@@ -63,6 +63,18 @@ class Elementary:
                                               "stops the ball of", "interrupts dreams of", "dirty the game of"
                                               ]))
 
+        # express OFFSIDE
+        elif self.__type == 'offside':
+            action_info.append(random.choice(["a surprising offside", "look at the position of the player, incredible, offside",
+                                              "spectators what do you think about this offside?",
+                                              "this is an offside, but we are sure about that?"
+                                              ]))
+
+        # express PENALTY
+        elif self.__type == 'penalty':
+            action_info.append(random.choice(["this is a penalty", "this time he misses the ball"
+                                              ]))
+
         return action_info+time_info
 
 

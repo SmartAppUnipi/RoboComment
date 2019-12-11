@@ -4,3 +4,4 @@ pytest
 app
 nltk
 automaton
+googletrans

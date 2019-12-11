@@ -24,6 +24,7 @@ class Picker:
         with open('CommentGenerator/assets/comments_empty_moments.txt', "r") as f:
             self.__lulls = [line for line in f.readlines()]
 
+
     def pick_comment(self, input_json: json, template_type: str)->tuple:
         """
         Call this method to start the template generator
@@ -47,7 +48,7 @@ class Picker:
                 comment = " ".join(str(word) for word in comment)
                 return comment, {}, 2
             else:
-                template_type += 1
+                template_type = "Pure comment"
 
         # pure comment
         if template_type == "Pure comment":
@@ -56,29 +57,13 @@ class Picker:
                 comment =  " ".join(str(word) for subtempl in comment for word in subtempl)
                 placeholders = self.__extractor.get_value_from_placeholders(comment)
                 return comment, placeholders, self.__extractor.get_priority()
-            else:
-                template_type += 1
-
-        # pure comment repeated
-        """
-        if template_type == "Pure comment repeated":
-            (success, comment) = self.__pure_comment()
-            if success:
-                intro = self.__extractor.get_repeated_consideration()
-                comment = " ".join(str(word) for subtempl in comment for word in subtempl)
-                placeholders = self.__extractor.get_value_from_placeholders(comment)
-                return intro+comment, placeholders, self.__extractor.get_priority()+1
-            else:
-                template_type += 1
-        """
 
         # pure lulls
         if template_type == "Lulls comment":
             (success, comment) = self.__lulls_comment()
             if success:
                 return comment, {}, 1
-            else:
-                template_type += 1
+
 
         if template_type == "Welcome state":
             comment = self.__extractor.get_welcome_message()
@@ -170,7 +155,7 @@ if __name__ == '__main__':
     }
 }
     picker = Picker()
-    comment, placeholders, priority = picker.pick_comment(test1, "Pure comment")
+    comment, placeholders, priority = picker.pick_comment(test1, "Welcome state")
     print("Comment:", comment)
     print("Placeholders:",placeholders)
     print("Priority", priority)
