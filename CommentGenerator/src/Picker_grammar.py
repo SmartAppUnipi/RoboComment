@@ -18,11 +18,9 @@ class Picker:
     This class constructs the sentence according to input json and the state of the commentator
     """
 
-    def __init__(self, language):
-        self.__language = language
+    def __init__(self):
         # this class will be responsible to extract info inside json
         self.__extractor = Extractor()
-        self.__extractor.set_language(self.__language)
         with open('CommentGenerator/assets/comments_empty_moments.txt', "r") as f:
             self.__lulls = [line for line in f.readlines()]
 
@@ -156,8 +154,8 @@ if __name__ == '__main__':
       "team": {"value" : 42}
     }
 }
-    picker = Picker("it")
-    comment, placeholders, priority = picker.pick_comment(test1, "Pure comment")
+    picker = Picker()
+    comment, placeholders, priority = picker.pick_comment(test1, "Welcome state")
     print("Comment:", comment)
     print("Placeholders:",placeholders)
     print("Priority", priority)

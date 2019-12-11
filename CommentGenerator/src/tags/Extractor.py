@@ -30,9 +30,6 @@ class Extractor:
     def set_input(self, jsonobj:json):
         self.__input = jsonobj
 
-    def set_language(self, language):
-        print("Set language")
-
     def has_action(self) -> bool:
         """
         Check if the action is present, if yes set the priority

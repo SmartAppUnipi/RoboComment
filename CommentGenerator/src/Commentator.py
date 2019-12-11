@@ -20,7 +20,7 @@ class Commentator:
         self.kb = knowledge_base
         self.user_lang = self.kb.get_user_language(self.user_id)
         self.automa = CommentAutomata()
-        self.picker = Picker(self.user_lang)
+        self.picker = Picker()
         self.filler = Filler(knowledge_base, self.user_id)
         self.sentimentalizer = Sentimentalizer()
 
