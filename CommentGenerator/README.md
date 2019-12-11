@@ -47,10 +47,11 @@ pytest CommentGenerator/tests
         } 
         ```
 ### Start a comment session
-- **URL** /api/session/<<int:matchid>>/<<int:userid>>
+- **URL** /api/session/<<int:userid>>
 - **expected json**
 ```
-{
+{   
+    "match_id" : < the int id of the match >
     "start_time" : < the time in seconds from which the user starts watching the match>
     "clip_uri" : <the URI of the video clip the user is watching> 
 }

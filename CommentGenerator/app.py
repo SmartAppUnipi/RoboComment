@@ -40,24 +40,30 @@ def action():
     print("INPUT:: " + json.dumps(input))
     logging.info(input)
 
-    commentator_pool.push_symbolic_event_to_match(input["match_id"],input) 
+    commentator_pool.push_symbolic_event_to_match(input["match_id"], input["clip_uri"] ,input) 
 
     return "OK"
 
-@app.route('/api/session/<int:matchid>/<int:userid>', methods=['POST'])
-def session_start(matchid,userid):
+@app.route('/api/session/<int:userid>', methods=['POST'])
+def session_start(userid):
     ''' this method will be called by the audio each time a new user watches a match'''
     global commentator_pool
-    print(json.loads(request.data))
-    status_code = commentator_pool.start_session(matchid,userid)
-    return "OK", status_code
+    
+    video_json = json.loads(request.data)
+    match_id = video_json['match_id']
+    start_time = video_json['start_time']
+    clip_uri = video_json['clip_uri']
+
+    in_cache = commentator_pool.start_session(match_id,clip_uri, start_time, userid)
+
+    return "OK", 200 if in_cache else 201
 
 @app.route('/api/session/<int:userid>', methods=['DELETE'])
 def session_end(userid):
     ''' this method will be called by the audio each time a user ends the video streaming'''
     global commentator_pool
 
-    commentator_pool.end_session(matchid,userid)
+    commentator_pool.end_session(userid)
     return "OK"
 
 
