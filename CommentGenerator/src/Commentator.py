@@ -44,10 +44,12 @@ class Commentator:
         # TODO modify priority
         output = {
             'comment': comment,
+            'language' : 'en',
+            'priority' : priority,
             'emphasis': sentiment,
             'startTime': jsonobj['start_time'],
             'endTime' : jsonobj['end_time'],
-            'priority' : priority,
+            'voice' : 'en-US-Wavenet-D',
             'id' : self.user_id
         }
         return output

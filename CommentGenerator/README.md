@@ -38,7 +38,8 @@ pytest CommentGenerator/tests
         ```
         {
             "comment" : <a string with the produced comment>,
-            "language": < string value between 'it' and 'en'>
+            "language": < string value between 'it' and 'en'>,
+            "voice" : < a string we get from KB user info, we do not know anything about it>
             "emphasis" : <?? we need to think about that>,
             "startTime" : <integer seconds, the start time we recive from the symbolic level >,
             "endTime" : <integer seconds, the end time we receive from the symbolic level>,
@@ -53,7 +54,7 @@ pytest CommentGenerator/tests
 {   
     "match_id" : < the int id of the match >
     "start_time" : < the time in seconds from which the user starts watching the match>
-    "clip_uri" : <the URI of the video clip the user is watching> 
+    "match_url" : <the URI of the video clip the user is watching> 
 }
 ```
 - **method** POST

@@ -58,7 +58,8 @@ def session_start(userid):
     video_json = json.loads(request.data)
     match_id = video_json['match_id']
     start_time = video_json['start_time']
-    clip_uri = video_json['clip_uri']
+    clip_uri = video_json['match_url']
+    print("CLIP_URI " + clip_uri)
 
     in_cache = commentator_pool.start_session(match_id,clip_uri, start_time, userid)
 
