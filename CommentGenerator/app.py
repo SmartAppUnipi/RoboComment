@@ -1,3 +1,4 @@
+import nltk
 from flask import Flask, request
 import json
 import requests
@@ -75,6 +76,8 @@ def session_end(userid):
 def init():
     ''' this function will be called at the application startup to initialize our module '''
     global commentator_pool
+    # store lexicon
+    nltk.download('vader_lexicon')
 
     logging.basicConfig(filename='CommentGenerator/commentgenerator.log',level=logging.INFO) # filemode='w'
 
