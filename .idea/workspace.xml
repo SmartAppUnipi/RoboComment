@@ -37,4 +37,18 @@
     </task>
     <servers />
   </component>
+  <component name="WindowStateProjectService">
+    <state x="412" y="134" width="845" height="816" key="CommitChangelistDialog2" timestamp="1576096058390">
+      <screen x="0" y="27" width="1680" height="1023" />
+    </state>
+    <state x="412" y="134" width="845" height="816" key="CommitChangelistDialog2/0.27.1680.1023/1680.0.1280.1024@0.27.1680.1023" timestamp="1576096058390" />
+    <state x="158" y="118" width="1344" height="855" key="DiffContextDialog" timestamp="1576096033159">
+      <screen x="0" y="27" width="1680" height="1023" />
+    </state>
+    <state x="158" y="118" width="1344" height="855" key="DiffContextDialog/0.27.1680.1023/1680.0.1280.1024@0.27.1680.1023" timestamp="1576096033159" />
+    <state x="576" y="254" width="506" height="583" key="RollbackChangesDialog" timestamp="1576096052794">
+      <screen x="0" y="27" width="1680" height="1023" />
+    </state>
+    <state x="576" y="254" width="506" height="583" key="RollbackChangesDialog/0.27.1680.1023/1680.0.1280.1024@0.27.1680.1023" timestamp="1576096052794" />
+  </component>
 </project>
