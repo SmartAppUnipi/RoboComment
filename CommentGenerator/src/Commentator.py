@@ -1,4 +1,3 @@
-#from .Picker import Picker
 import logging
 
 try:
@@ -6,6 +5,7 @@ try:
     from .Sentimentalizer import Sentimentalizer
     from .Picker_grammar import Picker
     from .Automaton import CommentAutomata
+    from .Translator import Translator
 except:
     from Filler import Filler
     from Sentimentalizer import Sentimentalizer
@@ -22,6 +22,7 @@ class Commentator:
         self.automa = CommentAutomata()
         self.picker = Picker()
         self.filler = Filler(knowledge_base, self.user_id)
+        self.translator = Translator(self.user_lang)
         self.sentimentalizer = Sentimentalizer()
 
     def run(self, jsonobj:json):
@@ -33,6 +34,8 @@ class Commentator:
         (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, state)
         # update it with kb
         comment = self.filler.update_comment(comment, placeholders)
+        # translate in the correct language
+        comment = self.translator.translate(comment, self.user_lang)
         # retrieve sentiment
         # TODO modify sentiment
         sentiment = self.sentimentalizer.add_emphasis(comment)
