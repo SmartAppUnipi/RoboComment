@@ -6,6 +6,7 @@ nmp install
 ```
 ## 
 ### API
+#### Comments:
 
 **Comment address and port**:
 "fabula" on the routes.json file. 
@@ -18,20 +19,28 @@ POST with JSON data
 
 **Expected JSON data**:
  - comment: The text of the comment to be said.
- - emphasis: The emotion associated to the comment.
+ - emphasis: A value for the emotion associated with the comment.
+ 
+    - 1: low excitement
+    - 3: medium excitement
+    - 5: high excitement
  - startTime: Starting time of the comment (seconds from the beginning of the video).
  - endTime: Ending time of the comment (seconds from the beginning of the video).
- - priority
- - id: user id
+ - priority: A comment that overlap the previous is discarded unless it has higher priority.
+ - language: The language of the comment.
+ - voice: The name of the google API voice.
+ - id: Id of the user that has to receive the comment.
 
 **Sample JSON data**:
 ```
 {
     "comment": "Maradona scores goal with the hand",
-    "emphasis": "rage",
+    "emphasis": 3,
     "startTime": 10,
     "endTime": 15,
     "priority": 1,
+    "language": "en",
+    "voice": "en-US-Wavenet-D",
     "id": 1
 }
 ```
