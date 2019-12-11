@@ -48,12 +48,12 @@ def action():
 def session_start(matchid,userid):
     ''' this method will be called by the audio each time a new user watches a match'''
     global commentator_pool
-    
+    print(json.loads(request.data))
     status_code = commentator_pool.start_session(matchid,userid)
     return "OK", status_code
 
-@app.route('/api/session/<int:matchid>/<int:userid>', methods=['DELETE'])
-def session_end(matchid,userid):
+@app.route('/api/session/<int:userid>', methods=['DELETE'])
+def session_end(userid):
     ''' this method will be called by the audio each time a user ends the video streaming'''
     global commentator_pool
 
