@@ -24,26 +24,24 @@ class Picker:
         with open('CommentGenerator/assets/comments_empty_moments.txt', "r") as f:
             self.__lulls = [line for line in f.readlines()]
 
-    def pick_comment(self, input_json: json, template_type: int)->tuple:
+    def pick_comment(self, input_json: json, template_type: str)->tuple:
         """
         Call this method to start the template generator
         Try to follow the state of the machine, but if the error is some error try another level template
         :param template_type: int category representing the state of who call this method
-            template_type=0 : comment/lulls, priority[2]
-            template_type=1 : pure comment, priority [3-9]
-            template_type=2 : pure comment repeated , [4-10]
-            template_type=3 : pure lulls , priority[1]
+            comment/lulls, priority[2]
+            pure comment, priority [3-9]
+            pure comment repeated , [4-10]
+            pure lulls , priority[1]
         :param input_json:
         :return: tuple with (string comment generated, placeholders (maybe empty), priority
         """
-        if 0 > template_type > 3:
-            raise Exception("PICKER_receives: wrong input")
 
         # store input into tagger
         self.__extractor.set_input(input_json)
 
         # hybrid comment
-        if template_type == 0:
+        if template_type == "Hybrid comment":
             (success, comment) = self.__hybrid_comment()
             if success:
                 comment = " ".join(str(word) for word in comment)
@@ -52,7 +50,7 @@ class Picker:
                 template_type += 1
 
         # pure comment
-        if template_type == 1:
+        if template_type == "Pure comment":
             (success, comment) = self.__pure_comment()
             if success:
                 comment =  " ".join(str(word) for subtempl in comment for word in subtempl)
@@ -62,7 +60,8 @@ class Picker:
                 template_type += 1
 
         # pure comment repeated
-        if template_type == 2:
+        """
+        if template_type == "Pure comment repeated":
             (success, comment) = self.__pure_comment()
             if success:
                 intro = self.__extractor.get_repeated_consideration()
@@ -71,14 +70,19 @@ class Picker:
                 return intro+comment, placeholders, self.__extractor.get_priority()+1
             else:
                 template_type += 1
+        """
 
         # pure lulls
-        if template_type == 3:
+        if template_type == "Lulls comment":
             (success, comment) = self.__lulls_comment()
             if success:
                 return comment, {}, 1
             else:
                 template_type += 1
+
+        if template_type == "Welcome state":
+            comment = self.__extractor.get_welcome_message()
+            return comment, {}, 1
 
         raise Exception("PICKER_receives: registers error")
 
@@ -145,12 +149,13 @@ class Picker:
 
 if __name__ == '__main__':
     test1 = {
-    "type": "intercept",
+    "type": "pass",
+    "match_id" : 42,
     "user_id": 10,
-    "start_time": 10,
-    "end_time" : 20,
+    "start_time": 11,
+    "end_time" : 21,
     "player_active": {
-        "id": {
+      "id": {
         "value": 42,
         "confidence": 0.5
       },
@@ -158,14 +163,14 @@ if __name__ == '__main__':
     },
     "player_passive": {
       "id": {
-        "value": 7,
+        "value": 41,
         "confidence": 0.5
       },
-      "team": {"value" : 7}
+      "team": {"value" : 42}
     }
 }
     picker = Picker()
-    comment,placeholders, priority = picker.pick_comment(test1, 0)
+    comment, placeholders, priority = picker.pick_comment(test1, "Pure comment")
     print("Comment:", comment)
     print("Placeholders:",placeholders)
     print("Priority", priority)

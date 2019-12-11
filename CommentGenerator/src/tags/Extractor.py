@@ -26,6 +26,8 @@ class Extractor:
         ]
         # priority value of this json
         self.__priority = -1
+        self.__welcome_message = ["Welcome to the match is speaking RoboComment and it will be with you to comment this match",
+                                  "Welcome, here is RoboComment and i will comment the match {team1} versus {team2}"]
 
     def set_input(self, jsonobj:json):
         self.__input = jsonobj
@@ -188,3 +190,10 @@ class Extractor:
         :return:
         """
         return random.choice(self.__repeated_consideration)
+
+    def get_welcome_message(self)->str:
+        """
+        Return some intro before the pure comment, miming the consideration of "real commentator"
+        :return:
+        """
+        return random.choice(self.__welcome_message)

@@ -5,3 +5,4 @@ db.sqlite3
 .vs
 commentgenerator.log
 .match_cache
+Commentator Automata.gv.pdf

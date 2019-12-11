@@ -1,0 +1,8 @@
+digraph G {
+	"Welcome state" -> "Pure comment" [label=1.0]
+	"Pure comment" -> "Pure comment" [label=0.5]
+	"Pure comment" -> "Hybrid comment" [label=0.25]
+	"Pure comment" -> "Lulls comment" [label=0.25]
+	"Hybrid comment" -> "Pure comment" [label=1.0]
+	"Lulls comment" -> "Pure comment" [label=1.0]
+}
