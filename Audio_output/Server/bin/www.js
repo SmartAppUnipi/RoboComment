@@ -3,30 +3,40 @@
 /**
  * Module dependencies and variables
  */
-let app             = require('../app');
-let commentApp      = require('../app2');
-let debug           = require('debug')('websportserver:server');
-let http            = require('http');
-let WebSocketServer = require('websocket').server;
-let connections     = [];
-let connectionUser  = require('../connectionClass');
+let app              = require('../app');
+let commentApp       = require('../app2');
+let debug            = require('debug')('websportserver:server');
+let http             = require('http');
+let WebSocketServer  = require('websocket').server;
+let connections      = [];
+let connectionUser   = require('../connectionClass');
 
-const KBApp         = require('axios');
-const VideoApp      = require('axios');
-const routes        = require('../../../routes.json');
-const video_list    = require('../../videolist');
-const WSIP          = routes.ui.toString().split(":")[1].split("/")[2];
-const WS_PORT       = routes.ui.toString().split(":")[2].split("/")[0];
-const commentIP     = routes.fabula.toString().split(":")[1].split("/")[2];
-const COMMENT_PORT  = routes.fabula.toString().split(":")[2].split("/")[0];
-const kb_url        = routes.qi;
-const url_video     = routes.video;
-let url_login       = kb_url + "users/login";
-let url_user        = kb_url + "users";
-let url_match       = kb_url + "/match/";
+const KBApp          = require('axios');
+const VideoApp       = require('axios');
+const CommentaryApp  = require('axios');
+const routes         = require('../../../routes.json');
+const video_list     = require('../../videolist');
 
-const DEBUGERR      = false;
-const DEBUG_MODE    = false;
+// Ui
+const WSIP           = routes.ui.toString().split(":")[1].split("/")[2];
+const WS_PORT        = routes.ui.toString().split(":")[2].split("/")[0];
+
+//Fabula
+const commentIP      = routes.fabula.toString().split(":")[1].split("/")[2];
+const COMMENT_PORT   = routes.fabula.toString().split(":")[2].split("/")[0];
+
+// Commentary Session
+const CommentAppIP   = routes.commentary_session;
+
+const kb_url         = routes.qi;
+const url_video      = routes.video;
+
+let url_login        = kb_url + "users/login";
+let url_user         = kb_url + "users";
+let url_match        = kb_url + "/match/";
+
+const DEBUGERR       = false;
+const DEBUG_MODE     = false;
 const config = {
     headers: {
         'Content-Type': 'application/json'
@@ -136,10 +146,20 @@ wsServer.on('request', function(request) {
             handleClientMessage(message.utf8Data, connection);
         }
     }).on('close', function(event) {
-        console.log("Web socket connection closed");
         // remove the closed connection
-        console.log(connections.indexOf(connection));
-        connections.splice(connections.indexOf(connection));
+
+        for(let i=0; i<connections.length; i++){
+            if(connections[i].socket === connection){
+                console.log("Web socket connection closed of the user: " + connections[i].id);
+                if (connections[i].user_page === "video.html"){
+                    console.log("Sending DELETE to the comment group for the user id: " + connections[i].id);
+                    CommentaryApp.delete(CommentAppIP+"/"+ connections[i].id.toString())
+                        .then((result) => {})
+                        .catch((err) => {})
+                }
+                connections.splice(connections[i]);
+            }
+        }
     });
 });
 
@@ -149,6 +169,8 @@ commentApp.post("/", function (req, res) {
     console.log(req.body);
 
     let comment = JSON.parse(JSON.stringify(req.body));
+    comment.endTime = comment.startTime + estimateTime(comment.comment);
+    console.log("Start-stop: "+comment.startTime + "-"+comment.endTime);
 
     res.sendStatus(200);
 
@@ -169,6 +191,9 @@ commentApp.post("/", function (req, res) {
     }
 });
 
+commentApp.post("/positions", function (req, res) {
+
+});
 
 /**
  * Utils functions
@@ -205,6 +230,7 @@ function sendComment(item, id) {
                 }
             } else {
                 console.log("Broadcast to client of ID: "+ id);
+                // new_comment.endTime += 5;
                 let reply = {
                     reply_type: "comment",
                     reply: new_comment
@@ -214,6 +240,10 @@ function sendComment(item, id) {
             }
         }
     }
+}
+
+function estimateTime(comment) {
+    return comment.split(' ').length / 2;
 }
 
 function overlaps(comment1, comment2) {
@@ -235,7 +265,7 @@ function handleClientMessage(body, connection) {
         console.log("Sending request to KB");
         KBApp.post(url_login, JSON.stringify(message.request), config)
             .then((result) => {
-                response = set_response("user_login", JSON.stringify(result.data), result.status);
+                response = set_response("user_login", result.data, result.status);
 
                 if (result.status === 200) {
                     console.log("User Login: Status OK and Sending to Client");
@@ -250,7 +280,7 @@ function handleClientMessage(body, connection) {
                     console.log(err);
                 }
                 if (err.response) {
-                    response = set_response("user_login", JSON.stringify(err.response.data), 400);
+                    response = set_response("user_login", err.response.data, 400);
                     console.log("User Login: Status NOT_OK and Sending to Client: " + err.response.data);
                     connection.send(response)
                 }
@@ -264,7 +294,7 @@ function handleClientMessage(body, connection) {
 
         KBApp.post(url_user,JSON.stringify(message.request),config)
             .then((result) => {
-                response = set_response("user_registration", JSON.stringify(result.data), result.status);
+                response = set_response("user_registration", result.data, result.status);
                 if (result.status === 200) {
                     console.log("User Registration: Status OK and Sending to Client");
                     connection.send(response);
@@ -278,7 +308,8 @@ function handleClientMessage(body, connection) {
                     console.log(err)
                 }
                 if (err.response) {
-                    response = set_response("user_registration", JSON.stringify(err.response.data), 400);
+                    console.log(JSON.stringify(err.response.data));
+                    response = set_response("user_registration", err.response.data, 400);
                     console.log("User Registration: Status NOT_OK and Sending to Client. " + err.response.data.error);
                     connection.send(response);
                 }
@@ -292,7 +323,7 @@ function handleClientMessage(body, connection) {
 
         KBApp.post(url_user,body.request,config)
             .then((result) => {
-                response = set_response("user_update", JSON.stringify(result.data), result.status);
+                response = set_response("user_update", result.data, result.status);
                 if (result.status === 200) {
                     console.log("User Update: Status OK and Sending to Client");
                     connection.send(response);
@@ -306,7 +337,7 @@ function handleClientMessage(body, connection) {
                     console.log(err);
                 }
                 if (err.response) {
-                    response = set_response("user_update", JSON.stringify(err.response.data), 400);
+                    response = set_response("user_update", err.response.data, 400);
                     console.log("User Update: Status NOT_OK and Sending to Client");
                     connection.send(response);
                 }
@@ -317,26 +348,37 @@ function handleClientMessage(body, connection) {
 
     else if(message.request_type === "post_matchID"){
 
-        console.log("Match_ID arrived, now sending to Video Group");
+        console.log("Match_ID arrived, now sending to Comment Group");
 
-        console.log(message.request);
+        // console.log(message.request);
 
-        VideoApp.post(url_video, message.request, config )
-            .then((result_video)=>{
-                if (result_video.status === 200) {
-                    response = set_response("post_matchID","OK", result_video.status);
+        let idUser   = message.request.user_id;
+
+        CommentaryApp.post(CommentAppIP +"/"+ idUser.toString(), JSON.stringify(message.request), config)
+            .then((result) => {
+                if(result.status === 200){
+                    response = set_response("post_matchID","OK", result.status);
                     connection.send(response);
-                }else{
-                    console.log("Fail send Match ID to video Group")
-                }
-            })
-            .catch((err_video)=>{
-                if(DEBUGERR){
-                    console.log(err_video);
-                }
-                console.log("Catch: Fail send Match ID to video Group")
-            });
+                }else if(result.status === 201){
 
+                    console.log("Video not in cache, now sending to Video Group");
+                    VideoApp.post(url_video, JSON.stringify(message.request), config )
+                        .then((result_video)=>{
+                            if (result_video.status === 200) {
+                                response = set_response("post_matchID","OK", result.status);
+                                connection.send(response);
+                            }else{
+                                console.log("Fail send Match ID to video Group")
+                            }
+                        })
+                        .catch((err_video)=>{
+                            if(DEBUGERR){
+                                console.log(err_video);
+                            }
+                            console.log("Catch: Fail send Match ID to video Group")
+                        });
+                }
+            });
     }
 
     else if(message.request_type === "get_infoMatch"){
@@ -350,7 +392,7 @@ function handleClientMessage(body, connection) {
 
                 }else{
                     console.log("Match information not found. " + result.data);
-                    response = set_response("get_infoMatch", JSON.stringify(result.data), 400);
+                    response = set_response("get_infoMatch", result.data, 400);
                     connection.send(response);
                 }
             })
@@ -360,7 +402,7 @@ function handleClientMessage(body, connection) {
                 }
                 if (err.response) {
                     console.log("Catch: Match information not found. " + err.response.data);
-                    response = set_response("get_infoMatch", JSON.stringify(err.response.data), 400);
+                    response = set_response("get_infoMatch", err.response.data, 400);
                     connection.send(response);
                 }
                 else
@@ -369,18 +411,20 @@ function handleClientMessage(body, connection) {
     }
 
     else if(message.request_type === "hello"){
-        connections.push(new connectionUser(connection, message.user_id));
+        connections.push(new connectionUser(connection, message.user_id, message.request));
     }
 
     else if(message.request_type === "get_videoList"){
-        response = set_response("get_videoList", JSON.stringify(video_list), 200);
+        response = set_response("get_videoList", video_list, 200);
         console.log("Send videos list");
         connection.send(response);
     }
 }
 
 function set_response(reply_type, reply, status) {
-    return "{\"reply_type\": \""+reply_type+"\",\n" +
-        "\"reply\": "+reply+",\n" +
-        "\"status\": \"" +status+ "\"\n}";
+    return JSON.stringify({
+        reply_type: reply_type,
+        reply: reply,
+        status: status
+    });
 }

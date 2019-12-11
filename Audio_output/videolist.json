@@ -4,38 +4,49 @@
       "url": "https://matteo.ronchetti.xyz/data/soccer/juve_attacking.mp4",
       "id": 123456789,
       "home": "Juve",
-      "away": "Inter"
+      "away": "Inter",
+      "type": "realtime"
     },
     {
       "url": "https://matteo.ronchetti.xyz/data/soccer/gonzalo_goal.mp4",
       "id": 123456789,
       "home": "Juve",
-      "away": "Inter"
+      "away": "Inter",
+      "type": "realtime"
+
     },
     {
       "url": "https://matteo.ronchetti.xyz/data/soccer/dybala_goal.mp4",
       "id": 123456789,
       "home": "Juve",
-      "away": "Inter"
+      "away": "Inter",
+      "type": "realtime"
+
     },
     {
       "url": "https://matteo.ronchetti.xyz/data/soccer/counterattack.mp4",
       "id": 123456789,
       "home": "Juve",
-      "away": "Inter"
+      "away": "Inter",
+      "type": "playback"
+
     },
     {
-      "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
+      "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/match.mp4",
       "id": 123456789,
       "home": "Milan",
-      "away": "Inter"
+      "away": "Inter",
+      "type": "realtime"
+
     },
 
     {
-      "url": "https://storage.googleapis.com/hlt_project/Off_Topic_SA/testvideo.mp4",
+      "url": "https://matteo.ronchetti.xyz/data/soccer/counterattack.mp4",
       "id": 123456789,
       "home": "Milan",
-      "away": "Inter"
+      "away": "Inter",
+      "type": "playback"
+
     }
   ]
 }
