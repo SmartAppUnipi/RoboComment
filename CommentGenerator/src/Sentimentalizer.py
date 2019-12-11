@@ -8,7 +8,7 @@ class Sentimentalizer:
         nltk.download('vader_lexicon')
         self.__analyzer = SentimentIntensityAnalyzer()
 
-    def get_sentiment(self, comment):
+    def get_sentiment(self, comment)->int:
         """
         Inference of the sentiment returned as
         positive: [0-1]
@@ -23,9 +23,12 @@ class Sentimentalizer:
         index = numpy.argmax(values)
 
         if index == 0:
-            return "happy"
+            # happy value
+            return 1
         elif index == 1:
-            return "neutral"
+            # neutral value
+            return 3
         elif index == 2:
-            return "angry"
+            # angry value
+            return 5
 
