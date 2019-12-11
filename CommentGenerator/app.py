@@ -14,6 +14,10 @@ AUDIO_URL = "http://audio.url:3003/"
 KB_URL = "http://kb.url:3004/"
 commentator_pool = None
 
+class bcolors:
+    OKGREEN = '\033[92m'
+    ENDC = '\033[0m'
+
 @app.route('/api', methods=['GET'])
 def api():
     ''' this interface can be used to check if the server is up and running '''
@@ -22,7 +26,7 @@ def api():
 
 def send_to_audio(output):
     ''' this function will send our output to the audio'''
-    print("OUTPUT:: " + output['comment'])
+    print(bcolors.OKGREEN + "OUTPUT:: " + output['comment'] + bcolors.ENDC)
     logging.info(output)
     headers = {'Content-type': 'application/json'}
     try:
