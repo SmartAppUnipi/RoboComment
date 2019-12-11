@@ -18,7 +18,7 @@ quasi_goal[stdin] = @0 as ? : ball_goal(@0) then push('elementary',
 penalty[stdin] = @0 as ? : is_penalty(@0) then push('stdout', {'type': 'penalty', 'time': @0.time})
 
 possession[positions] = @0 as {'type': 'ball'} -> .{0,0} -> @1 as {'type': 'closest'} :
-    @1.time == @0.time and distance(@0.position, @1.position) < 0.5 then
+    @1.time == @0.time and distance(@0.position, @1.position) < 0.5  and @1.team.value != -1 then
     push('elementary', {'type':'possession', 'time': trunc(@0.time), 'player': {'id': @1.id,
     'team': @1.team}, 'position': @0.position, 'until': trunc(@0.time)})
 
@@ -46,7 +46,7 @@ shot_off_target[elementary] = @0 as {'type': 'possession'} -> .{0,2} -> @1 as {'
     push('int_stdout', @0)
 
 goal[elementary] = @0 as {'type': 'possession'} -> .{0,2} -> @1 as {'type': 'on_target'} -> .{0,2} -> @2 as {'type': 'quasi_goal'} :
-    True then push('stdout', {'type': 'goal', 'time': @0.time, 'player_active': @0.player})
+    True then push(['stdout', 'elementary'], {'type': 'goal', 'time': @0.time, 'player_active': @0.player})
 
 tikitaka[fpass] = @0 as {'type': 'pass'} -> @1 as {'type': 'pass'} -> @2 as {'type': 'pass' } ->
     @3 as {'type': 'pass'} : @0.passer.team == @1.passer.team == @2.passer.team == @3.passer.team
@@ -75,5 +75,9 @@ offside[positions] = .{0,1} -> @0 as {'type': 'player', 'team': -1, 'pose': 'off
 
 offside_stdout[int_stdout] = @0 as {'type':'offside'} : True 
     then push('stdout', @0); update('stdout', @0, {'start_time': @0.time, 'end_time': @0.time}); consume('int_stdout', @0)
+
+goal_revoked_offside[elementary] = @0 as {'type': 'goal'} -> {0,10} -> @1 as {'type': 'offside'} : True 
+    then push(['elementary', 'stdout'], {'type': 'revoked_goal', 'reason': 'offside', 'start_time': 
+    @0.time, 'end_time': @1.time, 'time': @0.time}); consume('elementary', @0)
 
 tackle[stdin] = @0 as ? : checkTackle('stdin', @0) then True    #Incomplete

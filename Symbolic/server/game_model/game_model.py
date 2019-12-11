@@ -53,12 +53,25 @@ class GameModel:
     def new_positions(self, positions):
         """This function gets called by the app whenever new positions arrive"""
         self._stacks['stdin'].appendleft(positions)
-        self._user_id = positions['user_id']
+
+        # Fields requested by the various groups
+        if "user_id" in positions:
+            self._user_id = positions['user_id']
+        else:
+            print("CAREFUL, USER_ID is  not present")
+            self._user_id = None
+
         if "match_id" in positions:
-            self._match_id = positions['user_id']
+            self._match_id = positions['match_id']
         else:
             print("CAREFUL, MATCH_ID is  not present")
             self._match_id = None
+
+        if "clip_uri" in positions:
+            self._match_id = positions['clip_uri']
+        else:
+            print("CAREFUL, CLIP URI is  not present")
+            self._clip_uri = None
 
     def to_comment_generation(self):
         """This method sends all the retrieved events to comment generation"""
@@ -66,9 +79,12 @@ class GameModel:
         to_send = list(self._stacks['stdout'])
         for e in to_send:
             jsn = e
-            jsn['user_id'] = self._user_id
+            if self._user_id:
+                jsn['user_id'] = self._user_id
             if self._match_id:
                 jsn['match_id'] = self._match_id
+            if self._clip_uri:
+                jsn['clip_uri'] = self._clip_uri
             try:
                 x = requests.post(self._cg_url, json=jsn, timeout=0.01)
                 # clear the stdout for next iteration

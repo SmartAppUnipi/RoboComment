@@ -6,6 +6,7 @@ from flask_socketio import SocketIO, emit
 import pprint
 import os
 import threading
+from urllib.parse import urlparse
 from game_model.game_model import GameModel, U
 from game_model.interpreter.set_rule_matcher import set_rule_matcher
 
@@ -16,8 +17,6 @@ socketio = SocketIO(app)
 # DIMENSIONI IN METRI DEL CAMPO...
 _WIDTH = 105
 _HEIGHT = 68
-
-i = 0
 
 map = Map2d(_WIDTH, _HEIGHT, socketio)
 pp = pprint.PrettyPrinter(indent=4)
@@ -32,9 +31,13 @@ def init_map():
 
 @app.route("/stacks", methods=['POST', 'GET'])
 def stacks():
-    env = GameModel.get_env()
+    env = GameModel.get_env()['stacks']
+    copy_ = {}
+    for e in env:
+        q = list(env[e])
+        copy_[e] = q[:20]
     if request.method == 'GET':
-        return render_template('stacks.html', data=env['stacks'])
+        return render_template('stacks.html', data=copy_)
     elif request.method == 'POST':
         return 200
 
@@ -46,11 +49,6 @@ def welcome():
 @app.route('/positions', methods=['POST'])
 def new_positions():
     global map
-    global i
-
-    # i += 1
-    # if i % 3 != 2:
-    #    return ""
 
     data = flask.request.get_json()
 
@@ -61,8 +59,6 @@ def new_positions():
     U.new_positions(data)
     set_rule_matcher()
     U.to_comment_generation()
-
-    print("FINE ITERAZIONE ", i)
 
     with open('game_log.out', 'a+') as dump_file:
         string = json.dumps(data, separators=(',', ':'))
@@ -80,8 +76,16 @@ def tick():
 if __name__ == '__main__':
     if os.path.exists("game_log.out"):
         os.remove("game_log.out")
+
+    with open('../../routes.json', 'r') as f:
+            config = json.load(f)
+            symb = urlparse(config['scene'])
+            if "localhost" in symb.netloc or "127.0.0.1" in symb.netloc:
+                host_ = "127.0.0.1"
+            else:
+                host_ = '0.0.0.0'
     # tick()
 
     print("app is running, open localhost:3001/debug to display the map")
-    socketio.run(app, host='0.0.0.0',
-                 use_reloader=False, port=3001)
+    socketio.run(app, host=host_,
+                 use_reloader=False, port=symb.port)
