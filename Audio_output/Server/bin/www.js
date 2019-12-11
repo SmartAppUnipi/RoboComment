@@ -353,13 +353,8 @@ function handleClientMessage(body, connection) {
         // console.log(message.request);
 
         let idUser   = message.request.user_id;
-        let idMatch  = message.request.match_id;
-        let messageToComment = {
-            startTime: message.request.start_time,
-            match_url: message.request.match_url
-        };
 
-        CommentaryApp.post(CommentAppIP+"/"+idMatch.toString() +"/"+ idUser.toString(), JSON.stringify(messageToComment), config)
+        CommentaryApp.post(CommentAppIP +"/"+ idUser.toString(), JSON.stringify(message.request), config)
             .then((result) => {
                 if(result.status === 200){
                     response = set_response("post_matchID","OK", result.status);
