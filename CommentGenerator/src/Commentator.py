@@ -19,11 +19,12 @@ class Commentator:
     def __init__(self, knowledge_base, user_id):
         self.user_id = user_id
         self.kb = knowledge_base
-        self.user_lang = self.kb.get_user_language(self.user_id)
+        #self.user_lang = self.kb.get_user_language(self.user_id)
         self.automa = CommentAutomata()
         self.picker = Picker()
         self.filler = Filler(knowledge_base, self.user_id)
-        self.translator = Translate(self.user_lang)
+        #self.translator = Translate(self.user_lang)
+        self.translator = Translate('it')
         self.sentimentalizer = Sentimentalizer()
 
     def run(self, jsonobj:json):
@@ -34,7 +35,7 @@ class Commentator:
         # create comment
         (comment, placeholders, priority) = self.picker.pick_comment(jsonobj, state)
         # update it with kb
-        comment = self.filler.update_comment(comment, placeholders)
+        #comment = self.filler.update_comment(comment, placeholders)
         # retrieve sentiment
         sentiment = self.sentimentalizer.get_sentiment(comment)
         # translate in the correct language

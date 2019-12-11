@@ -5,7 +5,6 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 class Sentimentalizer:
 
     def __init__(self):
-        nltk.download('vader_lexicon')
         self.__analyzer = SentimentIntensityAnalyzer()
 
     def get_sentiment(self, comment)->int:
