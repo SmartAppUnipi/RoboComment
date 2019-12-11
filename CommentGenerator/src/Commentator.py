@@ -21,7 +21,7 @@ class Commentator:
         self.user_lang = self.kb.get_user_language(self.user_id)
         self.automa = CommentAutomata()
         self.picker = Picker(self.user_lang)
-        self.filler = Filler(knowledge_base, user_id)
+        self.filler = Filler(knowledge_base, self.user_id)
         self.sentimentalizer = Sentimentalizer()
 
     def run(self, jsonobj:json):

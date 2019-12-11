@@ -26,8 +26,12 @@ class Extractor:
         self.__welcome_message = ["Welcome to the match is speaking RoboComment and it will be with you to comment this match",
                                   "Welcome, here is RoboComment and i will comment the match {team1} versus {team2}"]
 
+
     def set_input(self, jsonobj:json):
         self.__input = jsonobj
+
+    def set_language(self, language):
+        print("Set language")
 
     def has_action(self) -> bool:
         """
