@@ -38,7 +38,7 @@ class CommentatorPool:
     def _mock_symbolic_level(self, match_id, clip_uri):
         ''' this function is use to start a thread simulating the symbolic level when we already have the match in cache'''
 
-        events = self.match_cache.get_events(match_id,clip_id)
+        events = self.match_cache.get_events(match_id,clip_uri)
 
         for e in events:
             # wait some time before sending the next event to our module
