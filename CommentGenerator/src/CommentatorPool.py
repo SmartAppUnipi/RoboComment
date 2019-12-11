@@ -76,7 +76,7 @@ class CommentatorPool:
         }
 
         # the threads will stop once the server is closed
-        commentator.daemon = True
+        commentator.daemon = False
         commentator.start()
 
         if in_cache:
@@ -175,9 +175,9 @@ class SymbolicEventsCache():
         symbolic_events = []
 
         clip_path = self._get_clip_path(match_id,clip_uri)
-        print(clip_path)
+
         for event_path in sorted(os.listdir(clip_path)):
-            
+
             with open(clip_path + "/" + event_path,'r') as json_event:
                 
                 symbolic_events.append(json.load(json_event))
