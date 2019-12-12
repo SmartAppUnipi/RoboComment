@@ -1,5 +1,7 @@
 import requests
 
+# TODO add querying about favourite player
+# TODO add queryng about info of particular id
 
 class KnowledgeBase:
     PLAYER = 'persona'
@@ -38,7 +40,15 @@ class KnowledgeBase:
     def get_user_team(self, user_id):
         tmp_user = self.get_item(KnowledgeBase.USER, user_id)
         return tmp_user['favourite_team'] if tmp_user else " "
-
+    
+    def get_user_player(self,user_id):
+        tmp_user = self.get_item(KnowledgeBase.USER, user_id)
+        return tmp_user['favourite_player'] if tmp_user else " "
+    
+    def get_user_language(self,user_id):
+        tmp_user = self.get_item(KnowledgeBase.USER, user_id)
+        return tmp_user['language'] if tmp_user else "en"
+    
     def get_item(self, entity, id):
         try:
             resp = requests.get( self.url + entity + "/" + str(id))

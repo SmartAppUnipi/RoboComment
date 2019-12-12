@@ -2,12 +2,12 @@ import unittest
 import json
 from src.Commentator import Commentator
 from utils.KnowledgeBase import KnowledgeBase
-from tests.MockKnowledgeBase import MockKnowledgeBase
+from tests.MockKnowledgeBase import MockKB
 
 
 class TestApi(unittest.TestCase):
     def setUp(self):
-        self.kb = MockKnowledgeBase()
+        self.kb = MockKB()
         self.commentator = Commentator(self.kb)       
        
     def test_run1(self):

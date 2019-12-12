@@ -1,8 +1,9 @@
+import nltk
 from flask import Flask, request
 import json
 import requests
 import sys
-from src.Commentator import Commentator
+from src.CommentatorPool import CommentatorPool
 from utils.KnowledgeBase import KnowledgeBase
 from threading import Thread
 import logging
@@ -11,8 +12,11 @@ app = Flask(__name__)
 
 AUDIO_URL = "http://audio.url:3003/"
 KB_URL = "http://kb.url:3004/"
-commentator = None
-knowledge_base = None
+commentator_pool = None
+
+class bcolors:
+    OKGREEN = '\033[92m'
+    ENDC = '\033[0m'
 
 
 @app.route('/api', methods=['GET'])
@@ -21,54 +25,65 @@ def api():
     return "Hi! the server is alive!"
 
 
-def forward_to_audio(output):
-    ''' this function will send our output to the audio in an async waiy, in order to responde immediatly to the symbolic level'''
-    def async_request():
-        headers = {'Content-type': 'application/json'}
-        try:
-            response = requests.post(url=AUDIO_URL, json=output, headers=headers)
-        except requests.exceptions.ConnectionError:
-            print("Audio unreachable at " + AUDIO_URL)
-        
-    t = Thread(target=async_request)
-    t.start()
+def send_to_audio(output):
+    ''' this function will send our output to the audio'''
+    print(bcolors.OKGREEN + "OUTPUT:: " + output['comment'] + bcolors.ENDC)
+    logging.info(output)
+    headers = {'Content-type': 'application/json'}
+    try:
+        response = requests.post(url=AUDIO_URL, json=output, headers=headers)
+    except requests.exceptions.ConnectionError:
+        print("Audio unreachable at " + AUDIO_URL)
 
-
-@app.route('/api/action', methods=['POST'])
+@app.route('/api/action', methods=['POST']) # think is better to use PUT here
 def action():
     ''' 
-        it gets a json from the symbolic group, calls our internal modules to produce a comment and
-        sends it to the audio group
+        it gets a json from the symbolic group, and forwards it to the right commentator
     '''
-    global commentator
+    global commentator_pool
 
     input = json.loads(request.data)
     print("INPUT:: " + json.dumps(input))
     logging.info(input)
-    # call our main
 
-    output = commentator.run(input)
+    commentator_pool.push_symbolic_event_to_match(input["match_id"], input["clip_uri"] ,input) 
+
+    return "OK"
+
+@app.route('/api/session/<int:userid>', methods=['POST'])
+def session_start(userid):
+    ''' this method will be called by the audio each time a new user watches a match'''
+    global commentator_pool
     
-    print("OUTPUT:: " + output['comment'])
-    logging.info(output)
-    # post to the audio group
-    forward_to_audio(output)
-    
+    video_json = json.loads(request.data)
+    match_id = video_json['match_id']
+    start_time = video_json['start_time']
+    clip_uri = video_json['match_url']
+    print("CLIP_URI " + clip_uri)
+
+    in_cache = commentator_pool.start_session(match_id,clip_uri, start_time, userid)
+
+    return "OK", 200 if in_cache else 201
+
+@app.route('/api/session/<int:userid>', methods=['DELETE'])
+def session_end(userid):
+    ''' this method will be called by the audio each time a user ends the video streaming'''
+    global commentator_pool
+
+    commentator_pool.end_session(userid)
     return "OK"
 
 
 @app.before_first_request
 def init():
     ''' this function will be called at the application startup to initialize our module '''
-    global knowledge_base
-    global commentator
-    
+    global commentator_pool
+    # store lexicon
+    nltk.download('vader_lexicon')
+
     logging.basicConfig(filename='CommentGenerator/commentgenerator.log',level=logging.INFO) # filemode='w'
-    
-    knowledge_base = KnowledgeBase(url=KB_URL)
 
-    commentator = Commentator(knowledge_base)
-
+    commentator_pool = CommentatorPool(KB_URL,send_to_audio)
 
 if __name__ == '__main__':
     try:
