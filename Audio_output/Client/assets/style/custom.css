@@ -1,0 +1,204 @@
+body{
+    background: url("../image/pic11.jpg") #132533  no-repeat center center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    height: 100vh;
+}
+.login-container{
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.login-container .login-content{
+    background: rgba(0, 0, 0, 0.6);
+
+}
+.pos-r{
+    position: relative;
+}
+
+.pos-a{
+    /*display: inline-block;*/
+}
+
+.login-container  .login-header{
+    padding: 1px 30px;
+}
+.login-container, .login-container a,.login-container input{
+    color: #ffffff;
+}
+.login-container .login-title span{
+    padding: 10px 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+    text-shadow: -1px 1px 1px rgb(17, 42, 51);
+}
+.login-container .login-title span strong{
+    color: #c52d20;
+}
+.login-container .login-body{
+    padding: 15px 30px;
+}
+.login-container .login-body input.form-control{
+    background: rgba(0, 0, 0, 0.7);
+    height: 50px;
+    border-radius: 20px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    border-left: 3px solid transparent;
+    font-size: 16px;
+    -o-transition:all .5s;
+    -webkit-transition:all .5s;
+    transition:all .5s;
+}
+.login-container .login-body input.form-control:focus{
+    border-color: #32c74e;
+}
+.login-container .login-body input.form-control + i{
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 20px;
+    color: rgb(31, 123, 48);
+    -o-transition:all .5s;
+    -webkit-transition:all .5s;
+    transition:all .5s;
+}
+.login-container .login-body input.form-control:focus + i{
+    color: #32c74e;
+}
+
+
+.login-container .login-body button {
+    height: 50px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    font-size: 20px;
+
+
+}
+.login-container .login-footer{
+    padding: 20px 0;
+}
+.template h5 a {
+    color: #146328;
+}
+
+button.link {
+    background:none;
+    border:none;
+    color: #000bff;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 600px), screen and (max-height: 610px)  {
+
+    .login-container  {
+        padding: 0px;
+    }
+    .login-container .login-title span {
+        padding: 0px;
+        margin-bottom: 10px;
+    }
+    .login-container .login-content {
+        background: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow:none;
+
+    }
+    .login-header {
+        display: none;
+    }
+    .login-container .login-body {
+        padding: 10px 10px;
+    }
+    .login-container .login-footer {
+        padding: 0px;
+    }
+}
+@media only screen and (max-height: 400px)  {
+    .login-container{
+        position: static;
+        transform:none;
+        padding: 0;
+    }
+}
+
+#titleText{
+    padding:10px;
+    top: 10px;
+    float:none;
+    display:inline;
+    font-size:73px;
+    font-weight:100;
+    font-family:Verdana, Geneva, sans-serif;
+    color:#0d4e7c;
+    line-height:0;
+}
+
+#titleImg {
+    color: black;
+    width: 33%;
+    background-repeat: repeat;
+    background-position: left top;
+    background-attachment: scroll;
+    background-size: auto;
+}
+/* Reset Select */
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #2c3e50;
+    background-image: none;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+    display: none;
+}
+/* Custom Select */
+.select {
+    position: relative;
+    display: inline-block;
+    width: 12.5em;
+    height: 3em;
+    line-height: 3;
+    background: #2c3e50;
+    overflow: hidden;
+    border-radius: .25em;
+}
+select {
+    flex: 1;
+    padding: 0 .5em;
+    color: #fff;
+    cursor: pointer;
+}
+/* Arrow */
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: #34495e;
+    cursor: pointer;
+    pointer-events: none;
+    -webkit-transition: .25s all ease;
+    -o-transition: .25s all ease;
+    transition: .25s all ease;
+}
+/* Transition */
+.select:hover::after {
+    color: #f39c12;
+}

@@ -1,0 +1,79 @@
+[
+    {
+        "user_id": 69,
+        "time": 37.5,
+        "camera": {
+            "position": {"x": 1.2, "y": 1.3, "z": 8.8},
+            "target": {"x": 7.8, "y": 7.9, "confidence": 0},
+            "zoom": 0.5
+        },
+        "players": [
+            {
+                "position": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "id": {"value": 2,"confidence": 1},
+                "team": {"value": 1,"confidence": 0.1},
+                "pose": "T-Pose"
+            },
+            {
+                "position": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "id": {"value": 4,"confidence": 0.1},
+                "team": {"value": 0,"confidence": 0.8},
+                "pose": "T-Pose"
+            }
+        ],
+        "ball": [
+            {
+                "position": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "midair": 0.1,
+                "owner": {"value": 4,"confidence": 0.1},
+                "owner team": {"value": 0,"confidence": 0.1}
+            }
+        ]
+    },
+    {
+        "user_id": 420,
+        "time": 38.6,
+        "players": [
+            {
+                "position": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "id": {"value": 2,"confidence": 1},
+                "team": {"value": 1,"confidence": 0.1},
+                "pose": "T-Pose"
+            },
+            {
+                "position": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "id": {"value": 4,"confidence": 0.1},
+                "team": {"value": 0,"confidence": 0.8},
+                "pose": "T-Pose"
+            }
+        ],
+        "ball": [
+            {
+                "position": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "speed": {"x": 7.8, "y": 7.9, "confidence": 0},
+                "midair": 0.1,
+                "owner": {"value": 4,"confidence": 0.1},
+                "owner team": {"value": 0,"confidence": 0.1}
+            }
+        ]
+    },
+    {
+        "time" : {"start": 7, "end": 11},
+        "type": "elementary",
+        "details":
+        {
+            "team1" : "team A",
+            "team2": "team B",
+            "player1": "Ruicosta",
+            "player2": "Ronaldo",
+            "field_zone" : "middle",
+            "subtype"  : "pass",
+            "confidence" : 0.4
+        }
+    }
+]

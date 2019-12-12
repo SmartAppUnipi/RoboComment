@@ -1,0 +1,20 @@
+"nome_regola" = ....
+
+
+.{0,4}  = qualsiasi sottosequenza (tra 0 e 4 "secondi") 
+?       = (solo) un oggetto
+*       = zero o più  
+->      = sequenza
+:       = condizioni
+!=      = diverso
+==      = uguale
+___fx   = funzioni interne
+A in B  = A è all'interno di B 
+$var    = variabile (fuzzy)
+&       = AND
+|       = OR
+
+rule(oggetto)
+
+
+https://blog.pitchero.com/soccer-tactics-explained
