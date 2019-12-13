@@ -44,7 +44,7 @@ pytest CommentGenerator/tests
             "startTime" : <integer seconds, the start time we recive from the symbolic level >,
             "endTime" : <integer seconds, the end time we receive from the symbolic level>,
             "priority": <float from 0 to 10 stating the importance of the comment, 10 is extremely important, 0 is not important>,
-            "user_id" : <int with the id of the user who has to receive this comment>
+            "id" : <int with the id of the user who has to receive this comment>
         } 
         ```
 ### Start a comment session

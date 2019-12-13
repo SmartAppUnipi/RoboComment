@@ -54,6 +54,7 @@ class Commentator:
         }
         return output
 
+'''
 if __name__ == '__main__':
 
     comm = Commentator("", 1)
@@ -97,3 +98,4 @@ if __name__ == '__main__':
       "team": {"value" : 42}
     }
 })
+'''

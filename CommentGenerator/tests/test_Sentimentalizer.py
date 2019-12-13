@@ -7,8 +7,7 @@ class TestSentimentalizer(unittest.TestCase):
     def setUp(self):
         self.sentimentalizer = Sentimentalizer()
 
-    def test_add_emphasis1(self):
+    def test_sentiment1(self):
 
-        output_json = self.sentimentalizer.add_emphasis("Cristiano Ronaldo has made a goal,fantastic!")
-
-        print(output_json)
+        print("THIS TEST NEEDS TO BE IMPLEMENTED")
+        raise NotImplementedError

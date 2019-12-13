@@ -9,7 +9,7 @@ cache = "CommentGenerator/.match_cache"
 io_json = {
     "match_id" : 42,
     "start_time" : 0,
-    "clip_uri" : "http://clip.of.the.match/juve/napoli"
+    "match_url" : "http://clip.of.the.match/juve/napoli"
 }
 
 
