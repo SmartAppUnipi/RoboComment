@@ -45,12 +45,12 @@ class Commentator:
         output = {
             'comment': comment,
             'language' : 'en',
-            'priority' : priority,
+            'voice': 'en-US-Wavenet-D',
             'emphasis': sentiment,
             'startTime': jsonobj['start_time'],
-            'endTime' : jsonobj['end_time'],
-            'voice' : 'en-US-Wavenet-D',
-            'id' : self.user_id
+            'endTime': jsonobj['end_time'],
+            'priority' : priority,
+            'user_id' : self.user_id
         }
         return output
 
