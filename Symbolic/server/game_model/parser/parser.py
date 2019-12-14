@@ -3,10 +3,11 @@ from ast import literal_eval
 
 def _split(rule_string: str):
     name_and_stack, rules, constraints, action = re.split(' = | : | then ', rule_string)
+    action_list = action.split(';')
 
-    name, stack = re.findall('[a-z]+', name_and_stack)
+    name, stack = re.findall('[a-z|_]+', name_and_stack)
 
-    return name, stack, rules, constraints, action
+    return name, stack, rules, constraints, action_list
 
 
 def parse(rule_string: str):
@@ -45,7 +46,3 @@ def _parse_rule(rule: str, parse_obj):
         parse_obj['condition'][-1]['pattern'].append(
             literal_eval(name) if re.match(r'\{.*\}', name) else name
         )
-        # if re.match(match, name):
-        #     parse_obj['condition'][-1]['pattern'].append(literal_eval(name))
-        # else:
-        #     parse_obj['condition'][-1]['pattern'].append(name)

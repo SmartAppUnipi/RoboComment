@@ -7,12 +7,13 @@ import time
 import requests
 import pprint
 import json
+import sys
 
 #    Pitch dimensions = 105 x 68
 
 
 pass_time = float(str("%.2f" % (random.random() * 100)))
-pass_ball_y = 10
+pass_ball_y = 20
 direction = 'down'
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -80,7 +81,7 @@ def createDummy():
     )
 
 
-def simulate_passage():
+def simulate_passage(x):
 
     global pass_time, pass_ball_y, pp, direction
 
@@ -95,10 +96,29 @@ def simulate_passage():
 
     tmp['user_id'] = 0
 
+    #REFREE
     tmp['players'].append(
         {
             "position": {
-                "x": 10,
+                "x": x - 10,
+                "y": (0 + x/2)
+            },
+            "id": {
+                "value": 99,
+                "confidence": 1
+            },
+            "team": {
+                "value": -1
+            },
+            "pose": ""
+        }
+    )
+
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x,
                 "y": 10
             },
             "id": {
@@ -114,8 +134,8 @@ def simulate_passage():
     tmp['players'].append(
         {
             "position": {
-                "x": 10,
-                "y": 30
+                "x": x,
+                "y": 20
             },
             "id": {
                 "value": 1,
@@ -127,10 +147,108 @@ def simulate_passage():
         }
     )
 
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x,
+                "y": 30
+            },
+            "id": {
+                "value": 2,
+                "confidence": 1
+            },
+            "team": {
+                "value": 0
+            }
+        }
+    )
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x,
+                "y": 40
+            },
+            "id": {
+                "value": 3,
+                "confidence": 1
+            },
+            "team": {
+                "value": 0
+            }
+        }
+    )
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x,
+                "y": 50
+            },
+            "id": {
+                "value": 4,
+                "confidence": 1
+            },
+            "team": {
+                "value": 0
+            }
+        }
+    )
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x + 20,
+                "y": 25
+            },
+            "id": {
+                "value": 11,
+                "confidence": 1
+            },
+            "team": {
+                "value": 1
+            }
+        }
+    )
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x + 20,
+                "y": 35
+            },
+            "id": {
+                "value": 12,
+                "confidence": 1
+            },
+            "team": {
+                "value": 1
+            }
+        }
+    )
+
+    tmp['players'].append(
+        {
+            "position": {
+                "x": x + 20,
+                "y": 45
+            },
+            "id": {
+                "value": 13,
+                "confidence": 1
+            },
+            "team": {
+                "value": 1
+            }
+        }
+    )
+
+
+
     tmp['ball'].append(
         {
             "position": {
-                "x": 10,
+                "x": x,
                 "y": pass_ball_y
             },
             "speed": {
@@ -139,11 +257,13 @@ def simulate_passage():
             }
         }
     )
+
+    tmp['match_id'] = (1)
     pass_time += 0.05
 
-    if pass_ball_y < 30 and direction == 'down':
+    if pass_ball_y < 50 and direction == 'down':
         pass_ball_y += 1
-    elif pass_ball_y ==30 and direction == 'down':
+    elif pass_ball_y == 50 and direction == 'down':
         pass_ball_y -= 1
         direction = 'up'
     elif pass_ball_y > 10 and direction == 'up':
@@ -154,13 +274,45 @@ def simulate_passage():
     return tmp
 
 
-if __name__ == '__main__':
-    url = "http://127.0.0.1:3001/positions"
-    while True:
-        pass_ = simulate_passage()
-        #with open("positions.out") as pos:
-        #    for e in pos:
-        #        e = e.strip()
-        #        pass_ = json.loads(e)
-        requests.post(url, json=pass_)
-        time.sleep(0.2)
+
+url = "http://127.0.0.1:3001/positions"
+if len(sys.argv) > 1:
+    if sys.argv[1] == 'goal':
+        #shot on target and goal
+        pass_ball_y = 10
+        x_ = 0
+        for i in range(0,105):
+            if (i < 40):
+                x_ += 1
+                pass_ = simulate_passage(x_)
+                requests.post(url, json=pass_)
+                time.sleep(0.1)
+                
+            else:
+                x_ += 1
+                pass_ = simulate_passage(x_)
+                requests.post(url, json=pass_)
+                time.sleep(0.1)
+    elif sys.argv[1] == 'fuori':
+        #shot off target
+        pass_ball_y = 20
+        x_ = 0
+        for i in range(0,105):
+            if (i < 40):
+                x_ += 1
+                pass_ = simulate_passage(x_)
+                requests.post(url, json=pass_)
+                time.sleep(0.1)
+                
+            else:
+                x_ += 1
+                pass_ = simulate_passage(x_)
+                requests.post(url, json=pass_)
+                time.sleep(0.1)
+    else:
+        file_to_open = sys.argv[1]
+        with open(file_to_open) as json_file:
+            pos = json.load(json_file)
+        for pass_ in pos:
+            requests.post(url, json=pass_)
+            time.sleep(0.25)
