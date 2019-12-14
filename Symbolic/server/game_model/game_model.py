@@ -87,6 +87,9 @@ class GameModel:
                 jsn['clip_uri'] = self._clip_uri
             try:
                 x = requests.post(self._cg_url, json=jsn, timeout=0.01)
+                if(jsn['type'] != 'positions'):
+                    with open("output_log.out", 'a') as out_log:
+                        out_log.write(str(jsn) + "\n")
                 # clear the stdout for next iteration
                 self._stacks['stdout'].clear()
             except requests.Timeout:
@@ -103,7 +106,8 @@ class GameModel:
             rule_str = rule_str.replace(x.group(), py_syntax, 1)
 
 
-        match = re.findall(r"[A-Z][A-Z_]+", rule_str)
+        #match = re.findall(r"[A-Z][A-Z_]+", rule_str)
+        match = []
 
         for x in match:
             obj = "{'type': '" + x.lower() + "'}"

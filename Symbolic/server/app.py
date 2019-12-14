@@ -76,6 +76,8 @@ def tick():
 if __name__ == '__main__':
     if os.path.exists("game_log.out"):
         os.remove("game_log.out")
+    if os.path.exists("output_log.out"):
+        os.remove("output_log.out")
 
     with open('../../routes.json', 'r') as f:
             config = json.load(f)
