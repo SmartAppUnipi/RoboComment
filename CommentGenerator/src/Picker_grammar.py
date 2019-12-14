@@ -5,10 +5,12 @@ try:
     from .tags.Extractor import Extractor
     from .tags.Player import Player
     from .tags.Elementary import Elementary
+    from .tags.Team import Team
     from .Filler import Filler
 except:
     from tags.Extractor import Extractor
     from tags.Player import Player
+    from tags.Team import Team
     from tags.Elementary import Elementary
     from Filler import Filler
 
@@ -96,6 +98,11 @@ class Picker:
                     player2 = Player()
                     player2.obtain_info(self.__extractor.get_player_info('passive'))
                     sub_template = player2.get_template()
+                elif element == "Team_active":
+                    # create player object, passing extraction info by tags
+                    team_subject = Team()
+                    team_subject.obtain_info(self.__extractor.get_team_info())
+                    sub_template = team_subject.get_template()
 
                 if element == "Elementary":
                     # create elementary object, passing extraction info by tags
@@ -135,20 +142,14 @@ class Picker:
 if __name__ == '__main__':
     test1 = {
 
-    "type": "goal",
+    "type": "tikitaka",
     "match_id" : 42,
     "clip_uri" : "http://clip.of.the.match/juve/napoli",
     "user_id": 10,
     "time": 10,
     "start_time": 12,
     "end_time" : 22,
-    "player_active": {
-      "id": {
-        "value": 42,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    }
+    "team": 42
 }
     picker = Picker()
     comment, placeholders, priority = picker.pick_comment(test1, "Pure comment")

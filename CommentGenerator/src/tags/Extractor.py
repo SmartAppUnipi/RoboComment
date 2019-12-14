@@ -19,7 +19,8 @@ class Extractor:
             "penalty": ["Elementary"],
             "shot_on_target": ['Player_active','Elementary'],
             "shot_off_target": ['Player_active', 'Elementary'],
-            "goal":['Player_active', 'Elementary']
+            "goal":['Player_active', 'Elementary'],
+            "tikitaka": ["Team_active", "Elementary"]
         }
         # randomly select one of this info to produce a comment based on this
         self.__possible_category_hybrid = ["player", 'team']
@@ -44,7 +45,8 @@ class Extractor:
             "penalty": 9,
             "shot_on_target":6,
             "shot_off_target": 6,
-            "goal":9
+            "goal":9,
+            "tikitaka":4
         }
         if "type" in self.__input:
             self.__priority = priority_mapping[self.__input['type']]
@@ -118,6 +120,25 @@ class Extractor:
                 zone_value_y = self.__input['position']['x']
 
         return type, time_start, time_end, zone_value_x, zone_value_y
+
+    def get_team_info(self)-> tuple:
+        """
+        Search and return information about the subject team
+        :return: tuple ordered (value)
+        """
+        value = None
+        start = None
+        end = None
+
+        if 'team' in self.__input:
+            value = self.__input['team']
+            if 'start_time' in self.__input:
+                start = self.__input['start_time']
+            if 'end_time' in self.__input:
+                start = self.__input['end_time']
+
+
+        return value, start, end
 
     def get_random_info_and_value(self)-> tuple:
         """
