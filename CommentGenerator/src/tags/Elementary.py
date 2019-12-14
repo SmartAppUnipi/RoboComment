@@ -94,12 +94,17 @@ class Elementary:
         elif self.__type == "tikitaka":
             action_info.append(random.choice(["is doing tikitaka", "is implementing the so-called melina",
                                               "continues to circulate the ball without exposing itself"]))
-        # express OFFSIDE
 
+        # express OFFSIDE
         elif self.__type == "offside":
             action_info.append(random.choice(["the match assistants see some irregularities in the position, offside",
                                           "the referee whistles a game, let's see if he will need to consult the VAR",
                                               "the referee disagrees with the player's position"]))
+
+        # express REVOKED GOAL
+        elif self.__type == "revoked_goal":
+            action_info.append(random.choice(["wait, the referee revokes the goal, let's try to understand why",
+                                          "the referee whistles an offside, which cancels the team's goal"]))
 
         return action_info+time_info
 

@@ -21,7 +21,8 @@ class Extractor:
             "goal":['Player_active', 'Elementary'],
             "tikitaka": ["Team_active", "Elementary"],
             "penalty": ["Elementary"],
-            "offside": ["Elementary"]
+            "offside": ["Elementary"],
+            "revoked_goal":["Elementary"]
         }
         # randomly select one of this info to produce a comment based on this
         self.__possible_category_hybrid = ["player", 'team']
@@ -48,7 +49,8 @@ class Extractor:
             "shot_off_target": 6,
             "goal":8,
             "tikitaka":4,
-            "offside":8
+            "offside":8,
+            "revoked_goal":9
         }
         if "type" in self.__input:
             self.__priority = priority_mapping[self.__input['type']]
