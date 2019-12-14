@@ -2,6 +2,8 @@
 const url        = 'ws://131.114.137.237:4020';
 let queue        = new Queue();
 let ws           = null;
+let AlreadySend1 = false;
+let AlreadySend2 = false;
 
 function insertCards(id, url, home, away, type) {
 
@@ -47,7 +49,7 @@ function insertCards(id, url, home, away, type) {
 
 
         console.log(set_matchInfo(id,url, ifCookie("userId")));
-        sendInfoVideo(set_matchInfo(id,url, ifCookie("userId"), type));
+        // sendInfoVideo(set_matchInfo(id,url, ifCookie("userId"), type));
 
         setCookie("videoID",id,2);
         setCookie("videoURL",url,2);
@@ -64,8 +66,20 @@ function connect() {
         // subscribe to some channels
         ws.send(JSON.stringify("New Connection"));
         userHello();
-        if (window.location.pathname.split("/").pop() === "catalog.html")
-            videoListRequest();
+        if (window.location.pathname.split("/").pop() === "catalog.html"){
+            if(!AlreadySend2){
+                videoListRequest();
+                AlreadySend2 = true;
+            }
+        }else if(window.location.pathname.split("/").pop() === "video.html"){
+            if(!AlreadySend1){
+                console.log("Sending information about the video to Comment Group");
+                sendInfoVideo(set_matchInfo(getCookie("videoID"),getCookie("videoURL"),
+                    ifCookie("userId"), getCookie("videoType")));
+                AlreadySend1 = true;
+            }
+        }
+
         console.log("Web Socket connection established")
     };
 
@@ -132,7 +146,7 @@ function connect() {
     };
 
     ws.onclose = function(e) {
-        console.log('Socket is closed. Reconnect will be attempted in 5 second.', e.reason);
+        console.log('Socket is closed. Reconnect will be attempted in 5 m.second.', e.reason);
         setTimeout(function() {
             connect();
         }, 500);
@@ -149,7 +163,7 @@ function set_matchInfo(match_id, url, user_id, type) {
     let start_time;
     if(type==="realtime"){
         // start_time = Math.floor(Math.random() * 20);
-        start_time = 20;
+        start_time = 0;
     }else {
         start_time = 0;
     }
