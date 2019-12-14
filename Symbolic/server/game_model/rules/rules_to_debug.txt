@@ -1,0 +1,3 @@
+shot[elementary] = {'type': 'possession'} as @0 -> .{0,4} -> {'type': 'ball'} as @1 :
+    homehalf(@0['position']) & in_target[@1['position]] then
+    push(['elementary', 'stdout'], {'type':'shot', 'player': @0})
