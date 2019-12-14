@@ -30,7 +30,7 @@ for doc_line in filter(lambda x: x.startswith("//"), rules.readlines()):
 
     elif doc_line.startswith("@returns"):
         documentation.write(
-            "```javascript\n{}```".format(content(doc_line).replace(",", ",\n"))
+            "```javascript\n{}\n```".format(content(doc_line).replace(",", ",\n"))
         )
     else:
         pass
