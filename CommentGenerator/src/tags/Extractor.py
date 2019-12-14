@@ -16,11 +16,12 @@ class Extractor:
             "possession": ['Player_active', 'Elementary'],
             "intercept": ['Player_active', 'Elementary', 'Player_passive'],
             "pass": ['Player_active', 'Elementary', 'Player_passive'],
-            "penalty": ["Elementary"],
             "shot_on_target": ['Player_active','Elementary'],
             "shot_off_target": ['Player_active', 'Elementary'],
             "goal":['Player_active', 'Elementary'],
-            "tikitaka": ["Team_active", "Elementary"]
+            "tikitaka": ["Team_active", "Elementary"],
+            "penalty": ["Elementary"],
+            "offside": ["Elementary"]
         }
         # randomly select one of this info to produce a comment based on this
         self.__possible_category_hybrid = ["player", 'team']
@@ -42,11 +43,12 @@ class Extractor:
             "possession": 3,
             "intercept": 5,
             "pass": 4,
-            "penalty": 9,
+            "penalty": 7,
             "shot_on_target":6,
             "shot_off_target": 6,
-            "goal":9,
-            "tikitaka":4
+            "goal":8,
+            "tikitaka":4,
+            "offside":8
         }
         if "type" in self.__input:
             self.__priority = priority_mapping[self.__input['type']]

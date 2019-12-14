@@ -67,27 +67,39 @@ class Elementary:
         elif self.__type == 'penalty':
             action_info.append(random.choice(["this is a penalty for the referee, the game has been stopped",
                                               "the referee whistles and has something to say to the player",
-                                              "whistled a foul, there will be a penalty"
+                                              "whistled a foul, there will be a penalty",
+                                              "the referee disagrees with the intervention of the player, it is a foul"
                                               ]))
         # express SHOT ON TARGET
+
         elif self.__type == "shot_on_target":
             action_info.append(random.choice(["kicks the ball towards the soccer goal",
                                               "tries to surprise the goalkeeper with a shot on target",
                                               "uses the moment to kick the ball towards the goal"
                                               ]))
         # express SHOT OFF TARGET
+
         elif self.__type == "shot_off_target":
             action_info.append(random.choice(["tries to kick the ball in the goal, but the ball is out, maybe he should adjust the aim",
                                           "makes an unsuccessful attempt to score but the ball goes out",
                                           "tries to hit the door but maybe he was trying to hit some of the fans"
                                           ]))
         # express SHOT OFF TARGET
+
         elif self.__type == "goal":
             action_info.append(random.choice(["makes a goooooooooal, gooooal", "concludes with a goal to the delight of the fans"
                                          ]))
+        # express TIKITAKA
+
         elif self.__type == "tikitaka":
             action_info.append(random.choice(["is doing tikitaka", "is implementing the so-called melina",
                                               "continues to circulate the ball without exposing itself"]))
+        # express OFFSIDE
+
+        elif self.__type == "offside":
+            action_info.append(random.choice(["the match assistants see some irregularities in the position, offside",
+                                          "the referee whistles a game, let's see if he will need to consult the VAR",
+                                              "the referee disagrees with the player's position"]))
 
         return action_info+time_info
 
