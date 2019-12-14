@@ -45,12 +45,15 @@ class Picker:
 
         # hybrid comment
         if template_type == "Hybrid comment":
-            (success, comment) = self.__hybrid_comment()
-            if success:
-                comment = " ".join(str(word) for word in comment)
-                return comment, {}, 2
-            else:
-                template_type = "Pure comment"
+            """
+                (success, comment) = self.__hybrid_comment()
+                if success:
+                    comment = " ".join(str(word) for word in comment)
+                    return comment, {}, 2
+                else:
+                    template_type = "Pure comment"
+            """
+            return "", {}, 1
 
         # pure comment
         if template_type == "Pure comment":
