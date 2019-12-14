@@ -2,7 +2,7 @@ from game_model.interpreter.rule_matcher import rule_matcher
 from game_model.game_model import U
 from collections import deque
 
-action = 'True'
+action = ['True']
 constraints = 'True'
 
 registers = {}
