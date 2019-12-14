@@ -21,10 +21,22 @@ penalty[stdin] = @0 as ? : is_penalty(@0) then push('int_stdout', {'type': 'pena
 penalty[int_stdout] = @0 as PENALTY : True then push('stdout',
     {'type': 'penalty', 'time': @0.timem, 'team': @0.team})
 
+// @rule(pressed)
+// @description(Describes whether the ball owner is under pressure)
+// @action(push)
+// @returns({'type': 'player_pressed'})
 pressed[stdin] = @0 as ? : is_pressed(@0) then push_pressed('stdout', @0, True)
 
+// @rule(not_pressed)
+// @description(Blah)
+// @action(push)
+// @returns({'type':'possession', 'time': <time>, 'player': {'id': <id>, 'team': <team> }, 'position': <position>, 'until': <time>})
 not_pressed[stdin] = @0 as ? : not is_pressed(@0) then push_pressed('stdout', @0, False)
 
+// @rule(possession)
+// @description(Represents the possession)
+// @action(push, consume)
+// @returns({'type':'possession', 'time': <time>, 'player': {'id': <id>, 'team': <team> }, 'position': <position>, 'until': <time>})
 possession[positions] = @0 as BALL -> .{0,0} -> @1 as CLOSEST :
     @1.time == @0.time and distance(@0.position, @1.position) < 0.5  and @1.team.value != -1 then
     push('elementary', {'type':'possession', 'time': trunc(@0.time), 'player': {'id': @1.id,

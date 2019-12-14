@@ -115,7 +115,7 @@ class GameModel:
         return rule_str
 
     def _get_rules_strings(self, filename):
-        """Parse the rules file and build an array or rules strings
+        """Parse the rules file and build an array of rules strings
         - filename: file name of the rules"""
         rules = []
         with open(filename, 'r') as f:
@@ -123,16 +123,17 @@ class GameModel:
             end = False
             while not end:
                 next_line = f.readline()
+                if next_line.startswith("//"):
+                    continue
+
                 if not next_line:
                     if len(prev_rule) > 0:
-                        rule_pythonized = self._pythonize_rule(
-                            prev_rule.rstrip())
+                        rule_pythonized = self._pythonize_rule(prev_rule.rstrip())
                         rules.append(rule_pythonized)
                     end = True
                 else:
                     if not re.match(r'\s', next_line) and len(prev_rule) > 0:
-                        rule_pythonized = self._pythonize_rule(
-                            prev_rule.rstrip())
+                        rule_pythonized = self._pythonize_rule(prev_rule.rstrip())
                         rules.append(rule_pythonized)
                         prev_rule = next_line.strip()
                     else:
