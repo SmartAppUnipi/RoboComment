@@ -153,9 +153,9 @@ wsServer.on('request', function(request) {
                 console.log("Web socket connection closed of the user: " + connections[i].id);
                 if (connections[i].user_page === "video.html"){
                     console.log("Sending DELETE to the comment group for the user id: " + connections[i].id);
-                    CommentaryApp.delete(CommentAppIP+"/"+ connections[i].id.toString())
-                        .then((result) => {})
-                        .catch((err) => {})
+                    // CommentaryApp.delete(CommentAppIP+"/"+ connections[i].id.toString())
+                    //     .then((result) => {})
+                    //     .catch((err) => {})
                 }
                 connections.splice(connections[i]);
             }
