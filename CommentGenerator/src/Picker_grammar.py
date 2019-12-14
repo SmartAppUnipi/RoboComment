@@ -134,13 +134,21 @@ class Picker:
 
 if __name__ == '__main__':
     test1 = {
-        "type": "penalty",
-        "match_id": 42,
-        "clip_uri": "http://clip.of.the.match/juve/napoli",
-        "user_id": 10,
-        "time": 10,
-        "start_time": 10,
-        "end_time": 20
+
+    "type": "shot_on_target",
+    "match_id" : 42,
+    "clip_uri" : "http://clip.of.the.match/juve/napoli",
+    "user_id": 10,
+    "time": 10,
+    "start_time": 12,
+    "end_time" : 22,
+    "player_active": {
+      "id": {
+        "value": 42,
+        "confidence": 0.5
+      },
+      "team": {"value" : 42}
+    }
 }
     picker = Picker()
     comment, placeholders, priority = picker.pick_comment(test1, "Pure comment")

@@ -69,6 +69,12 @@ class Elementary:
                                               "the referee whistles and has something to say to the player",
                                               "whistled a foul, there will be a penalty"
                                               ]))
+        # express SHOT ON TARGET
+        elif self.__type == "shot_on_target":
+            action_info.append(random.choice(["kicks the ball towards the soccer goal",
+                                              "tries to surprise the goalkeeper with a shot on target",
+                                              "uses the moment to kick the ball towards the goal"
+                                              ]))
 
         return action_info+time_info
 
