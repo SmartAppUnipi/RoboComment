@@ -17,7 +17,7 @@ def is_an_action(event):
         given a json object from the symbolic group returns True if is an object describing 
         the action on the field, returns False otherwise (if it is a position)
     '''
-    return "start_time" in event.keys() and "end_time" in event.keys()
+    return event['type'] != "positions"
 
 class CommentatorPool:
 

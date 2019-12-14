@@ -49,6 +49,7 @@ def events():
         commentator_pool.cache(match_id, clip_uri, event)
         commentator_pool.push_symbolic_event_to_match(match_id, clip_uri , event) 
     else:
+        print("BAD REQUEST from symbolic")
         response = ("BAD REQUEST",400)
 
     return response
