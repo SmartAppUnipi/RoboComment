@@ -75,6 +75,12 @@ class Elementary:
                                               "tries to surprise the goalkeeper with a shot on target",
                                               "uses the moment to kick the ball towards the goal"
                                               ]))
+        # express SHOT OFF TARGET
+        elif self.__type == "shot_off_target":
+            action_info.append(random.choice(["tries to kick the ball in the goal, but the ball is out, maybe he should adjust the aim",
+                                          "makes an unsuccessful attempt to score but the ball goes out",
+                                          "tries to hit the door but maybe he was trying to hit some of the fans"
+                                          ]))
 
         return action_info+time_info
 

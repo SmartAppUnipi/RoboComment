@@ -17,7 +17,8 @@ class Extractor:
             "intercept": ['Player_active', 'Elementary', 'Player_passive'],
             "pass": ['Player_active', 'Elementary', 'Player_passive'],
             "penalty": ["Elementary"],
-            "shot_on_target": ['Player_active','Elementary']
+            "shot_on_target": ['Player_active','Elementary'],
+            "shot_off_target": ['Player_active', 'Elementary']
         }
         # randomly select one of this info to produce a comment based on this
         self.__possible_category_hybrid = ["player", 'team']
@@ -40,7 +41,9 @@ class Extractor:
             "intercept": 5,
             "pass": 4,
             "penalty": 9,
-            "shot_on_target":6
+            "shot_on_target":6,
+            "shot_off_target": 6,
+
         }
         if "type" in self.__input:
             self.__priority = priority_mapping[self.__input['type']]
