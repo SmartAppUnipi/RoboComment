@@ -135,7 +135,7 @@ class Picker:
 if __name__ == '__main__':
     test1 = {
 
-    "type": "shot_off_target",
+    "type": "goal",
     "match_id" : 42,
     "clip_uri" : "http://clip.of.the.match/juve/napoli",
     "user_id": 10,
