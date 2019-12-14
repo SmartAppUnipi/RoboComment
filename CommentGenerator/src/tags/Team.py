@@ -31,9 +31,9 @@ class Team:
         team_info = []
 
         if self.__value != None:
-            team_info.append(random.choice["[team1}"])
+            team_info.append(random.choice(["now it is several minutes that {team1}", "{team1}"]))
 
         return team_info
 
     def print_info(self):
-        print("Team info:", self.__value)
+        print("Team info:", self.__value, self.__start_time, self.__end_time)

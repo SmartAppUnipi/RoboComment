@@ -199,7 +199,12 @@ class Extractor:
             if plh == "player2":
                 pairs[plh] = self.get_player_info('passive')[1]
             if plh == "team1":
-                pairs[plh] = self.get_player_info('active')[3]
+                # or it is inside the player
+                if self.get_player_info('active')[3] != None:
+                    pairs[plh] = self.get_player_info('active')[3]
+                # or it is outside in the team tag
+                else:
+                    pairs[plh] = self.get_team_info()[0]
             if plh == "team2":
                 pairs[plh] = self.get_player_info('passive')[3]
 

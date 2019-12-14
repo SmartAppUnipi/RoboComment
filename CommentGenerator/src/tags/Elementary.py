@@ -85,6 +85,9 @@ class Elementary:
         elif self.__type == "goal":
             action_info.append(random.choice(["makes a goooooooooal, gooooal", "concludes with a goal to the delight of the fans"
                                          ]))
+        elif self.__type == "tikitaka":
+            action_info.append(random.choice(["is doing tikitaka", "is implementing the so-called melina",
+                                              "continues to circulate the ball without exposing itself"]))
 
         return action_info+time_info
 
