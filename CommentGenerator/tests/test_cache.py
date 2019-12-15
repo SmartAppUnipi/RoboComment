@@ -9,10 +9,6 @@ import shutil
 class TestSymbolicEventsCache(unittest.TestCase):
     def setUp(self):
         self.cache = SymbolicEventsCache()
-    
-    def symolic_json_path(self, matchid, clipid, start_time, end_time):
-        clipid = hash(clipid)
-        return self.cache.cache_path + "/" +  str(matchid) + "/" + str(clipid) + "/" + str(start_time) + "_" + str(end_time) + ".json"
 
     def tearDown(self):
         shutil.rmtree(self.cache.cache_path)

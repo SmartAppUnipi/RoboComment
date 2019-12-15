@@ -151,7 +151,7 @@ class CommentatorPool:
         
 class SymbolicEventsCache():
     def __init__(self):
-        self.cache_path = "./CommentGenerator/.match_cache"
+        self.cache_path = "CommentGenerator/.match_cache"
         self._check_and_mkdir(self.cache_path)
     
 
