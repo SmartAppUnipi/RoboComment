@@ -74,6 +74,22 @@ def distance(a, b):
     distance = math.sqrt(((ax - bx)**2)+((ay - by)**2))
     return distance
 
+def _multiple_closest(pos, num):
+    ball_x = float(pos['ball'][0]['position']['x'])
+    ball_y = float(pos['ball'][0]['position']['y'])
+
+    for player in pos['players']:
+        # check that player is not the referee
+        if player['team'] != -1:
+            x = float(player['position']['x'])
+            y = float(player['position']['y'])
+            distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
+            player['delta'] = distance
+
+
+    players = sorted(pos['players'], key=lambda x: x['delta'])
+    return players[:num]
+
 def _closest(pos):
     ball_x = float(pos['ball'][0]['position']['x'])
     ball_y = float(pos['ball'][0]['position']['y'])
@@ -297,18 +313,23 @@ def compute_bari_diam(stack_name, pos):
     }
     push(stack_name, to_push)
 
-def checkTackle(stack_name, pos):
-    pass
-'''    ball_x = float(pos['ball'][0]['position']['x'])
-    ball_y = float(pos['ball'][0]['position']['y'])
+def checkTackle(pos):
+    players = _multiple_closest(pos, 2)
 
-    for player in pos['players']:
-        # check that player is not the referee
-        if player['team'] != -1:
-            x = float(player['position']['x'])
-            y = float(player['position']['y'])
-            distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
-            player['delta'] = distance
+    threshold = 0.5
+    return players[0]['team'] != players[1]['team'] and distance(players[0]['position'], players[1]['position'] <= threshold)
 
-    newlist = sorted(pos['players'], key=lambda x: x['delta'])
-'''
+def pushTackle(stacks, pos):
+    players = _multiple_closest(pos, 2)
+
+    to_push = {
+        'type': 'duel',
+        'time': trunc(pos['time']),
+        'defender': players[0],
+        'def_team': players[0]['team'],
+        'attacker': players[1],
+        'att_team': players[1]['team'],
+        'position': players[1]['position']
+    }
+    for stack in stacks:
+        push(stack, to_push)

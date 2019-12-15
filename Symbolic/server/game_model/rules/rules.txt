@@ -101,4 +101,4 @@ goal_revoked_offside[elementary] = @0 as GOAL -> {0,10} -> @1 as OFFSIDE : True
     then push(['elementary', 'stdout'], {'type': 'revoked_goal', 'reason': 'offside', 'start_time':
     @0.time, 'end_time': @1.time, 'time': @0.time}); consume('elementary', @0)
 
-tackle[stdin] = @0 as ? : checkTackle('stdin', @0) then True    #Incomplete
+duel[stdin] = @0 as ? : checkTackle(@0) then push_tackle(['elementary', 'int_stdout], @0)
