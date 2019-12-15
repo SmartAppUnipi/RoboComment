@@ -18,14 +18,7 @@ class TestSymbolicEventsCache(unittest.TestCase):
         shutil.rmtree(self.cache.cache_path)
         return
 
-    def test_get_clip_path(self):
-        match_id = 42
-        clip_uri = "http://match.clip/juve/inter"
-
-        assert self.cache._get_clip_path(match_id, clip_uri) == self.cache._get_clip_path(match_id, clip_uri)
-
-
-    def test_cache_event1(self):
+    def test_in_cache(self):
         match_id = 42
         clip_uri = "http://match.clip/juve/inter"
 
@@ -38,7 +31,7 @@ class TestSymbolicEventsCache(unittest.TestCase):
         assert in_cache == True
     
 
-    def test_get_events1(self):
+    def test_get_action1(self):
         match_id = 42
         clip_uri = "http://match.clip/juve/inter"
 
@@ -46,11 +39,24 @@ class TestSymbolicEventsCache(unittest.TestCase):
         self.cache.cache_event(match_id,clip_uri, { "start_time" : 1, "end_time" : 5})
         self.cache.cache_event(match_id,clip_uri, { "start_time" : 2, "end_time" : 5})
 
-        events = self.cache.get_events(match_id,clip_uri)
+        events = [e for e in self.cache.get_next_action(match_id,clip_uri)]
 
         assert events[0]['start_time'] == 1 and events[0]['end_time'] == 4
         assert events[1]['start_time'] == 1 and events[1]['end_time'] == 5
         assert events[2]['start_time'] == 2 and events[2]['end_time'] == 5
+    
+    def test_cache_position1(self):
+        match_id = 42
+        clip_uri = "http://match.clip/juve/inter"
+
+        self.cache.cache_event(match_id,clip_uri, { "positionX" : 1, "positionY" : 4})
+        self.cache.cache_event(match_id,clip_uri, { "positionX" : 2, "positionY" : 3})
+        self.cache.cache_event(match_id,clip_uri, { "positionX" : 5, "positionY" : 1})
+
+        position_path = self.cache.get_clip_path(match_id,clip_uri) + "/" + "positions"
+        assert os.path.exists(position_path + "/position1.json")
+        assert os.path.exists(position_path + "/position2.json")
+        assert os.path.exists(position_path + "/position3.json")
         
 
 

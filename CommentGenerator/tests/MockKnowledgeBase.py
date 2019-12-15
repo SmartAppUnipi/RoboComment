@@ -13,5 +13,8 @@ class MockKB():
     def get_user_team(self,user_id):
         return 42
 
-    def get_user_player(self,user_it):
+    def get_user_player(self,user_id):
         return 7
+    
+    def get_user_language(self,user_id):
+        return 'en'
