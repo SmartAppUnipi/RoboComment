@@ -52,6 +52,16 @@ export class Query {
     PREFIX info: <http://somewhere/peopleInfo#>
     PREFIX vcard: <http://www.w3.org/2001/vcard-rdf/3.0#>
     PREFIX : <http://www.semanticweb.org/dvara/ontologies/RoboComment#>`
+	/*
+	public static readonly get_news = (id: number) => `
+    ${Query.header}
+    SELECT ?text
+    WHERE {
+        ?News rdf:type :News.
+	?News :textNews ?text.
+    }
+    `
+	*/
 
     public static readonly get_club = (id: number) => `
     ${Query.header}
@@ -85,6 +95,7 @@ export class Query {
         OPTIONAL {
             ?wyid :wasBornOn ?date_of_birth
         }
+		
     }
     `
 
@@ -117,7 +128,7 @@ WHERE{
 }`
     public static readonly get_players = (match_id: number) => `
 ${Query.header}
-SELECT (?wyid as ?id) ?name ?club ?role ?number
+SELECT (?wyid as ?id) ?name ?club ?role ?number ?matchPlayed ?goals ?yellowCards ?redCards
 WHERE
 { :${match_id}  :hasPlayedAsFirstTeam  ?team1 .
 ?team1    :isPersona            ?Persons .
@@ -129,6 +140,14 @@ WHERE
 ?team1    :role                 ?role
 OPTIONAL
 { ?team1  :playerNumber  ?number }
+OPTIONAL
+{ ?team1  :goalScored  ?goals }
+OPTIONAL
+{ ?team1  :matchPlayed  ?matchPlayed }
+OPTIONAL
+{ ?team1  :yellowCards  ?yellowCards }
+OPTIONAL
+{ ?team1  :redCards  ?redCards }
 }
 ORDER BY ?teamName ?role
     `

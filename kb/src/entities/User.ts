@@ -6,4 +6,7 @@ export interface User {
     email: string
     password: string
     favourite_team: string
+	favurite_player: string
+	voice: string
+	language: string
 }

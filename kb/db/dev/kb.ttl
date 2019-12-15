@@ -394,8 +394,7 @@
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#textNews
 :textNews rdf:type owl:DatatypeProperty ;
-          rdfs:domain :News ;
-          rdfs:range xsd:string .
+          rdfs:domain :News .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#time
@@ -807,8 +806,12 @@
                                                                                   :PlayerCareerStation ;
                                                                          :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                          :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111113> ;
+                                                                         :gamesPlayed 8 ;
+                                                                         :goalsScored 2 ;
                                                                          :playerNumber "10" ;
-                                                                         :role "Forward" .
+                                                                         :redCards 0 ;
+                                                                         :role "Forward" ;
+                                                                         :yellowCards 3 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111114
@@ -823,8 +826,12 @@
                                                                                   :PlayerCareerStation ;
                                                                          :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                          :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111114> ;
+                                                                         :gamesPlayed 9 ;
+                                                                         :goalsScored 8 ;
                                                                          :playerNumber "9" ;
-                                                                         :role "Forward" .
+                                                                         :redCards 0 ;
+                                                                         :role "Forward" ;
+                                                                         :yellowCards 1 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#11156
@@ -1534,7 +1541,8 @@
                                                                         :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                         :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#138408> ;
                                                                         :playerNumber "'37'" ;
-                                                                        :role "Defender" .
+                                                                        :role "Defender" ;
+                                                                        :yellowCards 1 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#13869
@@ -2577,8 +2585,12 @@
                                                                                 :PlayerCareerStation ;
                                                                        :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#20459> ;
+                                                                       :gamesPlayed 10 ;
+                                                                       :goalsScored 1 ;
                                                                        :playerNumber "19" ;
-                                                                       :role "Defender" .
+                                                                       :redCards 2 ;
+                                                                       :role "Defender" ;
+                                                                       :yellowCards 5 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#20460
@@ -9469,6 +9481,7 @@
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> rdf:type owl:NamedIndividual ,
                                                                         :Club ;
                                                                :city "Torino" ;
+                                                               :colors "white-black" ;
                                                                :country "Italy" ;
                                                                :hasName "Juventus FC" ;
                                                                :teamType "club" ;
@@ -9489,10 +9502,19 @@
                                                                       :teamOf <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> .
 
 
+###  http://www.semanticweb.org/dvara/ontologies/RoboComment#315900002
+<http://www.semanticweb.org/dvara/ontologies/RoboComment#315900002> rdf:type owl:NamedIndividual ,
+                                                                             :News ;
+                                                                    :about <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> ;
+                                                                    :date "2018-09-01 00:00:00" ;
+                                                                    :textNews "In July 2018, Juventus broke the record for a fee paid for a player over 30 years old and the record for a fee paid by an Italian club by purchasing the 33 year old Cristiano Ronaldo from Real Madrid for €112 million, or £99.2 million." .
+
+
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#3161
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> rdf:type owl:NamedIndividual ,
                                                                         :Club ;
                                                                :city "Milano" ;
+                                                               :colors "black-blue" ;
                                                                :country "Italy" ;
                                                                :hasName "FC Internazionale Milano" ;
                                                                :teamType "club" ;
@@ -9511,6 +9533,21 @@
                                                                                :Team ;
                                                                       :inSeason <http://www.semanticweb.org/dvara/ontologies/RoboComment#1920SA> ;
                                                                       :teamOf <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> .
+
+
+###  http://www.semanticweb.org/dvara/ontologies/RoboComment#316100001
+<http://www.semanticweb.org/dvara/ontologies/RoboComment#316100001> rdf:type owl:NamedIndividual ,
+                                                                             :News ;
+                                                                    :about <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> ;
+                                                                    :date "2019-09-01 00:00:00" ;
+                                                                    :textNews "In Summer 2019, Lukaku was choosen as new forward between several differents players, like Cavani and Dybala" .
+
+
+###  http://www.semanticweb.org/dvara/ontologies/RoboComment#316100002
+<http://www.semanticweb.org/dvara/ontologies/RoboComment#316100002> rdf:type owl:NamedIndividual ;
+                                                                    :about <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> ;
+                                                                    :date "1908-01-01 00:00:00" ;
+                                                                    :textNews "The club was founded in 1908, following a breakaway from its parent club AC Milan. It is commonly believed that the dispute was about Milan focusing exclusively on Italian players. As per the wishes of its founders, the new club was named Internazionale, thus signaling it was open to players of all nationalities." .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#3162
@@ -9917,8 +9954,12 @@
                                                                                :PlayerCareerStation ;
                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                       :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#3322> ;
+                                                                      :gamesPlayed 12 ;
+                                                                      :goalsScored 5 ;
                                                                       :playerNumber "7" ;
-                                                                      :role "Forward" .
+                                                                      :redCards 0 ;
+                                                                      :role "Forward" ;
+                                                                      :yellowCards 1 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#3323
@@ -13363,4 +13404,4 @@
                                                                        :role "Midfielder" .
 
 
-###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
+###  Generated by the OWL API (version 4.5.6.2018-09-06T00:27:41Z) https://github.com/owlcs/owlapi

@@ -1,5 +1,6 @@
 export * from './User'
 export * from './Club'
+export * from './News'
 export * from './Cup'
 export * from './Match'
 export * from './Persona'
