@@ -117,19 +117,30 @@ export class Query {
         ?League :hasName ?name.
     }`
 
-    public static readonly get_players = (match_id: number) => `
-    ${Query.header}
-    SELECT  (?wyid AS ?id) ?name ?club ?role
-    WHERE
-    { :${match_id}  :hasPlayedAsFirstTeam   ?team1 .
-        ?team1      :isPersona              ?Persons .
-        ?Persons    :wyid                   ?wyid .
-        ?Persons    :hasName                ?name .
-        ?team1      :isMember               ?Member .
-        ?Member     :teamOf                 ?club .
-        ?team1      :role                   ?role
-    }
-    ORDER BY ?teamName ?role
+       public static readonly get_players = (match_id: number) => `
+${Query.header}
+SELECT (?wyid as ?id) ?name ?club ?role ?number ?matchPlayed ?goals ?yellowCards ?redCards
+WHERE
+{ :${match_id}  :hasPlayedAsFirstTeam  ?team1 .
+?team1    :isPersona            ?Persons .
+?Persons    :wyid                   ?wyid .
+?Persons  :hasName              ?name .
+?team1    :isMember             ?Member .
+?Member   :teamOf               ?club .
+?club  :hasName           ?teamName .
+?team1    :role                 ?role
+OPTIONAL
+{ ?team1  :playerNumber  ?number }
+OPTIONAL
+{ ?team1  :goalScored  ?goals }
+OPTIONAL
+{ ?team1  :matchPlayed  ?matchPlayed }
+OPTIONAL
+{ ?team1  :yellowCards  ?yellowCards }
+OPTIONAL
+{ ?team1  :redCards  ?redCards }
+}
+ORDER BY ?teamName ?role
     `
 }
 

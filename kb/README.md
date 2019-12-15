@@ -76,113 +76,201 @@ __Successful Response__:
 		"id": "130",
 		"name": "S. de Vrij",
 		"club": 3162,
-		"role": "Defender"
+		"role": "Defender",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "20550",
 		"name": "",
 		"club": 3162,
-		"role": "Defender"
+		"role": "Defender",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "376362",
 		"name": "Luiz Felipe",
 		"club": 3162,
-		"role": "Defender"
+		"role": "Defender",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "21384",
 		"name": "C. Immobile",
 		"club": 3162,
-		"role": "Forward"
+		"role": "Forward",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "166534",
 		"name": "T. Strakosha",
 		"club": 3162,
-		"role": "Goalkeeper"
+		"role": "Goalkeeper",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "20561",
 		"name": "S. Luli",
 		"club": 3162,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "228928",
 		"name": "A. Maru",
 		"club": 3162,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "265865",
 		"name": "S. Milinkovi",
 		"club": 3162,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "7965",
 		"name": "Lucas Leiva",
 		"club": 3162,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "346908",
 		"name": "A. Murgia",
 		"club": 3162,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "40806",
 		"name": "Felipe Anderson",
 		"club": 3162,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}],
 	"away_team": [{
 		"id": "21094",
 		"name": "D. D'Ambrosio",
 		"club": 3161,
-		"role": "Defender"
+		"role": "Defender",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "135903",
 		"name": "Jo",
 		"club": 3161,
-		"role": "Defender"
+		"role": "Defender",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "138408",
 		"name": "M. ",
 		"club": 3161,
-		"role": "Defender"
+		"role": "Defender",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "3431",
 		"name": "Jo",
 		"club": 3161,
-		"role": "Defender"
+		"role": "Defender",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "206314",
 		"name": "M. Icardi",
 		"club": 3161,
-		"role": "Forward"
+		"role": "Forward",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "20571",
 		"name": "S. Handanovi",
 		"club": 3161,
-		"role": "Goalkeeper"
+		"role": "Goalkeeper",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "116349",
 		"name": "M. Vecino",
 		"club": 3161,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "14812",
 		"name": "I. Peri",
 		"club": 3161,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "20556",
 		"name": "A. Candreva",
 		"club": 3161,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "69968",
 		"name": "M. Brozovi",
 		"club": 3161,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}, {
 		"id": "3344",
 		"name": "Rafinha",
 		"club": 3161,
-		"role": "Midfielder"
+		"role": "Midfielder",
+		"matchPlayed": "null",
+		"goals": "null",
+		"yellowCards": "null",
+		"redCards": "null"
 	}]
 }
 ```

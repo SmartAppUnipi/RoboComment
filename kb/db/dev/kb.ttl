@@ -353,6 +353,10 @@
 :physical rdf:type owl:DatatypeProperty .
 
 
+###  http://www.semanticweb.org/dvara/ontologies/RoboComment#playerNumber
+:playerNumber rdf:type owl:DatatypeProperty .
+
+
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#redCards
 :redCards rdf:type owl:DatatypeProperty ;
           rdfs:subPropertyOf :seasonStats ;
@@ -390,8 +394,7 @@
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#textNews
 :textNews rdf:type owl:DatatypeProperty ;
-          rdfs:domain :News ;
-          rdfs:range xsd:string .
+          rdfs:domain :News .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#time
@@ -762,7 +765,8 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111111
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111111> rdf:type owl:NamedIndividual ,
                                                                            :Persona ;
-                                                                  :hasName "De Ligt" .
+                                                                  :hasName "De Ligt" ;
+                                                                  :wyid 1111111 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111111_1920SA
@@ -770,13 +774,15 @@
                                                                                   :PlayerCareerStation ;
                                                                          :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                          :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111111> ;
+                                                                         :playerNumber "4" ;
                                                                          :role "Defender" .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111112
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111112> rdf:type owl:NamedIndividual ,
                                                                            :Persona ;
-                                                                  :hasName "Godin" .
+                                                                  :hasName "Godin" ;
+                                                                  :wyid 1111112 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111112_1920SA
@@ -784,13 +790,15 @@
                                                                                   :PlayerCareerStation ;
                                                                          :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                          :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111112> ;
+                                                                         :playerNumber "2" ;
                                                                          :role "Defender" .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111113
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111113> rdf:type owl:NamedIndividual ,
                                                                            :Persona ;
-                                                                  :hasName "Lautaro Martinez" .
+                                                                  :hasName "Lautaro Martinez" ;
+                                                                  :wyid 1111113 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111113_1920SA
@@ -798,13 +806,19 @@
                                                                                   :PlayerCareerStation ;
                                                                          :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                          :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111113> ;
-                                                                         :hasName "Forward" .
+                                                                         :gamesPlayed 8 ;
+                                                                         :goalsScored 2 ;
+                                                                         :playerNumber "10" ;
+                                                                         :redCards 0 ;
+                                                                         :role "Forward" ;
+                                                                         :yellowCards 3 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111114
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111114> rdf:type owl:NamedIndividual ,
                                                                            :Persona ;
-                                                                  :hasName "Lukaku" .
+                                                                  :hasName "Lukaku" ;
+                                                                  :wyid 1111114 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#1111114_1920SA
@@ -812,7 +826,12 @@
                                                                                   :PlayerCareerStation ;
                                                                          :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                          :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#1111114> ;
-                                                                         :hasName "Forward" .
+                                                                         :gamesPlayed 9 ;
+                                                                         :goalsScored 8 ;
+                                                                         :playerNumber "9" ;
+                                                                         :redCards 0 ;
+                                                                         :role "Forward" ;
+                                                                         :yellowCards 1 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#11156
@@ -1075,13 +1094,13 @@
                                                                                           <http://www.semanticweb.org/dvara/ontologies/RoboComment#246061_1920SA> ,
                                                                                           <http://www.semanticweb.org/dvara/ontologies/RoboComment#246063_1920SA> ,
                                                                                           <http://www.semanticweb.org/dvara/ontologies/RoboComment#25437_1920SA> ,
-                                                                                          <http://www.semanticweb.org/dvara/ontologies/RoboComment#286623_1920SA> ,
-                                                                                          <http://www.semanticweb.org/dvara/ontologies/RoboComment#322_1920SA> ,
+                                                                                          <http://www.semanticweb.org/dvara/ontologies/RoboComment#286223_1920SA> ,
                                                                                           <http://www.semanticweb.org/dvara/ontologies/RoboComment#3318_1920SA> ,
+                                                                                          <http://www.semanticweb.org/dvara/ontologies/RoboComment#3322_1920SA> ,
                                                                                           <http://www.semanticweb.org/dvara/ontologies/RoboComment#69968_1920SA> ,
                                                                                           <http://www.semanticweb.org/dvara/ontologies/RoboComment#70084_1920SA> ,
                                                                                           <http://www.semanticweb.org/dvara/ontologies/RoboComment#7849_1920SA> ,
-                                                                                          <http://www.semanticweb.org/dvara/ontologies/RoboComment#89196_1920SA> ;
+                                                                                          <http://www.semanticweb.org/dvara/ontologies/RoboComment#89186_1920SA> ;
                                                                     :homeTeam <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                     :inSeason <http://www.semanticweb.org/dvara/ontologies/RoboComment#1920SA> ;
                                                                     :awayTeamScore "2" ;
@@ -1185,6 +1204,7 @@
                                                                               :PlayerCareerStation ;
                                                                      :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                      :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#130> ;
+                                                                     :playerNumber "6" ;
                                                                      :role "Defender" .
 
 
@@ -1499,7 +1519,7 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#138408
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#138408> rdf:type owl:NamedIndividual ,
                                                                           :Persona ;
-                                                                 :hasName "M. " ;
+                                                                 :hasName "M. Skriniar" ;
                                                                  :height "188" ;
                                                                  :wasBornIn "Slovakia" ;
                                                                  :wasBornOn "1995-02-11" ;
@@ -1520,7 +1540,9 @@
                                                                                  :PlayerCareerStation ;
                                                                         :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                         :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#138408> ;
-                                                                        :role "Defender" .
+                                                                        :playerNumber "'37'" ;
+                                                                        :role "Defender" ;
+                                                                        :yellowCards 1 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#13869
@@ -2419,7 +2441,7 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#20443
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#20443> rdf:type owl:NamedIndividual ,
                                                                          :Persona ;
-                                                                :hasName "M. Pjani" ;
+                                                                :hasName "M. Pjanic" ;
                                                                 :height "180" ;
                                                                 :wasBornIn "Luxembourg" ;
                                                                 :wasBornOn "1990-04-02" ;
@@ -2440,6 +2462,7 @@
                                                                                 :PlayerCareerStation ;
                                                                        :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#20443> ;
+                                                                       :playerNumber "5" ;
                                                                        :role "Midfielder" .
 
 
@@ -2560,9 +2583,14 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#20459_1920SA
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#20459_1920SA> rdf:type owl:NamedIndividual ,
                                                                                 :PlayerCareerStation ;
-                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> ;
+                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#20459> ;
-                                                                       :role "Defender" .
+                                                                       :gamesPlayed 10 ;
+                                                                       :goalsScored 1 ;
+                                                                       :playerNumber "19" ;
+                                                                       :redCards 2 ;
+                                                                       :role "Defender" ;
+                                                                       :yellowCards 5 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#20460
@@ -3011,7 +3039,7 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#20571
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#20571> rdf:type owl:NamedIndividual ,
                                                                          :Persona ;
-                                                                :hasName "S. Handanovi" ;
+                                                                :hasName "S. Handanovic" ;
                                                                 :height "193" ;
                                                                 :wasBornIn "Slovenia" ;
                                                                 :wasBornOn "1984-07-14" ;
@@ -3030,8 +3058,9 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#20571_1920SA
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#20571_1920SA> rdf:type owl:NamedIndividual ,
                                                                                 :PlayerCareerStation ;
-                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> ;
+                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#20571> ;
+                                                                       :playerNumber "1" ;
                                                                        :role "Goalkeeper" .
 
 
@@ -3135,6 +3164,7 @@
                                                                                 :PlayerCareerStation ;
                                                                        :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#20588> ;
+                                                                       :playerNumber "18" ;
                                                                        :role "Midfielder" .
 
 
@@ -3542,6 +3572,7 @@
                                                                                 :PlayerCareerStation ;
                                                                        :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#20751> ;
+                                                                       :playerNumber "16" ;
                                                                        :role "Midfielder" .
 
 
@@ -4369,8 +4400,9 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#21094_1920SA
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#21094_1920SA> rdf:type owl:NamedIndividual ,
                                                                                 :PlayerCareerStation ;
-                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> ;
+                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#21094> ;
+                                                                       :playerNumber "33" ;
                                                                        :role "Defender" .
 
 
@@ -6589,6 +6621,7 @@
                                                                                  :PlayerCareerStation ;
                                                                         :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                         :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#246061> ;
+                                                                        :playerNumber "33" ;
                                                                         :role "Midfielder" .
 
 
@@ -6616,6 +6649,7 @@
                                                                                  :PlayerCareerStation ;
                                                                         :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                         :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#246063> ;
+                                                                        :playerNumber "12" ;
                                                                         :role "Midfielder" .
 
 
@@ -6886,8 +6920,9 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#25437_1920SA
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#25437_1920SA> rdf:type owl:NamedIndividual ,
                                                                                 :PlayerCareerStation ;
-                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> ;
+                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#25437> ;
+                                                                       :playerNumber "14" ;
                                                                        :role "Midfielder" .
 
 
@@ -9020,8 +9055,9 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#286223_1920SA
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#286223_1920SA> rdf:type owl:NamedIndividual ,
                                                                                  :PlayerCareerStation ;
-                                                                        :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> ;
+                                                                        :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                         :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#286223> ;
+                                                                        :playerNumber "23" ;
                                                                         :role "Midfielder" .
 
 
@@ -9445,6 +9481,7 @@
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> rdf:type owl:NamedIndividual ,
                                                                         :Club ;
                                                                :city "Torino" ;
+                                                               :colors "white-black" ;
                                                                :country "Italy" ;
                                                                :hasName "Juventus FC" ;
                                                                :teamType "club" ;
@@ -9465,10 +9502,19 @@
                                                                       :teamOf <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> .
 
 
+###  http://www.semanticweb.org/dvara/ontologies/RoboComment#315900002
+<http://www.semanticweb.org/dvara/ontologies/RoboComment#315900002> rdf:type owl:NamedIndividual ,
+                                                                             :News ;
+                                                                    :about <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> ;
+                                                                    :date "2018-09-01 00:00:00" ;
+                                                                    :textNews "In July 2018, Juventus broke the record for a fee paid for a player over 30 years old and the record for a fee paid by an Italian club by purchasing the 33 year old Cristiano Ronaldo from Real Madrid for €112 million, or £99.2 million." .
+
+
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#3161
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> rdf:type owl:NamedIndividual ,
                                                                         :Club ;
                                                                :city "Milano" ;
+                                                               :colors "black-blue" ;
                                                                :country "Italy" ;
                                                                :hasName "FC Internazionale Milano" ;
                                                                :teamType "club" ;
@@ -9487,6 +9533,21 @@
                                                                                :Team ;
                                                                       :inSeason <http://www.semanticweb.org/dvara/ontologies/RoboComment#1920SA> ;
                                                                       :teamOf <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> .
+
+
+###  http://www.semanticweb.org/dvara/ontologies/RoboComment#316100001
+<http://www.semanticweb.org/dvara/ontologies/RoboComment#316100001> rdf:type owl:NamedIndividual ,
+                                                                             :News ;
+                                                                    :about <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> ;
+                                                                    :date "2019-09-01 00:00:00" ;
+                                                                    :textNews "In Summer 2019, Lukaku was choosen as new forward between several differents players, like Cavani and Dybala" .
+
+
+###  http://www.semanticweb.org/dvara/ontologies/RoboComment#316100002
+<http://www.semanticweb.org/dvara/ontologies/RoboComment#316100002> rdf:type owl:NamedIndividual ;
+                                                                    :about <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> ;
+                                                                    :date "1908-01-01 00:00:00" ;
+                                                                    :textNews "The club was founded in 1908, following a breakaway from its parent club AC Milan. It is commonly believed that the dispute was about Milan focusing exclusively on Italian players. As per the wishes of its founders, the new club was named Internazionale, thus signaling it was open to players of all nationalities." .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#3162
@@ -9863,8 +9924,9 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#3318_1920SA
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#3318_1920SA> rdf:type owl:NamedIndividual ,
                                                                                :PlayerCareerStation ;
-                                                                      :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> ;
+                                                                      :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                       :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#3318> ;
+                                                                      :playerNumber "6" ;
                                                                       :role "Midfielder" .
 
 
@@ -9892,7 +9954,12 @@
                                                                                :PlayerCareerStation ;
                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                       :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#3322> ;
-                                                                      :role "Forward" .
+                                                                      :gamesPlayed 12 ;
+                                                                      :goalsScored 5 ;
+                                                                      :playerNumber "7" ;
+                                                                      :redCards 0 ;
+                                                                      :role "Forward" ;
+                                                                      :yellowCards 1 .
 
 
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#3323
@@ -12328,7 +12395,7 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#69968
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#69968> rdf:type owl:NamedIndividual ,
                                                                          :Persona ;
-                                                                :hasName "M. Brozovi" ;
+                                                                :hasName "M. Brozovic" ;
                                                                 :height "181" ;
                                                                 :wasBornIn "Croatia" ;
                                                                 :wasBornOn "1992-11-16" ;
@@ -12347,8 +12414,9 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#69968_1920SA
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#69968_1920SA> rdf:type owl:NamedIndividual ,
                                                                                 :PlayerCareerStation ;
-                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161> ;
+                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3161_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#69968> ;
+                                                                       :playerNumber "77" ;
                                                                        :role "Midfielder" .
 
 
@@ -12374,8 +12442,9 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#70084_1920SA
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#70084_1920SA> rdf:type owl:NamedIndividual ,
                                                                                 :PlayerCareerStation ;
-                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> ;
+                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#70084> ;
+                                                                       :playerNumber "12" ;
                                                                        :role "Defender" .
 
 
@@ -12547,7 +12616,7 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#7849
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#7849> rdf:type owl:NamedIndividual ,
                                                                         :Persona ;
-                                                               :hasName "W. Szcz" ;
+                                                               :hasName "W. Szczesny" ;
                                                                :height "196" ;
                                                                :wasBornIn "Poland" ;
                                                                :wasBornOn "1990-04-18" ;
@@ -12568,6 +12637,7 @@
                                                                                :PlayerCareerStation ;
                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                       :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#7849> ;
+                                                                      :playerNumber "1" ;
                                                                       :role "Goalkeeper" .
 
 
@@ -13022,8 +13092,9 @@
 ###  http://www.semanticweb.org/dvara/ontologies/RoboComment#89186_1920SA
 <http://www.semanticweb.org/dvara/ontologies/RoboComment#89186_1920SA> rdf:type owl:NamedIndividual ,
                                                                                 :PlayerCareerStation ;
-                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159> ;
+                                                                       :isMember <http://www.semanticweb.org/dvara/ontologies/RoboComment#3159_1920SA> ;
                                                                        :isPersona <http://www.semanticweb.org/dvara/ontologies/RoboComment#89186> ;
+                                                                       :playerNumber "10" ;
                                                                        :role "Forward" .
 
 
@@ -13333,4 +13404,4 @@
                                                                        :role "Midfielder" .
 
 
-###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
+###  Generated by the OWL API (version 4.5.6.2018-09-06T00:27:41Z) https://github.com/owlcs/owlapi
