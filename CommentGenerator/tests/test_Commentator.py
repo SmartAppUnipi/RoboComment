@@ -5,7 +5,7 @@ from utils.KnowledgeBase import KnowledgeBase
 from tests.MockKnowledgeBase import MockKB
 
 
-class TestApi(unittest.TestCase):
+class TestCommentator(unittest.TestCase):
     def setUp(self):
         self.kb = MockKB()
         self.commentator = Commentator(self.kb, user_id=7)       

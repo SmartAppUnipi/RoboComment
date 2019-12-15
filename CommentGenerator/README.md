@@ -17,36 +17,39 @@ pytest CommentGenerator/tests
 - **method** GET
 
 ### POST an  action/event from the symbolic level
-- **URL**  /api/action
-- **Expected Input** check  **assets/input_symbolic1.json** 
-- **Produced Output**   json with format:
+- ## Beta 
+    - **method** POST 
+    - **URL** api/action
+    - **Expected input** json with format:
     ```
     {
-        "comment" : <string comment>,
-        "emphasis" : <integer value>,
-        "startTime" : <integer seconds>,
-        "endTime" : <integer seconds>,
-        "priority": <integer level from 0 to 5>,
-        "id" : <int with the user id>
-    } 
+        "match_id" : <the int id of the match that is analyzed>,
+        "clip_uri" : <the URI of the video clip>,
+        "type" : < the type of the action, if this value is 'positions' the json content will be used to display the minimap>,
+        "start_time" : <int seconds, start time of the action>,
+        "end_time : <int seconds, end time of the action>,
+
+        <the other values here are a bit dependent on the 'type' field
+        you can see some examples under tests/mock_assets>
+    }
     ```
-- ## Beta 
-    - **method** PUT 
-    - **URL** api/action
-    - **Expected input** need to tune with symbolic
+    - **return status code**
+        - 400 BAD REQUEST if there are no 'match_id' and 'clip_uri'
+        - 200 if ok
     - **Produced Output**   json with format:
         ```
         {
             "comment" : <a string with the produced comment>,
             "language": < string value between 'it' and 'en'>,
-            "voice" : < a string we get from KB user info, we do not know anything about it>
-            "emphasis" : <?? we need to think about that>,
+            "voice" : < a string we get from KB user info, it is the user preference about the voice>
+            "emphasis" : <1, 3, 5 meaning happy, neutral, angry>,
             "startTime" : <integer seconds, the start time we recive from the symbolic level >,
             "endTime" : <integer seconds, the end time we receive from the symbolic level>,
             "priority": <float from 0 to 10 stating the importance of the comment, 10 is extremely important, 0 is not important>,
             "id" : <int with the id of the user who has to receive this comment>
         } 
         ```
+    
 ### Start a comment session
 - **URL** /api/session/<<int:userid>>
 - **expected json**
