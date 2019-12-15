@@ -50,7 +50,7 @@ class Commentator:
             'startTime': jsonobj['start_time'],
             'endTime': jsonobj['end_time'],
             'priority' : priority,
-            'user_id' : self.user_id
+            'id' : self.user_id # it is better to use 'user_id' as key but the audio group looks for 'id'
         }
         return output
 
