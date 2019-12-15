@@ -15,11 +15,11 @@ off_target[stdin] = @0 as ? : ball_off_target(@0) then push('elementary', {'type
 quasi_goal[stdin] = @0 as ? : ball_goal(@0) then push('elementary',
     {'type': 'quasi_goal', 'time': @0.time})
 
-penalty[stdin] = @0 as ? : is_penalty(@0) then push('int_stdout', {'type': 'penalty', 'time': @0.time,
-    'start_time': @0.time, 'end_time': @0.time, 'team': @0.team})
+penalty[stdin] = @0 as ? : is_penalty(@0) then push('int_stdout', {'type': 'penalty', 
+    'time': @0.time, 'team': @0.team})
 
-penalty[int_stdout] = @0 as PENALTY : True then push('stdout',
-    {'type': 'penalty', 'time': @0.timem, 'team': @0.team})
+penalty[int_stdout] = @0 as PENALTY : True then push('stdout', {'type': 'penalty', 'time': @0.time, 
+    'team': @0.team, 'start_time': @0.time, 'end_time': @0.time}); consume('int_stdout', @0)
 
 // @rule(pressed)
 // @description(Describes whether the ball owner is under pressure)
@@ -101,4 +101,9 @@ goal_revoked_offside[elementary] = @0 as GOAL -> {0,10} -> @1 as OFFSIDE : True
     then push(['elementary', 'stdout'], {'type': 'revoked_goal', 'reason': 'offside', 'start_time':
     @0.time, 'end_time': @1.time, 'time': @0.time}); consume('elementary', @0)
 
-duel[stdin] = @0 as ? : checkTackle(@0) then push_tackle(['elementary', 'int_stdout], @0)
+duel[stdin] = @0 as ? : checkTackle(@0) then push_tackle(['elementary', 'int_stdout'], @0)
+
+duel_out[int_stdout] = @0 as DUEL : True then push('stdout', {'type': 'duel', 'time': @0.time,
+    'player_passive': @.defender, 'def_team': @0.def_team, 'player_active': @0.attacker,
+    'att_team': @0.att_team, 'position': @0.position, 'start_time': @0.time, 'end_time': @0.time}); 
+    consume('int_stdout', @0)
