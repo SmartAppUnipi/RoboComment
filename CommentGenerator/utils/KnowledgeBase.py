@@ -6,7 +6,7 @@ import requests
 class KnowledgeBase:
     PLAYER = 'persona'
     TEAM = 'club'
-    MATCH = 'cup'
+    MATCH = 'match'
     USER = 'users'
 
     def __init__(self, url):
