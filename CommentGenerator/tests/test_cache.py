@@ -9,10 +9,6 @@ import shutil
 class TestSymbolicEventsCache(unittest.TestCase):
     def setUp(self):
         self.cache = SymbolicEventsCache()
-    
-    def symolic_json_path(self, matchid, clipid, start_time, end_time):
-        clipid = hash(clipid)
-        return self.cache.cache_path + "/" +  str(matchid) + "/" + str(clipid) + "/" + str(start_time) + "_" + str(end_time) + ".json"
 
     def tearDown(self):
         shutil.rmtree(self.cache.cache_path)
@@ -25,7 +21,7 @@ class TestSymbolicEventsCache(unittest.TestCase):
         in_cache = self.cache.in_cache(match_id,clip_uri)
         assert in_cache == False
 
-        self.cache.cache_event(match_id,clip_uri, { "start_time" : 1, "end_time" : 2})
+        self.cache.cache_event(match_id,clip_uri, { "type" : "action","start_time" : 1, "end_time" : 2})
 
         in_cache = self.cache.in_cache(match_id,clip_uri)
         assert in_cache == True
@@ -35,9 +31,9 @@ class TestSymbolicEventsCache(unittest.TestCase):
         match_id = 42
         clip_uri = "http://match.clip/juve/inter"
 
-        self.cache.cache_event(match_id,clip_uri, { "start_time" : 1, "end_time" : 4})
-        self.cache.cache_event(match_id,clip_uri, { "start_time" : 1, "end_time" : 5})
-        self.cache.cache_event(match_id,clip_uri, { "start_time" : 2, "end_time" : 5})
+        self.cache.cache_event(match_id,clip_uri, { "type" : "action", "start_time" : 1, "end_time" : 4})
+        self.cache.cache_event(match_id,clip_uri, { "type" : "action", "start_time" : 1, "end_time" : 5})
+        self.cache.cache_event(match_id,clip_uri, { "type" : "action", "start_time" : 2, "end_time" : 5})
 
         events = [e for e in self.cache.get_next_action(match_id,clip_uri)]
 
@@ -49,9 +45,9 @@ class TestSymbolicEventsCache(unittest.TestCase):
         match_id = 42
         clip_uri = "http://match.clip/juve/inter"
 
-        self.cache.cache_event(match_id,clip_uri, { "positionX" : 1, "positionY" : 4})
-        self.cache.cache_event(match_id,clip_uri, { "positionX" : 2, "positionY" : 3})
-        self.cache.cache_event(match_id,clip_uri, { "positionX" : 5, "positionY" : 1})
+        self.cache.cache_event(match_id,clip_uri, { "type" : "positions", "positionX" : 1, "positionY" : 4})
+        self.cache.cache_event(match_id,clip_uri, { "type" : "positions", "positionX" : 2, "positionY" : 3})
+        self.cache.cache_event(match_id,clip_uri, { "type" : "positions", "positionX" : 5, "positionY" : 1})
 
         position_path = self.cache.get_clip_path(match_id,clip_uri) + "/" + "positions"
         assert os.path.exists(position_path + "/position1.json")

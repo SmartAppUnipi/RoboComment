@@ -1,0 +1,13 @@
+{
+    "users": [
+        {
+            "first_name": "Giuseppe",
+            "last_name": "Verdi",
+            "date_of_birth": "01/01/1940",
+            "email": "example2@example.com",
+            "favourite_team": "Pisa",
+            "password": "pwd1",
+            "id": 1
+        }
+    ]
+}

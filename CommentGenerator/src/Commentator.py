@@ -24,6 +24,7 @@ class Commentator:
         self.picker = Picker()
         self.filler = Filler(knowledge_base, self.user_id)
         self.translator = Translate(self.user_lang)
+        self.rephraser = Rephraser(source=self.user_lang)
         self.sentimentalizer = Sentimentalizer()
 
     def run(self, jsonobj:json):
@@ -39,6 +40,8 @@ class Commentator:
         sentiment = self.sentimentalizer.get_sentiment(comment)
         # translate in the correct language
         comment = self.translator.get_translation(comment)
+        #rephrase the comment
+        comment = self.rephraser.random_rephrase(comment)
         print(comment)
 
         # TODO modify priority
@@ -50,7 +53,7 @@ class Commentator:
             'startTime': jsonobj['start_time'],
             'endTime': jsonobj['end_time'],
             'priority' : priority,
-            'user_id' : self.user_id
+            'id' : self.user_id # it is better to use 'user_id' as key but the audio group looks for 'id'
         }
         return output
 
