@@ -75,7 +75,8 @@ class Elementary:
         elif self.__type == "shot_on_target":
             action_info.append(random.choice(["kicks the ball towards the soccer goal",
                                               "tries to surprise the goalkeeper with a shot on target",
-                                              "uses the moment to kick the ball towards the goal"
+                                              "takes advantage of the moment to kick the ball towards the goal",
+                                              "tries to grab this opportunity to shot on football door"
                                               ]))
         # express SHOT OFF TARGET
 
@@ -99,7 +100,7 @@ class Elementary:
         elif self.__type == "offside":
             action_info.append(random.choice(["the match assistants see some irregularities in the position, offside",
                                           "the referee whistles a game, let's see if he will need to consult the VAR",
-                                              "the referee disagrees with the player's position"]))
+                                              "the referee disagrees with the player's position, it's a offside"]))
 
         # express REVOKED GOAL
         elif self.__type == "revoked_goal":
