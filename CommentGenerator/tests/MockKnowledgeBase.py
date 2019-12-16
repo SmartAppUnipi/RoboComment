@@ -20,6 +20,8 @@ class MockKB():
     
     def get_team(self, team_id):
         return self.data['teams'][team_id]
+    def get_role_player(self,match_id, player_id):
+        return "defender"
     
     def get_user_team(self,user_id):
         return self.data['teams'][42]
