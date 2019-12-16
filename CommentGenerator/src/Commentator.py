@@ -40,11 +40,10 @@ class Commentator:
         sentiment = self.sentimentalizer.get_sentiment(comment)
         # translate in the correct language
         comment = self.translator.get_translation(comment)
-        #rephrase the comment
+        # rephrase the comment
         comment = self.rephraser.random_rephrase(comment)
         print(comment)
 
-        # TODO modify priority
         output = {
             'comment': comment,
             'language' : 'en',
