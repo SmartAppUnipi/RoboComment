@@ -35,6 +35,7 @@ class Extractor:
 
     def set_input(self, jsonobj:json):
         self.__input = jsonobj
+        self.has_action()
 
     def has_action(self) -> bool:
         """
