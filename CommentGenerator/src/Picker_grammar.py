@@ -47,6 +47,10 @@ class Picker:
 
         # hybrid comment
         if template_type == "Hybrid comment":
+            # for now fill with the lulls comment
+            (success, comment) = self.__lulls_comment()
+            if success:
+                return comment, {}, 1
             """
                 (success, comment) = self.__hybrid_comment()
                 if success:
@@ -164,7 +168,7 @@ if __name__ == '__main__':
     "end_time" : 20
 }
     picker = Picker()
-    comment, placeholders, priority = picker.pick_comment(test1, "Lulls comment")
+    comment, placeholders, priority = picker.pick_comment(test1, "Hybrid comment")
 
     print("Comment:", comment)
     print("Placeholders:",placeholders)
