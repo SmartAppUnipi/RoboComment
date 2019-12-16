@@ -106,6 +106,10 @@ class Elementary:
             action_info.append(random.choice(["wait, the referee revokes the goal, let's try to understand why",
                                           "the referee whistles an offside, which cancels the team's goal"]))
 
+        # express duel
+        elif self.__type == "duel":
+            action_info.append(random.choice(["goes to steal the ball to", "goes to the ball to anticipate"]))
+
         return action_info+time_info
 
 

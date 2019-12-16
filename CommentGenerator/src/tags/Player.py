@@ -79,11 +79,10 @@ class Player:
                 if self.__confidence != None:
                     if self.__confidence <= 0.5:
                         player_info.append(random.choice(["what it looks like {player_modifier2} {player2}", "what it looks like {player2}",
-                                                              ", at the end, the player", "the player"
+                                                          "the player"
                                                           ]))
                     elif self.__confidence > 0.5:
-                        player_info.append(random.choice(["{player_modifier2} {player2} ", "{player2}",
-                                                          ", at the end, {player2}"]))
+                        player_info.append(random.choice(["{player_modifier2} {player2} ", "{player2}"]))
             else:
                 player_info.append(random.choice(["the player"]))
 

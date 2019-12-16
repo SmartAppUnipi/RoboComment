@@ -22,13 +22,15 @@ class Extractor:
             "tikitaka": ["Team_active", "Elementary"],
             "penalty": ["Elementary"],
             "offside": ["Elementary"],
-            "revoked_goal":["Elementary"]
+            "revoked_goal":["Elementary"],
+            "duel":['Player_active', 'Elementary','Player_passive']
         }
         # randomly select one of this info to produce a comment based on this
         self.__possible_category_hybrid = ["player", 'team']
         # priority value of this json
         self.__priority = -1
-        self.__welcome_message = ["Welcome to the match is speaking RoboComment and it will be with you to comment this match"]
+        self.__welcome_message = ["Welcome to the match is speaking RoboComment and it will be with you to comment this match",
+                                  "Welcome, I am RoboComment and I will be your commentator for the rest of the game, let's start"]
 
 
     def set_input(self, jsonobj:json):
@@ -50,7 +52,8 @@ class Extractor:
             "goal":8,
             "tikitaka":4,
             "offside":8,
-            "revoked_goal":9
+            "revoked_goal":9,
+            "duel":5
         }
         if "type" in self.__input:
             self.__priority = priority_mapping[self.__input['type']]
