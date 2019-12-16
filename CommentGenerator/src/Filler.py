@@ -8,9 +8,9 @@ class Filler:
         self.__user_id = user_id
         self.__modifier = {
             "player_modifier":{
-                "good": ["the skilled","the terrific","the great"],
+                "good": ["the skilled","the terrific","the great", "the astonishing", "the lovely"],
                 "neutral": [""],
-                "bad": ["the stupid","boot",""]
+                "bad": ["the stupid", "banana-footed" ]
             },
             "team_modifier":{
                 "good": ["the great","the victorious"],
