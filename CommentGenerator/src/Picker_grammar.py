@@ -25,6 +25,8 @@ class Picker:
         self.__extractor = Extractor()
         with open('CommentGenerator/assets/comments_empty_moments.txt', "r") as f:
             self.__lulls = [line for line in f.readlines()]
+        with open('CommentGenerator/assets/comments_empty_moments_soccer.txt', "r") as f:
+            self.__lulls_soccer = [line for line in f.readlines()]
 
 
     def pick_comment(self, input_json: json, template_type: str)->tuple:
@@ -143,7 +145,11 @@ class Picker:
         :return: tuple composed (success result (true, false), comment list)
         :return:
         """
-        return (True, random.choice(self.__lulls))
+        if "0" == random.choice(["0","1"]):
+            return (True, random.choice(self.__lulls))
+        else:
+            intro = random.choice(["did you know that ", "I got a curiosity in mind, did you know that "])
+            return (True, intro + (random.choice(self.__lulls_soccer)))
 
 
 if __name__ == '__main__':
@@ -158,7 +164,7 @@ if __name__ == '__main__':
     "end_time" : 20
 }
     picker = Picker()
-    comment, placeholders, priority = picker.pick_comment(test1, "Pure comment")
+    comment, placeholders, priority = picker.pick_comment(test1, "Lulls comment")
 
     print("Comment:", comment)
     print("Placeholders:",placeholders)
