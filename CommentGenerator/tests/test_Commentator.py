@@ -8,7 +8,7 @@ from tests.MockKnowledgeBase import MockKB
 class TestCommentator(unittest.TestCase):
     def setUp(self):
         self.kb = MockKB()
-        self.commentator = Commentator(self.kb, user_id=7)       
+        self.commentator = Commentator(self.kb, user_id=10)       
 
         self.goal_input = self.get_symbolic_intput('goal/input_symbolic1.json')
         self.pass_input = self.get_symbolic_intput('pass/input_symbolic1.json')
