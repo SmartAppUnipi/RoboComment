@@ -153,7 +153,7 @@ if __name__ == '__main__':
     "clip_uri" : "http://clip.of.the.match/juve/napoli",
     "user_id": 10,
     "time": 10,
-    "team": 5,
+    #"team": 5,
     "start_time": 10,
     "end_time" : 20
 }

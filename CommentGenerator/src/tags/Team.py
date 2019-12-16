@@ -31,11 +31,11 @@ class Team:
         """
         team_info = []
 
-        if self.__rule == "active":
-            if self.__value != None:
-                team_info.append(random.choice(["now it is several minutes that {team1}", "{team1}"]))
-        elif self.__rule == "passive":
-            team_info.append(random.choice([", {team1}, gets the ball"]))
+        if self.__value != None:
+            if self.__rule == "active":
+                    team_info.append(random.choice(["now it is several minutes that {team1}", "{team1}"]))
+            elif self.__rule == "passive":
+                team_info.append(random.choice([", {team1}, gets the ball"]))
 
         return team_info
 
