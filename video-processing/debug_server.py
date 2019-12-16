@@ -18,8 +18,8 @@ while cap.isOpened():
 
 field = SoccerField()
 # field_configs = json.load(open("camera.json"))
-field_configs = json.load(open("data/videos/gonzalo_goal_smoothed_states.json"))
-team_colors = ["red", "blue", "yellow"]
+field_configs = json.load(open("data/videos/juve_attacking_smoothed_states.json"))
+team_colors = ["white", "blue", "yellow"]
 
 
 @app.route('/video_url', methods=["GET"])
