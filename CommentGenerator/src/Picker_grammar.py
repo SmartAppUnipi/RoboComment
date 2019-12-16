@@ -103,7 +103,11 @@ class Picker:
                     sub_template = player2.get_template()
                 elif element == "Team_active":
                     # create player object, passing extraction info by tags
-                    team_subject = Team()
+                    team_subject = Team("active")
+                    team_subject.obtain_info(self.__extractor.get_team_info())
+                    sub_template = team_subject.get_template()
+                elif element == "Team_passive":
+                    team_subject = Team("passive")
                     team_subject.obtain_info(self.__extractor.get_team_info())
                     sub_template = team_subject.get_template()
 
@@ -144,26 +148,14 @@ class Picker:
 
 if __name__ == '__main__':
     test1 = {
-    "type": "duel",
+    "type": "penalty",
     "match_id" : 42,
     "clip_uri" : "http://clip.of.the.match/juve/napoli",
     "user_id": 10,
-    "start_time": 11,
-    "end_time" : 21,
-    "player_active": {
-      "id": {
-        "value": 42,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    },
-    "player_passive": {
-      "id": {
-        "value": 41,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    }
+    "time": 10,
+    "team": 5,
+    "start_time": 10,
+    "end_time" : 20
 }
     picker = Picker()
     comment, placeholders, priority = picker.pick_comment(test1, "Pure comment")

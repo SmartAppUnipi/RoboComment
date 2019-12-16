@@ -20,7 +20,7 @@ class Extractor:
             "shot_off_target": ['Player_active', 'Elementary'],
             "goal":['Player_active', 'Elementary'],
             "tikitaka": ["Team_active", "Elementary"],
-            "penalty": ["Elementary"],
+            "penalty": ["Elementary", "Team_passive"],
             "offside": ["Elementary"],
             "revoked_goal":["Elementary"],
             "duel":['Player_active', 'Elementary','Player_passive']

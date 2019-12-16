@@ -6,8 +6,9 @@ class Team:
     Expresses player information
     """
 
-    def __init__(self):
+    def __init__(self, rule):
         # integer id
+        self.__rule = rule
         self.__value = None
         self.__start_time = None
         self.__end_time = None
@@ -30,8 +31,11 @@ class Team:
         """
         team_info = []
 
-        if self.__value != None:
-            team_info.append(random.choice(["now it is several minutes that {team1}", "{team1}"]))
+        if self.__rule == "active":
+            if self.__value != None:
+                team_info.append(random.choice(["now it is several minutes that {team1}", "{team1}"]))
+        elif self.__rule == "passive":
+            team_info.append(random.choice([", {team1}, gets the ball "]))
 
         return team_info
 
