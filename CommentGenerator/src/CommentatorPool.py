@@ -35,7 +35,7 @@ class CommentatorPool:
         run = True
 
         knowledge_base = KnowledgeBase(url= kb_url)
-        commentator = Commentator(knowledge_base, user_id)
+        commentator = Commentator(knowledge_base, user_id, match_id)
 
         while run:
             event = symbolic_q.get()

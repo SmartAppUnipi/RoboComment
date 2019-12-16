@@ -35,6 +35,7 @@ class Extractor:
 
     def set_input(self, jsonobj:json):
         self.__input = jsonobj
+        self.has_action()
 
     def has_action(self) -> bool:
         """
@@ -46,8 +47,8 @@ class Extractor:
             "possession": 3,
             "intercept": 5,
             "pass": 4,
-            "penalty": 7,
-            "shot_on_target":6,
+            "penalty": 8,
+            "shot_on_target":8,
             "shot_off_target": 6,
             "goal":8,
             "tikitaka":4,

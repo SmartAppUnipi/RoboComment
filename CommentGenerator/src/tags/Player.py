@@ -48,6 +48,7 @@ class Player:
                 if self.__confidence != None:
                     if self.__confidence <= 0.5:
                         player_info.append(random.choice(["it seems that {player_modifier1} {player1}", "it seems that {player1}",
+                                                          "I'm not sure but {player_modifier1} {player1}",  "I'm not sure but {player1}",
                                                           "apparently {player_modifier1} {player1}", "apparently {player1}"
                                                           ]))
                     elif self.__confidence > 0.5:
@@ -68,7 +69,7 @@ class Player:
                     elif self.__team_confidence > 0.5:
                         team_info.append(random.choice[(", of well know {team_modifier1}{team1} team, ", ", of well know {team1} ")])
                 else:
-                    team_info.append(random.choice([", {team1} man, ", "belonging to {team1}",
+                    team_info.append(random.choice([", {team_modifier1} {team1} man, ", "belonging to {team_modifier1} {team1}",
                                                     ""
                                                     ]))
 

@@ -35,7 +35,7 @@ class Team:
             if self.__rule == "active":
                     team_info.append(random.choice(["now it is several minutes that {team1}", "{team1}"]))
             elif self.__rule == "passive":
-                team_info.append(random.choice([", {team1}, gets the ball"]))
+                team_info.append(random.choice([", {team_modifier1} {team1} gets the ball"]))
 
         return team_info
 
