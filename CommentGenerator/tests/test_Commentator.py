@@ -1,5 +1,6 @@
 import unittest
 import json
+
 from src.Commentator import Commentator
 from utils.KnowledgeBase import KnowledgeBase
 from tests.MockKnowledgeBase import MockKB
@@ -10,11 +11,18 @@ class TestCommentator(unittest.TestCase):
         self.kb = MockKB()
         self.commentator = Commentator(self.kb, user_id=10)       
 
+        self.duel_input = self.get_symbolic_intput('duel/input_symbolic1.json')
         self.goal_input = self.get_symbolic_intput('goal/input_symbolic1.json')
-        self.pass_input = self.get_symbolic_intput('pass/input_symbolic1.json')
-        self.possession_input = self.get_symbolic_intput('possession/input_symbolic1.json')
         self.intercept_input = self.get_symbolic_intput('intercept/input_symbolic1.json')
-    
+        self.offside_input = self.get_symbolic_intput('offside/input_symbolic1.json')
+        self.pass_input = self.get_symbolic_intput('pass/input_symbolic1.json')
+        self.penalty_input = self.get_symbolic_intput('penalty/input_symbolic1.json')
+        self.possession_input = self.get_symbolic_intput('possession/input_symbolic1.json')
+        self.revoked_goal_input = self.get_symbolic_intput('revoked_goal/input_symbolic1.json')
+        self.shot_off_target = self.get_symbolic_intput('shot_off_target/input_symbolic1.json')
+        self.shot_on_target = self.get_symbolic_intput('shot_on_target/input_symbolic1.json')
+        self.tikitaka = self.get_symbolic_intput('tikitaka/input_symbolic1.json')
+
     def get_symbolic_intput(self, file_path):
         assets = "CommentGenerator/tests/mock_assets/elementary/"
         input_json = ""
@@ -52,5 +60,59 @@ class TestCommentator(unittest.TestCase):
         output = self.commentator.run(self.pass_input)
 
         print(output['comment'])
-    
 
+    def test_run5(self):
+        self.skip_welcome_message()
+
+        output = self.commentator.run(self.duel_input)
+
+        print(output['comment'])
+
+    def test_run6(self):
+        self.skip_welcome_message()
+
+        output = self.commentator.run(self.shot_off_target)
+
+        print(output['comment'])
+
+    def test_run7(self):
+        self.skip_welcome_message()
+
+        output = self.commentator.run(self.shot_on_target)
+
+        print(output['comment'])
+
+    def test_run8(self):
+        self.skip_welcome_message()
+
+        output = self.commentator.run(self.tikitaka)
+
+        print(output['comment'])
+
+    def test_run9(self):
+        self.skip_welcome_message()
+
+        output = self.commentator.run(self.revoked_goal_input)
+
+        print(output['comment'])
+
+    def test_run10(self):
+        self.skip_welcome_message()
+
+        output = self.commentator.run(self.goal_input)
+
+        print(output['comment'])
+
+    def test_run11(self):
+        self.skip_welcome_message()
+
+        output = self.commentator.run(self.offside_input)
+
+        print(output['comment'])
+
+    def test_run12(self):
+        self.skip_welcome_message()
+
+        output = self.commentator.run(self.penalty_input)
+
+        print(output['comment'])

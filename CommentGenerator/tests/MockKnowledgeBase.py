@@ -10,7 +10,8 @@ class MockKB():
             },
             "teams" : {
                 42 : "Juventus",
-                7 : "Napoli"
+                7 : "Napoli",
+                5 : "Inter"
             }
         }
 
