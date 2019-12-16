@@ -45,6 +45,9 @@ class Picker:
         # store input into tagger
         self.__extractor.set_input(input_json)
 
+        if self.__extractor.get_priority() > 7:
+            template_type = "Pure comment"
+
         # hybrid comment
         if template_type == "Hybrid comment":
             # for now fill with the lulls comment
