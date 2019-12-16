@@ -65,7 +65,7 @@ class Elementary:
 
         # express PENALTY
         elif self.__type == 'penalty':
-            action_info.append(random.choice(["this is a penalty for the referee, the game has been stopped",
+            action_info.append(random.choice(["this is a penalty, the game has been stopped",
                                               "the referee whistles and has something to say to the player",
                                               "whistled a foul, there will be a penalty",
                                               "the referee disagrees with the intervention of the player, it is a foul"
