@@ -1,5 +1,4 @@
 import nltk
-import numpy
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 class Sentimentalizer:
@@ -19,7 +18,7 @@ class Sentimentalizer:
         results = self.__analyzer.polarity_scores(comment)
         # positive, neutral, negative
         values = [ results["pos"], results["neu"], results["neg"]]
-        index = numpy.argmax(values)
+        index = values.index(max(values))
 
         if index == 0:
             # happy value

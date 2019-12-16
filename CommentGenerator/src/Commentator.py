@@ -8,12 +8,12 @@ try:
     from .Translate import Translate
     from .Rephraser import Rephraser
 except:
-    from Filler import Filler
-    from Sentimentalizer import Sentimentalizer
-    from Picker_grammar import Picker
-    from Automaton import CommentAutomata
-    from Translate import Translate
-    from Rephraser import Rephraser
+    from src.Filler import Filler
+    from src.Sentimentalizer import Sentimentalizer
+    from src.Picker_grammar import Picker
+    from src.Automaton import CommentAutomata
+    from src.Translate import Translate
+    from src.Rephraser import Rephraser
 import json
 
 class Commentator:
