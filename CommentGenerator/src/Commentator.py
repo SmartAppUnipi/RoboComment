@@ -43,8 +43,7 @@ class Commentator:
         # translate in the correct language
         comment = self.translator.get_translation(comment)
         # rephrase the comment
-        comment = self.rephraser.random_rephrase(comment)
-        print(comment)
+        # comment = self.rephraser.random_rephrase(comment)
 
         output = {
             'comment': comment,
@@ -58,48 +57,3 @@ class Commentator:
         }
         return output
 
-'''
-if __name__ == '__main__':
-
-    comm = Commentator("", 1)
-    comm.run({
-    "type": "pass",
-    "user_id": 10,
-    "start_time": 10,
-    "end_time" : 20,
-    "player_active": {
-      "id": {
-        "value": 42,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    },
-    "player_passive": {
-      "id": {
-        "value": 41,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    }
-})
-    comm.run({
-    "type": "pass",
-    "user_id": 10,
-    "start_time": 10,
-    "end_time" : 20,
-    "player_active": {
-      "id": {
-        "value": 42,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    },
-    "player_passive": {
-      "id": {
-        "value": 41,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    }
-})
-'''
