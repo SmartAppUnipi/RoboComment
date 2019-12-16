@@ -1,5 +1,6 @@
 import unittest
 import json
+
 from src.Commentator import Commentator
 from utils.KnowledgeBase import KnowledgeBase
 from tests.MockKnowledgeBase import MockKB
