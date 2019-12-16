@@ -317,7 +317,7 @@ def checkTackle(pos):
     players = _multiple_closest(pos, 2)
 
     threshold = 0.5
-    return players[0]['team'] != players[1]['team'] and distance(players[0]['position'], players[1]['position'] <= threshold) and players[0]['team'] != -1 and players[1]['team'] != -1
+    return players[0]['team'] != players[1]['team'] and distance(players[0]['position'], players[1]['position']) <= threshold and players[0]['team']['value'] != -1 and players[1]['team']['value'] != -1
 
 def pushTackle(stacks, pos):
     players = _multiple_closest(pos, 2)
