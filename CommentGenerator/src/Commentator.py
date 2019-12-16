@@ -6,12 +6,14 @@ try:
     from .Picker_grammar import Picker
     from .Automaton import CommentAutomata
     from .Translate import Translate
+    from .Rephraser import Rephraser
 except:
     from Filler import Filler
     from Sentimentalizer import Sentimentalizer
     from Picker_grammar import Picker
     from Automaton import CommentAutomata
     from Translate import Translate
+    from Rephraser import Rephraser
 import json
 
 class Commentator:
