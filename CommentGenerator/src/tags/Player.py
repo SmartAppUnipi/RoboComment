@@ -69,7 +69,7 @@ class Player:
                     elif self.__team_confidence > 0.5:
                         team_info.append(random.choice[(", of well know {team_modifier1}{team1} team, ", ", of well know {team1} ")])
                 else:
-                    team_info.append(random.choice([", {team1} man, ", "belonging to {team1}",
+                    team_info.append(random.choice([", {team_modifier1} {team1} man, ", "belonging to {team_modifier1} {team1}",
                                                     ""
                                                     ]))
 
