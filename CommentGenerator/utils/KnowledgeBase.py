@@ -14,6 +14,7 @@ class KnowledgeBase:
         #TODO this can be extended keeping all the queries done
         self._saved_player = { "id" : -1}
         self._saved_team = { "id" : -1}
+        self._saved_match = {"id": -1}
 
         self.url = url
 
@@ -27,7 +28,7 @@ class KnowledgeBase:
         return self._saved_player["name"]
 
     def get_team(self, team_id):
-        ''' given a team id it returns his name '''
+        ''' given a team id it returns its name '''
         if self._saved_team["id"] != team_id:
             tmp_team = self.get_item(KnowledgeBase.TEAM, team_id)
             self._saved_team = tmp_team if tmp_team else { "id" : -1,"name" : "Team" + str(team_id)}
@@ -35,8 +36,17 @@ class KnowledgeBase:
         return self._saved_team["name"]
 
     def get_match(self, match_id):
-        return self.get_item(KnowledgeBase.MATCH, match_id)
-
+        if self._saved_match["id"] != match_id:
+            tmp_match = self.get_item(KnowledgeBase.MATCH, match_id)
+            self._saved_match = tmp_match if tmp_match else { "id" : -1,"name" : "Match" + str(tmp_match)}  
+        return self._saved_match["name"]
+    
+    def get_role_player(self,match_id, player_id):
+        tmp_match = self.get_item(KnowledgeBase.MATCH, match_id)
+        for player in tmp_match["home_team"]+tmp_match["away_team"]:
+            if player["id"] == str(player_id):
+                return player["role"].lower()
+        return "a free"
     def get_user_team(self, user_id):
         tmp_user = self.get_item(KnowledgeBase.USER, user_id)
         return tmp_user['favourite_team'] if tmp_user else " "

@@ -18,13 +18,13 @@ import json
 
 class Commentator:
 
-    def __init__(self, knowledge_base, user_id):
+    def __init__(self, knowledge_base, user_id, match_id):
         self.user_id = user_id
         self.kb = knowledge_base
         self.user_lang = self.kb.get_user_language(self.user_id)
         self.automa = CommentAutomata()
         self.picker = Picker()
-        self.filler = Filler(knowledge_base, self.user_id)
+        self.filler = Filler(knowledge_base, self.user_id, match_id)
         self.translator = Translate(self.user_lang)
         self.rephraser = Rephraser(source=self.user_lang)
         self.sentimentalizer = Sentimentalizer()
@@ -57,3 +57,24 @@ class Commentator:
         }
         return output
 
+if __name__ == '__main__':
+    test1 = {
+    "type": "penalty",
+    "match_id" : 42,
+    "clip_uri" : "http://clip.of.the.match/juve/napoli",
+    "user_id": 10,
+    "time": 10,
+    #"team": 5,
+    "start_time": 10,
+    "end_time" : 20
+}
+    picker = Picker()
+    comment, placeholders, priority = picker.pick_comment(test1, "Hybrid comment")
+
+    print("Comment:", comment)
+    print("Placeholders:",placeholders)
+    print("Priority", priority)
+
+
+    filler  = Filler()
+    filler.update_comment(comment,placeholders)
