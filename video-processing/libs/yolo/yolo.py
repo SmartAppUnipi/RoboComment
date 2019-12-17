@@ -7,17 +7,28 @@ from .models import Darknet
 def get_device():
     if torch.cuda.is_available():
         print(f"Found GPU {torch.cuda.get_device_name(0)}")
-        return torch.device('cuda')
+        return torch.device("cuda")
     else:
         return torch.device("cpu")
 
 
 class Yolo:
-    def __init__(self, cfg_path, device):
-        self.device = device
+    def __init__(self, cfg_path, device=None, half=False):
+        if device:
+            self.device = device
+        else:
+            self.device = get_device()
 
-        self.model = Darknet(cfg_path).to(device)
+        self.half = half
+
+        self.model = Darknet(cfg_path)
         self.model.load_darknet_weights(cfg_path[:-4] + ".weights")
+        if half:
+            self.model = self.model.half()
+        self.model = self.model.to(device)
+        # bug on my pc (doesn't work without cuda call)
+        # self.model = self.model.cuda()
+
         self.model.eval()
 
     def predict(self, img, min_conf=0.2, overlap=0.2, yolo_size=320):
@@ -49,7 +60,10 @@ class Yolo:
 
         # pack batch and feed to yolo
         with torch.no_grad():
-            batch = torch.FloatTensor(np.vstack(windows)).to(self.device)
+            batch = torch.FloatTensor(np.vstack(windows))
+            if self.half:
+                batch = batch.half()
+            batch = batch.to(self.device)
             y = self.model(batch).cpu().numpy()
 
         all_predictions = []

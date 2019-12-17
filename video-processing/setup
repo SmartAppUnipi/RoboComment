@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+echo $1
+if [[ $1 == "yolo320" ]]; then
+	wget https://pjreddie.com/media/files/yolov3.weights -O ./libs/yolo/models/yolov3.weights
+	wget https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3.cfg -O ./libs/yolo/models/yolov3.cfg
+else
+	wget https://pjreddie.com/media/files/yolov3-spp.weights -O ./libs/yolo/models/yolov3.weights
+	wget https://raw.githubusercontent.com/pjreddie/darknet/master/cfg/yolov3-spp.cfg -O ./libs/yolo/models/yolov3.cfg
+fi

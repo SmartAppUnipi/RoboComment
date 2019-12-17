@@ -1,0 +1,172 @@
+{
+    "home": {
+        "id": 3161,
+        "name": "FC Internazionale Milano"
+    },
+    "away": {
+        "id": 3159,
+        "name": "Juventus FC"
+    },
+    "result": [
+        "1",
+        "2"
+    ],
+    "home_team": [
+        {
+            "id": "21094",
+            "name": "D. D'Ambrosio",
+            "club": 3161,
+            "role": "Defender",
+            "number": "33"
+        },
+        {
+            "id": "1111112",
+            "name": "Godin",
+            "club": 3161,
+            "role": "Defender",
+            "number": "2"
+        },
+        {
+            "id": "130",
+            "name": "S. de Vrij",
+            "club": 3161,
+            "role": "Defender",
+            "number": "6"
+        },
+        {
+            "id": "138408",
+            "name": "M. Skriniar",
+            "club": 3161,
+            "role": "Defender",
+            "number": "'37'"
+        },
+        {
+            "id": "1111113",
+            "name": "Lautaro Martinez",
+            "club": 3161,
+            "role": "Forward",
+            "number": "10"
+        },
+        {
+            "id": "1111114",
+            "name": "Lukaku",
+            "club": 3161,
+            "role": "Forward",
+            "number": "9"
+        },
+        {
+            "id": "20571",
+            "name": "S. Handanovic",
+            "club": 3161,
+            "role": "Goalkeeper",
+            "number": "1"
+        },
+        {
+            "id": "20588",
+            "name": "K. Asamoah",
+            "club": 3161,
+            "role": "Midfielder",
+            "number": "18"
+        },
+        {
+            "id": "246063",
+            "name": "S. Sensi",
+            "club": 3161,
+            "role": "Midfielder",
+            "number": "12"
+        },
+        {
+            "id": "286223",
+            "name": "N. Barella",
+            "club": 3161,
+            "role": "Midfielder",
+            "number": "23"
+        },
+        {
+            "id": "69968",
+            "name": "M. Brozovic",
+            "club": 3161,
+            "role": "Midfielder",
+            "number": "77"
+        }
+    ],
+    "away_team": [
+        {
+            "id": "1111111",
+            "name": "De Ligt",
+            "club": 3159,
+            "role": "Defender",
+            "number": "4"
+        },
+        {
+            "id": "20459",
+            "name": "L. Bonucci",
+            "club": 3159,
+            "role": "Defender",
+            "number": "19"
+        },
+        {
+            "id": "70084",
+            "name": "Alex Sandro",
+            "club": 3159,
+            "role": "Defender",
+            "number": "12"
+        },
+        {
+            "id": "3322",
+            "name": "Cristiano Ronaldo",
+            "club": 3159,
+            "role": "Forward",
+            "number": "7"
+        },
+        {
+            "id": "89186",
+            "name": "P. Dybala",
+            "club": 3159,
+            "role": "Forward",
+            "number": "10"
+        },
+        {
+            "id": "7849",
+            "name": "W. Szczesny",
+            "club": 3159,
+            "role": "Goalkeeper",
+            "number": "1"
+        },
+        {
+            "id": "20443",
+            "name": "M. Pjanic",
+            "club": 3159,
+            "role": "Midfielder",
+            "number": "5"
+        },
+        {
+            "id": "20751",
+            "name": "J. Cuadrado",
+            "club": 3159,
+            "role": "Midfielder",
+            "number": "16"
+        },
+        {
+            "id": "246061",
+            "name": "F. Bernardeschi",
+            "club": 3159,
+            "role": "Midfielder",
+            "number": "33"
+        },
+        {
+            "id": "25437",
+            "name": "B. Matuidi",
+            "club": 3159,
+            "role": "Midfielder",
+            "number": "14"
+        },
+        {
+            "id": "3318",
+            "name": "S. Khedira",
+            "club": 3159,
+            "role": "Midfielder",
+            "number": "6"
+        }
+    ]
+}

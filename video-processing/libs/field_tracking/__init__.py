@@ -68,13 +68,23 @@ class CameraEstimator:
         path = find_optimal_assignments(transitions, final)
 
         states = []
+        old_state = None
         for w, f in zip(path, self.frames):
-            states.append(f["cfgs"][w])
+            if old_state is not None:
+                d = np.hypot(old_state[0] - f["cfgs"][w][0], old_state[1] - f["cfgs"][w][1])
+                if d < 6.0:
+                    old_state = (f["cfgs"][w][0], f["cfgs"][w][1])
+                    states.append(f["cfgs"][w])
+                else:
+                    states.append([np.NaN] * 6)
+            else:
+                old_state = (f["cfgs"][w][0], f["cfgs"][w][1])
+                states.append(f["cfgs"][w])
 
         states = np.vstack(states)[:, (0, 1, 2, -1)]
 
-        kalman = KalmanMotion(acc_var=3e-4, observation_var=4.0)
-        states, _, _ = kalman.smooth(states)
+        kalman = KalmanMotion(acc_var=1e-4, observation_var=8.0)
+        states, _, _ = kalman.smooth(np.ma.masked_invalid(states))
 
         # # compute image to field transformation (tranformation matrices)
         # field_to_img = M @ camera.get_homography(frame.shape[1], frame.shape[0])
