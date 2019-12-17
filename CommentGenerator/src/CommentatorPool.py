@@ -216,10 +216,13 @@ class SymbolicEventsCache():
 
         for event_filename in sorted(os.listdir(events_path)):
         
-            with open(events_path + "/" + event_filename,'r') as json_event:            
-                # better to keep it lazy
-                yield json.load(json_event)
-    
+            json_event = open(events_path + "/" + event_filename,'r')            
+            # better to keep it lazy
+            event =  json.load(json_event)
+            json_event.close()
+
+            yield event
+
     def get_next_action(self,match_id,clip_uri):
         return self._get_next_event(match_id,clip_uri,'actions')
 
