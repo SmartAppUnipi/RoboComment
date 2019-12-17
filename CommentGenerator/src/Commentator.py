@@ -41,13 +41,13 @@ class Commentator:
         # retrieve sentiment
         sentiment = self.sentimentalizer.get_sentiment(comment)
         # translate in the correct language
-        comment = self.translator.get_translation(comment)
+        # comment = self.translator.get_translation(comment)
         # rephrase the comment
         # comment = self.rephraser.safe_random_reprase(comment)
 
         output = {
             'comment': comment,
-            'language' : 'en',
+            'language' : self.user_lang,
             'voice': 'en-US-Wavenet-D',
             'emphasis': sentiment,
             'startTime': jsonobj['start_time'],
