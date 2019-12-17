@@ -18,8 +18,14 @@ class GameModel:
 
     @staticmethod
     def clean_reg():
-        """cleans stacks, registers and rules"""
+        """cleans registers"""
         U._registers = {}
+
+    def __clean_stack(self):
+        """cleans stacks"""
+        self._stacks = {}
+        self._stacks['stdin'] = deque()
+        self._stacks['stdout'] = deque()
 
     def __init__(self):
         """Initializes the game model by parsing the rule file"""
@@ -68,7 +74,10 @@ class GameModel:
             self._match_id = None
 
         if "clip_uri" in positions:
-            self._match_id = positions['clip_uri']
+            new_clip_uri = positions['clip_uri']
+            if self._clip_uri and new_clip_uri != self._clip_uri:
+                self.__clean_stack()
+            self._clip_uri = new_clip_uri
         else:
             print("CAREFUL, CLIP URI is  not present")
             self._clip_uri = None
