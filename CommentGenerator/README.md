@@ -24,7 +24,7 @@ pytest CommentGenerator/tests
     ```
     {
         "match_id" : <the int id of the match that is analyzed>,
-        "clip_uri" : <the URI of the video clip>,
+        "match_url" : <the URI of the video clip>,
         "type" : < the type of the action, if this value is 'positions' the json content will be used to display the minimap>,
         "start_time" : <int seconds, start time of the action>,
         "end_time : <int seconds, end time of the action>,
