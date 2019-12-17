@@ -33,7 +33,7 @@ function main() {
         video.type = "video/mp4";
         setTimeout(function () {
             playVideo()
-        }, 10000);
+        }, 60000);
     } else{
         window.location.href = "catalog.html";
 

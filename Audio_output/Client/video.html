@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>RoboComment</title>
     <link rel="shortcut icon" href="assets/image/pngguru.com.png">
-
+<!--    <link rel="stylesheet" href="other_group/css/field_style.css">-->
     <style>
         *{
             background-image:url("assets/image/cup.jpg");
@@ -12,6 +12,9 @@
             background-attachment:fixed;
             background-repeat:repeat;
             background-size:cover;
+            position: relative;
+            width: 100%;
+
         }
     </style>
 
@@ -24,9 +27,20 @@
 
 </video>
 
+<canvas id="pitch" width="1200" height="400"></canvas>
+<span id="debug"></span>
+
 <audio id="audio" style="display: none;">
     Sorry, your browser doesn't support embedded audios.
 </audio>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="other_group/js/utils.js"></script>
+<script src="other_group/js/draw_utils.js"> </script>
+<script src="other_group/js/constants.js"> </script>
+<script src="other_group/js/draw_pitch.js"> </script>
+<script src="other_group/js/parse_json.js"> </script>
+<script src="other_group/js/new_handler.js"> </script>
 
 <script src="js/Queue.src.js"></script>
 <script src="js/elementClass.js"></script>
@@ -34,6 +48,7 @@
 <script src="js/user_account.js"></script>
 <script src="js/cookie.js"></script>
 <script src="js/connection_video.js"></script>
+
 
 </body>
 </html>

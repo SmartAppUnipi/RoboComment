@@ -1,4 +1,4 @@
-const url        = 'ws://131.114.137.237:4020';
+const url        = 'ws://10.101.27.91:4020';
 let queue        = new Queue();
 let ws           = null;
 let AlreadySend1 = false;
@@ -133,13 +133,15 @@ function connect() {
                 break;
 
             case "post_matchID":
-                console.log("Sent info match");
-                console.log(message.reply);
+                console.log("Sent information and received ok from video: "+ message.reply);
                 break;
 
             default:
-                console.log("Unknown reply");
-                console.log(message.reply_type);
+                // console.log("Unknown reply");
+                // console.log(message.reply_type);
+                let data = message.reply;
+                console.log(data);
+                // create_situation(svg,data);
                 break;
         }
     };
