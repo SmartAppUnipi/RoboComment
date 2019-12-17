@@ -53,25 +53,25 @@ class KalmanTracker:
         detections = np.array(detections)
 
         # compute cost matrix
-        sse = lambda x, y: np.sum((x-y)**2)# if np.sum((x-y)**2) < eps else 1e10
+        sse = lambda x, y: min(np.sum((x - y) ** 2), eps)
 
         cost = np.zeros((len(detections), len(predm)))
         if not is_ball:
             for i, (x, y, w, h) in enumerate(detections):
                 # dc = np.array( [x+w/2, y+h/2] )
-                dc = np.array( [x, y, x+w, y+h] )
+                dc = np.array([x, y, x + w, y + h])
                 for j, (x, y, w, h) in enumerate(predm):
                     # pc = np.array( [x + w / 2, y + h / 2] )
-                    pc = np.array( [x, w, x + w, y + h ] )
+                    pc = np.array([x, w, x + w, y + h])
                     # cost[i, j] = cost_function(dc, pc)
                     cost[i, j] = -iou(dc, pc)
         else:
             # ball tracker will need a more 'forgiving'
             # metric since the speed is much higher wrt players
             for i, (x, y, w, h) in enumerate(detections):
-                dc = np.array( [x+w/2, y+h/2] )
+                dc = np.array([x + w / 2, y + h / 2])
                 for j, (x, y, w, h) in enumerate(predm):
-                    pc = np.array( [x + w / 2, y + h / 2] )
+                    pc = np.array([x + w / 2, y + h / 2])
                     cost[i, j] = sse(dc, pc)
 
         # solve minimum weight matching in bipartite graph problem
@@ -86,7 +86,7 @@ class KalmanTracker:
         unmatched_p = [i for i in range(len(predictions)) if i not in col_ind]
         # filter out assignments with higher cost than eps
         for i, cost_val in enumerate(cost[row_ind, col_ind]):
-            if cost_val <= eps:
+            if cost_val < eps:
                 # matches will contain indices
                 matches.append((row_ind[i], col_ind[i]))
             else:
@@ -94,13 +94,12 @@ class KalmanTracker:
                 unmatched_d.append(row_ind[i])
                 unmatched_p.append(col_ind[i])
 
-        print("Matches(d,p):", matches)
-        print("Unmatched prediction:", unmatched_p)
-        print("Unmatched detection:", unmatched_d)
+        if is_ball:
+            print("Matches(d,p):", matches)
+            print("Unmatched prediction:", unmatched_p)
+            print("Unmatched detection:", unmatched_d)
 
         return matches, unmatched_d, unmatched_p
-
-
 
     def track_players(self, bboxes, frame):
         """
@@ -133,7 +132,8 @@ class KalmanTracker:
         if not self.ball_tracker:
             matches, unmatched_d, unmatched_p = self.assign_prediction_to_detection(predictions, bboxes, eps=-0.01)
         else:
-            matches, unmatched_d, unmatched_p = self.assign_prediction_to_detection(predictions, bboxes, eps=300, is_ball=True)
+            matches, unmatched_d, unmatched_p = self.assign_prediction_to_detection(predictions, bboxes, eps=900,
+                                                                                    is_ball=True)
 
         # create a 'new tracker' for each unmatched detection
         print(f'{len(unmatched_d)} unmatched detections were recognized (now creating new trackers)')
@@ -141,11 +141,11 @@ class KalmanTracker:
             tid = self.tracker_counter
             self.tracker_counter += 1
             # use corresponding detection as initial state
-            self.active_trackers.\
+            self.active_trackers. \
                 append(MultivariateKalmanFilter(tracker_id=tid, observation_dim=4, initial_position=bboxes[idx],
                                                 drop_after=self.drop_after))
             # new tracker and corresponding initial state is now a valid 'match'
-            matches.append((idx, len(self.active_trackers)-1)) # use indices instead of objs
+            matches.append((idx, len(self.active_trackers) - 1))  # use indices instead of objs
 
         # update state of active trackers predictions
         for (det_id, tr_id) in matches:
@@ -170,14 +170,15 @@ class KalmanTracker:
 
 
 def centroid_to_box(c, w, h):
-    return [ int(c[0]-w/2), int(c[1]-h/2), int(w), int(h) ]
+    return [int(c[0] - w / 2), int(c[1] - h / 2), int(w), int(h)]
 
 
 def box_to_centroid(box):
     if box is not None:
-        return [ int(box[0] + box[2]/2), (box[1] + box[3]/2)]
+        return [int(box[0] + box[2] / 2), (box[1] + box[3] / 2)]
     else:
         return box
+
 
 def box_angles_to_bbox(box):
     """
@@ -185,11 +186,13 @@ def box_angles_to_bbox(box):
     to (x, y, w, h)
     """
     (x1, y1, x2, y2) = box
-    return x1, y1, x2-x1, y2-y1
+    return x1, y1, x2 - x1, y2 - y1
+
 
 def bbox_to_box_angles(box):
     (x, y, w, h) = box
-    return x, y, x+w, y+h
+    return x, y, x + w, y + h
+
 
 def iou(bb_test, bb_gt):
     """
