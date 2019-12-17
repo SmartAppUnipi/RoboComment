@@ -9,13 +9,13 @@ class Filler:
         self.__match_id = match_id
         self.__modifier = {
             "player_modifier":{
-                "good": ["the skilled","the terrific","the great","the popular"],
-                "neutral": ["a normal","the averaged","","",""],
+                "good": ["the skilled","the terrific","the great","the popular", "the astonishing"],
+                "neutral": [""],
                 "bad": ["the stupid","boot",""]
             },
             "team_modifier":{
                 "good": ["the great","the victorious","the popular"],
-                "neutral": ["a normal","","",""],
+                "neutral": [""],
                 "bad" : ["the disgusting","the terrible","the awful",""]
             }
         }
@@ -88,7 +88,7 @@ class Filler:
                 comment = comment.replace("{"+placeh+"}", np.random.choice(self.__modifier["player_modifier"]["neutral"]))
             if placeh[:4] == 'team':
                 if "player"+placeh[-1] in placeholders.keys():
-                    if np.random.rand(1,1)<0.9:
+                    if np.random.rand(1,1)<0.2:
                         comment = comment.replace("{"+placeh+"}", self.__kb.get_role_player(self.__match_id,placeholders["player"+placeh[-1]]))
                     else:
                         comment = comment.replace("{"+placeh+"}", np.random.choice(self.__modifier["team_modifier"]["neutral"]))
@@ -96,56 +96,41 @@ class Filler:
         comment = comment.replace(" ,",",")
         return comment
 
-    """
-    # getting the placeholders {*_modifier} 
-    placeholders = re.findall(r'{(.*?)}', comment)
-    regex = re.compile(r'\w*_modifier')
-    modifiers = [i for i in placeholders if regex.match(i)]
 
-    details = self.replace_id_with_names(details)
+    # # getting the placeholders {*_modifier} 
+    # placeholders = re.findall(r'{(.*?)}', comment)
+    # regex = re.compile(r'\w*_modifier')
+    # modifiers = [i for i in placeholders if regex.match(i)]
 
-    # BUGFIX
-    details[details['subtype']] = details['subtype']
-    if 'field_zone' in details.keys():
-        details[details['field_zone']] = details['field_zone']
+    # details = self.replace_id_with_names(details)
+
+    # # BUGFIX
+    # details[details['subtype']] = details['subtype']
+    # if 'field_zone' in details.keys():
+    #     details[details['field_zone']] = details['field_zone']
 
 
-    if len(modifiers) > 0: # there are some modifier placeholders
-        # bias allows to pick the right set of modifiers
-        bias = "good" if  details['team1'] == user_team else "bad"            
-        for mod in modifiers:
-            # here we require a better picking strategy
-            details[mod] = template_modifiers[bias][mod][0]
+    # if len(modifiers) > 0: # there are some modifier placeholders
+    #     # bias allows to pick the right set of modifiers
+    #     bias = "good" if  details['team1'] == user_team else "bad"            
+    #     for mod in modifiers:
+    #         # here we require a better picking strategy
+    #         details[mod] = template_modifiers[bias][mod][0]
 
-    comment = comment.format(**details)
+    # comment = comment.format(**details)
     
-    def replace_id_with_names(self,details):
-        def check_and_replace(key:str, details, get_from_kb):
-            if key in details.keys():
-                if  details[key] != '{empty}':
-                    details[key] = get_from_kb(details[key])
-                else:
-                    details[key] = ""
-            return details
+    # def replace_id_with_names(self,details):
+    #     def check_and_replace(key:str, details, get_from_kb):
+    #         if key in details.keys():
+    #             if  details[key] != '{empty}':
+    #                 details[key] = get_from_kb(details[key])
+    #             else:
+    #                 details[key] = ""
+    #         return details
         
-        details = check_and_replace('team1', details, self.kb.get_team)
-        details = check_and_replace('team2', details, self.kb.get_team)
-        details = check_and_replace('player1', details, self.kb.get_player)
-        details = check_and_replace('player2', details, self.kb.get_player)
+    #     details = check_and_replace('team1', details, self.kb.get_team)
+    #     details = check_and_replace('team2', details, self.kb.get_team)
+    #     details = check_and_replace('player1', details, self.kb.get_player)
+    #     details = check_and_replace('player2', details, self.kb.get_player)
         
-        return details
-    """
-
-if __name__ == '__main__':
-
-    comment = "it seems that {player_modifier1} {player1} , {team_modifier1} {team1} man,  has blocked what it looks like {player_modifier2} {player2}"
-    placeholders = {'player1': 7, 'team1': 42, 'player2': 41}
-
-    print("COMMENT:", comment)
-    print("PLACEHOLDERS:", placeholders)
-    user_id = 42
-    from MockKnowledgeBase import MockKB
-    my_kb = MockKB()
-    filler = Filler(kb=my_kb,user_id = user_id,match_id=12)
-    comment = filler.update_comment(comment, placeholders)
-    print(comment)
+    #     return details
