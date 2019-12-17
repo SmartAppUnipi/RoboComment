@@ -50,9 +50,8 @@ class TestSymbolicEventsCache(unittest.TestCase):
         self.cache.cache_event(match_id,clip_uri, { "type" : "positions", "positionX" : 5, "positionY" : 1})
 
         position_path = self.cache.get_clip_path(match_id,clip_uri) + "/" + "positions"
-        assert os.path.exists(position_path + "/position1.json")
-        assert os.path.exists(position_path + "/position2.json")
-        assert os.path.exists(position_path + "/position3.json")
+        assert os.path.exists(position_path)
+
         
 
 

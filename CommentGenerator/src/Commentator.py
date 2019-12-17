@@ -22,7 +22,7 @@ class Commentator:
         self.user_id = user_id
         self.kb = knowledge_base
         self.user_lang = self.kb.get_user_language(self.user_id)
-        self.user_voice = self.kb.get_user_voice(self.user_id)
+        #self.user_voice = self.kb.get_user_voice(self.user_id)
         self.automa = CommentAutomata()
         self.picker = Picker()
         self.filler = Filler(knowledge_base, self.user_id, match_id)
@@ -49,7 +49,7 @@ class Commentator:
         output = {
             'comment': comment,
             'language' : self.user_lang,
-            'voice': self.user_voice,
+            'voice': 'en-US-Wavenet-D',
             'emphasis': sentiment,
             'startTime': jsonobj['start_time'],
             'endTime': jsonobj['end_time'],

@@ -16,7 +16,7 @@ def normalize_tracker_boxes(boxes, is_sort):
             x, y, w, h = min(x1, x2), min(y1, y2), np.abs(x2 - x1), np.abs(y2 - y1)
         else:
             (x, y, w, h, tid) = t
-        if w > 10 and h > 10:
+        if 18 < w < 170 and 26 < h < 220:
             n_boxes.append((int(max(x, 0)), int(max(y, 0)), int(w), int(h)))
             track_ids.append(int(tid))
 

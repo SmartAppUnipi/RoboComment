@@ -55,7 +55,8 @@ def get_field_lines(img):
     # tmp = np.maximum(cv2.filter2D(tmp, cv2.CV_32F, f.T), cv2.filter2D(tmp, cv2.CV_32F, f))
 
     # TODO smarter thresholding
-    lines = np.where(features > 0.2, 255, 0).astype(np.uint8)
+    lines = (features > 0.2).astype(np.uint8) * 255
+    # lines = np.where(features > 0.2, 255, 0).astype(np.uint8)
 
     # plt.imshow(lines)
     # plt.show()
@@ -91,7 +92,7 @@ class FitFieldIndex:
 
     def __call__(self, lines_img):
         size = 2
-        f = cv2.resize(lines_img, (size * 16, size * 9), interpolation=cv2.INTER_AREA)
+        f = cv2.resize(lines_img, (int(size * 16), int(size * 9)), interpolation=cv2.INTER_AREA)
         # cv2.imshow("f", f)
         f = f.reshape(-1).astype(np.float32)
         f /= np.linalg.norm(f)
@@ -100,7 +101,7 @@ class FitFieldIndex:
         # print(distances)
         # return self.cfgs[indices],(1 - np.asarray(distances))
         scores = self.imgs.dot(f)
-        ws = np.argsort(-scores)[:10]
+        ws = np.argsort(-scores)[:50]
         return self.cfgs[ws], scores[ws]
 
 
