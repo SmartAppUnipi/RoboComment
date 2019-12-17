@@ -1,5 +1,6 @@
 #pitch {
     border: solid 40px #060;
+    position: absolute;
   }
 
 #svg {
