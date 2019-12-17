@@ -6,24 +6,28 @@ try:
     from .Picker_grammar import Picker
     from .Automaton import CommentAutomata
     from .Translate import Translate
+    from .Rephraser import Rephraser
 except:
-    from Filler import Filler
-    from Sentimentalizer import Sentimentalizer
-    from Picker_grammar import Picker
-    from Automaton import CommentAutomata
-    from Translate import Translate
+    from .Filler import Filler
+    from .Sentimentalizer import Sentimentalizer
+    from .Picker_grammar import Picker
+    from .Automaton import CommentAutomata
+    from .Translate import Translate
+    from .Rephraser import Rephraser
 import json
 
 class Commentator:
 
-    def __init__(self, knowledge_base, user_id):
+    def __init__(self, knowledge_base, user_id, match_id):
         self.user_id = user_id
         self.kb = knowledge_base
         self.user_lang = self.kb.get_user_language(self.user_id)
+        self.user_voice = self.kb.get_user_voice(self.user_id)
         self.automa = CommentAutomata()
         self.picker = Picker()
-        self.filler = Filler(knowledge_base, self.user_id)
+        self.filler = Filler(knowledge_base, self.user_id, match_id)
         self.translator = Translate(self.user_lang)
+        self.rephraser = Rephraser(source=self.user_lang)
         self.sentimentalizer = Sentimentalizer()
 
     def run(self, jsonobj:json):
@@ -38,62 +42,18 @@ class Commentator:
         # retrieve sentiment
         sentiment = self.sentimentalizer.get_sentiment(comment)
         # translate in the correct language
-        comment = self.translator.get_translation(comment)
-        print(comment)
+        # comment = self.translator.get_translation(comment)
+        # rephrase the comment
+        # comment = self.rephraser.safe_random_reprase(comment)
 
-        # TODO modify priority
         output = {
             'comment': comment,
-            'language' : 'en',
-            'priority' : priority,
+            'language' : self.user_lang,
+            'voice': self.user_voice,
             'emphasis': sentiment,
             'startTime': jsonobj['start_time'],
-            'endTime' : jsonobj['end_time'],
-            'voice' : 'en-US-Wavenet-D',
-            'id' : self.user_id
+            'endTime': jsonobj['end_time'],
+            'priority' : priority,
+            'id' : self.user_id # it is better to use 'user_id' as key but the audio group looks for 'id'
         }
         return output
-
-if __name__ == '__main__':
-
-    comm = Commentator("", 1)
-    comm.run({
-    "type": "pass",
-    "user_id": 10,
-    "start_time": 10,
-    "end_time" : 20,
-    "player_active": {
-      "id": {
-        "value": 42,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    },
-    "player_passive": {
-      "id": {
-        "value": 41,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    }
-})
-    comm.run({
-    "type": "pass",
-    "user_id": 10,
-    "start_time": 10,
-    "end_time" : 20,
-    "player_active": {
-      "id": {
-        "value": 42,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    },
-    "player_passive": {
-      "id": {
-        "value": 41,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    }
-})

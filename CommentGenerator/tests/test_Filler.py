@@ -9,48 +9,12 @@ class TestFiller(unittest.TestCase):
 
     def setUp(self):
         self.kb = MockKB()
-        self.comment_filler = Filler(self.kb)
+        self.comment_filler = Filler(self.kb, user_id=42, match_id = 42)
     
+    def test_filler1(self):
 
-    def test_update_comment1(self):
-        details = {
-            "team1" : 42,
-            "team2": 7,
-            "player1": 42,
-            "player2": 7,
-            "field_zone" : "middle",
-            "subtype"  : "pass",
-            "confidence" : 0.4
-        }
-
-        updated_comment = self.comment_filler.update_comment("{player1} from {team1} has passed to {player2} in the {field_zone}", details, 4)
-
-        assert updated_comment == "Player42 from Team42 has passed to Player7 in the middle"
-
-    def test_update_comment2(self):        
-        details = {
-            "team1" : 4,
-            "player1": 42,
-            "subtype"  : "pass",
-            "confidence" : 0.4
-        }
-
-            
-        updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details, 4)
-
-        assert updated_comment == "Player42 has passed good"
-    
-    def update_comment3(self): #TODO fix this
-        with open("CommentGenerator/tests/mock_assets/config1.json",'r') as conf2:
-            self.comment_filler.config = json.load(conf2)
-        
-        details = {
-            "team1" : "team B",
-            "player1": "Ruicosta",
-            "subtype"  : "pass",
-            "confidence" : 0.4
-        }
-
-        updated_comment = self.comment_filler.update_comment("{player1} has passed {simple_modifier}", details, 4)
-
-        assert updated_comment == "Ruicosta has passed bad"
+        comment = "it seems that {player_modifier1} {player1} , {team1} man,  has blocked what it looks like {player_modifier2} {player2}"
+        placeholders = {'player1': 7, 'team1': 7, 'player2': 41}
+          
+        comment = self.comment_filler.update_comment(comment, placeholders)
+        print(comment)

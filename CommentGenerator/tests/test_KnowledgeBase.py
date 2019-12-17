@@ -77,4 +77,4 @@ class TestKnowledgeBase(unittest.TestCase):
             mock_request.get(self.KB_URL + KnowledgeBase.MATCH +"/42", text=json.dumps(match), status_code=200)
             res = self.kb.get_match(42)
 
-            assert res['home']['name'] == "SS Lazio"
+            assert res == "SS Lazio"

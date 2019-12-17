@@ -5,10 +5,12 @@ try:
     from .tags.Extractor import Extractor
     from .tags.Player import Player
     from .tags.Elementary import Elementary
+    from .tags.Team import Team
     from .Filler import Filler
 except:
     from tags.Extractor import Extractor
     from tags.Player import Player
+    from tags.Team import Team
     from tags.Elementary import Elementary
     from Filler import Filler
 
@@ -23,6 +25,8 @@ class Picker:
         self.__extractor = Extractor()
         with open('CommentGenerator/assets/comments_empty_moments.txt', "r") as f:
             self.__lulls = [line for line in f.readlines()]
+        with open('CommentGenerator/assets/comments_empty_moments_soccer.txt', "r") as f:
+            self.__lulls_soccer = [line for line in f.readlines()]
 
 
     def pick_comment(self, input_json: json, template_type: str)->tuple:
@@ -41,14 +45,24 @@ class Picker:
         # store input into tagger
         self.__extractor.set_input(input_json)
 
+        if self.__extractor.get_priority() > 7:
+            template_type = "Pure comment"
+
         # hybrid comment
         if template_type == "Hybrid comment":
-            (success, comment) = self.__hybrid_comment()
+            # for now fill with the lulls comment
+            (success, comment) = self.__lulls_comment()
             if success:
-                comment = " ".join(str(word) for word in comment)
-                return comment, {}, 2
-            else:
-                template_type = "Pure comment"
+                return comment, {}, 1
+            """
+                (success, comment) = self.__hybrid_comment()
+                if success:
+                    comment = " ".join(str(word) for word in comment)
+                    return comment, {}, 2
+                else:
+                    template_type = "Pure comment"
+            """
+            return "", {}, 1
 
         # pure comment
         if template_type == "Pure comment":
@@ -96,6 +110,15 @@ class Picker:
                     player2 = Player()
                     player2.obtain_info(self.__extractor.get_player_info('passive'))
                     sub_template = player2.get_template()
+                elif element == "Team_active":
+                    # create player object, passing extraction info by tags
+                    team_subject = Team("active")
+                    team_subject.obtain_info(self.__extractor.get_team_info())
+                    sub_template = team_subject.get_template()
+                elif element == "Team_passive":
+                    team_subject = Team("passive")
+                    team_subject.obtain_info(self.__extractor.get_team_info())
+                    sub_template = team_subject.get_template()
 
                 if element == "Elementary":
                     # create elementary object, passing extraction info by tags
@@ -129,33 +152,27 @@ class Picker:
         :return: tuple composed (success result (true, false), comment list)
         :return:
         """
-        return (True, random.choice(self.__lulls))
+        if "0" == random.choice(["0","1"]):
+            return (True, random.choice(self.__lulls))
+        else:
+            intro = random.choice(["did you know that ", "I got a curiosity in mind, did you know that "])
+            return (True, intro + (random.choice(self.__lulls_soccer)))
 
 
 if __name__ == '__main__':
     test1 = {
-    "type": "pass",
+    "type": "penalty",
     "match_id" : 42,
+    "clip_uri" : "http://clip.of.the.match/juve/napoli",
     "user_id": 10,
-    "start_time": 11,
-    "end_time" : 21,
-    "player_active": {
-      "id": {
-        "value": 42,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    },
-    "player_passive": {
-      "id": {
-        "value": 41,
-        "confidence": 0.5
-      },
-      "team": {"value" : 42}
-    }
+    "time": 10,
+    #"team": 5,
+    "start_time": 10,
+    "end_time" : 20
 }
     picker = Picker()
-    comment, placeholders, priority = picker.pick_comment(test1, "Welcome state")
+    comment, placeholders, priority = picker.pick_comment(test1, "Hybrid comment")
+
     print("Comment:", comment)
     print("Placeholders:",placeholders)
     print("Priority", priority)

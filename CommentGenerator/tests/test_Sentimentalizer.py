@@ -1,14 +1,17 @@
 import unittest
 from src.Sentimentalizer import Sentimentalizer
-
+import nltk
 
 class TestSentimentalizer(unittest.TestCase):
+    
+    @classmethod
+    def setUpClass(cls):
+        nltk.download('vader_lexicon')
+
 
     def setUp(self):
-        self.sentimentalizer = Sentimentalizer()
+        self.sen = Sentimentalizer()
 
-    def test_add_emphasis1(self):
-
-        output_json = self.sentimentalizer.add_emphasis("Cristiano Ronaldo has made a goal,fantastic!")
-
-        print(output_json)
+    def test_sentiment1(self):
+        sentiment = self.sen.get_sentiment("The bad player is passing the ball")
+        assert sentiment in set([1,3,5])
