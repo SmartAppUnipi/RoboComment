@@ -1,4 +1,5 @@
-const url        = 'ws://10.101.27.91:4020';
+// const url        = 'ws://131.114.137.237:4020';
+const url        = 'ws://localhost:4020';
 let queue        = new Queue();
 let ws           = null;
 let AlreadySend1 = false;
