@@ -92,6 +92,8 @@ class Filler:
                         comment = comment.replace("{"+placeh+"}", self.__kb.get_role_player(self.__match_id,placeholders["player"+placeh[-1]]))
                     else:
                         comment = comment.replace("{"+placeh+"}", np.random.choice(self.__modifier["team_modifier"]["neutral"]))
+                else:
+                        comment = comment.replace("{"+placeh+"}", np.random.choice(self.__modifier["team_modifier"]["neutral"]))
         comment = comment.replace("  "," ")
         comment = comment.replace(" ,",",")
         return comment
