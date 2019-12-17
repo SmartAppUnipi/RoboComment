@@ -73,6 +73,7 @@ class GameModel:
             print("CAREFUL, MATCH_ID is  not present")
             self._match_id = None
 
+        self._match_url = None
         if "match_url" in positions:
             new_match_url = positions['match_url']
             if self._match_url and new_match_url != self._match_url:
@@ -80,7 +81,6 @@ class GameModel:
             self._match_url = new_match_url
         else:
             print("CAREFUL, MATCH URL is  not present")
-            self._match_url = None
 
     def to_comment_generation(self):
         """This method sends all the retrieved events to comment generation"""
