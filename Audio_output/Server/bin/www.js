@@ -167,29 +167,52 @@ commentApp.post("/", function (req, res) {
     console.log("New comment");
 
     console.log(req.body);
-
-    let comment = JSON.parse(JSON.stringify(req.body));
-    comment.endTime = comment.startTime + estimateTime(comment.comment);
-    console.log("Start-stop: "+comment.startTime + "-"+comment.endTime);
-
     res.sendStatus(200);
 
-    if (comment.id) {
-        for(let i=0; i< connections.length; i++) {
-            if(comment.id === connections[i].id){
+    let comment = JSON.parse(JSON.stringify(req.body));
+    if(!comment.comment){
+
+        if (comment.id) {
+            console.log("Position with ID");
+            for(let i=0; i< connections.length; i++) {
+                if(comment.id === connections[i].id){
+                    // sendPosition(connections[i], comment.id, req.body);
+                }
+            }
+        }
+        else {
+            console.log("Position without ID");
+            for (let i = 0; i < connections.length; i++) {
+                // sendPosition(connections[i], 0, comment);
+            }
+        }
+
+    }else{
+        comment.endTime = comment.startTime + estimateTime(comment.comment);
+        console.log("Start-stop: "+comment.startTime + "-"+comment.endTime);
+
+        res.sendStatus(200);
+
+        if (comment.id) {
+            for(let i=0; i< connections.length; i++) {
+                if(comment.id === connections[i].id){
+                    connections[i].new_comment = comment;
+                    sendComment(connections[i], comment.id);
+                }
+            }
+        }
+        else {
+            console.log("No id, broadcast to all");
+            for(let i=0; i< connections.length; i++) {
                 connections[i].new_comment = comment;
-                sendComment(connections[i], comment.id);
+                sendComment(connections[i], 0);
             }
         }
     }
-    else {
-        console.log("No id, broadcast to all");
-        for(let i=0; i< connections.length; i++) {
-            connections[i].new_comment = comment;
-            sendComment(connections[i], 0);
-        }
-    }
+
+
 });
+
 
 commentApp.post("/positions", function (req, res) {
 
