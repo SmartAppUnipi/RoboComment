@@ -10,7 +10,7 @@
     "player_active": {
       "id": {
         "value": 42,
-        "confidence": 0.5
+        "confidence": 0.9
       },
       "team": {"value" : 42}
     }
