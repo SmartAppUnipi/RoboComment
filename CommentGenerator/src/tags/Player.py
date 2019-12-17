@@ -49,7 +49,7 @@ class Player:
                     if self.__confidence <= 0.5:
                         player_info.append(random.choice(["it seems that {player_modifier1} {player1}", "it seems that {player1}",
                                                           "I'm not sure but {player_modifier1} {player1}",  "I'm not sure but {player1}",
-                                                          "apparently {player_modifier1} {player1}", "apparently {player1}"
+                                                          "apparently {player_modifier1} {player1}", "apparently {player1}",
                                                           ]))
                     elif self.__confidence > 0.5:
                         player_info.append(random.choice(["clearly {player_modifier1} {player1}", "clearly {player1}",
