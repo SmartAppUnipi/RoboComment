@@ -57,7 +57,11 @@ class KnowledgeBase:
     
     def get_user_language(self,user_id):
         tmp_user = self.get_item(KnowledgeBase.USER, user_id)
-        return tmp_user['language'] if tmp_user else "en"
+        return tmp_user['favourite_language'] if tmp_user else "en"
+
+    def get_user_voice(self,user_id):
+        tmp_user = self.get_item(KnowledgeBase.USER, user_id)
+        return tmp_user['favourite_voice'] if tmp_user else 'en-US-Wavenet-D'
     
     def get_item(self, entity, id):
         try:

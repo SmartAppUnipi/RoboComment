@@ -80,7 +80,7 @@ class CommentatorPool:
 
         if user_id in self.commentator_pool[match_id][clip_uri].keys():
             # we already have an opened session for this user
-            return True # in_cache should be true
+            return in_cache
 
         self.commentator_pool[match_id][clip_uri][user_id] = {}
         # symbolic q is used to push the symbolic events to the threads

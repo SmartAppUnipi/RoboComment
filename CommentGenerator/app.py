@@ -42,9 +42,9 @@ def events():
 
     response = ("OK", 200)
     # the input MUST have the match_id and the clip_uri
-    if "match_id" in event.keys() and "clip_uri" in event.keys():
+    if "match_id" in event.keys() and "match_url" in event.keys():
         match_id = event["match_id"]
-        clip_uri = event["clip_uri"]
+        clip_uri = event["match_url"]
         
         commentator_pool.cache(match_id, clip_uri, event)
         commentator_pool.push_symbolic_event_to_match(match_id, clip_uri , event) 
