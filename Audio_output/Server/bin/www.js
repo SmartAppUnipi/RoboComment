@@ -167,10 +167,12 @@ commentApp.post("/", function (req, res) {
     console.log("New comment");
 
     console.log(req.body);
+    res.sendStatus(200);
 
     let comment = JSON.parse(JSON.stringify(req.body));
-    if(!comment.comment){
+    if(comment.players){
 
+        console.log("Arrived position");
         if (comment.id) {
             for(let i=0; i< connections.length; i++) {
                 if(comment.id === connections[i].id){
@@ -185,11 +187,10 @@ commentApp.post("/", function (req, res) {
             }
         }
 
-    }else{
+    }else if(comment.comment){
+
         comment.endTime = comment.startTime + estimateTime(comment.comment);
         console.log("Start-stop: "+comment.startTime + "-"+comment.endTime);
-
-        res.sendStatus(200);
 
         if (comment.id) {
             for(let i=0; i< connections.length; i++) {
