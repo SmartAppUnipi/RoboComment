@@ -74,7 +74,23 @@ def distance(a, b):
     distance = math.sqrt(((ax - bx)**2)+((ay - by)**2))
     return distance
 
-def push_closest(stack_name, pos):
+def _multiple_closest(pos, num):
+    ball_x = float(pos['ball'][0]['position']['x'])
+    ball_y = float(pos['ball'][0]['position']['y'])
+
+    for player in pos['players']:
+        # check that player is not the referee
+        if player['team'] != -1:
+            x = float(player['position']['x'])
+            y = float(player['position']['y'])
+            distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
+            player['delta'] = distance
+
+
+    players = sorted(pos['players'], key=lambda x: x['delta'])
+    return players[:num]
+
+def _closest(pos):
     ball_x = float(pos['ball'][0]['position']['x'])
     ball_y = float(pos['ball'][0]['position']['y'])
 
@@ -94,12 +110,45 @@ def push_closest(stack_name, pos):
         if (current == min_delta):
             closest = player
 
+    return closest
+
+def push_closest(stack_name, pos):
+    closest = _closest(pos)
     to_push = {
         'type': 'closest',
         'time': trunc(pos['time']),
         'id': closest['id'],
         'team': closest['team'],
         'position': closest['position']
+    }
+    push(stack_name, to_push)
+
+def is_pressed(pos):
+    closest = _closest(pos)
+
+    threshold = 2
+    no_player_in_closest_area = 0
+
+    for player in pos['players']:
+        if player['team'] == -1:
+            continue
+        if player['team'] == closest['team']:
+            continue
+
+        d = distance(player['position'], closest['position'])
+        if d < 2:
+            no_player_in_closest_area += 1
+
+    return no_player_in_closest_area > 1
+
+def push_pressed(stack_name, pos, is_pressed):
+    closest = _closest(pos)
+    to_push = {
+        'type': 'player_pressed' if is_pressed else 'player_not_pressed',
+        'start_time': trunc(pos['time']),
+        'end_time': trunc(pos['time']),
+        'time': trunc(pos['time']),
+        'player': closest
     }
     push(stack_name, to_push)
 
@@ -225,13 +274,13 @@ def compute_bari_diam(stack_name, pos):
             team0.append([x,y])
         if current_team == 1:
             team1.append([x,y])
-           
+
     bary0 = _barycenter(team0)
     bary1 = _barycenter(team1)
-    
+
     diam0 = []
     diam1 = []
-    
+
     for player in pos['players']:
         x = float(player['position']['x'])
         y = float(player['position']['y'])
@@ -242,10 +291,10 @@ def compute_bari_diam(stack_name, pos):
         if current_team == 1:
             distance = math.sqrt(((bary1[0] - x)**2)+((bary1[1] - y)**2))
             diam1.append(distance)
-    
+
     meanDist0 = np.asarray(diam0).mean()
     meanDist1 = np.asarray(diam1).mean()
-    
+
     to_push = {
         'type': 'barycenter',
         'position' : {'x': bary0[0], 'y': bary0[1]},
@@ -264,18 +313,23 @@ def compute_bari_diam(stack_name, pos):
     }
     push(stack_name, to_push)
 
-def checkTackle(stack_name, pos):
-    pass
-'''    ball_x = float(pos['ball'][0]['position']['x'])
-    ball_y = float(pos['ball'][0]['position']['y'])
+def checkTackle(pos):
+    players = _multiple_closest(pos, 2)
 
-    for player in pos['players']:
-        # check that player is not the referee
-        if player['team'] != -1:
-            x = float(player['position']['x'])
-            y = float(player['position']['y'])
-            distance = math.sqrt(((ball_x - x)**2)+((ball_y - y)**2))
-            player['delta'] = distance
+    threshold = 0.5
+    return players[0]['team'] != players[1]['team'] and distance(players[0]['position'], players[1]['position']) <= threshold and players[0]['team']['value'] != -1 and players[1]['team']['value'] != -1
 
-    newlist = sorted(pos['players'], key=lambda x: x['delta'])
-'''
+def pushTackle(stacks, pos):
+    players = _multiple_closest(pos, 2)
+
+    to_push = {
+        'type': 'duel',
+        'time': trunc(pos['time']),
+        'defender': players[0],
+        'def_team': players[0]['team'],
+        'attacker': players[1],
+        'att_team': players[1]['team'],
+        'position': players[1]['position']
+    }
+    for stack in stacks:
+        push(stack, to_push)

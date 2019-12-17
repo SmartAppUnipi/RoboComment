@@ -18,8 +18,14 @@ class GameModel:
 
     @staticmethod
     def clean_reg():
-        """cleans stacks, registers and rules"""
+        """cleans registers"""
         U._registers = {}
+
+    def __clean_stack(self):
+        """cleans stacks"""
+        self._stacks = {}
+        self._stacks['stdin'] = deque()
+        self._stacks['stdout'] = deque()
 
     def __init__(self):
         """Initializes the game model by parsing the rule file"""
@@ -67,11 +73,14 @@ class GameModel:
             print("CAREFUL, MATCH_ID is  not present")
             self._match_id = None
 
-        if "clip_uri" in positions:
-            self._match_id = positions['clip_uri']
+        if "match_url" in positions:
+            new_match_url = positions['match_url']
+            if self._match_url and new_match_url != self._match_url:
+                self.__clean_stack()
+            self._match_url = new_match_url
         else:
-            print("CAREFUL, CLIP URI is  not present")
-            self._clip_uri = None
+            print("CAREFUL, MATCH URL is  not present")
+            self._match_url = None
 
     def to_comment_generation(self):
         """This method sends all the retrieved events to comment generation"""
@@ -83,10 +92,10 @@ class GameModel:
                 jsn['user_id'] = self._user_id
             if self._match_id:
                 jsn['match_id'] = self._match_id
-            if self._clip_uri:
-                jsn['clip_uri'] = self._clip_uri
+            if self._match_url:
+                jsn['match_url'] = self._match_url
             try:
-                x = requests.post(self._cg_url, json=jsn, timeout=0.01)
+                x = requests.post(self._cg_url, json=jsn, timeout=0.3)
                 if(jsn['type'] != 'positions'):
                     with open("output_log.out", 'a') as out_log:
                         out_log.write(str(jsn) + "\n")
@@ -115,7 +124,7 @@ class GameModel:
         return rule_str
 
     def _get_rules_strings(self, filename):
-        """Parse the rules file and build an array or rules strings
+        """Parse the rules file and build an array of rules strings
         - filename: file name of the rules"""
         rules = []
         with open(filename, 'r') as f:
@@ -123,16 +132,17 @@ class GameModel:
             end = False
             while not end:
                 next_line = f.readline()
+                if next_line.startswith("//"):
+                    continue
+
                 if not next_line:
                     if len(prev_rule) > 0:
-                        rule_pythonized = self._pythonize_rule(
-                            prev_rule.rstrip())
+                        rule_pythonized = self._pythonize_rule(prev_rule.rstrip())
                         rules.append(rule_pythonized)
                     end = True
                 else:
                     if not re.match(r'\s', next_line) and len(prev_rule) > 0:
-                        rule_pythonized = self._pythonize_rule(
-                            prev_rule.rstrip())
+                        rule_pythonized = self._pythonize_rule(prev_rule.rstrip())
                         rules.append(rule_pythonized)
                         prev_rule = next_line.strip()
                     else:

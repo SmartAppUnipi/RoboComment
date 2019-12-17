@@ -4,7 +4,6 @@ import re
 
 import requests
 
-
 class RoutesParser:
     def __init__(self, path=None):
         if path is None:
@@ -15,6 +14,13 @@ class RoutesParser:
     def post(self, name, data):
         r = requests.post(url=self.routes[name], json=data)
         return r.status_code
+
+
+    def query_kb(self, name, service, id_):
+        url = self.routes[name] + service + "/" + str(id_)
+        r = requests.get(url)
+        return r.json()
+
 
     def __getitem__(self, name):
         m = re.match(r"(https?:\/\/)(.*):(\d*)(\/?.*)", self.routes[name])

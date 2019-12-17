@@ -20,16 +20,92 @@ class TeamRecognizer:
     def __init__(self, classes: list = ['team_a', 'team_b', 'referee'], eps=1., min_samples=2):
         self.classes = classes
         self.dbscan = DBSCAN(eps=eps, min_samples=min_samples, metric='cosine')
-        self.kmeans = KMeans(n_clusters=3)
+        self.kmeans = KMeans(n_clusters=2)
         self.old_centroids_labels = []
+        self.histograms = []
+        self.referee_index = -1
+    
+    def referee_detection(self):
+        """
+        Perform DBSCAN on clusters of the two teams
+        given from KMEANS, find outliers, good referees candidate,
+        and filter candidates based on similarity with their 
+        cluster elements.
+        :param
+        :return:
+        set self.referee_index value.
+        """
 
-    def filter_labels(self):
+        # Apply DBSCAN on two team clusters
+        referee_indices=[]
+        labels = self.old_centroids_labels[0][1]
+        clusters = [np.where(labels == element)[0].tolist() for element in np.unique(labels)]
+        # TODO: code cleaning
+        c1_ind=[]
+        c1=[]
+        c2_ind=[]
+        c2=[]
+        for i in clusters[0]:
+            c1.append(self.histograms[i])
+            c1_ind.append(i)
+        for i in clusters[1]:
+            c2.append(self.histograms[i])
+            c2_ind.append(i)
+        dbscan_c1 = DBSCAN(eps=1) #TODO: find best eps
+        dbscan_c1.fit(c1)
+        dbscan_c2 = DBSCAN(eps=1)
+        dbscan_c2.fit(c2)
+        print(dbscan_c1.labels_)
+        print(dbscan_c2.labels_)
+        
+        # Save in referee_indices possible noise candidates (-1 DBSCAN)
+        #if (dbscan_c1.labels_==-1).sum() == 1:
+        for l, i in zip(dbscan_c1.labels_, c1_ind):
+            if l==-1:
+                referee_indices.append((i,0))
+        #if (dbscan_c2.labels_==-1).sum() == 1:
+        for l, i in zip(dbscan_c2.labels_, c2_ind):
+            if l==-1:
+                referee_indices.append((i,1))
+
+        # Filter candidate:
+        # find a single single.referee_index
+        # computing similarity between candidate 
+        # and all elements in its cluster.
+        sim = []
+        for ref in referee_indices:
+            ref_index = ref[0]
+            cl = ref[1]
+            tot_cos_sim=0
+            if cl == 0:
+                cluster = c1_ind
+            else:
+                cluster = c2_ind
+            for i in cluster:
+                if i != ref_index:
+                    # Sum all similarity between candidate and other elements
+                    # TODO: (?) 
+                    tot_cos_sim += distance.cosine(self.histograms[ref_index], self.histograms[i])
+            sim.append((tot_cos_sim, ref_index))
+        # Choose candidate with lowest similarity sum
+        if sim:
+            self.referee_index = min(sim, key = lambda t: t[0])[1]
+        else:
+            self.referee_index=-1
+
+    def keep_labels(self):
+        """
+        Mapping new KMEANS cluster labels based on
+        distance between new centroids and old ones.
+        :param
+        :return: new mapped cluster labels
+        """
         new_teams = self.kmeans.labels_
         centroids = self.kmeans.cluster_centers_
         self.old_centroids_labels.append((centroids, new_teams))
         if len(self.old_centroids_labels) > 1:
             match_index = []
-            # copute distance matrix between old clusters i and new clusters
+            # compute distance matrix between old clusters i and new clusters
             dist = distance.cdist(self.old_centroids_labels[0][0], self.old_centroids_labels[1][0])
             # print("[DEBUG} COMPUTED CENTROIDS DISTANCES")
             # print(dist)
@@ -45,11 +121,17 @@ class TeamRecognizer:
                     if label == m[1] + 10:
                         new_teams[i] = m[0] + 10
             new_teams = np.array([x - 10 for x in new_teams])
-            # prepare self.old_centroids_labels or next iteration
+            # prepare self.old_centroids_labels for next iteration
             self.old_centroids_labels.pop(0)
             lst = list(self.old_centroids_labels[0])
             lst[1] = np.array([x - 10 for x in self.old_centroids_labels[0][1]])
             self.old_centroids_labels[0] = tuple(lst)
+
+            # look for ref if there are at least 3 entities detected
+            if len(new_teams) > 2:
+                self.referee_detection()
+            else:
+                self.referee_index = -1
         return new_teams
 
     def detect_teams(self, frame, boxes, use_idf=True, value_search=False):
@@ -66,15 +148,18 @@ class TeamRecognizer:
         flags indicating whether an entity was
         recognized.
         """
+        if len(boxes) <= 1:
+            return [], []
+
         # get color histograms of each box (weighting with tf-idf)
-        histograms = self.compute_weighted_histograms(frame, boxes, use_idf)
+        self.compute_weighted_histograms(frame, boxes, use_idf)
         # [print(h) for h in histograms]
 
         # force same ordering in clusters: init kmeans start centroids with previous
         if len(self.old_centroids_labels) > 0:
-            self.kmeans = KMeans(n_clusters=3, init=self.old_centroids_labels[0][0], n_init=1)
+            self.kmeans = KMeans(n_clusters=2, init=self.old_centroids_labels[0][0], n_init=1)
 
-        X = histograms
+        X = self.histograms
         # use dbscan to filter out noise (fans, refs..)
         # self.dbscan.fit(X)
         # print(self.dbscan.labels_)
@@ -95,7 +180,7 @@ class TeamRecognizer:
                 if self.kmeans.inertia_ < bsse:
                     bsse = self.kmeans.inertia_
                     kmeans = self.kmeans
-                    kmeans.labels_ = self.filter_labels()
+                    kmeans.labels_ = self.keep_labels()
             print(kmeans.labels_)
             return kmeans.labels_, [True for _ in range(len(kmeans.labels_))]
         else:
@@ -152,7 +237,7 @@ class TeamRecognizer:
         # compute smooth idf
         idf = np.log(1.0 + idf) + 1.0
 
-        histograms = []
+        self.histograms = []
         # arrange detections in a proper format before clustering
         for box in boxes:
             [x, y, w, h] = box
@@ -165,6 +250,9 @@ class TeamRecognizer:
             # kernel = np.ones((3, 3), np.float32)/9
             # playerb = cv2.filter2D(playerb, -1, kernel)
 
+            if playerb.shape[0]==0 or playerb.shape[1]==0 or playerb.shape[2]==0:
+                continue
+
             # compute histogram of player detection (term frequency part)
             try:
                 hist = self.compute_histogram(playerb, n_bins)
@@ -175,9 +263,7 @@ class TeamRecognizer:
                 hist /= idf
             # normalize it
             hist /= np.linalg.norm(hist)
-            histograms.append(hist)
-
-        return histograms
+            self.histograms.append(hist)
 
     def compute_histogram(self, img, bins):
         return cv2.calcHist(cv2.split(img), [0, 1, 2], None, bins, [0, 180, 0, 256, 0, 256]).flatten()
