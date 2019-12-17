@@ -167,6 +167,7 @@ commentApp.post("/", function (req, res) {
     console.log("New comment");
 
     console.log(req.body);
+    res.sendStatus(200);
 
     let comment = JSON.parse(JSON.stringify(req.body));
     if(!comment.comment){
@@ -209,7 +210,10 @@ commentApp.post("/", function (req, res) {
         }
     }
 
+
 });
+
+
 commentApp.post("/positions", function (req, res) {
 
 });
