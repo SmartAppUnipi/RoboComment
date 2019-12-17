@@ -73,14 +73,14 @@ class GameModel:
             print("CAREFUL, MATCH_ID is  not present")
             self._match_id = None
 
-        if "clip_uri" in positions:
-            new_clip_uri = positions['clip_uri']
-            if self._clip_uri and new_clip_uri != self._clip_uri:
+        if "match_url" in positions:
+            new_match_url = positions['match_url']
+            if self._match_url and new_match_url != self._match_url:
                 self.__clean_stack()
-            self._clip_uri = new_clip_uri
+            self._match_url = new_match_url
         else:
-            print("CAREFUL, CLIP URI is  not present")
-            self._clip_uri = None
+            print("CAREFUL, MATCH URL is  not present")
+            self._match_url = None
 
     def to_comment_generation(self):
         """This method sends all the retrieved events to comment generation"""
@@ -92,10 +92,10 @@ class GameModel:
                 jsn['user_id'] = self._user_id
             if self._match_id:
                 jsn['match_id'] = self._match_id
-            if self._clip_uri:
-                jsn['clip_uri'] = self._clip_uri
+            if self._match_url:
+                jsn['match_url'] = self._match_url
             try:
-                x = requests.post(self._cg_url, json=jsn, timeout=0.01)
+                x = requests.post(self._cg_url, json=jsn, timeout=0.3)
                 if(jsn['type'] != 'positions'):
                     with open("output_log.out", 'a') as out_log:
                         out_log.write(str(jsn) + "\n")
