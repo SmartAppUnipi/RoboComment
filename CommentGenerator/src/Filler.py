@@ -11,12 +11,12 @@ class Filler:
             "player_modifier":{
                 "good": ["the skilled","the terrific","the great","the popular", "the astonishing"],
                 "neutral": [""],
-                "bad": ["the stupid","boot",""]
+                "bad": ["the stupid","boot","the poor","the weak","the scarce","the failing","","","","","","","","",""]
             },
             "team_modifier":{
                 "good": ["the great","the victorious","the popular"],
                 "neutral": [""],
-                "bad" : ["the disgusting","the terrible","the awful",""]
+                "bad" : ["the disgusting","the terrible","the awful","the poor","the weak","the scarce","the total failure","","","","","","",""]
             }
         }
 
