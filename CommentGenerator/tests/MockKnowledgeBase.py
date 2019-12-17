@@ -12,6 +12,31 @@ class MockKB():
                 42 : "Juventus",
                 7 : "Napoli",
                 5 : "Inter"
+            },
+            "match" : {
+                42 :  {
+                "home": {
+                    "id": 3162,
+                    "name": "SS Lazio"
+                },
+                "away": {
+                    "id": 3161,
+                    "name": "FC Internazionale Milano"
+                },
+                "result": ["2", "3"],
+                "home_team": [{
+                    "id": "130",
+                    "name": "S. de Vrij",
+                    "club": 3162,
+                    "role": "Defender"
+                }],
+                "away_team": [{
+                    "id": "21094",
+                    "name": "D. D'Ambrosio",
+                    "club": 3161,
+                    "role": "Defender"
+                }]
+        }
             }
         }
 

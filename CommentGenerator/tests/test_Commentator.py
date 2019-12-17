@@ -9,7 +9,7 @@ from tests.MockKnowledgeBase import MockKB
 class TestCommentator(unittest.TestCase):
     def setUp(self):
         self.kb = MockKB()
-        self.commentator = Commentator(self.kb, user_id=10)       
+        self.commentator = Commentator(self.kb, user_id=10, match_id = 42)       
 
         self.duel_input = self.get_symbolic_intput('duel/input_symbolic1.json')
         self.goal_input = self.get_symbolic_intput('goal/input_symbolic1.json')

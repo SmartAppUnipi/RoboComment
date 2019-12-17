@@ -39,7 +39,7 @@ class KnowledgeBase:
         if self._saved_match["id"] != match_id:
             tmp_match = self.get_item(KnowledgeBase.MATCH, match_id)
             self._saved_match = tmp_match if tmp_match else { "id" : -1,"name" : "Match" + str(tmp_match)}  
-        return self._saved_match["name"]
+        return self._saved_match['home']["name"]
     
     def get_role_player(self,match_id, player_id):
         tmp_match = self.get_item(KnowledgeBase.MATCH, match_id)

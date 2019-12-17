@@ -43,7 +43,7 @@ class Commentator:
         # translate in the correct language
         comment = self.translator.get_translation(comment)
         # rephrase the comment
-        comment = self.rephraser.safe_random_reprase(comment)
+        # comment = self.rephraser.safe_random_reprase(comment)
 
         output = {
             'comment': comment,
