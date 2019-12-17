@@ -13,7 +13,9 @@ Fires when detecting a penalty
 ```javascript
 {'type': 'penalty',
  'time': <time>,
- 'team': <team>}
+ 'team': <team>,
+ 'start_time': <time>,
+ 'end_time': <time>}
 ```
 ## Player pressed
 Describes whether the ball owner is under pressure
