@@ -1,17 +1,38 @@
 # Rules Symbolic Level
-## Pressed
+## Send plain positions
+Sends all the plainpositions of the actors involved in the action to the next level [audio_output_request] 
+### Actions
+- push to stdout
+```javascript
+{...}
+```
+## Penalty
+Fires when detecting a penalty
+### Actions
+- push to stdout
+```javascript
+{'type': 'penalty',
+ 'time': <time>,
+ 'team': <team>}
+```
+## Player pressed
 Describes whether the ball owner is under pressure
 ### Actions
-- push
+- push to stdout
 ```javascript
-{'type': 'player_pressed'}
+{'type':'player_pressed',
+ 'time': <time>,
+ 'player': {'id': <id>,
+ 'team': <team> },
+ 'position': <position>,
+ 'until': <time>}
 ```
-## Not_pressed
-Blah
+## Player not pressed
+Fires when the ball owner is under pressure
 ### Actions
-- push
+- push to stdout
 ```javascript
-{'type':'possession',
+{'type':'player_not_pressed',
  'time': <time>,
  'player': {'id': <id>,
  'team': <team> },
@@ -19,15 +40,21 @@ Blah
  'until': <time>}
 ```
 ## Possession
-Represents the possession
+Fires when detecting a possession
 ### Actions
-- push
+- push to elementary
 - consume
+## Pass
+Fires when detecting a pass
+### Actions
+- push to elementary
+- fpass
+- int_stdout
 ```javascript
-{'type':'possession',
- 'time': <time>,
- 'player': {'id': <id>,
- 'team': <team> },
- 'position': <position>,
- 'until': <time>}
+{'type': 'pass',
+ 'start_time': <time>,
+ 'end_time': <time>,
+ 'player_active': <player>,
+ 'player_passive': <player>,
+ 'time': <time>}
 ```

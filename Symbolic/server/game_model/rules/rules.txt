@@ -1,5 +1,9 @@
 lunpack[stdin] = @0 as ? : True then spacchettpush('positions', @0)
 
+// @rule(Send Plain Positions)
+// @description(Sends all the plainpositions of the actors involved in the action to the next level [AUDIO_OUTPUT_REQUEST] )
+// @action(push to stdout)
+// @returns({...})
 send_positions[stdin] = @0 as ? : True then push('stdout', @0); update('stdout', @0, {'type': 'positions'})
 
 closest[stdin] = @0 as ? : True then push_closest('positions', @0)
@@ -18,25 +22,28 @@ quasi_goal[stdin] = @0 as ? : ball_goal(@0) then push('elementary',
 penalty[stdin] = @0 as ? : is_penalty(@0) then push('int_stdout', {'type': 'penalty', 
     'time': @0.time, 'team': @0.team})
 
+// @rule(Penalty)
+// @description(Fires when detecting a penalty)
+// @action(push to stdout)
+// @returns({'type': 'penalty', 'time': <time>, 'team': <team>, 'start_time': <time>, 'end_time': <time>})
 penalty[int_stdout] = @0 as PENALTY : True then push('stdout', {'type': 'penalty', 'time': @0.time, 
     'team': @0.team, 'start_time': @0.time, 'end_time': @0.time}); consume('int_stdout', @0)
 
-// @rule(pressed)
+// @rule(Player Pressed)
 // @description(Describes whether the ball owner is under pressure)
-// @action(push)
-// @returns({'type': 'player_pressed'})
+// @action(push to stdout)
+// @returns({'type':'player_pressed', 'time': <time>, 'player': {'id': <id>, 'team': <team> }, 'position': <position>, 'until': <time>})
 pressed[stdin] = @0 as ? : is_pressed(@0) then push_pressed('stdout', @0, True)
 
-// @rule(not_pressed)
-// @description(Blah)
-// @action(push)
-// @returns({'type':'possession', 'time': <time>, 'player': {'id': <id>, 'team': <team> }, 'position': <position>, 'until': <time>})
+// @rule(Player Not Pressed)
+// @description(Fires when the ball owner is under pressure)
+// @action(push to stdout)
+// @returns({'type':'player_not_pressed', 'time': <time>, 'player': {'id': <id>, 'team': <team> }, 'position': <position>, 'until': <time>})
 not_pressed[stdin] = @0 as ? : not is_pressed(@0) then push_pressed('stdout', @0, False)
 
-// @rule(possession)
-// @description(Represents the possession)
-// @action(push, consume)
-// @returns({'type':'possession', 'time': <time>, 'player': {'id': <id>, 'team': <team> }, 'position': <position>, 'until': <time>})
+// @rule(Possession)
+// @description(Fires when detecting a possession)
+// @action(push to elementary, consume)
 possession[positions] = @0 as BALL -> .{0,0} -> @1 as CLOSEST :
     @1.time == @0.time and distance(@0.position, @1.position) < 0.5  and @1.team.value != -1 then
     push('elementary', {'type':'possession', 'time': trunc(@0.time), 'player': {'id': @1.id,
@@ -83,6 +90,10 @@ possession_stdout[int_stdout] = @0 as POSSESSION : True then push('stdout',
     {'type': 'possession', 'start_time': @0.time, 'end_time': @0.until, 'player_active':
     @0.player, 'time': @0.time}); consume('int_stdout', @0)
 
+// @rule(Pass)
+// @description(Fires when detecting a pass)
+// @action(push to elementary, fpass, int_stdout)
+// @returns({'type': 'pass', 'start_time': <time>, 'end_time': <time>, 'player_active': <player>, 'player_passive': <player>, 'time': <time>})
 pass_stdout[int_stdout] = @0 as PASS : True then push('stdout', {'type': 'pass',
     'start_time': @0.start_time, 'end_time': @0.end_time, 'player_active': @0.passer, 'player_passive':
     @0.receiver, 'time': @0.time}); consume('int_stdout', @0)
