@@ -94,7 +94,7 @@ def main(server_args=None, pnumbers=list(range(100))):
         args = server_args
     else:
         args = parse_arguments()
-
+    print("NUMBERS:", pnumbers)
     # posedetector = PoseDetector()
 
     # load yolo cache
@@ -359,5 +359,5 @@ def main(server_args=None, pnumbers=list(range(100))):
     cap.release()
     cv2.destroyAllWindows()
 
-
-main()
+if __name__ == '__main__':
+	main()
