@@ -191,8 +191,6 @@ commentApp.post("/", function (req, res) {
         comment.endTime = comment.startTime + estimateTime(comment.comment);
         console.log("Start-stop: "+comment.startTime + "-"+comment.endTime);
 
-        res.sendStatus(200);
-
         if (comment.id) {
             for(let i=0; i< connections.length; i++) {
                 if(comment.id === connections[i].id){
