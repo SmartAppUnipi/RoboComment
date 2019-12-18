@@ -3,6 +3,7 @@ import app as flaskapp
 import json
 import shutil
 import os
+import time
 
 assets = "CommentGenerator/tests/mock_assets/elementary/"
 cache = "CommentGenerator/.match_cache/"
@@ -33,6 +34,7 @@ class TestApi(unittest.TestCase):
     
     def tearDown(self):
         shutil.rmtree(cache)
+        return
 
     def test_running_server(self):
         response = self.client.get("/api")
@@ -61,7 +63,7 @@ class TestApi(unittest.TestCase):
         assert res.status_code == 400
        
     
-    def test_api_action3(self):
+    def api_action3(self):
         res1 = self.client.post("/api/session/7", data=json.dumps(io_json))   
         self.client.post("/api/action", data = self.pass_input)
         res2 = self.client.post("/api/session/8", data=json.dumps(io_json))
@@ -71,3 +73,13 @@ class TestApi(unittest.TestCase):
         
         assert res1.status_code == 201
         assert res2.status_code == 200
+    
+    def test_api_positions(self):
+        iterations = 1000
+        start_time = time.time()
+        for i in range(iterations):
+            self.client.post("/api/action", data = json.dumps({'match_id' : 42, 'match_url' : 'http://match.url/', 'type':'positions'}))
+            
+        elapsed_time = (time.time() - start_time)/iterations
+        print(elapsed_time)
+        assert elapsed_time < 0.3

@@ -17,7 +17,10 @@ def is_an_action(event):
         given a json object from the symbolic group returns True if is an object describing 
         the action on the field, returns False otherwise (if it is a position)
     '''
-    return event['type'] != "positions"
+    return 'type' in event.keys() and event['type'] != "positions"
+
+def is_a_position(event):
+    return 'type' in event.keys() and event['type'] == "positions"
 
 class CommentatorPool:
 
@@ -55,14 +58,14 @@ class CommentatorPool:
     
     def symbolic_mock(self, match_id, clip_uri):
         ''' this function is use to start a thread simulating the symbolic level when we already have the match in cache'''
-        for a in self.match_cache.get_next_action(match_id,clip_uri):
+        for a in self.match_cache.get_next_event(match_id,clip_uri):
             # wait some time before sending the next action to our module
-            self.push_symbolic_event_to_match(match_id,clip_uri, a)
+            self.dispatch_event(match_id,clip_uri, a)
 
             # we wait 50% of the action time, then we send another action
             # this just a trivial implementation to avoid sending all the comments at once
-            sleep_time = (a['end_time'] - a['start_time']) / 2
-            time.sleep(sleep_time)
+            # sleep_time = (a['end_time'] - a['start_time']) / 2
+            time.sleep(0.1)
 
     def start_session(self, match_id, clip_uri, start_time, user_id ):
         '''
@@ -126,7 +129,7 @@ class CommentatorPool:
         return
     
     
-    def push_symbolic_event_to_match(self,match_id, clip_uri, event):
+    def dispatch_event(self,match_id, clip_uri, event):
         if match_id not in self.commentator_pool.keys():
             return {}
         if clip_uri not in self.commentator_pool[match_id].keys():
@@ -137,7 +140,7 @@ class CommentatorPool:
             if is_an_action(event):
                 # the action can be used to produce a comment
                 self.commentator_pool[match_id][clip_uri][user_id]["symbolic_q"].put(event)
-            else:
+            elif is_a_position(event):
                 # the event is a position
                 self.send_to_audio(event)
 
@@ -175,60 +178,35 @@ class SymbolicEventsCache():
         return os.path.exists(clip_path)
 
     def cache_event(self,match_id, clip_uri, event):
-        '''
-        this function caches the json received from the symbolic level.
-        for each match id there will be a directory
-        in this dir there will be a directory per clip uri
-        then a directory for the actions and another for the positions
-        '''
+        match_path = self.cache_path + "/" + str(match_id)
         clip_path = self.get_clip_path(match_id,clip_uri)
-        
-        self._check_and_mkdir(self.cache_path + "/" + str(match_id))
+
+        self._check_and_mkdir(match_path)
         self._check_and_mkdir(clip_path)
-        
-        if is_an_action(event):
-            # the object is a usual event from the symbolic level 
-            # describing the action
-            dest_path = clip_path + "/actions"
-            new_file_name = "action"  
-        else:
-            # the object is related to the position used to display the minimap
-            # it need to be cached anyway
-            dest_path = clip_path + "/positions"
-            new_file_name = "position"  
-        
-        self._check_and_mkdir(dest_path)
 
-        try:
-            prev_file = sorted(os.listdir(dest_path))[-1]
-            prev_file_name = os.path.splitext(prev_file)[0]
-            prev_file_number = int(prev_file_name[-1])
-        except IndexError:
-            # first time we save a position
-            prev_file_number = 0
-
-        with open(dest_path + "/" + new_file_name + str(prev_file_number + 1) + ".json","w+") as filejson:
-            json.dump(event,filejson)
+        if is_a_position(event) or is_an_action(event):
+            
+            event_file = open(clip_path + '/' + 'events', 'a+')
+            dumped_event = json.dumps(event)
+            event_file.write(dumped_event + " \n")
+            event_file.close()
 
 
-    def _get_next_event(self, match_id, clip_uri, etype):
-        events_path = self.get_clip_path(match_id,clip_uri) + "/" + etype
 
-        for event_filename in sorted(os.listdir(events_path)):
-        
-            json_event = open(events_path + "/" + event_filename,'r')            
-            # better to keep it lazy
-            event =  json.load(json_event)
-            json_event.close()
+    def _get_events(self, match_id, clip_uri):
+        clip_path = self.get_clip_path(match_id,clip_uri)
 
-            yield event
+        event_file = open(clip_path + '/' + 'events', 'r')
+        events = event_file.read()  
+        event_file.close()
 
-    def get_next_action(self,match_id,clip_uri):
-        return self._get_next_event(match_id,clip_uri,'actions')
+        return events
 
-    
-    def get_next_position(self, match_id, clip_uri):
-        return self._get_next_event(match_id,clip_uri,'positions')
+    def get_next_event(self,match_id,clip_uri):
+        actions = self._get_events(match_id,clip_uri)
 
-    
+        for line in actions.splitlines():
+
+            yield json.loads(line)
+
     

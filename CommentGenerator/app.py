@@ -24,7 +24,7 @@ def send_to_audio(output):
     ''' this function will send our output to the audio'''
     headers = {'Content-type': 'application/json'}
     try:
-        response = requests.post(url=AUDIO_URL, json=output, headers=headers)
+        requests.post(url=AUDIO_URL, json=output, headers=headers)
     except requests.exceptions.ConnectionError:
         print("Audio unreachable at " + AUDIO_URL)
 
@@ -47,7 +47,7 @@ def events():
         clip_uri = event["match_url"]
         
         commentator_pool.cache(match_id, clip_uri, event)
-        commentator_pool.push_symbolic_event_to_match(match_id, clip_uri , event) 
+        commentator_pool.dispatch_event(match_id, clip_uri , event) 
     else:
         print("BAD REQUEST from symbolic")
         response = ("BAD REQUEST",400)

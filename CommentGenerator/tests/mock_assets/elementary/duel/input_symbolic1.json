@@ -1,21 +1,21 @@
 {
     "type": "duel",
     "match_id" : 42,
-    "clip_uri" : "http://clip.of.the.match/juve/napoli",
+    "match_url" : "http://clip.of.the.match/juve/napoli",
     "user_id": 10,
     "start_time": 11,
     "end_time" : 21,
     "player_active": {
       "id": {
         "value": 42,
-        "confidence": 0.5
+        "confidence": 0.9
       },
       "team": {"value" : 42}
     },
     "player_passive": {
       "id": {
         "value": 41,
-        "confidence": 0.5
+        "confidence": 0.9
       },
       "team": {"value" : 42}
     }
