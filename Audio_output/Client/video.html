@@ -1,22 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>RoboComment</title>
-<!--    <link rel="stylesheet" href="other_group/css/field_style.css">-->
     <link rel="shortcut icon" href="assets/image/pngguru.com.png">
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!--    <link rel="stylesheet" href="/resources/demos/style.css">-->
     <style>
+        /*#draggable { padding: 0em; display: block }*/
 
-        #svg {
+        #containment-wrapper {width:max-content; height: max-content;  border:0px solid #ccc; padding: 0px; }
+
+        #pitch {
             position: absolute;
             display: block;
-            top: 10px;
-            left: 10px;
+            top: 100px;
+            left: 100px;
+            z-index: 2;
         }
 
         *{
-            /*background-image:url("assets/image/cup.jpg");*/
+            background-image:url("assets/image/cup.jpg");
             background-position:center center;
             background-attachment:fixed;
             background-repeat:repeat;
@@ -31,46 +36,53 @@
             position: relative;
             z-index: 1;
         }
-        #box {
-            width: 100px;
-            height: 50px;
-            background: red;
-            position: absolute;
-            left: 0;
-            top: 0;
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( "#pitch" ).draggable({ opacity: 0.7,
+                containment: "parent",
+                drag : function(event, ui) {
+                    expandParent("#containment-wrapper", "#pitch");},
+                grid:[70,100]
+            });
+        } );
+
+        function expandParent(parentName, childName) {
+            var dragEl = $(childName);
+            var parentEl = $(parentName);
+            var dragElHeight=dragEl.height();
+            if(parentEl.height() <= dragElHeight) {
+                parentEl.height(dragElHeight);
+            }
         }
 
-    </style>
 
+    </script>
 </head>
 <body>
 
-<div id="videoContainer">
-<!--    <div id="box_canvas" style="display: none">-->
-<!--        <canvas id="pitch" width="100%" height="100%" ></canvas>-->
+
+<div id="containment-wrapper" >
+
+<!--    <div >-->
+
 <!--        <span id="debug"></span>-->
 <!--    </div>-->
 
-    <video controls id="video"  width="100%" height="100%">
-
+    <video controls id="video" >
         Sorry, your browser doesn't support embedded videos.
-
     </video>
 </div>
-
-
-
-<!--<div>-->
-<!--    <canvas id="pitch" width="1200" height="400"></canvas>-->
-<!--    <span id="debug"></span>-->
-<!--</div>-->
-
+<canvas id="pitch" width="600px" height="250px" ></canvas>
 
 <audio id="audio" style="display: none;">
     Sorry, your browser doesn't support embedded audios.
 </audio>
 
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>-->
+
 <script src="other_group/js/utils.js"></script>
 <script src="other_group/js/draw_utils.js"> </script>
 <script src="other_group/js/constants.js"> </script>
