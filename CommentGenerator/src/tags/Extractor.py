@@ -57,8 +57,9 @@ class Extractor:
             "duel":5
         }
         if "type" in self.__input:
-            self.__priority = priority_mapping[self.__input['type']]
-            return True
+            if self.__input["type"] in priority_mapping:
+                self.__priority = priority_mapping[self.__input['type']]
+                return True
         return False
 
     def get_order(self) -> list:
