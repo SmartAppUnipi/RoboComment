@@ -58,14 +58,14 @@ class CommentatorPool:
     
     def symbolic_mock(self, match_id, clip_uri):
         ''' this function is use to start a thread simulating the symbolic level when we already have the match in cache'''
-        for a in self.match_cache.get_next_action(match_id,clip_uri):
+        for a in self.match_cache.get_next_event(match_id,clip_uri):
             # wait some time before sending the next action to our module
             self.dispatch_event(match_id,clip_uri, a)
 
             # we wait 50% of the action time, then we send another action
             # this just a trivial implementation to avoid sending all the comments at once
-            sleep_time = (a['end_time'] - a['start_time']) / 2
-            time.sleep(sleep_time)
+            # sleep_time = (a['end_time'] - a['start_time']) / 2
+            time.sleep(0.1)
 
     def start_session(self, match_id, clip_uri, start_time, user_id ):
         '''
@@ -186,37 +186,27 @@ class SymbolicEventsCache():
 
         if is_a_position(event) or is_an_action(event):
             
-            if is_a_position(event):
-                etype = 'positions'
-            else:
-                etype = 'actions'
-            
-            event_file = open(clip_path + '/' + etype, 'a+')
+            event_file = open(clip_path + '/' + 'events', 'a+')
             dumped_event = json.dumps(event)
             event_file.write(dumped_event + " \n")
             event_file.close()
 
 
 
-    def _get_events(self, match_id, clip_uri, etype):
+    def _get_events(self, match_id, clip_uri):
         clip_path = self.get_clip_path(match_id,clip_uri)
 
-        event_file = open(clip_path + '/' + etype, 'r')
+        event_file = open(clip_path + '/' + 'events', 'r')
         events = event_file.read()  
         event_file.close()
 
         return events
 
-    def get_next_action(self,match_id,clip_uri):
-        actions = self._get_events(match_id,clip_uri,'actions')
+    def get_next_event(self,match_id,clip_uri):
+        actions = self._get_events(match_id,clip_uri)
 
         for line in actions.splitlines():
 
             yield json.loads(line)
 
-    
-    def get_next_position(self, match_id, clip_uri):
-        pass
-
-    
     
