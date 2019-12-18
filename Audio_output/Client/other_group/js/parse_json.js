@@ -15,9 +15,9 @@ function parse(data) {
     console.log(data);
     //console.log('DATA', data)
 
-    var balls = data.positions.ball
+    var balls = data.position.ball
 
-    var players = data.positions.players
+    var players = data.position.players
     
     //console.log('Players', players)
     console.log('CURRENT STATE', _CURRENT_STATE)
