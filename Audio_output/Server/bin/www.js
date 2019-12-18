@@ -176,14 +176,14 @@ commentApp.post("/", function (req, res) {
         if (comment.id) {
             for(let i=0; i< connections.length; i++) {
                 if(comment.id === connections[i].id){
-                    // sendPosition(connections[i], comment.id, req.body);
+                    sendPosition(connections[i], comment.id, req.body);
                 }
             }
         }
         else {
             console.log("No id, broadcast to all");
             for (let i = 0; i < connections.length; i++) {
-                // sendPosition(connections[i], 0, req.body);
+                sendPosition(connections[i], 0, req.body);
             }
         }
 
