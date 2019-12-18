@@ -43,7 +43,9 @@ class KnowledgeBase:
     
     def get_role_player(self,match_id, player_id):
         tmp_match = self.get_item(KnowledgeBase.MATCH, match_id)
-        for player in tmp_match["home_team"]+tmp_match["away_team"]:
+        if not tmp_match:
+            return "a free"
+        for player in tmp_match["home_team"] + tmp_match["away_team"]:
             if player["id"] == str(player_id):
                 return player["role"].lower()
         return "a free"
