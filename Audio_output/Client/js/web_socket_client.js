@@ -1,5 +1,5 @@
-// const url        = 'ws://131.114.137.237:4020';
-const url        = 'ws://localhost:4020';
+const url        = 'ws://131.114.137.237:4020';
+// const url        = 'ws://localhost:4020';
 let queue        = new Queue();
 let ws           = null;
 let AlreadySend1 = false;
@@ -138,11 +138,13 @@ function connect() {
                 break;
 
             default:
-                // console.log("Unknown reply");
                 // console.log(message.reply_type);
                 let data = message.reply;
-                console.log(data);
-                // create_situation(svg,data);
+                // console.log(data);
+                for(var k in data.players){
+                    console.log(data.players[k]);
+                    create_situation(svg,data.players[k]);
+                }
                 break;
         }
     };
