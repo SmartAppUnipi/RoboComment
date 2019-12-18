@@ -39,7 +39,7 @@ pressed[stdin] = @0 as ? : is_pressed(@0) then push_pressed('stdout', @0, True)
 // @description(Fires when the ball owner is under pressure)
 // @action(push to stdout)
 // @returns({'type':'player_not_pressed', 'time': <time>, 'player': {'id': <id>, 'team': <team> }, 'position': <position>, 'until': <time>})
-not_pressed[stdin] = @0 as ? : not is_pressed(@0) then push_pressed('stdout', @0, False)
+not_pressed[stdin] = @0 as ? : not is_pressed(@0) then push_pressed('temp', @0, False)
 
 // @rule(Possession)
 // @description(Fires when detecting a possession)
@@ -86,10 +86,6 @@ tikitaka_out[strategy] = @0 as {'type': 'quasi_tikitaka'} -> .{0,5} -> @1 as {'t
     push('stdout', {'type': 'tikitaka', 'team': @0.team, 'time': @1.time, 'start_time': @0.time, 'end_time': @1.time});
     consume('strategy', @0); consume('strategy', @1)
 
-possession_stdout[int_stdout] = @0 as POSSESSION : True then push('stdout',
-    {'type': 'possession', 'start_time': @0.time, 'end_time': @0.until, 'player_active':
-    @0.player, 'time': @0.time}); consume('int_stdout', @0)
-
 // @rule(Pass)
 // @description(Fires when detecting a pass)
 // @action(push to elementary, fpass, int_stdout)
@@ -117,3 +113,7 @@ duel[stdin] = @0 as ? : checkTackle(@0) then push_tackle(['elementary', 'int_std
 duel_out[int_stdout] = @0 as DUEL : True then push('stdout', {'type': 'duel', 'time': @0.time,
     'player_passive': @.defender, 'player_active': @0.attacker, 'position': @0.position, 
     'start_time': @0.time, 'end_time': @0.time}); consume('int_stdout', @0)
+
+possession_stdout[int_stdout] = @0 as POSSESSION : True then push('stdout',
+    {'type': 'possession', 'start_time': @0.time, 'end_time': @0.until, 'player_active':
+    @0.player, 'time': @0.time}); consume('int_stdout', @0)
