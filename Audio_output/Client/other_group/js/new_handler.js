@@ -17,7 +17,7 @@ function from_meters_to_pixels_y(pos, use_offset = true) {
 
 
 $(document).ready(function () {
-
+    // svg = document.getElementById("pitch");
     w = _CONSTANTS.pixels_width
     h = _CONSTANTS.pixels_height
     border = _CONSTANTS.pixels_border
