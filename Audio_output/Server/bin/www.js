@@ -170,24 +170,25 @@ commentApp.post("/", function (req, res) {
     res.sendStatus(200);
 
     let comment = JSON.parse(JSON.stringify(req.body));
-    if(!comment.comment){
+    if(comment.players){
 
+        console.log("Arrived position");
         if (comment.id) {
-            console.log("Position with ID");
             for(let i=0; i< connections.length; i++) {
                 if(comment.id === connections[i].id){
-                    // sendPosition(connections[i], comment.id, req.body);
+                    sendPosition(connections[i], comment.id, req.body);
                 }
             }
         }
         else {
-            console.log("Position without ID");
+            console.log("No id, broadcast to all");
             for (let i = 0; i < connections.length; i++) {
-                // sendPosition(connections[i], 0, comment);
+                sendPosition(connections[i], 0, req.body);
             }
         }
 
-    }else{
+    }else if(comment.comment){
+
         comment.endTime = comment.startTime + estimateTime(comment.comment);
         console.log("Start-stop: "+comment.startTime + "-"+comment.endTime);
 
@@ -208,9 +209,7 @@ commentApp.post("/", function (req, res) {
         }
     }
 
-
 });
-
 
 commentApp.post("/positions", function (req, res) {
 
@@ -262,6 +261,23 @@ function sendComment(item, id) {
         }
     }
 }
+
+
+function sendPosition(item, id, positions) {
+
+    let connection = item.socket;
+
+    console.log("STAMPO POSITIONS");
+    console.log(positions);
+
+        console.log("Broadcast to client of ID : "+ id);
+        let reply = {
+            reply_type: "position",
+            reply: positions
+        };
+        connection.send(JSON.stringify(reply));
+}
+
 
 function estimateTime(comment) {
     return comment.split(' ').length / 2;
@@ -383,9 +399,12 @@ function handleClientMessage(body, connection) {
                 }else if(result.status === 201){
 
                     console.log("Video not in cache, now sending to Video Group");
+                    // console.log((JSON.stringify(message.request)));
                     VideoApp.post(url_video, JSON.stringify(message.request), config )
                         .then((result_video)=>{
-                            if (result_video.status === 200) {
+                            console.log(result_video.status);
+                            // console.log(result_video);
+                            if (result_video.status === 200 || result_video.statusText === 'ok') {
                                 response = set_response("post_matchID","OK", result.status);
                                 connection.send(response);
                             }else{

@@ -1,0 +1,12 @@
+#pitch {
+    border: solid 40px #060;
+    position: absolute;
+  }
+
+#svg {
+        position: absolute;
+        display: block;
+        top: 10px;
+        left: 10px;
+}
+

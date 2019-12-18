@@ -10,7 +10,7 @@
     <style>
         /*#draggable { padding: 0em; display: block }*/
 
-        #containment-wrapper {width:max-content; height: max-content;  border:0px solid #ccc; padding: 0px; }
+        #containment-wrapper {border:0px solid #ccc; padding: 0px; }
 
         #pitch {
             position: absolute;
@@ -21,7 +21,7 @@
         }
 
         *{
-            background-image:url("assets/image/cup.jpg");
+            /*background-image:url("assets/image/cup.jpg");*/
             background-position:center center;
             background-attachment:fixed;
             background-repeat:repeat;
@@ -42,23 +42,9 @@
     <script>
         $( function() {
             $( "#pitch" ).draggable({ opacity: 0.7,
-                containment: "parent",
-                drag : function(event, ui) {
-                    expandParent("#containment-wrapper", "#pitch");},
-                grid:[70,100]
+                // containment: "parent"
             });
         } );
-
-        function expandParent(parentName, childName) {
-            var dragEl = $(childName);
-            var parentEl = $(parentName);
-            var dragElHeight=dragEl.height();
-            if(parentEl.height() <= dragElHeight) {
-                parentEl.height(dragElHeight);
-            }
-        }
-
-
     </script>
 </head>
 <body>
@@ -66,22 +52,22 @@
 
 <div id="containment-wrapper" >
 
-<!--    <div >-->
+    <div >
+        <canvas id="pitch" width="600px" height="250px" ></canvas>
+        <span id="debug"></span>
+    </div>
 
-<!--        <span id="debug"></span>-->
-<!--    </div>-->
+    <video controls id="video" width="90%" >
 
-    <video controls id="video" >
         Sorry, your browser doesn't support embedded videos.
+
     </video>
 </div>
-<canvas id="pitch" width="600px" height="250px" ></canvas>
 
 <audio id="audio" style="display: none;">
     Sorry, your browser doesn't support embedded audios.
 </audio>
 
-<!--<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>-->
 
 <script src="other_group/js/utils.js"></script>
 <script src="other_group/js/draw_utils.js"> </script>
@@ -96,6 +82,7 @@
 <script src="js/user_account.js"></script>
 <script src="js/cookie.js"></script>
 <script src="js/connection_video.js"></script>
+
 
 
 </body>
