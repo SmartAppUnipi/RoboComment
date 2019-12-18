@@ -140,11 +140,12 @@ function connect() {
             default:
                 // console.log(message.reply_type);
                 let data = message.reply;
-                // console.log(data);
-                for(var k in data.players){
-                    console.log(data.players[k]);
-                    create_situation(svg,data.players[k]);
-                }
+                let positions = {positions:data};
+                console.log(data);
+                // for(var k in data.players){
+                //     console.log(data.players[k]);
+                    create_situation(svg,positions);
+                // }
                 break;
         }
     };
