@@ -3,6 +3,7 @@ from game_model.parser import parser
 import requests
 import re
 import json
+import threading
 
 
 class GameModel:
@@ -86,6 +87,11 @@ class GameModel:
         """This method sends all the retrieved events to comment generation"""
         # get the whole stdout output
         to_send = list(self._stacks['stdout'])
+        self._stacks['stdout'].clear()
+        t = threading.Thread(target=self.__send_to_cg, args=(to_send,))
+        t.start()
+
+    def __send_to_cg(self, to_send):
         for e in to_send:
             jsn = e
             if self._user_id:
@@ -94,16 +100,16 @@ class GameModel:
                 jsn['match_id'] = self._match_id
             if self._match_url:
                 jsn['match_url'] = self._match_url
-            try:
-                x = requests.post(self._cg_url, json=jsn, timeout=0.3)
-                if(jsn['type'] != 'positions'):
+            
+            if(jsn['type'] != 'positions'):
                     with open("output_log.out", 'a') as out_log:
                         out_log.write(str(jsn) + "\n")
-                # clear the stdout for next iteration
-                self._stacks['stdout'].clear()
+            try:
+                x = requests.post(self._cg_url, json=jsn, timeout=1)
             except requests.Timeout:
                 print("Unable to write to CommentGeneration: Timeout")
                 return
+
 
     def _pythonize_rule(self, rule_str):
         """Transforms the rule from JS style (@0.player.id) to python style (@0['player']['id'])"""
