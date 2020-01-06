@@ -114,6 +114,7 @@ class CommentatorPool:
         return in_cache
         
     def end_session(self,user_id):
+        logging.info("ENDING SESSION FOR USER " + str(user_id))
         ''' ends a commentary for the user user_id, relative to the match match_id'''
         # this is very expensive but the audio group is able to send only the user id to us
         for match_id in self.commentator_pool.keys():
@@ -134,7 +135,7 @@ class CommentatorPool:
             return {}
         if clip_uri not in self.commentator_pool[match_id].keys():
             return {}  
-        
+        logging.info("DISPATCHING TO COMMENTATOR MODULE")
         # for each user we send the event to the corresponding thread
         for user_id in self.commentator_pool[match_id][clip_uri]:
             if is_an_action(event):
@@ -148,6 +149,7 @@ class CommentatorPool:
 
     def cache(self, match_id, clip_uri, event):
         self.match_cache.cache_event(match_id, clip_uri, event) 
+        logging.info("CACHED")
 
 
 
