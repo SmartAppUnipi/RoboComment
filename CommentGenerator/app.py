@@ -46,6 +46,7 @@ def events():
         match_id = event["match_id"]
         clip_uri = event["match_url"]
         
+        print("EVENT :" + json.dumps(event))
         logging.info(event)
         commentator_pool.cache(match_id, clip_uri, event)
         commentator_pool.dispatch_event(match_id, clip_uri , event) 
@@ -85,7 +86,7 @@ def init():
     global commentator_pool
     # store lexicon
     nltk.download('vader_lexicon')
-
+    
     logging.basicConfig(filename='CommentGenerator/commentgenerator.log',level=logging.INFO) # filemode='w'
 
     commentator_pool = CommentatorPool(KB_URL, send_to_audio)
