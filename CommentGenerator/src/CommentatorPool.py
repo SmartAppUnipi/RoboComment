@@ -45,7 +45,7 @@ class CommentatorPool:
 
             if event:
                 print("INPUT:: " + str(event))
-                logging.info(input)
+                logging.info(event)
 
                 output = commentator.run(event)
                 self.send_to_audio(output)
@@ -175,7 +175,7 @@ class SymbolicEventsCache():
         clip_path = self.get_clip_path(match_id,clip_uri)
 
         # ASSUME if the path exists that means we have cached the ENTIRE match
-        return os.path.exists(clip_path)
+        return os.path.exists(clip_path + "/events")
 
     def cache_event(self,match_id, clip_uri, event):
         match_path = self.cache_path + "/" + str(match_id)
@@ -186,7 +186,7 @@ class SymbolicEventsCache():
 
         if is_a_position(event) or is_an_action(event):
             
-            event_file = open(clip_path + '/' + 'events', 'a+')
+            event_file = open(clip_path + '/events', 'a+')
             dumped_event = json.dumps(event)
             event_file.write(dumped_event + " \n")
             event_file.close()
