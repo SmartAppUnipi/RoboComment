@@ -97,7 +97,7 @@ class CommentatorPool:
         }
 
         # the threads will stop once the server is closed
-        commentator.daemon = False
+        commentator.daemon = True
         commentator.start()
 
         if in_cache:
