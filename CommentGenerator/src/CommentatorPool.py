@@ -97,7 +97,7 @@ class CommentatorPool:
         }
 
         # the threads will stop once the server is closed
-        commentator.daemon = False
+        commentator.daemon = True
         commentator.start()
 
         if in_cache:
@@ -135,10 +135,11 @@ class CommentatorPool:
             return {}
         if clip_uri not in self.commentator_pool[match_id].keys():
             return {}  
-        logging.info("DISPATCHING TO COMMENTATOR MODULE")
+        
         # for each user we send the event to the corresponding thread
         for user_id in self.commentator_pool[match_id][clip_uri]:
             if is_an_action(event):
+                logging.info(event)
                 # the action can be used to produce a comment
                 self.commentator_pool[match_id][clip_uri][user_id]["symbolic_q"].put(event)
             elif is_a_position(event):
@@ -149,7 +150,6 @@ class CommentatorPool:
 
     def cache(self, match_id, clip_uri, event):
         self.match_cache.cache_event(match_id, clip_uri, event) 
-        logging.info("CACHED")
 
 
 
