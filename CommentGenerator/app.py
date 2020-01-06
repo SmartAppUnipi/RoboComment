@@ -46,8 +46,6 @@ def events():
         match_id = event["match_id"]
         clip_uri = event["match_url"]
         
-        print("EVENT :" + json.dumps(event))
-        logging.info(event)
         commentator_pool.cache(match_id, clip_uri, event)
         commentator_pool.dispatch_event(match_id, clip_uri , event) 
     else:
