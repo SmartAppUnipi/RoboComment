@@ -45,7 +45,7 @@ class CommentatorPool:
 
             if event:
                 print("INPUT:: " + str(event))
-                logging.info(input)
+                logging.info(event)
 
                 output = commentator.run(event)
                 self.send_to_audio(output)
