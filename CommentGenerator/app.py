@@ -48,7 +48,7 @@ def events():
     response = ("OK", 200)
     # the input MUST have the match_id and the clip_uri
     if "match_id" in event.keys() and "match_url" in event.keys():
-        match_id = event["match_id"]
+        match_id = int(event["match_id"])
         clip_uri = event["match_url"]
         
         commentator_pool.cache(match_id, clip_uri, event)
@@ -65,7 +65,7 @@ def session_start(userid):
     global commentator_pool
     
     video_json = json.loads(request.data)
-    match_id = video_json['match_id']
+    match_id = int(video_json['match_id'])
     start_time = video_json['start_time']
     clip_uri = video_json['match_url']
     print("CLIP_URI " + clip_uri)
@@ -96,7 +96,7 @@ def init():
     
     logging.basicConfig(filename='CommentGenerator/commentgenerator.log',level=logging.INFO) # filemode='w'
 
-    commentator_pool = CommentatorPool(KB_URL, push_to_audio)
+    commentator_pool = CommentatorPool(KB_URL, send_to_audio)
 
 
 def __celery_main(queue):
@@ -121,9 +121,9 @@ if __name__ == '__main__':
     except FileNotFoundError:
         print("No routes.json file provided")
     
-    __celery = Thread(target=__celery_main, args=(__celery_q,))
-    __celery.daemon = True
-    __celery.start()
+    # __celery = Thread(target=__celery_main, args=(__celery_q,))
+    #__celery.daemon = True
+    # __celery.start()
 
     app.run(host='0.0.0.0', port=3002)
 
