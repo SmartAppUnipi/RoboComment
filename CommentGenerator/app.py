@@ -7,12 +7,17 @@ from src.CommentatorPool import CommentatorPool
 from utils.KnowledgeBase import KnowledgeBase
 from threading import Thread
 import logging
+from threading import Thread
+from  multiprocessing import SimpleQueue
 
 app = Flask(__name__)
 
 AUDIO_URL = "http://audio.url:3003/"
 KB_URL = "http://kb.url:3004/"
 commentator_pool = None
+
+__celery_q = SimpleQueue()
+__celery = None
 
 @app.route('/api', methods=['GET'])
 def api():
@@ -78,6 +83,10 @@ def session_end(userid):
     return "OK"
 
 
+def push_to_audio(output):
+    global __celery_q
+    __celery_q.put(output)
+
 @app.before_first_request
 def init():
     ''' this function will be called at the application startup to initialize our module '''
@@ -87,7 +96,20 @@ def init():
     
     logging.basicConfig(filename='CommentGenerator/commentgenerator.log',level=logging.INFO) # filemode='w'
 
-    commentator_pool = CommentatorPool(KB_URL, send_to_audio)
+    commentator_pool = CommentatorPool(KB_URL, push_to_audio)
+
+
+def __celery_main(queue):
+
+    while(True):
+        output = queue.get()
+
+        headers = {'Content-type': 'application/json'}
+        try:
+            requests.post(url=AUDIO_URL, json=output, headers=headers, timeout=2)
+        except (requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout) as e:
+            print("Audio unreachable at " + AUDIO_URL)
+
 
 if __name__ == '__main__':
     try:
@@ -99,4 +121,10 @@ if __name__ == '__main__':
     except FileNotFoundError:
         print("No routes.json file provided")
     
+    __celery = Thread(target=__celery_main, args=(__celery_q,))
+    __celery.daemon = True
+    __celery.start()
+
     app.run(host='0.0.0.0', port=3002)
+
+

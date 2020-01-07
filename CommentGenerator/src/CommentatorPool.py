@@ -48,10 +48,12 @@ class CommentatorPool:
                 logging.info(event)
 
                 output = commentator.run(event)
+
+                logging.info(output)
                 self.send_to_audio(output)
                 
                 print(bcolors.OKGREEN + "OUTPUT:: " + output['comment'] + bcolors.ENDC)
-                logging.info(output)
+                
             else:
                 # if the event is an empty json {} we stop that commentator
                 run = False
