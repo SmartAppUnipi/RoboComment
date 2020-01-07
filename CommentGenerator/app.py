@@ -24,8 +24,8 @@ def send_to_audio(output):
     ''' this function will send our output to the audio'''
     headers = {'Content-type': 'application/json'}
     try:
-        requests.post(url=AUDIO_URL, json=output, headers=headers)
-    except requests.exceptions.ConnectionError:
+        requests.post(url=AUDIO_URL, json=output, headers=headers, timeout=2)
+    except (requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout) as e:
         print("Audio unreachable at " + AUDIO_URL)
 
 
