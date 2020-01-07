@@ -83,6 +83,8 @@ class Picker:
         (success, comment) = self.__lulls_comment()
         if success:
             return comment, {}, 1
+        else:
+            return "they are taking the hobbits to Isengard", {}, 1
 
     def __pure_comment(self) -> tuple:
         """
