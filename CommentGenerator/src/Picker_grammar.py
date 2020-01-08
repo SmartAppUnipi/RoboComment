@@ -70,20 +70,21 @@ class Picker:
             if success:
                 comment =  " ".join(str(word) for subtempl in comment for word in subtempl)
                 placeholders = self.__extractor.get_value_from_placeholders(comment)
-                return comment, placeholders, self.__extractor.get_priority()
-
-        # pure lulls
-        if template_type == "Lulls comment":
-            (success, comment) = self.__lulls_comment()
-            if success:
-                return comment, {}, 1
+                return comment, placeholders, self.__extractor.get_priority()          
 
 
         if template_type == "Welcome state":
             comment = self.__extractor.get_welcome_message()
             return comment, {}, 1
 
-        raise Exception("PICKER_receives: registers error")
+        # pure lulls
+        #if template_type == "Lulls comment":
+        # if there no match, we do not raise an Excpetion but we produce a lull comment
+        (success, comment) = self.__lulls_comment()
+        if success:
+            return comment, {}, 1
+        else:
+            return "they are taking the hobbits to Isengard", {}, 1
 
     def __pure_comment(self) -> tuple:
         """
