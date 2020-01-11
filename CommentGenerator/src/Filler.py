@@ -53,8 +53,8 @@ class Filler:
         :return:
         """
 
-        fav_play_id = self.__kb.get_user_player(self.__user_id)
-        fav_team_id = self.__kb.get_user_team(self.__user_id)
+        fav_play = self.__kb.get_user_player(self.__user_id)
+        fav_team = self.__kb.get_user_team(self.__user_id)
         positive_player = -1
         positive_team = -1
         """
@@ -63,10 +63,10 @@ class Filler:
         for k in placeholders.keys():
             #print(k,k[:6])
             if  k[:6] =="player":
-                if placeholders[k]==fav_play_id:
+                if placeholders[k]==fav_play:
                     positive_player = k[-1]
             elif  k[:4] =="team":
-                if placeholders[k]==fav_team_id:
+                if placeholders[k]==fav_team:
                     positive_team = k[-1]
                 else:
                     negative_team = k[-1]
