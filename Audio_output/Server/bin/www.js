@@ -166,7 +166,7 @@ wsServer.on('request', function(request) {
 commentApp.post("/", function (req, res) {
     console.log("New comment");
 
-    console.log(req.body);
+    // console.log(req.body);
     res.sendStatus(200);
 
     let comment = JSON.parse(JSON.stringify(req.body));

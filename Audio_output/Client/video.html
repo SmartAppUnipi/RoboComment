@@ -15,9 +15,9 @@
         #pitch {
             position: absolute;
             display: block;
-            top: 100px;
-            left: 100px;
-            z-index: 2;
+            top: 500px;
+            left: 500px;
+            z-index: 1;
         }
 
         *{
@@ -43,8 +43,8 @@
         $( function() {
             $( "#pitch" ).draggable({ opacity: 0.7,
                 containment: "parent",
-                drag : function(event, ui) {
-                    expandParent("#containment-wrapper", "#pitch");},
+                // drag : function(event, ui) {
+                    // expandParent("#containment-wrapper", "#pitch");},
                 grid:[70,100]
             });
         } );

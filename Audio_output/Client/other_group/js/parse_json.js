@@ -11,8 +11,8 @@ function get_ball_dom_id(id) {
 
 function parse(data) {
 
-    console.log("STAMPO PARSE");
-    console.log(data);
+    // console.log("STAMPO PARSE");
+    // console.log(data);
     //console.log('DATA', data)
 
     var balls = data.positions.ball
@@ -20,15 +20,15 @@ function parse(data) {
     var players = data.positions.players
     
     //console.log('Players', players)
-    console.log('CURRENT STATE', _CURRENT_STATE)
+    // console.log('CURRENT STATE', _CURRENT_STATE)
     
     var remove_list =[]
     for(var key in _CURRENT_STATE)
         remove_list.push(key)
-        console.log(key)
+        // console.log(key)
     
     var rem = remove_list.slice()
-    console.log('INITIAL REMOVE',rem)
+    // console.log('INITIAL REMOVE',rem)
     var new_list = []
     var update_list = []
 
