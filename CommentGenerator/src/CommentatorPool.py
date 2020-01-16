@@ -67,7 +67,7 @@ class CommentatorPool:
             # we wait 50% of the action time, then we send another action
             # this just a trivial implementation to avoid sending all the comments at once
             # sleep_time = (a['end_time'] - a['start_time']) / 2
-            time.sleep(0.1)
+            # time.sleep(0.1) 
         
         self.__end_session_mid_clid(match_id,clip_uri)
 
