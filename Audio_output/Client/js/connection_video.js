@@ -31,9 +31,9 @@ function main() {
     if(videoUrl!==''){
         video.src = videoUrl;
         video.type = "video/mp4";
-        setTimeout(function () {
-            playVideo()
-        }, 60000);
+        // setTimeout(function () {
+        //     playVideo()
+        // }, 60000);
     } else{
         window.location.href = "catalog.html";
 

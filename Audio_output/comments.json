@@ -1,32 +1,57 @@
 {
 	"comments": [
 		{
-			"comment": "Fabregas receiving long pass",
-			"emphasis": 5,
-			"startTime": 5,
-			"endTime": 7,
-			"priority": 1
+          "comment": "Welcome, I am RoboComment and I will be your commentator for the rest of the game, let's start",
+          "language": "en",
+          "voice": "en-US-Wavenet-D",
+          "emphasis": 3,
+          "startTime": 3.1925,
+          "endTime": 4.312,
+          "priority": 1,
+          "id": 12
 		},
 		{
-			"comment": "Adriano enters the penalty area",
-			"emphasis": 3,
-			"startTime": 8,
-			"endTime": 10,
-			"priority": 1
+          "comment": "clearly Player4, of well know a freeTeam0 team, welcomes the request of Player5", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 3.1925, "endTime": 5.5973, "priority": 4, "id": 12
 		},
 		{
-			"comment": "Pass the ball to Messi",
-			"emphasis": 3,
-			"startTime": 11,
-			"endTime": 12,
-			"priority": 1
+          "comment": "the action is not very clear\n", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 5.5973, "endTime": 5.5973, "priority": 1, "id": 12
 		},
 		{
-			"comment": "And thats a goal",
-			"emphasis": 1,
-			"startTime": 12,
-			"endTime": 14,
-			"priority": 100
-		}
+          "comment": "evidently Player5, of well know Team0 team, passes to Player4", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 5.5973, "endTime": 7.546, "priority": 4, "id": 12
+		},
+      {
+        "comment": "evidently Player4, of well know Team0 takes the witness ", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 7.546, "endTime": 7.5875, "priority": 3, "id": 12
+      },
+      {
+        "comment": "clearly Player4, of well know Team0 passes to Player7", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 7.546, "endTime": 8.5411, "priority": 4, "id": 12
+      },
+      {
+        "comment": "evidently Player7, of well know Team0 takes the responsibility of changing something ", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 8.5411, "endTime": 9.702, "priority": 3, "id": 12
+      },
+      {
+        "comment": "i wonder if the player will be influenced by recent events\n", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 8.5411, "endTime": 9.9923, "priority": 1, "id": 12}
+
+      ,
+      {
+        "comment": "do you know how many programmers does it take to change a light bulb?...None, it's a hardware problem\n",
+        "language": "en",
+        "voice": "en-US-Wavenet-D",
+        "emphasis": 3,
+        "startTime": 10.8215,
+        "endTime": 10.8215,
+        "priority": 1,
+        "id": 12
+      },
+      
+      {
+        "comment": "the action is not very clear\n", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 9.9923, "endTime": 10.4069, "priority": 1, "id": 12},
+
+      {"comment": "Player7, of well know Team0 has blocked Player4 ", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 9.9923, "endTime": 11.9824, "priority": 5, "id": 12},
+
+      {"comment": "I got a curiosity in mind, did you know that Until 1991, soccer was an illegal sport in Mississippi\n", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 15.3409, "endTime": 15.3823, "priority": 1, "id": 12},
+
+      {
+        "comment": "evidently Player5, of well know Team0 team, gives importance to  Player19 ", "language": "en", "voice": "en-US-Wavenet-D", "emphasis": 3, "startTime": 15.3409, "endTime": 18.1188, "priority": 4, "id": 12
+      }
 	]
 }

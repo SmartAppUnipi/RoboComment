@@ -141,11 +141,8 @@ function connect() {
                 // console.log(message.reply_type);
                 let data = message.reply;
                 let positions = {positions:data};
-                console.log(data);
-                // for(var k in data.players){
-                //     console.log(data.players[k]);
+                //console.log(data);
                     create_situation(svg,positions);
-                // }
                 break;
         }
     };
