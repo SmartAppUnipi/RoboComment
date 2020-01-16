@@ -68,6 +68,8 @@ class CommentatorPool:
             # this just a trivial implementation to avoid sending all the comments at once
             # sleep_time = (a['end_time'] - a['start_time']) / 2
             time.sleep(0.1)
+        
+        self.__end_session_mid_clid(match_id,clip_uri)
 
     def start_session(self, match_id, clip_uri, start_time, user_id ):
         '''
@@ -114,9 +116,19 @@ class CommentatorPool:
         # our thread is up and will wait for posts from the symbolic level
 
         return in_cache
-        
+
+    def __end_session_mid_clid(self, match_id, clip_uri):
+        logging.info("ENDING SESSION ")
+        uids = [i for i in self.commentator_pool[match_id][clip_uri].keys()]
+        for uid in uids:
+            
+            # closing the thread sending an empty json
+            self.commentator_pool[match_id][clip_uri][uid]["symbolic_q"].put({})            
+            del self.commentator_pool[match_id][clip_uri][uid]
+             
+
     def end_session(self,user_id):
-        logging.info("ENDING SESSION FOR USER " + str(user_id))
+        
         ''' ends a commentary for the user user_id, relative to the match match_id'''
         # this is very expensive but the audio group is able to send only the user id to us
         for match_id in self.commentator_pool.keys():

@@ -79,7 +79,8 @@ def session_end(userid):
     ''' this method will be called by the audio each time a user ends the video streaming'''
     global commentator_pool
 
-    commentator_pool.end_session(userid)
+    # now the session will be closed by us once we sent all the commetns to the audio group
+    # commentator_pool.end_session(userid)
     return "OK"
 
 
