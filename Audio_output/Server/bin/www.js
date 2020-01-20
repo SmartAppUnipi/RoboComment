@@ -152,7 +152,7 @@ wsServer.on('request', function(request) {
             if(connections[i].socket === connection){
                 console.log("Web socket connection closed of the user: " + connections[i].id);
                 if (connections[i].user_page === "video.html"){
-                    console.log("Sending DELETE to the comment group for the user id: " + connections[i].id);
+                    // console.log("Sending DELETE to the comment group for the user id: " + connections[i].id);
                     // CommentaryApp.delete(CommentAppIP+"/"+ connections[i].id.toString())
                     //     .then((result) => {})
                     //     .catch((err) => {})
@@ -164,7 +164,7 @@ wsServer.on('request', function(request) {
 });
 
 commentApp.post("/", function (req, res) {
-    console.log("New comment");
+    console.log("New comment/position");
 
     // console.log(req.body);
     res.sendStatus(200);
@@ -211,9 +211,6 @@ commentApp.post("/", function (req, res) {
 
 });
 
-commentApp.post("/positions", function (req, res) {
-
-});
 
 /**
  * Utils functions
@@ -267,10 +264,7 @@ function sendPosition(item, id, positions) {
 
     let connection = item.socket;
 
-    console.log("STAMPO POSITIONS");
-    console.log(positions);
-
-        console.log("Broadcast to client of ID : "+ id);
+        //console.log("Broadcast to client of ID : "+ id);
         let reply = {
             reply_type: "position",
             reply: positions
