@@ -4,7 +4,7 @@ function createSVG(width, height) {
     svg.setAttribute('width', width + "px")
     svg.setAttribute('height', height + "px")
     svg.setAttribute('id', 'svg')
-    svg.setAttribute("z-index", 2)
+    svg.setAttribute("z-index", 4)
     console.log(svg)
     document.body.appendChild(svg)
     return svg

@@ -135,14 +135,26 @@ function connect() {
 
             case "post_matchID":
                 console.log("Sent information and received ok from video: "+ message.reply);
+                if(message.status===200){
+                    setTimeout(function () {
+                        playVideo()
+                    }, 1000);
+                }else if (message.status===201){
+                    setTimeout(function () {
+                        playVideo()
+                    }, 60000);
+                }
                 break;
 
-            default:
+            case "position":
                 // console.log(message.reply_type);
                 let data = message.reply;
                 let positions = {positions:data};
                 //console.log(data);
-                    create_situation(svg,positions);
+                //create_situation(svg,positions);
+                break;
+            default:
+               console.log("Default");
                 break;
         }
     };

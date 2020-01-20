@@ -13,11 +13,11 @@
         #containment-wrapper {width:max-content; height: max-content;  border:0px solid #ccc; padding: 0px; }
 
         #pitch {
-            position: absolute;
+            position: relative;
             display: block;
-            top: 500px;
-            left: 500px;
-            z-index: 1;
+            top: 1px;
+            left: 1px;
+            z-index: 2;
         }
 
         *{
@@ -66,16 +66,11 @@
 
 <div id="containment-wrapper" >
 
-<!--    <div >-->
-
-<!--        <span id="debug"></span>-->
-<!--    </div>-->
-
     <video controls id="video" >
         Sorry, your browser doesn't support embedded videos.
     </video>
 </div>
-<canvas id="pitch" width="600px" height="250px" ></canvas>
+<canvas id="pitch" width="400px" height="180px" ></canvas>
 
 <audio id="audio" style="display: none;">
     Sorry, your browser doesn't support embedded audios.
