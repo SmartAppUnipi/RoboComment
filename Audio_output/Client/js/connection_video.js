@@ -3,9 +3,13 @@ let video               = document.getElementById('video');
 let audio               = document.getElementById('audio');
 let supposedCurrentTime = 0;
 let request             = new XMLHttpRequest();
+let arrayCue            = [];
+let audioPlaying        = false;
 const debug             = false;
 const audioBrowser      = false;
 const audioHTTP         = true;
+
+
 
 
 main();
@@ -31,6 +35,34 @@ function main() {
     if(videoUrl!==''){
         video.src = videoUrl;
         video.type = "video/mp4";
+
+        //Listening for seeking. Id debug is true than seeking is deactivated
+        video.onseeking = function() {
+            if (!debug){
+                let delta = video.currentTime - supposedCurrentTime;
+                if(Math.abs(delta)>0.01){
+                    console.log("Seeking no");
+                    video.currentTime = supposedCurrentTime;
+                }
+            }
+        };
+
+        audio.addEventListener("ended", function(e){
+            audioPlaying = false;
+        });
+
+        video.addEventListener("play", function (e) {
+            if(audioPlaying){
+                audio.play();
+            }
+        });
+        video.addEventListener("pause", function (e) {
+            if(audioPlaying){
+                audio.pause();
+            }
+        });
+
+
         // setTimeout(function () {
         //     playVideo()
         // }, 60000);
@@ -48,16 +80,6 @@ function playVideo() {
         console.log(video.currentTime);
         console.log("Start realtime");
     }
-    //Listening for seeking. Id debug is true than seeking is deactivated
-    video.onseeking = function() {
-        if (!debug){
-            let delta = video.currentTime - supposedCurrentTime;
-            if(Math.abs(delta)>0.01){
-                console.log("Seeking no");
-                video.currentTime = supposedCurrentTime;
-            }
-        }
-    };
 }
 
 
@@ -118,7 +140,7 @@ function calcolateRate(emphasy){
         // case 2: { return 100}
         case 3: { return "default"}
         // case 4: { return 5}
-        case 5: { return "medium"}
+        case 5: { return "high"}
     }
 }
 
@@ -279,11 +301,18 @@ video.addEventListener('timeupdate', (event) => {
                     audio.src = head.audio_ogg;
                     audio.type ="audio/ogg";
                     audio.play();
+                    audioPlaying = true;
                 }else{
                     console.log("Audio dropped. It did not arrive on time");
                 }
                 reqItem(head).removeEventListener('load', setListenerAudio, false);
-                track.addCue(new VTTCue(video.currentTime, EndItemTime(head), comment_txt));
+                let cue = new VTTCue(video.currentTime, EndItemTime(head), comment_txt);
+                arrayCue.push(cue);
+                let indexcue = arrayCue.indexOf(cue);
+                if(indexcue!==0){
+                    track.removeCue(arrayCue[indexcue-1])
+                }
+                track.addCue(cue);
             }else{
                 console.log("Subtitles are disabled from the user");
             }
