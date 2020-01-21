@@ -138,11 +138,11 @@ function connect() {
                 if(message.status===200){
                     setTimeout(function () {
                         playVideo()
-                    }, 1000);
+                    }, 5000);
                 }else if (message.status===201){
                     setTimeout(function () {
                         playVideo()
-                    }, 60000);
+                    }, 600000);
                 }
                 break;
 
